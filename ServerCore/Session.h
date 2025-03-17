@@ -39,6 +39,8 @@ public:
 	SOCKET			GetSocket() { return _socket; }
 	bool			IsConnected() { return _connected; }
 	SessionRef		GetSessionRef() { return static_pointer_cast<Session>(shared_from_this()); }
+	void			SetId(int32 id) { _id = id; }
+	int32			GetId() { return _id; }
 
 private:
 	// 인터페이스 관련
@@ -72,6 +74,7 @@ private:
 	SOCKET				_socket = INVALID_SOCKET;
 	NetAddress			_netAddress = {};
 	Atomic<bool>		_connected = false;
+	int32				_id = -1;
 
 private:
 	USE_LOCK

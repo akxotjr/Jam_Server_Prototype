@@ -13,6 +13,9 @@
     <Filter Include="02.Network">
       <UniqueIdentifier>{d77fb265-e00b-44df-8b9f-00f47b707984}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Manager">
+      <UniqueIdentifier>{e18d5f1e-d4f8-43f3-9769-82dd8706c4f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -27,6 +30,18 @@
     <ClCompile Include="GameSession.cpp">
       <Filter>02.Network</Filter>
     </ClCompile>
+    <ClCompile Include="SessionManager.cpp">
+      <Filter>02.Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Enum.pb.cc">
+      <Filter>98.Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol.pb.cc">
+      <Filter>98.Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="Struct.pb.cc">
+      <Filter>98.Proto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -37,6 +52,21 @@
     </ClInclude>
     <ClInclude Include="GameSession.h">
       <Filter>02.Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SessionManager.h">
+      <Filter>02.Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Enum.pb.h">
+      <Filter>98.Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.pb.h">
+      <Filter>98.Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.pb.h">
+      <Filter>98.Proto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

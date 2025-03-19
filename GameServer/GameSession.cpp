@@ -13,6 +13,11 @@ void GameSession::OnConnected()
 	//GSessionManager.Add(static_pointer_cast<GameSession>(shared_from_this()));
 
 	cout << "OnConnected" << endl;
+
+	Protocol::S_CHAT chatPkt;
+	chatPkt.set_msg("hello");
+	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(chatPkt);
+	Send(sendBuffer);
 }
 
 void GameSession::OnDisconnected()
@@ -42,4 +47,5 @@ void GameSession::OnRecvPacket(BYTE* buffer, int32 len)
 
 void GameSession::OnSend(int32 len)
 {
+	std::cout << "On Send" << std::endl;
 }

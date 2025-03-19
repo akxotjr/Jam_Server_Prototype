@@ -1,15 +1,19 @@
 #pragma once
 
+class Service;
+class ServerService;
 class SendBuffer;
 class Session;
 class SendBuffer;
 class GameSession;
 
-using GameSessionRef = shared_ptr<GameSession>;
+
 
 class SessionManager
 {
 public:
+	void Init();
+
 	void Add(SessionRef session);
 	void Remove(SessionRef session);
 
@@ -20,6 +24,8 @@ public:
 
 private:
 	USE_LOCK
+
+	weak_ptr<ServerService> _serverService;
 
 	unordered_map<int32, GameSessionRef> _gameSessions;  // key - SessionId, value - SessionRef
 	unordered_map<int32, SessionRef> _chatSessions;

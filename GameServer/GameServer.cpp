@@ -1,6 +1,31 @@
 #include "pch.h"
 #include "ClientPacketHandler.h"
+#include "Service.h"
 #include "GameSession.h"
+#include "ThreadManager.h"
+
+enum
+{
+	WORKER_TICk = 64
+};
+
+void DoWorkerJob(ServerServiceRef& service)
+{
+	while (true)
+	{
+		// TODO
+		// hardcoding 된 WORKER_TICK을 DoGlobalQueueWork() 에 맞춰 자동보정되게 설정
+		LEndTickCount = ::GetTickCount64() + WORKER_TICk;
+
+		service->GetIocpCore()->Dispatch(10);
+
+		// 예약된 일감 처리
+		ThreadManager::DistributeReservedJob();
+
+		// 글로벌 큐
+		ThreadManager::DoGlobalQueueWork();
+	}
+}
 
 int main()
 {
@@ -13,6 +38,20 @@ int main()
 		100);
 
 
+	ASSERT_CRASH(service->Start());
+
+	for (int32 i = 0; i < 5; i++)
+	{
+		GThreadManager->Launch([&service]()
+			{
+				DoWorkerJob(service);
+			});
+	}
+
+	// Main Thread
+	DoWorkerJob(service);
+
+	GThreadManager->Join();
 
 	return 0;
 }

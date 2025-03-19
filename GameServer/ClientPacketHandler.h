@@ -12,6 +12,8 @@ enum : uint16
 	PKT_S_ENTER_GAME = 1003,
 	PKT_C_CHAT = 1004,
 	PKT_S_CHAT = 1005,
+	PKT_C_TIMESYNC = 1006,
+	PKT_S_TIMESYNC = 1007,
 };
 
 // Custom Handlers
@@ -19,6 +21,7 @@ bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
 bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN&pkt);
 bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME&pkt);
 bool Handle_C_CHAT(PacketSessionRef& session, Protocol::C_CHAT&pkt);
+bool Handle_C_TIMESYNC(PacketSessionRef& session, Protocol::C_TIMESYNC&pkt);
 
 class ClientPacketHandler
 {
@@ -30,6 +33,7 @@ public:
 		GPacketHandler[PKT_C_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket <Protocol::C_LOGIN> (Handle_C_LOGIN, session, buffer, len); };
 		GPacketHandler[PKT_C_ENTER_GAME] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket <Protocol::C_ENTER_GAME> (Handle_C_ENTER_GAME, session, buffer, len); };
 		GPacketHandler[PKT_C_CHAT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket <Protocol::C_CHAT> (Handle_C_CHAT, session, buffer, len); };
+		GPacketHandler[PKT_C_TIMESYNC] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket <Protocol::C_TIMESYNC> (Handle_C_TIMESYNC, session, buffer, len); };
 	}
 
 	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
@@ -40,6 +44,7 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_LOGIN&pkt) { return MakeSendBuffer(pkt, PKT_S_LOGIN); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_ENTER_GAME&pkt) { return MakeSendBuffer(pkt, PKT_S_ENTER_GAME); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_CHAT&pkt) { return MakeSendBuffer(pkt, PKT_S_CHAT); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_TIMESYNC&pkt) { return MakeSendBuffer(pkt, PKT_S_TIMESYNC); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

@@ -1,7 +1,7 @@
 @echo off
 pushd %~dp0
 
-set PROTOC_PATH=C:\Users\akxotjr\vcpkg\installed\x64-windows\tools\protobuf
+set PROTOC_PATH=C:\Users\matae\vcpkg\installed\x64-windows\tools\protobuf
 
 "%PROTOC_PATH%\protoc.exe" -I=./ --cpp_out=./ ./Enum.proto
 "%PROTOC_PATH%\protoc.exe" -I=./ --cpp_out=./ ./Struct.proto

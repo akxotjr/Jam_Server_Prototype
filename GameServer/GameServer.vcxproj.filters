@@ -16,6 +16,9 @@
     <Filter Include="03.Manager">
       <UniqueIdentifier>{e18d5f1e-d4f8-43f3-9769-82dd8706c4f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Contents">
+      <UniqueIdentifier>{7dec0a31-3e33-4bfd-9c62-f66fb01bf02c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -42,6 +45,18 @@
     <ClCompile Include="Struct.pb.cc">
       <Filter>98.Proto</Filter>
     </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>03.Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>03.Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomManager.cpp">
+      <Filter>03.Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>03.Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -67,6 +82,18 @@
     </ClInclude>
     <ClInclude Include="Struct.pb.h">
       <Filter>98.Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>03.Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>03.Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomManager.h">
+      <Filter>03.Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>03.Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

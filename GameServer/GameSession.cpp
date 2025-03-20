@@ -14,10 +14,10 @@ void GameSession::OnConnected()
 
 	cout << "OnConnected" << endl;
 
-	Protocol::S_CHAT chatPkt;
-	chatPkt.set_msg("hello");
-	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(chatPkt);
-	Send(sendBuffer);
+	//Protocol::S_CHAT chatPkt;
+	//chatPkt.set_msg("hello");
+	//auto sendBuffer = ClientPacketHandler::MakeSendBuffer(chatPkt);
+	//Send(sendBuffer);
 }
 
 void GameSession::OnDisconnected()

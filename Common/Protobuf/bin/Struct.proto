@@ -3,9 +3,11 @@ package Protocol;
 
 import "Enum.proto";
 
-message Player
+message PlayerProto
 {
 	uint64 id = 1;
 	string name = 2;
 	PlayerType playerType = 3;
+	float timestamp = 4;
+	
 }

@@ -57,6 +57,12 @@
     <ClCompile Include="TimeManager.cpp">
       <Filter>03.Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>03.Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot.cpp">
+      <Filter>03.Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -94,6 +100,12 @@
     </ClInclude>
     <ClInclude Include="TimeManager.h">
       <Filter>03.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>03.Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot.h">
+      <Filter>03.Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

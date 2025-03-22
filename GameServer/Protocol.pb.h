@@ -1505,23 +1505,23 @@ class S_LOGIN final : public ::google::protobuf::Message
     kPlayersFieldNumber = 2,
     kSuccessFieldNumber = 1,
   };
-  // repeated .Protocol.Player players = 2;
+  // repeated .Protocol.PlayerProto players = 2;
   int players_size() const;
   private:
   int _internal_players_size() const;
 
   public:
   void clear_players() ;
-  ::Protocol::Player* mutable_players(int index);
-  ::google::protobuf::RepeatedPtrField<::Protocol::Player>* mutable_players();
+  ::Protocol::PlayerProto* mutable_players(int index);
+  ::google::protobuf::RepeatedPtrField<::Protocol::PlayerProto>* mutable_players();
 
   private:
-  const ::google::protobuf::RepeatedPtrField<::Protocol::Player>& _internal_players() const;
-  ::google::protobuf::RepeatedPtrField<::Protocol::Player>* _internal_mutable_players();
+  const ::google::protobuf::RepeatedPtrField<::Protocol::PlayerProto>& _internal_players() const;
+  ::google::protobuf::RepeatedPtrField<::Protocol::PlayerProto>* _internal_mutable_players();
   public:
-  const ::Protocol::Player& players(int index) const;
-  ::Protocol::Player* add_players();
-  const ::google::protobuf::RepeatedPtrField<::Protocol::Player>& players() const;
+  const ::Protocol::PlayerProto& players(int index) const;
+  ::Protocol::PlayerProto* add_players();
+  const ::google::protobuf::RepeatedPtrField<::Protocol::PlayerProto>& players() const;
   // bool success = 1;
   void clear_success() ;
   bool success() const;
@@ -1555,7 +1555,7 @@ class S_LOGIN final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const S_LOGIN& from_msg);
-    ::google::protobuf::RepeatedPtrField< ::Protocol::Player > players_;
+    ::google::protobuf::RepeatedPtrField< ::Protocol::PlayerProto > players_;
     bool success_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -1606,46 +1606,46 @@ inline void S_LOGIN::_internal_set_success(bool value) {
   _impl_.success_ = value;
 }
 
-// repeated .Protocol.Player players = 2;
+// repeated .Protocol.PlayerProto players = 2;
 inline int S_LOGIN::_internal_players_size() const {
   return _internal_players().size();
 }
 inline int S_LOGIN::players_size() const {
   return _internal_players_size();
 }
-inline ::Protocol::Player* S_LOGIN::mutable_players(int index)
+inline ::Protocol::PlayerProto* S_LOGIN::mutable_players(int index)
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   // @@protoc_insertion_point(field_mutable:Protocol.S_LOGIN.players)
   return _internal_mutable_players()->Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField<::Protocol::Player>* S_LOGIN::mutable_players()
+inline ::google::protobuf::RepeatedPtrField<::Protocol::PlayerProto>* S_LOGIN::mutable_players()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   // @@protoc_insertion_point(field_mutable_list:Protocol.S_LOGIN.players)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   return _internal_mutable_players();
 }
-inline const ::Protocol::Player& S_LOGIN::players(int index) const
+inline const ::Protocol::PlayerProto& S_LOGIN::players(int index) const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   // @@protoc_insertion_point(field_get:Protocol.S_LOGIN.players)
   return _internal_players().Get(index);
 }
-inline ::Protocol::Player* S_LOGIN::add_players() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::Protocol::PlayerProto* S_LOGIN::add_players() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  ::Protocol::Player* _add = _internal_mutable_players()->Add();
+  ::Protocol::PlayerProto* _add = _internal_mutable_players()->Add();
   // @@protoc_insertion_point(field_add:Protocol.S_LOGIN.players)
   return _add;
 }
-inline const ::google::protobuf::RepeatedPtrField<::Protocol::Player>& S_LOGIN::players() const
+inline const ::google::protobuf::RepeatedPtrField<::Protocol::PlayerProto>& S_LOGIN::players() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   // @@protoc_insertion_point(field_list:Protocol.S_LOGIN.players)
   return _internal_players();
 }
-inline const ::google::protobuf::RepeatedPtrField<::Protocol::Player>&
+inline const ::google::protobuf::RepeatedPtrField<::Protocol::PlayerProto>&
 S_LOGIN::_internal_players() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.players_;
 }
-inline ::google::protobuf::RepeatedPtrField<::Protocol::Player>*
+inline ::google::protobuf::RepeatedPtrField<::Protocol::PlayerProto>*
 S_LOGIN::_internal_mutable_players() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.players_;

@@ -18,6 +18,6 @@ void Room::Broadcast(SendBufferRef sendBuffer)
 {
 	for (auto& p : _players)
 	{
-		p.second->_gameSession->Send(sendBuffer);
+		p.second->GetGameSession()->Send(sendBuffer);
 	}
 }

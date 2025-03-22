@@ -1,12 +1,17 @@
 #pragma once
+#include "Character.h"
 
-
-
-class Player
+class Player : public Character
 {
+	using Super = Character;
+
 public:
-	uint64					_playerId = 0;
-	string					_name;
-	Protocol::PlayerType	_type = Protocol::PLAYER_TYPE_NONE;
-	GameSessionRef			_gameSession; // cycle
+	Player(GameSessionRef gameSession);
+	virtual ~Player();
+
+	virtual void Init() override;
+	virtual void Update() override;
+
+public:
+	Protocol::PlayerProto _playerProto;
 };

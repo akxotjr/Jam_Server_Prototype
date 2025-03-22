@@ -323,13 +323,13 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_Protocol_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\016Protocol.proto\022\010Protocol\032\nEnum.proto\032\014"
-    "Struct.proto\"\t\n\007C_LOGIN\"=\n\007S_LOGIN\022\017\n\007su"
-    "ccess\030\001 \001(\010\022!\n\007players\030\002 \003(\0132\020.Protocol."
-    "Player\"#\n\014C_ENTER_GAME\022\023\n\013playerIndex\030\001 "
-    "\001(\004\"\037\n\014S_ENTER_GAME\022\017\n\007success\030\001 \001(\010\"\025\n\006"
-    "C_CHAT\022\013\n\003msg\030\001 \001(\t\"\'\n\006S_CHAT\022\020\n\010playerI"
-    "d\030\001 \001(\004\022\013\n\003msg\030\002 \001(\t\"\014\n\nC_TIMESYNC\"\037\n\nS_"
-    "TIMESYNC\022\021\n\ttimestamp\030\001 \001(\002b\006proto3"
+    "Struct.proto\"\t\n\007C_LOGIN\"B\n\007S_LOGIN\022\017\n\007su"
+    "ccess\030\001 \001(\010\022&\n\007players\030\002 \003(\0132\025.Protocol."
+    "PlayerProto\"#\n\014C_ENTER_GAME\022\023\n\013playerInd"
+    "ex\030\001 \001(\004\"\037\n\014S_ENTER_GAME\022\017\n\007success\030\001 \001("
+    "\010\"\025\n\006C_CHAT\022\013\n\003msg\030\001 \001(\t\"\'\n\006S_CHAT\022\020\n\010pl"
+    "ayerId\030\001 \001(\004\022\013\n\003msg\030\002 \001(\t\"\014\n\nC_TIMESYNC\""
+    "\037\n\nS_TIMESYNC\022\021\n\ttimestamp\030\001 \001(\002b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] =
     {
@@ -340,7 +340,7 @@ static ::absl::once_flag descriptor_table_Protocol_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
     false,
     false,
-    315,
+    320,
     descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
     &descriptor_table_Protocol_2eproto_once,
@@ -586,7 +586,7 @@ const ::_pbi::TcParseTable<1, 2, 1, 0, 2> S_LOGIN::_table_ = {
     ::_pbi::TcParser::GetTable<::Protocol::S_LOGIN>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // repeated .Protocol.Player players = 2;
+    // repeated .Protocol.PlayerProto players = 2;
     {::_pbi::TcParser::FastMtR1,
      {18, 63, 0, PROTOBUF_FIELD_OFFSET(S_LOGIN, _impl_.players_)}},
     // bool success = 1;
@@ -598,11 +598,11 @@ const ::_pbi::TcParseTable<1, 2, 1, 0, 2> S_LOGIN::_table_ = {
     // bool success = 1;
     {PROTOBUF_FIELD_OFFSET(S_LOGIN, _impl_.success_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // repeated .Protocol.Player players = 2;
+    // repeated .Protocol.PlayerProto players = 2;
     {PROTOBUF_FIELD_OFFSET(S_LOGIN, _impl_.players_), 0, 0,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
-    {::_pbi::TcParser::GetTable<::Protocol::Player>()},
+    {::_pbi::TcParser::GetTable<::Protocol::PlayerProto>()},
   }}, {{
   }},
 };
@@ -641,7 +641,7 @@ PROTOBUF_NOINLINE void S_LOGIN::Clear() {
                 1, this_._internal_success(), target);
           }
 
-          // repeated .Protocol.Player players = 2;
+          // repeated .Protocol.PlayerProto players = 2;
           for (unsigned i = 0, n = static_cast<unsigned>(
                                    this_._internal_players_size());
                i < n; i++) {
@@ -677,7 +677,7 @@ PROTOBUF_NOINLINE void S_LOGIN::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // repeated .Protocol.Player players = 2;
+            // repeated .Protocol.PlayerProto players = 2;
             {
               total_size += 1UL * this_._internal_players_size();
               for (const auto& msg : this_._internal_players()) {

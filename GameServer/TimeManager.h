@@ -10,6 +10,7 @@ public:
 	void Update();
 
 	float GetServerTime() { return _serverTime; }
+	float GetDeltaTime() { return _deltaTime; }
 
 private:
 	uint64 _frequency = 0;

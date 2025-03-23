@@ -9,6 +9,9 @@ enum class SessionType
 	COUNT
 };
 
+#define GWinSizeX 800
+#define GWinSizeY 600
+
 #define USING_SHARED_PTR(name) using name##Ref = std::shared_ptr<class name>;
 
 USING_SHARED_PTR(GameSession)

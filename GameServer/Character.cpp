@@ -18,4 +18,5 @@ void Character::Init()
 
 void Character::Update()
 {
+	UpdateMovement();
 }

@@ -10,6 +10,7 @@ public:
 	virtual void Init();
 	virtual void Update();
 
+	virtual void UpdateMovement() abstract;
 
 	GameSessionRef GetGameSession() { return _gamesession.lock(); }
 
@@ -19,7 +20,9 @@ public:
 private:
 	weak_ptr<GameSession> _gamesession;
 
+protected:
 	Vec2 _position = { 400, 300 };
+	Vec2 _direction = {};
 	Vec2 _velocity = {};
 	float _speed = 0.1f;
 };

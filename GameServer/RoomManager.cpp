@@ -4,16 +4,26 @@
 
 RoomManager GRoomManager;
 
-void RoomManager::Add(RoomRef room)
+uint32 RoomManager::CreateRoom()
 {
-	int32 id = room->GetId();
+	RoomRef room = MakeShared<Room>();
+	room->SetId(_idGenerator);
+
+	_rooms.insert({ room->GetId(), room});
+
+	return _idGenerator.fetch_add(1);
+}
+
+void RoomManager::AddRoom(RoomRef room)
+{
+	uint32 id = room->GetId();
 
 	_rooms.insert({ id, room });
 }
 
-void RoomManager::Remove(RoomRef room)
+void RoomManager::RemoveRoom(RoomRef room)
 {
-	int32 id = room->GetId();
+	uint32 id = room->GetId();
 
 	_rooms.erase(id);
 }

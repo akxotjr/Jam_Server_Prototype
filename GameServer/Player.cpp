@@ -22,13 +22,14 @@ void Player::Init()
 
 	float serverTime = GTimeManager.GetServerTime();
 	_playerProto.set_timestamp(serverTime);
-
-
 }
 
 void Player::Update()
 {
 	Super::Update();
+}
 
+void Player::UpdateMovement()
+{
 
 }

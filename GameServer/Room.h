@@ -7,22 +7,22 @@ class Room : public JobQueue
 {
 public:
 	void		Enter(PlayerRef player);
-	void		Leave(PlayerRef player);
+	void		Leave(PlayerRef player);	// todo : add another version(by id)
 	void		Broadcast(SendBufferRef sendBuffer);
 
-	void		SetId(int32 id) { _id = id; }
-	int32		GetId() { return _id; }
+	void		SetId(uint32 id) { _id = id; }
+	uint32&		GetId() { return _id; }
 
-	RoomRef		GetRoom() { return static_pointer_cast<Room>(shared_from_this()); }
+	RoomRef		GetRoomRef() { return static_pointer_cast<Room>(shared_from_this()); }
 	
 	PlayerRef	GetPlayerById(int32 id) { return _players[id]; }
 
-
-	
-
+	// temp
+	void		AddBot(BotRef bot);
+	void		RemoveBot(BotRef bot);
 
 private:
-	int32					_id;
+	uint32					_id;
 
 	map<uint64, PlayerRef>	_players;
 	map<uint64, BotRef>		_bots;

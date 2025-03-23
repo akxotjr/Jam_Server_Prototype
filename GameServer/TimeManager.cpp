@@ -18,13 +18,6 @@ void TimeManager::Update()
 	_deltaTime = (currentCount - _prevCount) / static_cast<float>(_frequency);
 
 	_serverTime += _deltaTime;
-	//_sumTime += _deltaTime;
-	//
-	//if (_sumTime >= TIME_SYNK)
-	//{
-	//	
-	//}
-
 
 	_prevCount = currentCount;
 }

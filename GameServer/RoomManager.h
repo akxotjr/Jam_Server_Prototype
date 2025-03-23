@@ -10,7 +10,6 @@ public:
 
 	void Add(RoomRef room);
 	void Remove(RoomRef room);
-	void Broadcast(SendBufferRef sendBuffer);
 
 private:
 	unordered_map<int32, RoomRef> _rooms;

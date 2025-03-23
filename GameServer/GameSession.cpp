@@ -12,12 +12,7 @@ void GameSession::OnConnected()
 {
 	//GSessionManager.Add(static_pointer_cast<GameSession>(shared_from_this()));
 
-	cout << "OnConnected" << endl;
-
-	//Protocol::S_CHAT chatPkt;
-	//chatPkt.set_msg("hello");
-	//auto sendBuffer = ClientPacketHandler::MakeSendBuffer(chatPkt);
-	//Send(sendBuffer);
+	//cout << "OnConnected" << endl;
 }
 
 void GameSession::OnDisconnected()

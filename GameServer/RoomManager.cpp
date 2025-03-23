@@ -17,8 +17,3 @@ void RoomManager::Remove(RoomRef room)
 
 	_rooms.erase(id);
 }
-
-void RoomManager::Broadcast(SendBufferRef sendBuffer)
-{
-	//for(auto& [id, ])
-}

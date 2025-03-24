@@ -3,6 +3,21 @@ package Protocol;
 
 import "Enum.proto";
 
+message CharacterMovementInfo
+{
+	float positionX = 1;
+	float positionY = 2;
+	float velocityX = 3;
+	float velocityY = 4;
+}
+
+message CharacterInfo
+{
+	uint64 id = 1;
+	string name = 2;
+	CharacterMovementInfo movementInfo = 3;
+}
+
 message PlayerProto
 {
 	uint64 id = 1;

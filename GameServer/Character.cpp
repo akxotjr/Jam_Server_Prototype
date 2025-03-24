@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "Character.h"
 
-Character::Character(GameSessionRef gameSession)
-	: _gamesession(gameSession)
+Character::Character()
 {
 
 }

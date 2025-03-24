@@ -19,6 +19,9 @@
     <Filter Include="03.Contents">
       <UniqueIdentifier>{7dec0a31-3e33-4bfd-9c62-f66fb01bf02c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97.Utils">
+      <UniqueIdentifier>{6be5d511-d104-4ca5-a997-e652366723f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -63,6 +66,9 @@
     <ClCompile Include="Bot.cpp">
       <Filter>03.Contents</Filter>
     </ClCompile>
+    <ClCompile Include="IdManager.cpp">
+      <Filter>97.Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -106,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="Bot.h">
       <Filter>03.Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="IdManager.h">
+      <Filter>97.Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

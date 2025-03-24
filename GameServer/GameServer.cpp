@@ -5,6 +5,7 @@
 #include "ThreadManager.h"
 #include "RoomManager.h"
 #include "Room.h"
+#include "Bot.h"
 
 enum
 {
@@ -34,15 +35,15 @@ int main()
 	ClientPacketHandler::Init();
 
 	// temp
-	//{
-	//	uint32 roomId = GRoomManager.CreateRoom();
-	//	RoomRef room = GRoomManager.GetRoomById(roomId);
-	//	for (int i = 0; i < 4; i++)
-	//	{
-	//		BotRef bot = MakeShared<Bot>();
-	//		room->AddBot(bot);
-	//	}
-	//}
+	{
+		uint32 roomId = GRoomManager.CreateRoom();
+		RoomRef room = GRoomManager.GetRoomById(roomId);
+		for (int i = 0; i < 4; i++)
+		{
+			BotRef bot = MakeShared<Bot>();
+			room->AddBot(bot);
+		}
+	}
 
 	ServerServiceRef service = MakeShared<ServerService>(
 		NetAddress(L"127.0.0.1", 7777),

@@ -54,10 +54,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 inline constexpr S_SPAWN_ACTOR::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : actortype_{static_cast< ::Protocol::ActorType >(0)},
-        positionx_{0},
-        positiony_{0},
-        velocityx_{0},
-        velocityy_{0},
         _cached_size_{0} {}
 
 template <typename>
@@ -265,6 +261,50 @@ struct C_CHATDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C_CHATDefaultTypeInternal _C_CHAT_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR C_CHARACTER_SYNC::C_CHARACTER_SYNC(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct C_CHARACTER_SYNCDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR C_CHARACTER_SYNCDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~C_CHARACTER_SYNCDefaultTypeInternal() {}
+  union {
+    C_CHARACTER_SYNC _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C_CHARACTER_SYNCDefaultTypeInternal _C_CHARACTER_SYNC_default_instance_;
+
+inline constexpr S_CHARACTER_SYNC::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : characterinfo_{},
+        timestamp_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR S_CHARACTER_SYNC::S_CHARACTER_SYNC(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct S_CHARACTER_SYNCDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S_CHARACTER_SYNCDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~S_CHARACTER_SYNCDefaultTypeInternal() {}
+  union {
+    S_CHARACTER_SYNC _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_CHARACTER_SYNCDefaultTypeInternal _S_CHARACTER_SYNC_default_instance_;
 }  // namespace Protocol
 static constexpr const ::_pb::EnumDescriptor**
     file_level_enum_descriptors_Protocol_2eproto = nullptr;
@@ -363,10 +403,24 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::Protocol::S_SPAWN_ACTOR, _impl_.actortype_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::S_SPAWN_ACTOR, _impl_.positionx_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::S_SPAWN_ACTOR, _impl_.positiony_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::S_SPAWN_ACTOR, _impl_.velocityx_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::S_SPAWN_ACTOR, _impl_.velocityy_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::Protocol::C_CHARACTER_SYNC, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::Protocol::S_CHARACTER_SYNC, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::Protocol::S_CHARACTER_SYNC, _impl_.timestamp_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::S_CHARACTER_SYNC, _impl_.characterinfo_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -381,6 +435,8 @@ static const ::_pbi::MigrationSchema
         {63, -1, -1, sizeof(::Protocol::S_TIMESYNC)},
         {72, -1, -1, sizeof(::Protocol::C_SPAWN_ACTOR)},
         {81, -1, -1, sizeof(::Protocol::S_SPAWN_ACTOR)},
+        {90, -1, -1, sizeof(::Protocol::C_CHARACTER_SYNC)},
+        {98, -1, -1, sizeof(::Protocol::S_CHARACTER_SYNC)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::Protocol::_C_LOGIN_default_instance_._instance,
@@ -393,6 +449,8 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::Protocol::_S_TIMESYNC_default_instance_._instance,
     &::Protocol::_C_SPAWN_ACTOR_default_instance_._instance,
     &::Protocol::_S_SPAWN_ACTOR_default_instance_._instance,
+    &::Protocol::_C_CHARACTER_SYNC_default_instance_._instance,
+    &::Protocol::_S_CHARACTER_SYNC_default_instance_._instance,
 };
 const char descriptor_table_protodef_Protocol_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -404,11 +462,12 @@ const char descriptor_table_protodef_Protocol_2eproto[] ABSL_ATTRIBUTE_SECTION_V
     "\n\003msg\030\001 \001(\t\"\'\n\006S_CHAT\022\020\n\010playerId\030\001 \001(\004\022"
     "\013\n\003msg\030\002 \001(\t\"\014\n\nC_TIMESYNC\"\037\n\nS_TIMESYNC"
     "\022\021\n\ttimestamp\030\001 \001(\002\"7\n\rC_SPAWN_ACTOR\022&\n\t"
-    "actorType\030\001 \001(\0162\023.Protocol.ActorType\"\203\001\n"
-    "\rS_SPAWN_ACTOR\022&\n\tactorType\030\001 \001(\0162\023.Prot"
-    "ocol.ActorType\022\021\n\tpositionX\030\002 \001(\002\022\021\n\tpos"
-    "itionY\030\003 \001(\002\022\021\n\tvelocityX\030\004 \001(\002\022\021\n\tveloc"
-    "ityY\030\005 \001(\002b\006proto3"
+    "actorType\030\001 \001(\0162\023.Protocol.ActorType\"7\n\r"
+    "S_SPAWN_ACTOR\022&\n\tactorType\030\001 \001(\0162\023.Proto"
+    "col.ActorType\"\022\n\020C_CHARACTER_SYNC\"U\n\020S_C"
+    "HARACTER_SYNC\022\021\n\ttimestamp\030\001 \001(\002\022.\n\rchar"
+    "acterInfo\030\002 \003(\0132\027.Protocol.CharacterInfo"
+    "b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] =
     {
@@ -419,13 +478,13 @@ static ::absl::once_flag descriptor_table_Protocol_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
     false,
     false,
-    498,
+    528,
     descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
     &descriptor_table_Protocol_2eproto_once,
     descriptor_table_Protocol_2eproto_deps,
     2,
-    10,
+    12,
     schemas,
     file_default_instances,
     TableStruct_Protocol_2eproto::offsets,
@@ -2136,12 +2195,7 @@ inline PROTOBUF_NDEBUG_INLINE S_SPAWN_ACTOR::Impl_::Impl_(
 
 inline void S_SPAWN_ACTOR::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, actortype_),
-           0,
-           offsetof(Impl_, velocityy_) -
-               offsetof(Impl_, actortype_) +
-               sizeof(Impl_::velocityy_));
+  _impl_.actortype_ = {};
 }
 S_SPAWN_ACTOR::~S_SPAWN_ACTOR() {
   // @@protoc_insertion_point(destructor:Protocol.S_SPAWN_ACTOR)
@@ -2190,15 +2244,15 @@ const ::google::protobuf::internal::ClassData* S_SPAWN_ACTOR::GetClassData() con
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 5, 0, 0, 2> S_SPAWN_ACTOR::_table_ = {
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> S_SPAWN_ACTOR::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    5, 56,  // max_field_number, fast_idx_mask
+    1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967264,  // skipmap
+    4294967294,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    5,  // num_field_entries
+    1,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -2208,42 +2262,15 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> S_SPAWN_ACTOR::_table_ = {
     ::_pbi::TcParser::GetTable<::Protocol::S_SPAWN_ACTOR>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    {::_pbi::TcParser::MiniParse, {}},
     // .Protocol.ActorType actorType = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(S_SPAWN_ACTOR, _impl_.actortype_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.actortype_)}},
-    // float positionX = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.positionx_)}},
-    // float positionY = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.positiony_)}},
-    // float velocityX = 4;
-    {::_pbi::TcParser::FastF32S1,
-     {37, 63, 0, PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.velocityx_)}},
-    // float velocityY = 5;
-    {::_pbi::TcParser::FastF32S1,
-     {45, 63, 0, PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.velocityy_)}},
-    {::_pbi::TcParser::MiniParse, {}},
-    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
     // .Protocol.ActorType actorType = 1;
     {PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.actortype_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // float positionX = 2;
-    {PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.positionx_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float positionY = 3;
-    {PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.positiony_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float velocityX = 4;
-    {PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.velocityx_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float velocityY = 5;
-    {PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.velocityy_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
   }},
   // no aux_entries
   {{
@@ -2257,9 +2284,7 @@ PROTOBUF_NOINLINE void S_SPAWN_ACTOR::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.actortype_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.velocityy_) -
-      reinterpret_cast<char*>(&_impl_.actortype_)) + sizeof(_impl_.velocityy_));
+  _impl_.actortype_ = 0;
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -2285,34 +2310,6 @@ PROTOBUF_NOINLINE void S_SPAWN_ACTOR::Clear() {
                 1, this_._internal_actortype(), target);
           }
 
-          // float positionX = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_positionx()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                2, this_._internal_positionx(), target);
-          }
-
-          // float positionY = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_positiony()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                3, this_._internal_positiony(), target);
-          }
-
-          // float velocityX = 4;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_velocityx()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                4, this_._internal_velocityx(), target);
-          }
-
-          // float velocityY = 5;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_velocityy()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                5, this_._internal_velocityy(), target);
-          }
-
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -2336,28 +2333,11 @@ PROTOBUF_NOINLINE void S_SPAWN_ACTOR::Clear() {
           // Prevent compiler warnings about cached_has_bits being unused
           (void)cached_has_bits;
 
-          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
             // .Protocol.ActorType actorType = 1;
             if (this_._internal_actortype() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_actortype());
-            }
-            // float positionX = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_positionx()) != 0) {
-              total_size += 5;
-            }
-            // float positionY = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_positiony()) != 0) {
-              total_size += 5;
-            }
-            // float velocityX = 4;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_velocityx()) != 0) {
-              total_size += 5;
-            }
-            // float velocityY = 5;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_velocityy()) != 0) {
-              total_size += 5;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -2375,18 +2355,6 @@ void S_SPAWN_ACTOR::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   if (from._internal_actortype() != 0) {
     _this->_impl_.actortype_ = from._impl_.actortype_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_positionx()) != 0) {
-    _this->_impl_.positionx_ = from._impl_.positionx_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_positiony()) != 0) {
-    _this->_impl_.positiony_ = from._impl_.positiony_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_velocityx()) != 0) {
-    _this->_impl_.velocityx_ = from._impl_.velocityx_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_velocityy()) != 0) {
-    _this->_impl_.velocityy_ = from._impl_.velocityy_;
-  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -2401,15 +2369,385 @@ void S_SPAWN_ACTOR::CopyFrom(const S_SPAWN_ACTOR& from) {
 void S_SPAWN_ACTOR::InternalSwap(S_SPAWN_ACTOR* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.velocityy_)
-      + sizeof(S_SPAWN_ACTOR::_impl_.velocityy_)
-      - PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.actortype_)>(
-          reinterpret_cast<char*>(&_impl_.actortype_),
-          reinterpret_cast<char*>(&other->_impl_.actortype_));
+  swap(_impl_.actortype_, other->_impl_.actortype_);
 }
 
 ::google::protobuf::Metadata S_SPAWN_ACTOR::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class C_CHARACTER_SYNC::_Internal {
+ public:
+};
+
+C_CHARACTER_SYNC::C_CHARACTER_SYNC(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:Protocol.C_CHARACTER_SYNC)
+}
+C_CHARACTER_SYNC::C_CHARACTER_SYNC(
+    ::google::protobuf::Arena* arena,
+    const C_CHARACTER_SYNC& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  C_CHARACTER_SYNC* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:Protocol.C_CHARACTER_SYNC)
+}
+
+inline void* C_CHARACTER_SYNC::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) C_CHARACTER_SYNC(arena);
+}
+constexpr auto C_CHARACTER_SYNC::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(C_CHARACTER_SYNC),
+                                            alignof(C_CHARACTER_SYNC));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull C_CHARACTER_SYNC::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_C_CHARACTER_SYNC_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &C_CHARACTER_SYNC::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<C_CHARACTER_SYNC>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &C_CHARACTER_SYNC::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<C_CHARACTER_SYNC>(), &C_CHARACTER_SYNC::ByteSizeLong,
+            &C_CHARACTER_SYNC::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(C_CHARACTER_SYNC, _impl_._cached_size_),
+        false,
+    },
+    &C_CHARACTER_SYNC::kDescriptorMethods,
+    &descriptor_table_Protocol_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* C_CHARACTER_SYNC::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> C_CHARACTER_SYNC::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::Protocol::C_CHARACTER_SYNC>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata C_CHARACTER_SYNC::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class S_CHARACTER_SYNC::_Internal {
+ public:
+};
+
+void S_CHARACTER_SYNC::clear_characterinfo() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.characterinfo_.Clear();
+}
+S_CHARACTER_SYNC::S_CHARACTER_SYNC(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:Protocol.S_CHARACTER_SYNC)
+}
+inline PROTOBUF_NDEBUG_INLINE S_CHARACTER_SYNC::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::Protocol::S_CHARACTER_SYNC& from_msg)
+      : characterinfo_{visibility, arena, from.characterinfo_},
+        _cached_size_{0} {}
+
+S_CHARACTER_SYNC::S_CHARACTER_SYNC(
+    ::google::protobuf::Arena* arena,
+    const S_CHARACTER_SYNC& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  S_CHARACTER_SYNC* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.timestamp_ = from._impl_.timestamp_;
+
+  // @@protoc_insertion_point(copy_constructor:Protocol.S_CHARACTER_SYNC)
+}
+inline PROTOBUF_NDEBUG_INLINE S_CHARACTER_SYNC::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : characterinfo_{visibility, arena},
+        _cached_size_{0} {}
+
+inline void S_CHARACTER_SYNC::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.timestamp_ = {};
+}
+S_CHARACTER_SYNC::~S_CHARACTER_SYNC() {
+  // @@protoc_insertion_point(destructor:Protocol.S_CHARACTER_SYNC)
+  SharedDtor(*this);
+}
+inline void S_CHARACTER_SYNC::SharedDtor(MessageLite& self) {
+  S_CHARACTER_SYNC& this_ = static_cast<S_CHARACTER_SYNC&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* S_CHARACTER_SYNC::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) S_CHARACTER_SYNC(arena);
+}
+constexpr auto S_CHARACTER_SYNC::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_.characterinfo_) +
+          decltype(S_CHARACTER_SYNC::_impl_.characterinfo_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::ZeroInit(
+        sizeof(S_CHARACTER_SYNC), alignof(S_CHARACTER_SYNC), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&S_CHARACTER_SYNC::PlacementNew_,
+                                 sizeof(S_CHARACTER_SYNC),
+                                 alignof(S_CHARACTER_SYNC));
+  }
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull S_CHARACTER_SYNC::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_S_CHARACTER_SYNC_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &S_CHARACTER_SYNC::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<S_CHARACTER_SYNC>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &S_CHARACTER_SYNC::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<S_CHARACTER_SYNC>(), &S_CHARACTER_SYNC::ByteSizeLong,
+            &S_CHARACTER_SYNC::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_._cached_size_),
+        false,
+    },
+    &S_CHARACTER_SYNC::kDescriptorMethods,
+    &descriptor_table_Protocol_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* S_CHARACTER_SYNC::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 1, 0, 2> S_CHARACTER_SYNC::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::Protocol::S_CHARACTER_SYNC>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // repeated .Protocol.CharacterInfo characterInfo = 2;
+    {::_pbi::TcParser::FastMtR1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_.characterinfo_)}},
+    // float timestamp = 1;
+    {::_pbi::TcParser::FastF32S1,
+     {13, 63, 0, PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_.timestamp_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // float timestamp = 1;
+    {PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_.timestamp_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // repeated .Protocol.CharacterInfo characterInfo = 2;
+    {PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_.characterinfo_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::Protocol::CharacterInfo>()},
+  }}, {{
+  }},
+};
+
+PROTOBUF_NOINLINE void S_CHARACTER_SYNC::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.S_CHARACTER_SYNC)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.characterinfo_.Clear();
+  _impl_.timestamp_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* S_CHARACTER_SYNC::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const S_CHARACTER_SYNC& this_ = static_cast<const S_CHARACTER_SYNC&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* S_CHARACTER_SYNC::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const S_CHARACTER_SYNC& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:Protocol.S_CHARACTER_SYNC)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // float timestamp = 1;
+          if (::absl::bit_cast<::uint32_t>(this_._internal_timestamp()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                1, this_._internal_timestamp(), target);
+          }
+
+          // repeated .Protocol.CharacterInfo characterInfo = 2;
+          for (unsigned i = 0, n = static_cast<unsigned>(
+                                   this_._internal_characterinfo_size());
+               i < n; i++) {
+            const auto& repfield = this_._internal_characterinfo().Get(i);
+            target =
+                ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                    2, repfield, repfield.GetCachedSize(),
+                    target, stream);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:Protocol.S_CHARACTER_SYNC)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t S_CHARACTER_SYNC::ByteSizeLong(const MessageLite& base) {
+          const S_CHARACTER_SYNC& this_ = static_cast<const S_CHARACTER_SYNC&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t S_CHARACTER_SYNC::ByteSizeLong() const {
+          const S_CHARACTER_SYNC& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:Protocol.S_CHARACTER_SYNC)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // repeated .Protocol.CharacterInfo characterInfo = 2;
+            {
+              total_size += 1UL * this_._internal_characterinfo_size();
+              for (const auto& msg : this_._internal_characterinfo()) {
+                total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+              }
+            }
+          }
+           {
+            // float timestamp = 1;
+            if (::absl::bit_cast<::uint32_t>(this_._internal_timestamp()) != 0) {
+              total_size += 5;
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void S_CHARACTER_SYNC::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<S_CHARACTER_SYNC*>(&to_msg);
+  auto& from = static_cast<const S_CHARACTER_SYNC&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S_CHARACTER_SYNC)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_characterinfo()->MergeFrom(
+      from._internal_characterinfo());
+  if (::absl::bit_cast<::uint32_t>(from._internal_timestamp()) != 0) {
+    _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void S_CHARACTER_SYNC::CopyFrom(const S_CHARACTER_SYNC& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S_CHARACTER_SYNC)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void S_CHARACTER_SYNC::InternalSwap(S_CHARACTER_SYNC* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.characterinfo_.InternalSwap(&other->_impl_.characterinfo_);
+        swap(_impl_.timestamp_, other->_impl_.timestamp_);
+}
+
+::google::protobuf::Metadata S_CHARACTER_SYNC::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

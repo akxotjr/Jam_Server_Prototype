@@ -4,6 +4,7 @@
 #include "GameSession.h"
 #include "Room.h"
 #include "RoomManager.h"
+#include "IdManager.h"
 #include "Player.h"
 #include "Bot.h"
 
@@ -18,16 +19,18 @@ bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 {
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 
-	// temp
-	Atomic<uint64> idGenerator = 1;
+
 	{
 		Protocol::PlayerProto player;
+		uint32 id = GIdManager.Generate(IdType::Actor);
 
-		string name = "player_" + idGenerator;
-		player.set_id(idGenerator++);
+		string name = "player_" + to_string(id);
+
+		player.set_id(id);
 		player.set_name(name);
 
-		PlayerRef playerRef = MakeShared<Player>(gameSession);
+		PlayerRef playerRef = MakeShared<Player>();
+		playerRef->SetOwnerSession(gameSession);
 		playerRef->SetPlayerProto(player);
 
 		gameSession->_currentPlayer = playerRef;
@@ -90,5 +93,10 @@ bool Handle_C_SPAWN_ACTOR(PacketSessionRef& session, Protocol::C_SPAWN_ACTOR& pk
 {
 
 
+	return true;
+}
+
+bool Handle_C_CHARACTER_SYNC(PacketSessionRef& session, Protocol::C_CHARACTER_SYNC& pkt)
+{
 	return true;
 }

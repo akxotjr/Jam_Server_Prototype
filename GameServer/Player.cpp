@@ -3,8 +3,7 @@
 #include "GameSession.h"
 #include "TimeManager.h"
 
-Player::Player(GameSessionRef gameSession)
-	: Super(gameSession)
+Player::Player()
 {
 }
 

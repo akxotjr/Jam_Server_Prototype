@@ -55,6 +55,9 @@ struct TableStruct_Protocol_2eproto {
 extern const ::google::protobuf::internal::DescriptorTable
     descriptor_table_Protocol_2eproto;
 namespace Protocol {
+class C_CHARACTER_SYNC;
+struct C_CHARACTER_SYNCDefaultTypeInternal;
+extern C_CHARACTER_SYNCDefaultTypeInternal _C_CHARACTER_SYNC_default_instance_;
 class C_CHAT;
 struct C_CHATDefaultTypeInternal;
 extern C_CHATDefaultTypeInternal _C_CHAT_default_instance_;
@@ -70,6 +73,9 @@ extern C_SPAWN_ACTORDefaultTypeInternal _C_SPAWN_ACTOR_default_instance_;
 class C_TIMESYNC;
 struct C_TIMESYNCDefaultTypeInternal;
 extern C_TIMESYNCDefaultTypeInternal _C_TIMESYNC_default_instance_;
+class S_CHARACTER_SYNC;
+struct S_CHARACTER_SYNCDefaultTypeInternal;
+extern S_CHARACTER_SYNCDefaultTypeInternal _S_CHARACTER_SYNC_default_instance_;
 class S_CHAT;
 struct S_CHATDefaultTypeInternal;
 extern S_CHATDefaultTypeInternal _S_CHAT_default_instance_;
@@ -435,10 +441,6 @@ class S_SPAWN_ACTOR final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kActorTypeFieldNumber = 1,
-    kPositionXFieldNumber = 2,
-    kPositionYFieldNumber = 3,
-    kVelocityXFieldNumber = 4,
-    kVelocityYFieldNumber = 5,
   };
   // .Protocol.ActorType actorType = 1;
   void clear_actortype() ;
@@ -450,52 +452,12 @@ class S_SPAWN_ACTOR final : public ::google::protobuf::Message
   void _internal_set_actortype(::Protocol::ActorType value);
 
   public:
-  // float positionX = 2;
-  void clear_positionx() ;
-  float positionx() const;
-  void set_positionx(float value);
-
-  private:
-  float _internal_positionx() const;
-  void _internal_set_positionx(float value);
-
-  public:
-  // float positionY = 3;
-  void clear_positiony() ;
-  float positiony() const;
-  void set_positiony(float value);
-
-  private:
-  float _internal_positiony() const;
-  void _internal_set_positiony(float value);
-
-  public:
-  // float velocityX = 4;
-  void clear_velocityx() ;
-  float velocityx() const;
-  void set_velocityx(float value);
-
-  private:
-  float _internal_velocityx() const;
-  void _internal_set_velocityx(float value);
-
-  public:
-  // float velocityY = 5;
-  void clear_velocityy() ;
-  float velocityy() const;
-  void set_velocityy(float value);
-
-  private:
-  float _internal_velocityy() const;
-  void _internal_set_velocityy(float value);
-
-  public:
   // @@protoc_insertion_point(class_scope:Protocol.S_SPAWN_ACTOR)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 5, 0,
+      0, 1, 0,
       0, 2>
       _table_;
 
@@ -514,10 +476,6 @@ class S_SPAWN_ACTOR final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const S_SPAWN_ACTOR& from_msg);
     int actortype_;
-    float positionx_;
-    float positiony_;
-    float velocityx_;
-    float velocityy_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1957,6 +1915,360 @@ class C_CHAT final : public ::google::protobuf::Message
   union { Impl_ _impl_; };
   friend struct ::TableStruct_Protocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class C_CHARACTER_SYNC final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:Protocol.C_CHARACTER_SYNC) */ {
+ public:
+  inline C_CHARACTER_SYNC() : C_CHARACTER_SYNC(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(C_CHARACTER_SYNC* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(C_CHARACTER_SYNC));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR C_CHARACTER_SYNC(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline C_CHARACTER_SYNC(const C_CHARACTER_SYNC& from) : C_CHARACTER_SYNC(nullptr, from) {}
+  inline C_CHARACTER_SYNC(C_CHARACTER_SYNC&& from) noexcept
+      : C_CHARACTER_SYNC(nullptr, std::move(from)) {}
+  inline C_CHARACTER_SYNC& operator=(const C_CHARACTER_SYNC& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_CHARACTER_SYNC& operator=(C_CHARACTER_SYNC&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_CHARACTER_SYNC& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_CHARACTER_SYNC* internal_default_instance() {
+    return reinterpret_cast<const C_CHARACTER_SYNC*>(
+        &_C_CHARACTER_SYNC_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 10;
+  friend void swap(C_CHARACTER_SYNC& a, C_CHARACTER_SYNC& b) { a.Swap(&b); }
+  inline void Swap(C_CHARACTER_SYNC* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_CHARACTER_SYNC* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C_CHARACTER_SYNC* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<C_CHARACTER_SYNC>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const C_CHARACTER_SYNC& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const C_CHARACTER_SYNC& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "Protocol.C_CHARACTER_SYNC"; }
+
+ protected:
+  explicit C_CHARACTER_SYNC(::google::protobuf::Arena* arena);
+  C_CHARACTER_SYNC(::google::protobuf::Arena* arena, const C_CHARACTER_SYNC& from);
+  C_CHARACTER_SYNC(::google::protobuf::Arena* arena, C_CHARACTER_SYNC&& from) noexcept
+      : C_CHARACTER_SYNC(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:Protocol.C_CHARACTER_SYNC)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const C_CHARACTER_SYNC& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_CHARACTER_SYNC final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:Protocol.S_CHARACTER_SYNC) */ {
+ public:
+  inline S_CHARACTER_SYNC() : S_CHARACTER_SYNC(nullptr) {}
+  ~S_CHARACTER_SYNC() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(S_CHARACTER_SYNC* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(S_CHARACTER_SYNC));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR S_CHARACTER_SYNC(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline S_CHARACTER_SYNC(const S_CHARACTER_SYNC& from) : S_CHARACTER_SYNC(nullptr, from) {}
+  inline S_CHARACTER_SYNC(S_CHARACTER_SYNC&& from) noexcept
+      : S_CHARACTER_SYNC(nullptr, std::move(from)) {}
+  inline S_CHARACTER_SYNC& operator=(const S_CHARACTER_SYNC& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_CHARACTER_SYNC& operator=(S_CHARACTER_SYNC&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_CHARACTER_SYNC& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_CHARACTER_SYNC* internal_default_instance() {
+    return reinterpret_cast<const S_CHARACTER_SYNC*>(
+        &_S_CHARACTER_SYNC_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 11;
+  friend void swap(S_CHARACTER_SYNC& a, S_CHARACTER_SYNC& b) { a.Swap(&b); }
+  inline void Swap(S_CHARACTER_SYNC* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_CHARACTER_SYNC* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S_CHARACTER_SYNC* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<S_CHARACTER_SYNC>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const S_CHARACTER_SYNC& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const S_CHARACTER_SYNC& from) { S_CHARACTER_SYNC::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(S_CHARACTER_SYNC* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "Protocol.S_CHARACTER_SYNC"; }
+
+ protected:
+  explicit S_CHARACTER_SYNC(::google::protobuf::Arena* arena);
+  S_CHARACTER_SYNC(::google::protobuf::Arena* arena, const S_CHARACTER_SYNC& from);
+  S_CHARACTER_SYNC(::google::protobuf::Arena* arena, S_CHARACTER_SYNC&& from) noexcept
+      : S_CHARACTER_SYNC(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kCharacterInfoFieldNumber = 2,
+    kTimestampFieldNumber = 1,
+  };
+  // repeated .Protocol.CharacterInfo characterInfo = 2;
+  int characterinfo_size() const;
+  private:
+  int _internal_characterinfo_size() const;
+
+  public:
+  void clear_characterinfo() ;
+  ::Protocol::CharacterInfo* mutable_characterinfo(int index);
+  ::google::protobuf::RepeatedPtrField<::Protocol::CharacterInfo>* mutable_characterinfo();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::Protocol::CharacterInfo>& _internal_characterinfo() const;
+  ::google::protobuf::RepeatedPtrField<::Protocol::CharacterInfo>* _internal_mutable_characterinfo();
+  public:
+  const ::Protocol::CharacterInfo& characterinfo(int index) const;
+  ::Protocol::CharacterInfo* add_characterinfo();
+  const ::google::protobuf::RepeatedPtrField<::Protocol::CharacterInfo>& characterinfo() const;
+  // float timestamp = 1;
+  void clear_timestamp() ;
+  float timestamp() const;
+  void set_timestamp(float value);
+
+  private:
+  float _internal_timestamp() const;
+  void _internal_set_timestamp(float value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:Protocol.S_CHARACTER_SYNC)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 1,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const S_CHARACTER_SYNC& from_msg);
+    ::google::protobuf::RepeatedPtrField< ::Protocol::CharacterInfo > characterinfo_;
+    float timestamp_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
 
 // ===================================================================
 
@@ -2282,92 +2594,79 @@ inline void S_SPAWN_ACTOR::_internal_set_actortype(::Protocol::ActorType value) 
   _impl_.actortype_ = value;
 }
 
-// float positionX = 2;
-inline void S_SPAWN_ACTOR::clear_positionx() {
+// -------------------------------------------------------------------
+
+// C_CHARACTER_SYNC
+
+// -------------------------------------------------------------------
+
+// S_CHARACTER_SYNC
+
+// float timestamp = 1;
+inline void S_CHARACTER_SYNC::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.positionx_ = 0;
+  _impl_.timestamp_ = 0;
 }
-inline float S_SPAWN_ACTOR::positionx() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_SPAWN_ACTOR.positionX)
-  return _internal_positionx();
+inline float S_CHARACTER_SYNC::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_CHARACTER_SYNC.timestamp)
+  return _internal_timestamp();
 }
-inline void S_SPAWN_ACTOR::set_positionx(float value) {
-  _internal_set_positionx(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_SPAWN_ACTOR.positionX)
+inline void S_CHARACTER_SYNC::set_timestamp(float value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_CHARACTER_SYNC.timestamp)
 }
-inline float S_SPAWN_ACTOR::_internal_positionx() const {
+inline float S_CHARACTER_SYNC::_internal_timestamp() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.positionx_;
+  return _impl_.timestamp_;
 }
-inline void S_SPAWN_ACTOR::_internal_set_positionx(float value) {
+inline void S_CHARACTER_SYNC::_internal_set_timestamp(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.positionx_ = value;
+  _impl_.timestamp_ = value;
 }
 
-// float positionY = 3;
-inline void S_SPAWN_ACTOR::clear_positiony() {
+// repeated .Protocol.CharacterInfo characterInfo = 2;
+inline int S_CHARACTER_SYNC::_internal_characterinfo_size() const {
+  return _internal_characterinfo().size();
+}
+inline int S_CHARACTER_SYNC::characterinfo_size() const {
+  return _internal_characterinfo_size();
+}
+inline ::Protocol::CharacterInfo* S_CHARACTER_SYNC::mutable_characterinfo(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_CHARACTER_SYNC.characterInfo)
+  return _internal_mutable_characterinfo()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::Protocol::CharacterInfo>* S_CHARACTER_SYNC::mutable_characterinfo()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_CHARACTER_SYNC.characterInfo)
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.positiony_ = 0;
+  return _internal_mutable_characterinfo();
 }
-inline float S_SPAWN_ACTOR::positiony() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_SPAWN_ACTOR.positionY)
-  return _internal_positiony();
+inline const ::Protocol::CharacterInfo& S_CHARACTER_SYNC::characterinfo(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Protocol.S_CHARACTER_SYNC.characterInfo)
+  return _internal_characterinfo().Get(index);
 }
-inline void S_SPAWN_ACTOR::set_positiony(float value) {
-  _internal_set_positiony(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_SPAWN_ACTOR.positionY)
+inline ::Protocol::CharacterInfo* S_CHARACTER_SYNC::add_characterinfo() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::Protocol::CharacterInfo* _add = _internal_mutable_characterinfo()->Add();
+  // @@protoc_insertion_point(field_add:Protocol.S_CHARACTER_SYNC.characterInfo)
+  return _add;
 }
-inline float S_SPAWN_ACTOR::_internal_positiony() const {
+inline const ::google::protobuf::RepeatedPtrField<::Protocol::CharacterInfo>& S_CHARACTER_SYNC::characterinfo() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:Protocol.S_CHARACTER_SYNC.characterInfo)
+  return _internal_characterinfo();
+}
+inline const ::google::protobuf::RepeatedPtrField<::Protocol::CharacterInfo>&
+S_CHARACTER_SYNC::_internal_characterinfo() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.positiony_;
+  return _impl_.characterinfo_;
 }
-inline void S_SPAWN_ACTOR::_internal_set_positiony(float value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.positiony_ = value;
-}
-
-// float velocityX = 4;
-inline void S_SPAWN_ACTOR::clear_velocityx() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.velocityx_ = 0;
-}
-inline float S_SPAWN_ACTOR::velocityx() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_SPAWN_ACTOR.velocityX)
-  return _internal_velocityx();
-}
-inline void S_SPAWN_ACTOR::set_velocityx(float value) {
-  _internal_set_velocityx(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_SPAWN_ACTOR.velocityX)
-}
-inline float S_SPAWN_ACTOR::_internal_velocityx() const {
+inline ::google::protobuf::RepeatedPtrField<::Protocol::CharacterInfo>*
+S_CHARACTER_SYNC::_internal_mutable_characterinfo() {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.velocityx_;
-}
-inline void S_SPAWN_ACTOR::_internal_set_velocityx(float value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.velocityx_ = value;
-}
-
-// float velocityY = 5;
-inline void S_SPAWN_ACTOR::clear_velocityy() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.velocityy_ = 0;
-}
-inline float S_SPAWN_ACTOR::velocityy() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_SPAWN_ACTOR.velocityY)
-  return _internal_velocityy();
-}
-inline void S_SPAWN_ACTOR::set_velocityy(float value) {
-  _internal_set_velocityy(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_SPAWN_ACTOR.velocityY)
-}
-inline float S_SPAWN_ACTOR::_internal_velocityy() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.velocityy_;
-}
-inline void S_SPAWN_ACTOR::_internal_set_velocityy(float value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.velocityy_ = value;
+  return &_impl_.characterinfo_;
 }
 
 #ifdef __GNUC__

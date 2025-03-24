@@ -56,8 +56,16 @@ message C_SPAWN_ACTOR
 message S_SPAWN_ACTOR
 {
 	ActorType actorType = 1;
-	float positionX = 2;
-	float positionY = 3;
-	float velocityX = 4;
-	float velocityY = 5;
+	
+}
+
+message C_CHARACTER_SYNC
+{	
+
+}
+
+message S_CHARACTER_SYNC
+{
+	float timestamp = 1;
+	repeated CharacterInfo characterInfo = 2;
 }

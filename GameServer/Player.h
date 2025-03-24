@@ -6,7 +6,7 @@ class Player : public Character
 	using Super = Character;
 
 public:
-	Player(GameSessionRef gameSession);
+	Player();
 	virtual ~Player();
 
 	virtual void Init() override;

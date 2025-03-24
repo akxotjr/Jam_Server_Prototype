@@ -4,8 +4,7 @@
 #include "TimeManager.h"
 #include <algorithm>
 
-Bot::Bot(GameSessionRef gameSession)
-    : Super(gameSession)
+Bot::Bot()
 {
 }
 
@@ -45,7 +44,6 @@ void Bot::UpdateMovement()
         isChangedVelocity = true;
     }
 
-    // clamp Ã³¸®
     nextPos.x = std::clamp(nextPos.x, 0.0f, static_cast<float>(GWinSizeX));
     nextPos.y = std::clamp(nextPos.y, 0.0f, static_cast<float>(GWinSizeY));
 

@@ -4,7 +4,7 @@
 class Character
 {
 public:
-	Character(GameSessionRef gameSession);
+	Character();
 	virtual ~Character();
 
 	virtual void Init();
@@ -12,13 +12,14 @@ public:
 
 	virtual void UpdateMovement() abstract;
 
-	GameSessionRef GetGameSession() { return _gamesession.lock(); }
+	void SetOwnerSession(GameSessionRef ownerSession) { _ownerSession = ownerSession; }
+	GameSessionRef GetOwnerSession() { return _ownerSession.lock(); }
 
 	void SetPos(Vec2& pos) { _position = pos; }
 	Vec2& GetPos() { return _position; }
 
 private:
-	weak_ptr<GameSession> _gamesession;
+	weak_ptr<GameSession> _ownerSession;
 
 protected:
 	Vec2 _position = { 400, 300 };

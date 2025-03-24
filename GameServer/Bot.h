@@ -6,7 +6,7 @@ class Bot : public Character
 	using Super = Character;
 
 public:
-	Bot(GameSessionRef gameSession);
+	Bot();
 	~Bot();
 
 	virtual void Init();

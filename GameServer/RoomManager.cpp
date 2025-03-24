@@ -4,6 +4,14 @@
 
 RoomManager GRoomManager;
 
+void RoomManager::Update()
+{
+	for (auto& [id, room] : _rooms)
+	{
+		room->Update();
+	}
+}
+
 uint32 RoomManager::CreateRoom()
 {
 	RoomRef room = MakeShared<Room>();

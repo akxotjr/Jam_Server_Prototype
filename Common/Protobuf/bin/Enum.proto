@@ -1,6 +1,13 @@
 syntax = "proto3";
 package Protocol;
 
+// temp
+enum ActorType
+{
+	ACTOR_TYPE_PLAYER = 0;
+	ACTOR_TYPE_MONSTER = 1;
+}
+
 enum PlayerType
 {
 	PLAYER_TYPE_NONE = 0;
@@ -8,3 +15,4 @@ enum PlayerType
 	PLAYER_TYPE_MAGE = 2;
 	PLAYER_TYPE_ARCHER = 3;
 }
+

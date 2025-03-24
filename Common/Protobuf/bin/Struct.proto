@@ -7,8 +7,8 @@ message PlayerProto
 {
 	uint64 id = 1;
 	string name = 2;
-	PlayerType playerType = 3;
-	float timestamp = 4;
+	//PlayerType playerType = 3;
+	//float timestamp = 4;
 }
 
 message BotProto

@@ -3,7 +3,28 @@
 #include "Room.h"
 #include "Player.h"
 #include "Bot.h"
+#include "TimeManager.h"
 
+
+void Room::Update()
+{
+	for (auto& [id, player] : _players)
+	{
+		player->Update();
+	}
+
+	for (auto& [id, bot] : _bots)
+	{
+		bot->Update();
+	}
+
+	float deltaTime = GTimeManager.GetDeltaTime();
+	_sumTime += deltaTime;
+	if (_sumTime > 0.5f)
+	{
+
+	}
+}
 
 void Room::Enter(PlayerRef player)
 {

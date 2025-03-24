@@ -1,6 +1,8 @@
 #pragma once
 #include <Session.h>
 
+class Room;
+
 class GameSession : public PacketSession
 {
 public:
@@ -11,5 +13,10 @@ public:
 	virtual void OnDisconnected() override;
 	virtual void OnRecvPacket(BYTE* buffer, int32 len) override;
 	virtual void OnSend(int32 len) override;
+
+
+public:
+	PlayerRef		_currentPlayer;
+	weak_ptr<Room>	_room;
 };
 

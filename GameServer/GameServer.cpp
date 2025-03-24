@@ -62,7 +62,11 @@ int main()
 	}
 
 	// Main Thread
-	DoWorkerJob(service);
+	//DoWorkerJob(service);
+	while (true)
+	{
+		GRoomManager.Update();
+	}
 
 	GThreadManager->Join();
 

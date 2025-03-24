@@ -55,6 +55,39 @@ namespace protobuf {
 }  // namespace google
 
 namespace Protocol {
+enum ActorType : int {
+  ACTOR_TYPE_PLAYER = 0,
+  ACTOR_TYPE_MONSTER = 1,
+  ActorType_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  ActorType_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool ActorType_IsValid(int value);
+extern const uint32_t ActorType_internal_data_[];
+constexpr ActorType ActorType_MIN = static_cast<ActorType>(0);
+constexpr ActorType ActorType_MAX = static_cast<ActorType>(1);
+constexpr int ActorType_ARRAYSIZE = 1 + 1;
+const ::google::protobuf::EnumDescriptor*
+ActorType_descriptor();
+template <typename T>
+const std::string& ActorType_Name(T value) {
+  static_assert(std::is_same<T, ActorType>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to ActorType_Name().");
+  return ActorType_Name(static_cast<ActorType>(value));
+}
+template <>
+inline const std::string& ActorType_Name(ActorType value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<ActorType_descriptor,
+                                                 0, 1>(
+      static_cast<int>(value));
+}
+inline bool ActorType_Parse(absl::string_view name, ActorType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ActorType>(
+      ActorType_descriptor(), name, value);
+}
 enum PlayerType : int {
   PLAYER_TYPE_NONE = 0,
   PLAYER_TYPE_KNIGHT = 1,
@@ -118,6 +151,12 @@ inline bool PlayerType_Parse(absl::string_view name, PlayerType* value) {
 namespace google {
 namespace protobuf {
 
+template <>
+struct is_proto_enum<::Protocol::ActorType> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::Protocol::ActorType>() {
+  return ::Protocol::ActorType_descriptor();
+}
 template <>
 struct is_proto_enum<::Protocol::PlayerType> : std::true_type {};
 template <>

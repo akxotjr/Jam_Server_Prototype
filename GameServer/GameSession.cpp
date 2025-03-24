@@ -2,7 +2,7 @@
 #include "GameSession.h"
 #include "SessionManager.h"
 #include "ClientPacketHandler.h"
-//#include "Room.h"
+#include "Room.h"
 
 /*----------------
 	GameSession
@@ -27,14 +27,14 @@ void GameSession::OnDisconnected()
 	//	}
 	//}
 
-	//_currentPlayer = nullptr;
+	_currentPlayer = nullptr;
 	//_players.clear();
 }
 
 void GameSession::OnRecvPacket(BYTE* buffer, int32 len)
 {
 	PacketSessionRef session = GetPacketSessionRef();
-	PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+	//PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
 
 	// TODO : packetId 대역 체크
 	ClientPacketHandler::HandlePacket(session, buffer, len);

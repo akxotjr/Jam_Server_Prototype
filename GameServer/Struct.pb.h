@@ -220,8 +220,6 @@ class PlayerProto final : public ::google::protobuf::Message
   enum : int {
     kNameFieldNumber = 2,
     kIdFieldNumber = 1,
-    kPlayerTypeFieldNumber = 3,
-    kTimestampFieldNumber = 4,
   };
   // string name = 2;
   void clear_name() ;
@@ -249,32 +247,12 @@ class PlayerProto final : public ::google::protobuf::Message
   void _internal_set_id(::uint64_t value);
 
   public:
-  // .Protocol.PlayerType playerType = 3;
-  void clear_playertype() ;
-  ::Protocol::PlayerType playertype() const;
-  void set_playertype(::Protocol::PlayerType value);
-
-  private:
-  ::Protocol::PlayerType _internal_playertype() const;
-  void _internal_set_playertype(::Protocol::PlayerType value);
-
-  public:
-  // float timestamp = 4;
-  void clear_timestamp() ;
-  float timestamp() const;
-  void set_timestamp(float value);
-
-  private:
-  float _internal_timestamp() const;
-  void _internal_set_timestamp(float value);
-
-  public:
   // @@protoc_insertion_point(class_scope:Protocol.PlayerProto)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 0,
+      1, 2, 0,
       33, 2>
       _table_;
 
@@ -294,8 +272,6 @@ class PlayerProto final : public ::google::protobuf::Message
                           const PlayerProto& from_msg);
     ::google::protobuf::internal::ArenaStringPtr name_;
     ::uint64_t id_;
-    int playertype_;
-    float timestamp_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -607,50 +583,6 @@ inline void PlayerProto::set_allocated_name(std::string* value) {
     _impl_.name_.Set("", GetArena());
   }
   // @@protoc_insertion_point(field_set_allocated:Protocol.PlayerProto.name)
-}
-
-// .Protocol.PlayerType playerType = 3;
-inline void PlayerProto::clear_playertype() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.playertype_ = 0;
-}
-inline ::Protocol::PlayerType PlayerProto::playertype() const {
-  // @@protoc_insertion_point(field_get:Protocol.PlayerProto.playerType)
-  return _internal_playertype();
-}
-inline void PlayerProto::set_playertype(::Protocol::PlayerType value) {
-  _internal_set_playertype(value);
-  // @@protoc_insertion_point(field_set:Protocol.PlayerProto.playerType)
-}
-inline ::Protocol::PlayerType PlayerProto::_internal_playertype() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return static_cast<::Protocol::PlayerType>(_impl_.playertype_);
-}
-inline void PlayerProto::_internal_set_playertype(::Protocol::PlayerType value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.playertype_ = value;
-}
-
-// float timestamp = 4;
-inline void PlayerProto::clear_timestamp() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.timestamp_ = 0;
-}
-inline float PlayerProto::timestamp() const {
-  // @@protoc_insertion_point(field_get:Protocol.PlayerProto.timestamp)
-  return _internal_timestamp();
-}
-inline void PlayerProto::set_timestamp(float value) {
-  _internal_set_timestamp(value);
-  // @@protoc_insertion_point(field_set:Protocol.PlayerProto.timestamp)
-}
-inline float PlayerProto::_internal_timestamp() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.timestamp_;
-}
-inline void PlayerProto::_internal_set_timestamp(float value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.timestamp_ = value;
 }
 
 // -------------------------------------------------------------------

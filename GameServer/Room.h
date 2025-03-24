@@ -6,6 +6,8 @@ class Player;
 class Room : public JobQueue
 {
 public:
+	void		Update();
+
 	void		Enter(PlayerRef player);
 	void		Leave(PlayerRef player);	// todo : add another version(by id)
 	void		Broadcast(SendBufferRef sendBuffer);
@@ -26,5 +28,7 @@ private:
 
 	map<uint64, PlayerRef>	_players;
 	map<uint64, BotRef>		_bots;
+
+	float _sumTime = 0.f;
 };
 

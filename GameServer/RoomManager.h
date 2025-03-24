@@ -8,6 +8,8 @@ public:
 	RoomManager() {};
 	~RoomManager() {};
 
+	void Update();
+
 	uint32 CreateRoom();
 	void AddRoom(RoomRef room);
 	void RemoveRoom(RoomRef room);

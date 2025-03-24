@@ -12,17 +12,19 @@ message C_LOGIN
 message S_LOGIN
 {
 	bool success = 1;
-	repeated PlayerProto players = 2;
+	//repeated PlayerProto players = 2;
 }
 
 message C_ENTER_GAME
 {
-	uint64 playerIndex = 1;
+	//uint64 playerIndex = 1;
 }
 
 message S_ENTER_GAME
 {
 	bool success = 1;
+	float startPositionX = 2;
+	float startPositionY = 3;
 }
 
 message C_CHAT
@@ -44,4 +46,18 @@ message C_TIMESYNC
 message S_TIMESYNC
 {
 	float timestamp = 1;
+}
+
+message C_SPAWN_ACTOR
+{
+	ActorType actorType = 1;
+}
+
+message S_SPAWN_ACTOR
+{
+	ActorType actorType = 1;
+	float positionX = 2;
+	float positionY = 3;
+	float velocityX = 4;
+	float velocityY = 5;
 }

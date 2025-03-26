@@ -41,7 +41,7 @@ int main()
 		for (int i = 0; i < 4; i++)
 		{
 			BotRef bot = MakeShared<Bot>();
-			room->AddBot(bot);
+			room->AddCharacter(bot);
 		}
 	}
 

@@ -9,15 +9,6 @@ public:
 	Player();
 	virtual ~Player();
 
-	virtual void Init() override;
-	virtual void Update() override;
-
-	virtual void UpdateMovement() override;
-
-	void SetPlayerProto(Protocol::PlayerProto playerProto) { _playerProto = playerProto; }
-	Protocol::PlayerProto& GetPlayerProto() { return _playerProto; }
-
-
-public:
-	Protocol::PlayerProto _playerProto;
+	virtual void Init();
+	virtual void Update();
 };

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "GameSession.h"
 #include "Room.h"
+#include "Character.h"
 #include "Player.h"
 #include "Bot.h"
 #include "TimeManager.h"
@@ -13,9 +14,9 @@ void Room::Update()
 		player->Update();
 	}
 
-	for (auto& [id, bot] : _bots)
+	for (auto& [id, character] : _characters)
 	{
-		bot->Update();
+		character->Update();
 	}
 
 	float deltaTime = GTimeManager.GetDeltaTime();
@@ -29,12 +30,12 @@ void Room::Update()
 
 void Room::Enter(PlayerRef player)
 {
-	_players[player->GetPlayerProto().id()] = player;
+	_players[player->GetInfo().id()] = player;
 }
 
 void Room::Leave(PlayerRef player)
 {
-	_players.erase(player->GetPlayerProto().id());
+	_players.erase(player->GetInfo().id());
 }
 
 void Room::Broadcast(SendBufferRef sendBuffer)
@@ -45,14 +46,14 @@ void Room::Broadcast(SendBufferRef sendBuffer)
 	}
 }
 
-void Room::AddBot(BotRef bot)
+void Room::AddCharacter(CharacterRef character)
 {
-	_bots[bot->GetBotProto().id()] = bot;
+	_characters[character->GetInfo().id()] = character;
 }
 
-void Room::RemoveBot(BotRef bot)
+void Room::RemoveCharacter(CharacterRef character)
 {
-	_bots.erase(bot->GetBotProto().id());
+	_characters.erase(character->GetInfo().id());
 }
 
 

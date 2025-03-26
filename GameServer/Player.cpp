@@ -14,21 +14,10 @@ Player::~Player()
 void Player::Init()
 {
 	Super::Init();
-
-	//_playerProto.set_id(1);
-	//_playerProto.set_name("abc");
-	//_playerProto.set_playertype(Protocol::PLAYER_TYPE_NONE);
-
-	//float serverTime = GTimeManager.GetServerTime();
-	//_playerProto.set_timestamp(serverTime);
+	_info.set_name("player" + to_string(_info.id()));
 }
 
 void Player::Update()
 {
-	Super::Update();
-}
-
-void Player::UpdateMovement()
-{
-
+	
 }

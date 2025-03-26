@@ -15,15 +15,11 @@ Bot::~Bot()
 void Bot::Init()
 {
 	Super::Init();
-	// todo : first direction is random dir
+	
+    _info.set_name("Bot" + to_string(_info.id()));
 }
 
 void Bot::Update()
-{
-	Super::Update();
-}
-
-void Bot::UpdateMovement()
 {
     float deltaTime = GTimeManager.GetDeltaTime();
     Vec2 nextPos = _position + _velocity * deltaTime;

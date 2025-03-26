@@ -20,14 +20,14 @@ public:
 	PlayerRef	GetPlayerById(int32 id) { return _players[id]; }
 
 	// temp
-	void		AddBot(BotRef bot);
-	void		RemoveBot(BotRef bot);
+	void		AddCharacter(CharacterRef character);
+	void		RemoveCharacter(CharacterRef character);
 
 private:
-	uint32					_id;
+	uint32									_id;
 
-	map<uint64, PlayerRef>	_players;
-	map<uint64, BotRef>		_bots;
+	unordered_map<uint32, PlayerRef>		_players;
+	unordered_map<uint32, CharacterRef>		_characters; // character doesn't have asession
 
 	float _sumTime = 0.f;
 };

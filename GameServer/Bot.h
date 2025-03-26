@@ -7,18 +7,9 @@ class Bot : public Character
 
 public:
 	Bot();
-	~Bot();
+	virtual ~Bot();
 
 	virtual void Init();
 	virtual void Update();
-
-	virtual void UpdateMovement() override;
-
-	void SetBotProto(Protocol::BotProto botProto) { _botProto = botProto; }
-	Protocol::BotProto& GetBotProto() { return _botProto; }
-
-
-private:
-	Protocol::BotProto _botProto;
 };
 

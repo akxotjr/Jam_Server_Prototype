@@ -1,8 +1,10 @@
 #pragma once
+#include "Actor.h"
 
-
-class Character
+class Character : public Actor
 {
+	using Super = Actor;
+
 public:
 	Character();
 	virtual ~Character();
@@ -10,21 +12,14 @@ public:
 	virtual void Init();
 	virtual void Update();
 
-	virtual void UpdateMovement() abstract;
-
-	void SetOwnerSession(GameSessionRef ownerSession) { _ownerSession = ownerSession; }
-	GameSessionRef GetOwnerSession() { return _ownerSession.lock(); }
-
-	void SetPos(Vec2& pos) { _position = pos; }
-	Vec2& GetPos() { return _position; }
-
-private:
-	weak_ptr<GameSession> _ownerSession;
+	void SetInfo(Protocol::CharacterInfo* info);
+	Protocol::CharacterInfo* GetInfo() { return _info; }
 
 protected:
-	Vec2 _position = { 400, 300 };
-	Vec2 _direction = {};
-	Vec2 _velocity = {};
-	float _speed = 0.1f;
+	Vec2		_direction = {0.f, 0.f};
+	Vec2		_velocity = {};
+	float		_speed = 5.f;
+
+	Protocol::CharacterInfo* _info;
 };
 

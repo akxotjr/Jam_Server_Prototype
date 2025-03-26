@@ -55,9 +55,51 @@ namespace protobuf {
 }  // namespace google
 
 namespace Protocol {
+enum KeyType : int {
+  KEY_NONE = 0,
+  KEY_LEFT_MOUSE = 1,
+  KEY_RIGHT_MOUSE = 2,
+  KEY_W = 10,
+  KEY_A = 11,
+  KEY_S = 12,
+  KEY_D = 13,
+  KEY_Q = 14,
+  KEY_E = 15,
+  KEY_UP = 20,
+  KEY_DOWN = 21,
+  KEY_LEFT = 22,
+  KEY_RIGHT = 23,
+  KEY_SPACE = 30,
+  KEY_1 = 31,
+  KEY_2 = 32,
+  KeyType_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  KeyType_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool KeyType_IsValid(int value);
+extern const uint32_t KeyType_internal_data_[];
+constexpr KeyType KeyType_MIN = static_cast<KeyType>(0);
+constexpr KeyType KeyType_MAX = static_cast<KeyType>(32);
+constexpr int KeyType_ARRAYSIZE = 32 + 1;
+const ::google::protobuf::EnumDescriptor*
+KeyType_descriptor();
+template <typename T>
+const std::string& KeyType_Name(T value) {
+  static_assert(std::is_same<T, KeyType>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to KeyType_Name().");
+  return ::google::protobuf::internal::NameOfEnum(KeyType_descriptor(), value);
+}
+inline bool KeyType_Parse(absl::string_view name, KeyType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<KeyType>(
+      KeyType_descriptor(), name, value);
+}
 enum ActorType : int {
   ACTOR_TYPE_PLAYER = 0,
-  ACTOR_TYPE_MONSTER = 1,
+  ACTOR_TYPE_BOT = 1,
+  ACTOR_TYPE_MONSTER = 2,
   ActorType_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   ActorType_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -67,8 +109,8 @@ enum ActorType : int {
 bool ActorType_IsValid(int value);
 extern const uint32_t ActorType_internal_data_[];
 constexpr ActorType ActorType_MIN = static_cast<ActorType>(0);
-constexpr ActorType ActorType_MAX = static_cast<ActorType>(1);
-constexpr int ActorType_ARRAYSIZE = 1 + 1;
+constexpr ActorType ActorType_MAX = static_cast<ActorType>(2);
+constexpr int ActorType_ARRAYSIZE = 2 + 1;
 const ::google::protobuf::EnumDescriptor*
 ActorType_descriptor();
 template <typename T>
@@ -81,7 +123,7 @@ const std::string& ActorType_Name(T value) {
 template <>
 inline const std::string& ActorType_Name(ActorType value) {
   return ::google::protobuf::internal::NameOfDenseEnum<ActorType_descriptor,
-                                                 0, 1>(
+                                                 0, 2>(
       static_cast<int>(value));
 }
 inline bool ActorType_Parse(absl::string_view name, ActorType* value) {
@@ -151,6 +193,12 @@ inline bool PlayerType_Parse(absl::string_view name, PlayerType* value) {
 namespace google {
 namespace protobuf {
 
+template <>
+struct is_proto_enum<::Protocol::KeyType> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::Protocol::KeyType>() {
+  return ::Protocol::KeyType_descriptor();
+}
 template <>
 struct is_proto_enum<::Protocol::ActorType> : std::true_type {};
 template <>

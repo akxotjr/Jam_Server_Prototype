@@ -19,22 +19,14 @@ bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 {
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 
-
 	{
-		Protocol::PlayerProto player;
-		uint32 id = GIdManager.Generate(IdType::Actor);
+		PlayerRef player = MakeShared<Player>();
+		player->SetOwnerSession(gameSession);
+		player->Init();
 
-		string name = "player_" + to_string(id);
-
-		player.set_id(id);
-		player.set_name(name);
-
-		PlayerRef playerRef = MakeShared<Player>();
-		playerRef->SetOwnerSession(gameSession);
-		playerRef->SetPlayerProto(player);
-
-		gameSession->_currentPlayer = playerRef;
+		gameSession->_currentPlayer = player;
 	}
+
 
 	Protocol::S_LOGIN loginPkt;
 	loginPkt.set_success(true);
@@ -49,14 +41,17 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 
-	// todo
 	gameSession->_room = GRoomManager.GetRoomById(1);	// temp
 	gameSession->_room.lock()->DoAsync(&Room::Enter, gameSession->_currentPlayer);
 
 	Protocol::S_ENTER_GAME enterGamePkt;
 	enterGamePkt.set_success(true);
-	enterGamePkt.set_startpositionx(400.f);
-	enterGamePkt.set_startpositiony(300.f);
+	enterGamePkt.set_actortype(Protocol::ACTOR_TYPE_PLAYER);
+
+	auto& player = gameSession->_currentPlayer;
+
+	//enterGamePkt.set_allocated_characterinfo(player->GetInfo());
+	enterGamePkt.mutable_characterinfo()->CopyFrom(*player->GetInfo());
 
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(enterGamePkt);
 	session->Send(sendBuffer);
@@ -99,4 +94,9 @@ bool Handle_C_SPAWN_ACTOR(PacketSessionRef& session, Protocol::C_SPAWN_ACTOR& pk
 bool Handle_C_CHARACTER_SYNC(PacketSessionRef& session, Protocol::C_CHARACTER_SYNC& pkt)
 {
 	return true;
+}
+
+bool Handle_C_PLAYER_INPUT(PacketSessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
+{
+	return false;
 }

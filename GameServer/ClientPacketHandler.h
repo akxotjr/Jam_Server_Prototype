@@ -18,6 +18,8 @@ enum : uint16
 	PKT_S_SPAWN_ACTOR = 1009,
 	PKT_C_CHARACTER_SYNC = 1010,
 	PKT_S_CHARACTER_SYNC = 1011,
+	PKT_C_PLAYER_INPUT = 1012,
+	PKT_S_PLAYER_INPUT = 1013,
 };
 
 // Custom Handlers
@@ -28,6 +30,7 @@ bool Handle_C_CHAT(PacketSessionRef& session, Protocol::C_CHAT&pkt);
 bool Handle_C_TIMESYNC(PacketSessionRef& session, Protocol::C_TIMESYNC&pkt);
 bool Handle_C_SPAWN_ACTOR(PacketSessionRef& session, Protocol::C_SPAWN_ACTOR&pkt);
 bool Handle_C_CHARACTER_SYNC(PacketSessionRef& session, Protocol::C_CHARACTER_SYNC&pkt);
+bool Handle_C_PLAYER_INPUT(PacketSessionRef& session, Protocol::C_PLAYER_INPUT&pkt);
 
 class ClientPacketHandler
 {
@@ -42,6 +45,7 @@ public:
 		GPacketHandler[PKT_C_TIMESYNC] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket <Protocol::C_TIMESYNC> (Handle_C_TIMESYNC, session, buffer, len); };
 		GPacketHandler[PKT_C_SPAWN_ACTOR] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket <Protocol::C_SPAWN_ACTOR> (Handle_C_SPAWN_ACTOR, session, buffer, len); };
 		GPacketHandler[PKT_C_CHARACTER_SYNC] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket <Protocol::C_CHARACTER_SYNC> (Handle_C_CHARACTER_SYNC, session, buffer, len); };
+		GPacketHandler[PKT_C_PLAYER_INPUT] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket <Protocol::C_PLAYER_INPUT> (Handle_C_PLAYER_INPUT, session, buffer, len); };
 	}
 
 	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
@@ -55,6 +59,7 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_TIMESYNC&pkt) { return MakeSendBuffer(pkt, PKT_S_TIMESYNC); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_SPAWN_ACTOR&pkt) { return MakeSendBuffer(pkt, PKT_S_SPAWN_ACTOR); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_CHARACTER_SYNC&pkt) { return MakeSendBuffer(pkt, PKT_S_CHARACTER_SYNC); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_PLAYER_INPUT&pkt) { return MakeSendBuffer(pkt, PKT_S_PLAYER_INPUT); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

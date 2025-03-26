@@ -16,6 +16,7 @@ enum class SessionType
 
 USING_SHARED_PTR(GameSession)
 USING_SHARED_PTR(Room)
+USING_SHARED_PTR(Actor)
 USING_SHARED_PTR(Character)
 USING_SHARED_PTR(Player)
 USING_SHARED_PTR(Bot)

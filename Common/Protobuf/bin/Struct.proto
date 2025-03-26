@@ -17,18 +17,3 @@ message CharacterInfo
 	string name = 2;
 	CharacterMovementInfo movementInfo = 3;
 }
-
-message PlayerProto
-{
-	uint64 id = 1;
-	string name = 2;
-	//PlayerType playerType = 3;
-	//float timestamp = 4;
-}
-
-message BotProto
-{
-	uint64 id = 1;
-	string name = 2;
-	float timestamp = 3;
-}

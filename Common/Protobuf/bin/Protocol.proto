@@ -12,7 +12,7 @@ message C_LOGIN
 message S_LOGIN
 {
 	bool success = 1;
-	//repeated PlayerProto players = 2;
+	//repeated Player players = 2;
 }
 
 message C_ENTER_GAME
@@ -23,8 +23,8 @@ message C_ENTER_GAME
 message S_ENTER_GAME
 {
 	bool success = 1;
-	float startPositionX = 2;
-	float startPositionY = 3;
+	ActorType actorType = 2;
+	CharacterInfo characterInfo = 3;
 }
 
 message C_CHAT
@@ -56,12 +56,14 @@ message C_SPAWN_ACTOR
 message S_SPAWN_ACTOR
 {
 	ActorType actorType = 1;
-	
+	CharacterInfo characterInfo = 2;
 }
 
 message C_CHARACTER_SYNC
-{	
-
+{
+	float timestamp = 1;
+	CharacterInfo characterInfo = 2;
+	// todo command
 }
 
 message S_CHARACTER_SYNC

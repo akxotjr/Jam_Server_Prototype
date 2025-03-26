@@ -20,9 +20,10 @@ void Room::Update()
 
 	float deltaTime = GTimeManager.GetDeltaTime();
 	_sumTime += deltaTime;
+
 	if (_sumTime > 0.5f)
 	{
-
+		// TODO
 	}
 }
 

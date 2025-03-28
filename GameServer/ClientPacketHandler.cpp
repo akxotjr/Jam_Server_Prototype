@@ -86,13 +86,19 @@ bool Handle_C_TIMESYNC(PacketSessionRef& session, Protocol::C_TIMESYNC& pkt)
 
 bool Handle_C_SPAWN_ACTOR(PacketSessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 {
+	Protocol::ActorType actorType = pkt.actortype();
 
+	// todo create actor by actortype
 
 	return true;
 }
 
 bool Handle_C_CHARACTER_SYNC(PacketSessionRef& session, Protocol::C_CHARACTER_SYNC& pkt)
 {
+	float timestamp = pkt.timestamp();
+	Protocol::CharacterInfo info = pkt.characterinfo();
+
+	
 	return true;
 }
 

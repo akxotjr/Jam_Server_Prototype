@@ -26,6 +26,7 @@ void Character::Init()
 	movementInfo->set_positiony(_position.y);
 	movementInfo->set_velocityx(_velocity.x);
 	movementInfo->set_velocityy(_velocity.y);
+	movementInfo->set_speed(_speed);   
 
 	_info->set_allocated_movementinfo(movementInfo);
 }
@@ -41,4 +42,23 @@ void Character::SetInfo(Protocol::CharacterInfo* info)
 
 	_position = Vec2(info->movementinfo().positionx(), info->movementinfo().positiony());
 	_velocity = Vec2(info->movementinfo().velocityx(), info->movementinfo().velocityy());
+}
+
+Protocol::CharacterInfo* Character::GetInfo()
+{
+	// todo
+	Protocol::CharacterMovementInfo* movementInfo = new Protocol::CharacterMovementInfo();
+
+	movementInfo->set_positionx(_position.x);
+	movementInfo->set_positionx(_position.y);
+	movementInfo->set_positionx(_velocity.x);
+	movementInfo->set_positionx(_velocity.y);
+
+	_info->set_allocated_movementinfo(movementInfo);
+	return _info;
+}
+
+void Character::SendSyncToServer()
+{
+
 }

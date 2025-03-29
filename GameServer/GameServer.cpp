@@ -6,6 +6,8 @@
 #include "RoomManager.h"
 #include "Room.h"
 #include "Bot.h"
+#include "IdManager.h"
+#include "TimeManager.h"
 
 enum
 {
@@ -32,6 +34,7 @@ void DoWorkerJob(ServerServiceRef& service)
 
 int main()
 {
+	GTimeManager.Init();
 	ClientPacketHandler::Init();
 
 	// temp
@@ -41,6 +44,7 @@ int main()
 		for (int i = 0; i < 4; i++)
 		{
 			BotRef bot = MakeShared<Bot>();
+			bot->Init();
 			room->AddCharacter(bot);
 		}
 	}
@@ -64,8 +68,11 @@ int main()
 
 	// Main Thread
 	//DoWorkerJob(service);
+
+	
 	while (true)
 	{
+		GTimeManager.Update();
 		GRoomManager.Update();
 	}
 

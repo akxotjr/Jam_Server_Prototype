@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "RoomManager.h"
 #include "Room.h"
+#include "IdManager.h"
 
 RoomManager GRoomManager;
 
@@ -15,11 +16,12 @@ void RoomManager::Update()
 uint32 RoomManager::CreateRoom()
 {
 	RoomRef room = MakeShared<Room>();
-	room->SetId(_idGenerator);
+	uint32 id = GIdManager.Generate(IdType::Room);
+	room->SetId(id);
 
 	_rooms.insert({ room->GetId(), room});
 
-	return _idGenerator.fetch_add(1);
+	return id;
 }
 
 void RoomManager::AddRoom(RoomRef room)

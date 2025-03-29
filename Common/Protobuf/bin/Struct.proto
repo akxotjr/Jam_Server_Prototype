@@ -9,11 +9,13 @@ message CharacterMovementInfo
 	float positionY = 2;
 	float velocityX = 3;
 	float velocityY = 4;
+	float speed = 5;
 }
 
 message CharacterInfo
 {
-	uint64 id = 1;
-	string name = 2;
-	CharacterMovementInfo movementInfo = 3;
+	ActorType type = 1;
+	uint64 id = 2;
+	string name = 3;
+	CharacterMovementInfo movementInfo = 4;
 }

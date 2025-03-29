@@ -5,14 +5,19 @@
 #include "Player.h"
 #include "Bot.h"
 #include "TimeManager.h"
-
+#include "ClientPacketHandler.h"
+#include "SendBuffer.h"
 
 void Room::Update()
 {
-	for (auto& [id, player] : _players)
-	{
-		player->Update();
-	}
+	//if (!_players.empty())
+	//{
+	//	for (auto& [id, player] : _players)
+	//	{
+	//		player->Update();
+	//	}
+	//}
+
 
 	for (auto& [id, character] : _characters)
 	{
@@ -22,20 +27,23 @@ void Room::Update()
 	float deltaTime = GTimeManager.GetDeltaTime();
 	_sumTime += deltaTime;
 
-	if (_sumTime > 0.5f)
+	if (_sumTime > 0.05f) 
 	{
-		// TODO
+		BroadCastCharacterSync();
+		_sumTime = 0.f;
 	}
 }
 
 void Room::Enter(PlayerRef player)
 {
-	_players[player->GetInfo().id()] = player;
+	WRITE_LOCK
+	_players[player->GetInfo()->id()] = player;
 }
 
 void Room::Leave(PlayerRef player)
 {
-	_players.erase(player->GetInfo().id());
+	WRITE_LOCK
+	_players.erase(player->GetInfo()->id());
 }
 
 void Room::Broadcast(SendBufferRef sendBuffer)
@@ -48,12 +56,57 @@ void Room::Broadcast(SendBufferRef sendBuffer)
 
 void Room::AddCharacter(CharacterRef character)
 {
-	_characters[character->GetInfo().id()] = character;
+	WRITE_LOCK
+	_characters[character->GetInfo()->id()] = character;
 }
 
 void Room::RemoveCharacter(CharacterRef character)
 {
-	_characters.erase(character->GetInfo().id());
+	WRITE_LOCK
+	_characters.erase(character->GetInfo()->id());
 }
+
+void Room::BroadCastCharacterSync()
+{
+	float timestamp = GTimeManager.GetServerTime();
+
+	for (auto& [id, player] : _players)
+	{
+		auto session = player->GetOwnerSession();
+
+		Protocol::S_CHARACTER_SYNC pkt;
+
+		pkt.set_timestamp(timestamp);
+
+		for (auto& [i, character] : _characters)
+		{
+			Protocol::CharacterInfo* info = pkt.add_characterinfo();
+			info->CopyFrom(*character->GetInfo()); 
+		}
+
+		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(pkt);
+		session->Send(sendBuffer);
+	}
+}
+
+void Room::BroadcastSpawnActor()
+{
+	for (auto& [id, player] : _players)
+	{
+		auto session = player->GetOwnerSession();
+
+		Protocol::S_SPAWN_ACTOR pkt;
+
+		for (auto& [i, character] : _characters)
+		{
+			Protocol::CharacterInfo* info = pkt.add_characterinfo();
+			info->CopyFrom(*character->GetInfo());
+		}
+
+		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(pkt);
+		session->Send(sendBuffer);
+	}
+}
+
 
 

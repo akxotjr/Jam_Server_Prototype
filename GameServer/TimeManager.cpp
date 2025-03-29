@@ -7,7 +7,7 @@ TimeManager GTimeManager;
 void TimeManager::Init()
 {
 	::QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&_frequency));
-	::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(_prevCount));
+	::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&_prevCount));
 }
 
 void TimeManager::Update()

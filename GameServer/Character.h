@@ -13,12 +13,14 @@ public:
 	virtual void Update();
 
 	void SetInfo(Protocol::CharacterInfo* info);
-	Protocol::CharacterInfo* GetInfo() { return _info; }
+	Protocol::CharacterInfo* GetInfo();
+
+	void SendSyncToServer();
 
 protected:
 	Vec2		_direction = {0.f, 0.f};
 	Vec2		_velocity = {};
-	float		_speed = 5.f;
+	float		_speed = 1000.f;
 
 	Protocol::CharacterInfo* _info;
 };

@@ -18,8 +18,6 @@ public:
 
 private:
 	unordered_map<uint32, RoomRef> _rooms;
-
-	Atomic<uint32> _idGenerator = 0;
 };
 
 extern RoomManager GRoomManager;

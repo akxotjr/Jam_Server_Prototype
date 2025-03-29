@@ -222,6 +222,7 @@ class CharacterMovementInfo final : public ::google::protobuf::Message
     kPositionYFieldNumber = 2,
     kVelocityXFieldNumber = 3,
     kVelocityYFieldNumber = 4,
+    kSpeedFieldNumber = 5,
   };
   // float positionX = 1;
   void clear_positionx() ;
@@ -263,12 +264,22 @@ class CharacterMovementInfo final : public ::google::protobuf::Message
   void _internal_set_velocityy(float value);
 
   public:
+  // float speed = 5;
+  void clear_speed() ;
+  float speed() const;
+  void set_speed(float value);
+
+  private:
+  float _internal_speed() const;
+  void _internal_set_speed(float value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Protocol.CharacterMovementInfo)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 0,
+      3, 5, 0,
       0, 2>
       _table_;
 
@@ -290,6 +301,7 @@ class CharacterMovementInfo final : public ::google::protobuf::Message
     float positiony_;
     float velocityx_;
     float velocityy_;
+    float speed_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -444,11 +456,12 @@ class CharacterInfo final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kNameFieldNumber = 2,
-    kMovementInfoFieldNumber = 3,
-    kIdFieldNumber = 1,
+    kNameFieldNumber = 3,
+    kMovementInfoFieldNumber = 4,
+    kIdFieldNumber = 2,
+    kTypeFieldNumber = 1,
   };
-  // string name = 2;
+  // string name = 3;
   void clear_name() ;
   const std::string& name() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -464,7 +477,7 @@ class CharacterInfo final : public ::google::protobuf::Message
   std::string* _internal_mutable_name();
 
   public:
-  // .Protocol.CharacterMovementInfo movementInfo = 3;
+  // .Protocol.CharacterMovementInfo movementInfo = 4;
   bool has_movementinfo() const;
   void clear_movementinfo() ;
   const ::Protocol::CharacterMovementInfo& movementinfo() const;
@@ -479,7 +492,7 @@ class CharacterInfo final : public ::google::protobuf::Message
   ::Protocol::CharacterMovementInfo* _internal_mutable_movementinfo();
 
   public:
-  // uint64 id = 1;
+  // uint64 id = 2;
   void clear_id() ;
   ::uint64_t id() const;
   void set_id(::uint64_t value);
@@ -489,12 +502,22 @@ class CharacterInfo final : public ::google::protobuf::Message
   void _internal_set_id(::uint64_t value);
 
   public:
+  // .Protocol.ActorType type = 1;
+  void clear_type() ;
+  ::Protocol::ActorType type() const;
+  void set_type(::Protocol::ActorType value);
+
+  private:
+  ::Protocol::ActorType _internal_type() const;
+  void _internal_set_type(::Protocol::ActorType value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Protocol.CharacterInfo)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 1,
+      2, 4, 1,
       35, 2>
       _table_;
 
@@ -517,6 +540,7 @@ class CharacterInfo final : public ::google::protobuf::Message
     ::google::protobuf::internal::ArenaStringPtr name_;
     ::Protocol::CharacterMovementInfo* movementinfo_;
     ::uint64_t id_;
+    int type_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -627,11 +651,55 @@ inline void CharacterMovementInfo::_internal_set_velocityy(float value) {
   _impl_.velocityy_ = value;
 }
 
+// float speed = 5;
+inline void CharacterMovementInfo::clear_speed() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.speed_ = 0;
+}
+inline float CharacterMovementInfo::speed() const {
+  // @@protoc_insertion_point(field_get:Protocol.CharacterMovementInfo.speed)
+  return _internal_speed();
+}
+inline void CharacterMovementInfo::set_speed(float value) {
+  _internal_set_speed(value);
+  // @@protoc_insertion_point(field_set:Protocol.CharacterMovementInfo.speed)
+}
+inline float CharacterMovementInfo::_internal_speed() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.speed_;
+}
+inline void CharacterMovementInfo::_internal_set_speed(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.speed_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // CharacterInfo
 
-// uint64 id = 1;
+// .Protocol.ActorType type = 1;
+inline void CharacterInfo::clear_type() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.type_ = 0;
+}
+inline ::Protocol::ActorType CharacterInfo::type() const {
+  // @@protoc_insertion_point(field_get:Protocol.CharacterInfo.type)
+  return _internal_type();
+}
+inline void CharacterInfo::set_type(::Protocol::ActorType value) {
+  _internal_set_type(value);
+  // @@protoc_insertion_point(field_set:Protocol.CharacterInfo.type)
+}
+inline ::Protocol::ActorType CharacterInfo::_internal_type() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::Protocol::ActorType>(_impl_.type_);
+}
+inline void CharacterInfo::_internal_set_type(::Protocol::ActorType value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.type_ = value;
+}
+
+// uint64 id = 2;
 inline void CharacterInfo::clear_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.id_ = ::uint64_t{0u};
@@ -653,7 +721,7 @@ inline void CharacterInfo::_internal_set_id(::uint64_t value) {
   _impl_.id_ = value;
 }
 
-// string name = 2;
+// string name = 3;
 inline void CharacterInfo::clear_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.name_.ClearToEmpty();
@@ -701,7 +769,7 @@ inline void CharacterInfo::set_allocated_name(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.CharacterInfo.name)
 }
 
-// .Protocol.CharacterMovementInfo movementInfo = 3;
+// .Protocol.CharacterMovementInfo movementInfo = 4;
 inline bool CharacterInfo::has_movementinfo() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.movementinfo_ != nullptr);

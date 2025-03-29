@@ -41,21 +41,24 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 
-	gameSession->_room = GRoomManager.GetRoomById(1);	// temp
-	gameSession->_room.lock()->DoAsync(&Room::Enter, gameSession->_currentPlayer);
-
-	Protocol::S_ENTER_GAME enterGamePkt;
-	enterGamePkt.set_success(true);
-	enterGamePkt.set_actortype(Protocol::ACTOR_TYPE_PLAYER);
-
 	auto& player = gameSession->_currentPlayer;
 
-	//enterGamePkt.set_allocated_characterinfo(player->GetInfo());
-	enterGamePkt.mutable_characterinfo()->CopyFrom(*player->GetInfo());
+	if (player == nullptr)
+	{
+		return false;
+	}
 
-	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(enterGamePkt);
-	session->Send(sendBuffer);
+	gameSession->_room = GRoomManager.GetRoomById(1);	// temp
+	gameSession->_room.lock()->DoAsync(&Room::Enter, gameSession->_currentPlayer);
+	gameSession->_room.lock()->DoAsync(&Room::AddCharacter, static_pointer_cast<Character>(gameSession->_currentPlayer));
 
+	{
+		Protocol::S_ENTER_GAME enterGamePkt;
+		enterGamePkt.set_success(true);
+
+		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(enterGamePkt);
+		session->Send(sendBuffer);
+	}
 	return true;
 }
 
@@ -86,9 +89,28 @@ bool Handle_C_TIMESYNC(PacketSessionRef& session, Protocol::C_TIMESYNC& pkt)
 
 bool Handle_C_SPAWN_ACTOR(PacketSessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 {
-	Protocol::ActorType actorType = pkt.actortype();
+	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 
-	// todo create actor by actortype
+	auto& player = gameSession->_currentPlayer;
+
+	if (player == nullptr)
+	{
+		return false;
+	}
+
+	auto& characters = gameSession->_room.lock()->GetCharacters();
+
+	Protocol::S_SPAWN_ACTOR spawnActorPkt;
+
+	for (auto& [id, character] : characters)
+	{
+		Protocol::CharacterInfo* info = spawnActorPkt.add_characterinfo();
+		info->CopyFrom(*character->GetInfo());
+	}
+
+	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(spawnActorPkt);
+	session->Send(sendBuffer);
+	
 
 	return true;
 }
@@ -98,11 +120,38 @@ bool Handle_C_CHARACTER_SYNC(PacketSessionRef& session, Protocol::C_CHARACTER_SY
 	float timestamp = pkt.timestamp();
 	Protocol::CharacterInfo info = pkt.characterinfo();
 
+	uint32 id = info.id();
+
+
 	
 	return true;
 }
 
 bool Handle_C_PLAYER_INPUT(PacketSessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 {
+	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+
+	float timestamp = pkt.timestamp();
+	uint32 sequenceNumber = pkt.sequencenumber();
+	Protocol::KeyType key = pkt.keytype();
+	float deltaTime = pkt.deltatime();
+
+	float mousePosX = -1.f;
+	float mousePosY = -1.f;
+
+	if (pkt.has_mouseposx())
+		mousePosX = pkt.mouseposx();
+
+	if (pkt.has_mouseposy())
+		mousePosY = pkt.mouseposy();
+
+	auto& player = gameSession->_currentPlayer;
+
+	if (player == nullptr)
+		return false; 
+
+	player->ProcessPlayerInpuf(timestamp, sequenceNumber, key, deltaTime, Vec2(mousePosX, mousePosY));
+	
+
 	return false;
 }

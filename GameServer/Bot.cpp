@@ -16,7 +16,8 @@ void Bot::Init()
 {
 	Super::Init();
 	
-    _info.set_name("Bot" + to_string(_info.id()));
+    _info->set_name("Bot" + to_string(_info->id()));
+    _info->set_type(Protocol::ActorType::ACTOR_TYPE_BOT);
 }
 
 void Bot::Update()

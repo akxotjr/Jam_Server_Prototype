@@ -23,7 +23,13 @@ public:
 	void		AddCharacter(CharacterRef character);
 	void		RemoveCharacter(CharacterRef character);
 
+	void		BroadCastCharacterSync();
+	void		BroadcastSpawnActor();
+
+	unordered_map<uint32, CharacterRef>& GetCharacters() { return _characters; }
+
 private:
+	USE_LOCK
 	uint32									_id;
 
 	unordered_map<uint32, PlayerRef>		_players;

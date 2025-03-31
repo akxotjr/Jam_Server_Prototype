@@ -19,6 +19,7 @@ public:
 private:
 	weak_ptr<GameSession> _ownerSession;
 
+
 protected:
 	Vec2 _position = { GWinSizeX / 2, GWinSizeY / 2 };	//temp
 };

@@ -10,22 +10,22 @@
 
 void GameSession::OnConnected()
 {
-	//GSessionManager.Add(static_pointer_cast<GameSession>(shared_from_this()));
+	GSessionManager.Add(static_pointer_cast<GameSession>(shared_from_this()));
 
-	//cout << "OnConnected" << endl;
+	cout << "OnConnected" << endl;
 }
 
 void GameSession::OnDisconnected()
 {
-	//GSessionManager.Remove(static_pointer_cast<GameSession>(shared_from_this()));
+	GSessionManager.Remove(static_pointer_cast<GameSession>(shared_from_this()));
 
-	//if (_currentPlayer)
-	//{
-	//	if (auto room = _room.lock())
-	//	{
-	//		room->DoAsync(&Room::Leave, _currentPlayer);
-	//	}
-	//}
+	if (_currentPlayer)
+	{
+		if (auto room = _room.lock())
+		{
+			room->DoAsync(&Room::Leave, _currentPlayer);
+		}
+	}
 
 	_currentPlayer = nullptr;
 	//_players.clear();

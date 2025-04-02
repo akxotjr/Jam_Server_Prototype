@@ -15,20 +15,23 @@ Character::~Character()
 void Character::Init()
 {
 	Super::Init();
+	{
+		WRITE_LOCK
+		_velocity = _direction * _speed;
 
-	_velocity = _direction * _speed;
-
-	_info->set_id(GIdManager.Generate(IdType::Actor));
-	_info->set_name("character" + to_string(_info->id()));
+		_info->set_id(GIdManager.Generate(IdType::Actor));
+		_info->set_name("character" + to_string(_info->id()));
 	
-	Protocol::CharacterMovementInfo* movementInfo = new Protocol::CharacterMovementInfo();
-	movementInfo->set_positionx(_position.x);
-	movementInfo->set_positiony(_position.y);
-	movementInfo->set_velocityx(_velocity.x);
-	movementInfo->set_velocityy(_velocity.y);
-	movementInfo->set_speed(_speed);   
+		Protocol::CharacterMovementInfo* movementInfo = new Protocol::CharacterMovementInfo();
+		movementInfo->set_positionx(_position.x);
+		movementInfo->set_positiony(_position.y);
+		movementInfo->set_velocityx(_velocity.x);
+		movementInfo->set_velocityy(_velocity.y);
+		movementInfo->set_speed(_speed);   
 
-	_info->set_allocated_movementinfo(movementInfo);
+		_info->set_allocated_movementinfo(movementInfo);
+	}
+
 }
 
 void Character::Update()
@@ -46,17 +49,16 @@ void Character::SetInfo(Protocol::CharacterInfo* info)
 
 Protocol::CharacterInfo* Character::GetInfo()
 {
-	// todo
-	Protocol::CharacterMovementInfo* movementInfo = new Protocol::CharacterMovementInfo();
+	auto movementInfo = _info->mutable_movementinfo();
 
 	movementInfo->set_positionx(_position.x);
-	movementInfo->set_positionx(_position.y);
-	movementInfo->set_positionx(_velocity.x);
-	movementInfo->set_positionx(_velocity.y);
+	movementInfo->set_positiony(_position.y);
+	movementInfo->set_velocityx(_velocity.x);
+	movementInfo->set_velocityy(_velocity.y);
 
-	_info->set_allocated_movementinfo(movementInfo);
 	return _info;
 }
+
 
 void Character::SendSyncToServer()
 {

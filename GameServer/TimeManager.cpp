@@ -20,4 +20,6 @@ void TimeManager::Update()
 	_serverTime += _deltaTime;
 
 	_prevCount = currentCount;
+
+	//std::cout << "ServerTime : " << _serverTime << std::endl;
 }

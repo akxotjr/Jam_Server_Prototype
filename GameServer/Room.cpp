@@ -10,24 +10,18 @@
 
 void Room::Update()
 {
-	//if (!_players.empty())
-	//{
-	//	for (auto& [id, player] : _players)
-	//	{
-	//		player->Update();
-	//	}
-	//}
-
-
 	for (auto& [id, character] : _characters)
 	{
-		character->Update();
+		if (character)
+		{
+			character->Update();
+		}
 	}
 
 	float deltaTime = GTimeManager.GetDeltaTime();
 	_sumTime += deltaTime;
 
-	if (_sumTime > 0.05f) 
+	if (_sumTime >= 0.05f) 
 	{
 		BroadCastCharacterSync();
 		_sumTime = 0.f;
@@ -38,6 +32,7 @@ void Room::Enter(PlayerRef player)
 {
 	WRITE_LOCK
 	_players[player->GetInfo()->id()] = player;
+	_characters[player->GetInfo()->id()] = player;
 }
 
 void Room::Leave(PlayerRef player)
@@ -93,11 +88,17 @@ void Room::BroadcastSpawnActor()
 {
 	for (auto& [id, player] : _players)
 	{
+		if (!player)
+		{
+			continue;
+		}
+
 		auto session = player->GetOwnerSession();
 
-
-
 		Protocol::S_SPAWN_ACTOR pkt;
+
+		uint32 id = player->GetInfo()->id();
+		pkt.set_playerid(id);
 
 		for (auto& [i, character] : _characters)
 		{

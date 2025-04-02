@@ -35,6 +35,6 @@ private:
 	unordered_map<uint32, PlayerRef>		_players;
 	unordered_map<uint32, CharacterRef>		_characters; // character doesn't have asession
 
-	float _sumTime = 0.f;
+	Atomic<float> _sumTime = 0.f;
 };
 

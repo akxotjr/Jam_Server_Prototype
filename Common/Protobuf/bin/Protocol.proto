@@ -51,7 +51,8 @@ message C_SPAWN_ACTOR
 
 message S_SPAWN_ACTOR
 {
-	repeated CharacterInfo characterInfo = 1;
+	uint32 playerId = 1;
+	repeated CharacterInfo characterInfo = 2;
 }
 
 message C_CHARACTER_SYNC
@@ -78,5 +79,6 @@ message C_PLAYER_INPUT
 
 message S_PLAYER_INPUT
 {
-
+	uint32 sequenceNumber = 1;
+	CharacterInfo CharacterInfo = 2;
 }

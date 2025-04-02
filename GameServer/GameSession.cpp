@@ -42,5 +42,5 @@ void GameSession::OnRecvPacket(BYTE* buffer, int32 len)
 
 void GameSession::OnSend(int32 len)
 {
-	std::cout << "On Send" << std::endl;
+	//std::cout << "On Send" << std::endl;
 }

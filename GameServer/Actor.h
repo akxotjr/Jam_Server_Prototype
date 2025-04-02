@@ -17,6 +17,7 @@ public:
 	GameSessionRef GetOwnerSession() { return _ownerSession.lock(); }
 
 private:
+
 	weak_ptr<GameSession> _ownerSession;
 
 

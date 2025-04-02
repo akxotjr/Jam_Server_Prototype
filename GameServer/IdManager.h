@@ -20,6 +20,11 @@ public:
 
 	uint32 Generate(IdType type)
 	{
+		if (type == IdType::Actor)
+		{
+			uint32 a = _idPools[static_cast<uint32>(type)];
+			int b = 0;
+		}
 		return _idPools[static_cast<uint32>(type)]++;
 	}
 

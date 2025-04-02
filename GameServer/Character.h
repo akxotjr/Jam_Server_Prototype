@@ -17,10 +17,14 @@ public:
 
 	void SendSyncToServer();
 
+private:
+	USE_LOCK	//temp 
+
 protected:
+
 	Vec2		_direction = {0.f, 0.f};
 	Vec2		_velocity = {};
-	float		_speed = 1000.f;
+	float		_speed = 300.f;
 
 	Protocol::CharacterInfo* _info;
 };

@@ -67,13 +67,14 @@ int main()
 	}
 
 	// Main Thread
-	//DoWorkerJob(service);
 
 	
 	while (true)
 	{
 		GTimeManager.Update();
 		GRoomManager.Update();
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
 
 	GThreadManager->Join();

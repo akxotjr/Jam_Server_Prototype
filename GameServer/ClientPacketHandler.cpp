@@ -20,6 +20,11 @@ bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 
 	{
+		if (gameSession->_currentPlayer)
+		{
+			return false;
+		}
+
 		PlayerRef player = MakeShared<Player>();
 		player->SetOwnerSession(gameSession);
 		player->Init();
@@ -50,7 +55,6 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 
 	gameSession->_room = GRoomManager.GetRoomById(1);	// temp
 	gameSession->_room.lock()->DoAsync(&Room::Enter, gameSession->_currentPlayer);
-	gameSession->_room.lock()->DoAsync(&Room::AddCharacter, static_pointer_cast<Character>(gameSession->_currentPlayer));
 
 	{
 		Protocol::S_ENTER_GAME enterGamePkt;
@@ -91,25 +95,28 @@ bool Handle_C_SPAWN_ACTOR(PacketSessionRef& session, Protocol::C_SPAWN_ACTOR& pk
 {
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 
-	auto& player = gameSession->_currentPlayer;
+	//auto& player = gameSession->_currentPlayer;
 
-	if (player == nullptr)
-	{
-		return false;
-	}
+	//if (player == nullptr)
+	//{
+	//	return false;
+	//}
 
-	auto& characters = gameSession->_room.lock()->GetCharacters();
+	//auto& characters = gameSession->_room.lock()->GetCharacters();
 
-	Protocol::S_SPAWN_ACTOR spawnActorPkt;
+	//Protocol::S_SPAWN_ACTOR spawnActorPkt;
 
-	for (auto& [id, character] : characters)
-	{
-		Protocol::CharacterInfo* info = spawnActorPkt.add_characterinfo();
-		info->CopyFrom(*character->GetInfo());
-	}
+	//for (auto& [id, character] : characters)
+	//{
+	//	Protocol::CharacterInfo* info = spawnActorPkt.add_characterinfo();
+	//	info->CopyFrom(*character->GetInfo());
+	//}
 
-	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(spawnActorPkt);
-	session->Send(sendBuffer);
+	//auto sendBuffer = ClientPacketHandler::MakeSendBuffer(spawnActorPkt);
+	//session->Send(sendBuffer);
+
+	gameSession->_room = GRoomManager.GetRoomById(1);	// temp
+	gameSession->_room.lock()->BroadcastSpawnActor();
 	
 
 	return true;
@@ -152,6 +159,16 @@ bool Handle_C_PLAYER_INPUT(PacketSessionRef& session, Protocol::C_PLAYER_INPUT& 
 
 	player->ProcessPlayerInpuf(timestamp, sequenceNumber, key, deltaTime, Vec2(mousePosX, mousePosY));
 	
+	{
+		Protocol::S_PLAYER_INPUT inputPkt;
+		inputPkt.set_sequencenumber(player->GetLastSequence());
+		auto characterInfo = inputPkt.mutable_characterinfo();
+		characterInfo->CopyFrom(*player->GetInfo());
+
+		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(inputPkt);
+
+		session->Send(sendBuffer);
+	}
 
 	return false;
 }

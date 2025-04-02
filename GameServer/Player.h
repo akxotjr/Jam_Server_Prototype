@@ -13,6 +13,7 @@ public:
 	virtual void Update();
 
 	void ProcessPlayerInpuf(float timestamp, uint32 sequenceNumber, Protocol::KeyType key, float deltaTime, Vec2 targetPos);
+	uint32 GetLastSequence() { return _lastProcessSequence; }
 
 private:
 	uint32 _lastProcessSequence;

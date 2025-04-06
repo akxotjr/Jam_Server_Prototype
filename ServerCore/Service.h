@@ -36,6 +36,8 @@ public:
 	int32				GetCurrentSessionCount() { return _sessionCount; }
 	int32				GetMaxSessionCount() { return _maxSessionCount; }
 
+	SessionRef			FindOrCreateUdpSession(NetAddress from);
+
 public:
 	ServiceType			GetServiceType() { return _type; }
 	NetAddress			GetNetAddress() { return _netAddress; }
@@ -52,6 +54,8 @@ protected:
 	int32				_sessionCount = 0;
 	int32				_maxSessionCount = 0;
 	SessionFactory		_sessionFactory;
+
+	unordered_map<NetAddress, SessionRef> _udpSessions;
 };
 
 /*-----------------
@@ -82,5 +86,7 @@ public:
 
 private:
 	ListenerRef			_listener = nullptr;
+
+
 };
 

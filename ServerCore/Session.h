@@ -140,6 +140,7 @@ private:
 	Queue<SendBufferRef>	_sendQueue;
 	Atomic<bool>			_sendRegistered = false;
 
+	NetAddress				_fromAddr;
 
 private:
 	RecvEvent				_recvEvent;

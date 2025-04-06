@@ -34,6 +34,6 @@ private:
 protected:
 	SOCKET					_socket = INVALID_SOCKET;
 	Vector<AcceptEvent*>	_acceptEvents;
-	ServerServiceRef		_service;
+	ServerServiceRef		_service;	// todo circular
 };
 

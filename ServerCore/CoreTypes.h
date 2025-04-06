@@ -24,6 +24,8 @@ using LockGuard				= std::lock_guard<std::mutex>;
 USING_SHARED_PTR(IocpCore);
 USING_SHARED_PTR(IocpObject);
 USING_SHARED_PTR(Session);
+USING_SHARED_PTR(TcpSession);
+USING_SHARED_PTR(ReliableUdpSession);
 USING_SHARED_PTR(PacketSession);
 USING_SHARED_PTR(Listener);
 USING_SHARED_PTR(Service)
@@ -31,6 +33,7 @@ USING_SHARED_PTR(ServerService);
 USING_SHARED_PTR(ClientService);
 USING_SHARED_PTR(SendBuffer);
 USING_SHARED_PTR(SendBufferChunk);
+USING_SHARED_PTR(RecvBuffer);
 USING_SHARED_PTR(Job);
 USING_SHARED_PTR(JobQueue);
 

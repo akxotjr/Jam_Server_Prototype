@@ -28,7 +28,7 @@ bool Listener::StartAccept(ServerServiceRef service)
 		return false;
 
 
-	_socket = SocketUtils::CreateSocket();
+	_socket = SocketUtils::CreateSocket(ProtocolType::PROTOCOL_TCP);
 	if (_socket == INVALID_SOCKET)
 		return false;
 

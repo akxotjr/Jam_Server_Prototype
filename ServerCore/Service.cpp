@@ -55,6 +55,12 @@ void Service::ReleaseSession(SessionRef session)
 	_sessionCount--;
 }
 
+ReliableUdpSessionRef Service::FindOrCreateUdpSession(NetAddress from)
+{
+	// TODO
+	return ReliableUdpSessionRef();
+}
+
 
 /*-----------------
    ClientService

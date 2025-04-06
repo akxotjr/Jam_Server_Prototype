@@ -5,6 +5,12 @@
 	SocketUtils
 -----------------*/
 
+enum class ProtocolType
+{
+	PROTOCOL_TCP,
+	PROTOCOL_UDP
+};
+
 class SocketUtils
 {
 public:
@@ -17,7 +23,7 @@ public:
 	static void Clear();
 
 	static bool BindWindowsFunction(SOCKET socket, GUID guid, LPVOID* fn);
-	static SOCKET CreateSocket();
+	static SOCKET CreateSocket(ProtocolType protocol);
 
 	static bool SetLinger(SOCKET socket, uint16 onoff, uint16 linger);
 	static bool SetReuseAddress(SOCKET socket, bool flag);

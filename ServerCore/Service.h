@@ -36,7 +36,7 @@ public:
 	int32				GetCurrentSessionCount() { return _sessionCount; }
 	int32				GetMaxSessionCount() { return _maxSessionCount; }
 
-	SessionRef			FindOrCreateUdpSession(NetAddress from);
+	ReliableUdpSessionRef			FindOrCreateUdpSession(NetAddress from);
 
 public:
 	ServiceType			GetServiceType() { return _type; }

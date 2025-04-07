@@ -102,6 +102,19 @@ private:
 	 ReliableUdpSession
 ---------------------------*/
 
+struct UdpPacketHeader : public PacketHeader
+{
+	uint16 sequence;
+};
+
+struct PendingPacket
+{
+	SendBufferRef buffer;
+	uint16 sequence;
+	uint64 timestamp;
+	uint32 retryCount = 0;
+};
+
 class ReliableUdpSession : public Session
 {
 	enum { BUFFER_SIZE = 0x10000 }; // 64KB
@@ -114,6 +127,10 @@ public:
 	virtual bool			Connect() override;
 	virtual void			Disconnect(const WCHAR* cause) override;
 	virtual void			Send(SendBufferRef sendBuffer) override;
+	virtual void			SendReliable(SendBufferRef sendBuffer, float timestamp);
+
+	virtual void			OnHandshake(BYTE* buffer, int32 len) {};
+	void					HandleAck(uint16 ackSeq);
 
 private:
 	/* Iocp Object */
@@ -124,14 +141,13 @@ private:
 	void					RegisterSend();
 	void					RegisterRecv();
 
-	void					ProcessConnect();
-	void					ProcessDisconnect();
 	void					ProcessSend(int32 numOfBytes);
 	void					ProcessRecv(int32 numOfBytes);
 
-	void					Update();
+	void					Update(float serverTime);
 
 	void					HandleError(int32 errorCode);
+	bool					IsParsingPacket(BYTE* buffer, int32 len);
 
 private:
 	USE_LOCK
@@ -140,7 +156,13 @@ private:
 	Queue<SendBufferRef>	_sendQueue;
 	Atomic<bool>			_sendRegistered = false;
 
-	NetAddress				_fromAddr;
+	NetAddress				_remoteAddr;
+
+protected:
+	unordered_map<uint16, PendingPacket> _pendingAckMap;
+
+	uint16 _sendSeq = 0;			// 다음 보낼 sequence
+	uint64 _resendIntervalMs = 100; // 재전송 대기 시간
 
 private:
 	RecvEvent				_recvEvent;

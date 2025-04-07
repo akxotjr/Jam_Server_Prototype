@@ -58,6 +58,12 @@ void Service::ReleaseSession(SessionRef session)
 ReliableUdpSessionRef Service::FindOrCreateUdpSession(NetAddress from)
 {
 	// TODO
+	ReliableUdpSessionRef session = MakeShared<ReliableUdpSession>();
+	session->SetNetAddress(from);
+	session->SetService(shared_from_this());
+
+
+
 	return ReliableUdpSessionRef();
 }
 

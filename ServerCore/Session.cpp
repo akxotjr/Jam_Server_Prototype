@@ -583,10 +583,10 @@ void TcpSession::ProcessSend(int32 numOfBytes)
 	OnSend(numOfBytes);
 
 	WRITE_LOCK
-		if (_sendQueue.empty())
-			_sendRegistered.store(false);
-		else
-			RegisterSend();
+	if (_sendQueue.empty())
+		_sendRegistered.store(false);
+	else
+		RegisterSend();
 }
 
 int32 TcpSession::IsParsingPacket(BYTE* buffer, const int32 len)
@@ -675,6 +675,24 @@ void ReliableUdpSession::Send(SendBufferRef sendBuffer)
 		RegisterSend();
 }
 
+void ReliableUdpSession::SendReliable(SendBufferRef sendBuffer, float timestamp)
+{
+	uint16 seq = _sendSeq++;
+
+	UdpPacketHeader* header = reinterpret_cast<UdpPacketHeader*>(sendBuffer->Buffer());
+	header->sequence = seq;
+
+	PendingPacket pkt = { sendBuffer, seq, timestamp, 0 };
+
+	{
+		WRITE_LOCK;
+		_pendingAckMap[seq] = pkt;
+	}
+
+	Send(sendBuffer);
+}
+
+
 
 HANDLE ReliableUdpSession::GetHandle()
 {
@@ -731,46 +749,130 @@ void ReliableUdpSession::RegisterSend()
 	}
 
 	DWORD numOfBytes = 0;
-	//if (SOCKET_ERROR == ::WSASend(_socket, wsaBufs.data(), static_cast<DWORD>(wsaBufs.size()), OUT & numOfBytes, 0, &_sendEvent, nullptr))
-	//{
-	//	const int32 errorCode = ::WSAGetLastError();
-	//	if (errorCode != WSA_IO_PENDING)
-	//	{
-	//		HandleError(errorCode);
-	//		_sendEvent.owner = nullptr;
-	//		_sendEvent.sendBuffers.clear();
-	//		_sendRegistered.store(false);
-	//	}
-	//}
 
-	//if (SOCKET_ERROR == ::WSASendTo(_socket, wsaBufs.data(), static_cast<DWORD>(wsaBufs.size()), OUT &numOfBytes, 0, ))
-	//{
-	//	
-	//}
+	if (SOCKET_ERROR == ::WSASendTo(_socket, wsaBufs.data(), static_cast<DWORD>(wsaBufs.size()), OUT &numOfBytes, 0, reinterpret_cast<SOCKADDR*>(&_remoteAddr.GetSockAddr()), sizeof(SOCKADDR_IN), &_sendEvent, nullptr))
+	{
+		const int32 errorCode = ::WSAGetLastError();
+		if (errorCode != WSA_IO_PENDING)
+		{
+			HandleError(errorCode);
+			_sendEvent.owner = nullptr;
+			_sendEvent.sendBuffers.clear();
+			_sendRegistered.store(false);
+		}
+	}
 }
 
 void ReliableUdpSession::RegisterRecv()
 {
-}
+	int32 fromLen = sizeof(_remoteAddr.GetSockAddr());
 
-void ReliableUdpSession::ProcessConnect()
-{
-}
+	_recvEvent.Init();
+	_recvEvent.owner = shared_from_this();
 
-void ReliableUdpSession::ProcessDisconnect()
-{
+	WSABUF wsaBuf = { _recvBuffer.FreeSize(), reinterpret_cast<CHAR*>(_recvBuffer.WritePos()) };
+	DWORD numOfBytes = 0;
+	DWORD flags = 0;
+
+	if (SOCKET_ERROR == ::WSARecvFrom(_socket, &wsaBuf, 1, OUT &numOfBytes, OUT& flags, reinterpret_cast<SOCKADDR*>(&_remoteAddr.GetSockAddr()), OUT &fromLen, &_recvEvent, nullptr));
+	{
+		const int errorCode = ::WSAGetLastError();
+		if (errorCode != WSA_IO_PENDING)
+		{
+			std::cout << "WSARecvFrom failed: " << errorCode << std::endl;
+			_recvEvent.owner = nullptr;
+		}
+	}
+
 }
 
 void ReliableUdpSession::ProcessSend(int32 numOfBytes)
 {
+	_sendEvent.owner = nullptr;
+	_sendEvent.sendBuffers.clear();
+
+	if (numOfBytes == 0)
+	{
+		Disconnect(L"Send 0 byte");
+		return;
+	}
+
+	OnSend(numOfBytes);
+
+	WRITE_LOCK
+	if (_sendQueue.empty())
+		_sendRegistered.store(false);
+	else
+		RegisterSend();
 }
 
 void ReliableUdpSession::ProcessRecv(int32 numOfBytes)
 {
+	_recvEvent.owner = nullptr;
+
+	if (_recvBuffer.OnWrite(numOfBytes) == false)
+	{
+		return;
+	}
+
+	const int32 dataSize = _recvBuffer.DataSize();
+	const int32 processLen = IsParsingPacket(_recvBuffer.ReadPos(), dataSize);
+
+	if (processLen < 0 || dataSize < processLen || _recvBuffer.OnRead(processLen) == false)
+	{
+		return;
+	}
+
+	_recvBuffer.Clean();
+
+	RegisterRecv();
+	return;
 }
 
-void ReliableUdpSession::Update()
+void ReliableUdpSession::Update(float serverTime)
 {
+	Vector<uint16> resendList;
+
+	{
+		WRITE_LOCK
+
+		for (auto& [seq, pkt] : _pendingAckMap)
+		{
+			uint64 elapsed = serverTime - pkt.timestamp;
+
+			if (elapsed >= _resendIntervalMs)
+			{
+				pkt.timestamp = serverTime;
+				pkt.retryCount++;
+
+				resendList.push_back(seq);
+			}
+
+			if (pkt.retryCount > 5)
+			{
+				std::cout << "[ReliableUDP] Max retry reached. Disconnecting.\n";
+				Disconnect(L"Too many retries");
+				continue;
+			}
+		}
+	}
+
+	// 락 밖에서 재전송 호출
+	for (uint16 seq : resendList)
+	{
+		auto it = _pendingAckMap.find(seq);
+		if (it != _pendingAckMap.end())
+		{
+			std::cout << "[ReliableUDP] Re-sending seq: " << seq << "\n";
+			Send(it->second.buffer);
+		}
+	}
+}
+
+void ReliableUdpSession::HandleAck(uint16 ackSeq)
+{
+	WRITE_LOCK;
+	_pendingAckMap.erase(ackSeq);
 }
 
 void ReliableUdpSession::HandleError(int32 errorCode)
@@ -785,4 +887,26 @@ void ReliableUdpSession::HandleError(int32 errorCode)
 		cout << "Handle Error : " << errorCode << '\n';
 		break;
 	}
+}
+
+bool ReliableUdpSession::IsParsingPacket(BYTE* buffer, const int32 len)
+{
+	int32 processLen = 0;
+
+	while (true)
+	{
+		int32 dataSize = len - processLen;
+
+		if (dataSize < sizeof(UdpPacketHeader))
+			break;
+
+		UdpPacketHeader header = *reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
+
+		if (dataSize < header.size)
+			break;
+
+		OnRecv(&buffer[0], header.size);
+		processLen += header.size;
+	}
+	return processLen;
 }

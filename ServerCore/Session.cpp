@@ -767,7 +767,6 @@ void ReliableUdpSession::ProcessSend(int32 numOfBytes)
 
 void ReliableUdpSession::ProcessRecv(int32 numOfBytes)
 {
-
 }
 
 void ReliableUdpSession::Update()

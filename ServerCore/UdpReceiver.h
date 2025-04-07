@@ -19,7 +19,8 @@ public:
 
 private:
     void                RegisterRecv();
-    int32               IsParsingPacket(BYTE* buffer, const int32 len);
+    bool                ProcessRecv(int32 numOfBytes, ReliableUdpSessionRef session);
+    int32               IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSessionRef session);
 
 private:
     SOCKET                      _socket = INVALID_SOCKET;

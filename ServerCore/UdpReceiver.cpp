@@ -30,8 +30,6 @@ bool UdpReceiver::Start(ServiceRef service)
     if (SocketUtils::Bind(_socket, _service.lock()->GetNetAddress()) == false)
         return false;
 
-    if (SocketUtils::Listen(_socket) == false)
-        return false;
 
     RegisterRecv();
     return true;
@@ -54,20 +52,19 @@ void UdpReceiver::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
         return;
 
 
-    NetAddress from(_fromAddr);     // _fromAddr 이 바뀌는 경우는? 
+    NetAddress from(_fromAddr);
     auto service = _service.lock();
     if (service == nullptr)
         return;
 
     auto session = service->FindOrCreateUdpSession(from);
-    // TODO
 
-    RegisterRecv();
+    ProcessRecv(numOfBytes, session);
 }
 
 void UdpReceiver::RegisterRecv()
 {
-    int fromLen = sizeof(_fromAddr);
+    int32 fromLen = sizeof(_fromAddr);
 
     _recvEvent.Init();
     _recvEvent.owner = shared_from_this();
@@ -80,7 +77,7 @@ void UdpReceiver::RegisterRecv()
     if (SOCKET_ERROR == ::WSARecvFrom(_socket, &wsaBuf, 1, OUT &numOfBytes, OUT& flags, reinterpret_cast<SOCKADDR*>(&_fromAddr), OUT &fromLen, &_recvEvent, nullptr))
     {
         const int errorCode = ::WSAGetLastError();
-        if (errorCode == WSA_IO_PENDING)
+        if (errorCode != WSA_IO_PENDING)
         {
             std::cout << "WSARecvFrom failed: " << errorCode << std::endl;
             _recvEvent.owner = nullptr;
@@ -88,7 +85,30 @@ void UdpReceiver::RegisterRecv()
     }
 }
 
-int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len)
+bool UdpReceiver::ProcessRecv(int32 numOfBytes, ReliableUdpSessionRef session)
+{
+    _recvEvent.owner = nullptr;
+
+    if (_recvBuffer.OnWrite(numOfBytes) == false)
+    {
+        return false;
+    }
+
+    const int32 dataSize = _recvBuffer.DataSize();
+    const int32 processLen = IsParsingPacket(_recvBuffer.ReadPos(), dataSize, session);
+
+    if (processLen < 0 || dataSize < processLen || _recvBuffer.OnRead(processLen) == false)
+    {
+        return false;
+    }
+
+    _recvBuffer.Clean();
+
+    RegisterRecv();
+    return true;
+}
+
+int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSessionRef session)
 {
     int32 processLen = 0;
 
@@ -96,18 +116,15 @@ int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len)
     {
         int32 dataSize = len - processLen;
 
-        // 최소한 헤더는 파싱할 수 있어야 한다.
         if (dataSize < sizeof(PacketHeader))
             break;
 
         PacketHeader header = *reinterpret_cast<PacketHeader*>(&buffer[processLen]);
 
-        // 헤더에 기록된 패킷 크기를 파싱할 수 있어야 한다.
         if (dataSize < header.size)
             break;
 
-        // 패킷 조립 성공
-        //OnRecv(&buffer[0], header.size);
+        session->OnHandshake(&buffer[0], header.size);
         processLen += header.size;
     }
     return processLen;

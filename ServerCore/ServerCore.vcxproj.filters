@@ -117,6 +117,9 @@
     <ClInclude Include="JobTimer.h">
       <Filter>Job</Filter>
     </ClInclude>
+    <ClInclude Include="UdpReceiver.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -199,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="JobTimer.cpp">
       <Filter>Job</Filter>
+    </ClCompile>
+    <ClCompile Include="UdpReceiver.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

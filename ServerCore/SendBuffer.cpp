@@ -94,7 +94,6 @@ SendBufferRef SendBufferManager::Open(uint32 size)
 
 SendBufferChunkRef SendBufferManager::Pop()
 {
-	//cout << "POP SENDBUFFERCHUNK" << endl;
 	{
 		WRITE_LOCK;
 		if (_sendBufferChunks.empty() == false)

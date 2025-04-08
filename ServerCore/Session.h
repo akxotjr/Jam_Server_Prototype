@@ -43,6 +43,7 @@ protected:
 protected:
 	SOCKET					_socket = INVALID_SOCKET;
 	Atomic<bool>			_connected = false;
+
 private:
 	weak_ptr<Service>		_service;
 	NetAddress				_netAddress = {};
@@ -122,8 +123,6 @@ struct PendingPacket
 class ReliableUdpSession : public Session
 {
 	enum { BUFFER_SIZE = 0x10000 }; // 64KB
-
-
 
 public:
 	ReliableUdpSession();

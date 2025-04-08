@@ -62,8 +62,6 @@ ReliableUdpSessionRef Service::FindOrCreateUdpSession(NetAddress from)
 	session->SetNetAddress(from);
 	session->SetService(shared_from_this());
 
-
-
 	return session;
 }
 

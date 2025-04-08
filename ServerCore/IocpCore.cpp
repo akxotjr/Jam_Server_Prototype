@@ -11,7 +11,7 @@ IocpCore GIocpCore;
 
 IocpCore::IocpCore()
 {
-	_iocpHandle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
+	_iocpHandle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, 0, 0);
 	ASSERT_CRASH(_iocpHandle != INVALID_HANDLE_VALUE);
 }
 
@@ -40,8 +40,8 @@ bool IocpCore::Dispatch(uint32 timeoutMs)
 	}
 	else
 	{
-		int32 errCode = ::WSAGetLastError();
-		switch (errCode)
+		const int32 errorCode = ::WSAGetLastError();
+		switch (errorCode)
 		{
 		case WAIT_TIMEOUT:
 			return false;

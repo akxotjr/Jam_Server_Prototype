@@ -682,7 +682,7 @@ void ReliableUdpSession::SendReliable(SendBufferRef sendBuffer, float timestamp)
 	UdpPacketHeader* header = reinterpret_cast<UdpPacketHeader*>(sendBuffer->Buffer());
 	header->sequence = seq;
 
-	PendingPacket pkt = { sendBuffer, seq, timestamp, 0 };
+	PendingPacket pkt = { .buffer= sendBuffer, .sequence= seq, .timestamp= timestamp, .retryCount= 0};
 
 	{
 		WRITE_LOCK;
@@ -838,7 +838,7 @@ void ReliableUdpSession::Update(float serverTime)
 
 		for (auto& [seq, pkt] : _pendingAckMap)
 		{
-			uint64 elapsed = serverTime - pkt.timestamp;
+			float elapsed = serverTime - pkt.timestamp;
 
 			if (elapsed >= _resendIntervalMs)
 			{

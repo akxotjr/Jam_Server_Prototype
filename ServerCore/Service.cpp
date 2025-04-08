@@ -64,7 +64,7 @@ ReliableUdpSessionRef Service::FindOrCreateUdpSession(NetAddress from)
 
 
 
-	return ReliableUdpSessionRef();
+	return session;
 }
 
 
@@ -72,30 +72,30 @@ ReliableUdpSessionRef Service::FindOrCreateUdpSession(NetAddress from)
    ClientService
 ------------------*/
 
-ClientService::ClientService(NetAddress targetAddress, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount)
-	: Service(ServiceType::Client, targetAddress, core, factory, maxSessionCount)
-{
-}
-
-ClientService::~ClientService()
-{
-}
-
-bool ClientService::Start()
-{
-	if (CanStart() == false) return false;
-
-	const int32 sessionCount = GetMaxSessionCount();
-
-	for (int32 i = 0; i < sessionCount; i++)
-	{
-		SessionRef session = CreateSession();
-		if (session->Conenect() == false)
-			return false;
-	}
-
-	return true;
-}
+//ClientService::ClientService(NetAddress targetAddress, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount)
+//	: Service(ServiceType::Client, targetAddress, core, factory, maxSessionCount)
+//{
+//}
+//
+//ClientService::~ClientService()
+//{
+//}
+//
+//bool ClientService::Start()
+//{
+//	if (CanStart() == false) return false;
+//
+//	const int32 sessionCount = GetMaxSessionCount();
+//
+//	for (int32 i = 0; i < sessionCount; i++)
+//	{
+//		SessionRef session = CreateSession();
+//		if (session->Conenect() == false)
+//			return false;
+//	}
+//
+//	return true;
+//}
 
 
 /*-----------------

@@ -55,21 +55,21 @@ protected:
 	int32				_maxSessionCount = 0;
 	SessionFactory		_sessionFactory;
 
-	unordered_map<NetAddress, SessionRef> _udpSessions;
+	//unordered_map<NetAddress, SessionRef> _udpSessions;
 };
 
 /*-----------------
    ClientService
 ------------------*/
 
-class ClientService : public Service
-{
-public:
-	ClientService(NetAddress targetAddress, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount = 1);
-	virtual ~ClientService();
-
-	virtual bool	Start() override;
-};
+//class ClientService : public Service
+//{
+//public:
+//	ClientService(NetAddress targetAddress, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount = 1);
+//	virtual ~ClientService();
+//
+//	virtual bool	Start() override;
+//};
 
 /*-----------------
     ServerService
@@ -86,7 +86,5 @@ public:
 
 private:
 	ListenerRef			_listener = nullptr;
-
-
 };
 

@@ -53,6 +53,10 @@ class TcpSession : public Session
 {
 	enum { BUFFER_SIZE = 0x10000 }; // 64KB
 
+	friend class Listener;
+	friend class IocpCore;
+	friend class Service;
+
 public:
 	TcpSession();
 	virtual ~TcpSession();
@@ -111,13 +115,15 @@ struct PendingPacket
 {
 	SendBufferRef buffer;
 	uint16 sequence;
-	uint64 timestamp;
+	float timestamp;
 	uint32 retryCount = 0;
 };
 
 class ReliableUdpSession : public Session
 {
 	enum { BUFFER_SIZE = 0x10000 }; // 64KB
+
+
 
 public:
 	ReliableUdpSession();
@@ -161,8 +167,8 @@ private:
 protected:
 	unordered_map<uint16, PendingPacket> _pendingAckMap;
 
-	uint16 _sendSeq = 0;			// 다음 보낼 sequence
-	uint64 _resendIntervalMs = 100; // 재전송 대기 시간
+	uint16					_sendSeq = 0;			// 다음 보낼 sequence
+	float					_resendIntervalMs = 0.1f; // 재전송 대기 시간
 
 private:
 	RecvEvent				_recvEvent;

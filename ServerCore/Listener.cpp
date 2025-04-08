@@ -78,7 +78,7 @@ void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 {
-	SessionRef session = _service->CreateSession();
+	TcpSessionRef session = static_pointer_cast<TcpSession>(_service->CreateSession());
 
 	acceptEvent->Init();
 	acceptEvent->session = session;
@@ -96,7 +96,7 @@ void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 
 void Listener::ProcessAccept(AcceptEvent* acceptEvent)
 {
-	SessionRef session = acceptEvent->session;
+	TcpSessionRef session = acceptEvent->session;
 
 	if (false == SocketUtils::SetUpdateAcceptSocket(session->GetSocket(), _socket))
 	{

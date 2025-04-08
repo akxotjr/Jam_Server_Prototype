@@ -12,11 +12,11 @@ bool UdpReceiver::Start(ServiceRef service)
 {
     _service = service;
     if (_service.lock() == nullptr)
-        return;
+        return false;
 
     _socket = SocketUtils::CreateSocket(ProtocolType::PROTOCOL_UDP);
     if (_socket == INVALID_SOCKET)
-        return;
+        return false;
 
     if (_service.lock()->GetIocpCore()->Register(shared_from_this()) == false)
         return false;

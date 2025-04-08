@@ -58,7 +58,7 @@ public:
 	AcceptEvent() : IocpEvent(EventType::Accept) { }
 
 public:
-	SessionRef session = nullptr;
+	TcpSessionRef session = nullptr;
 };
 
 /*----------------

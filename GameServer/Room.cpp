@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "GameSession.h"
+#include "GameTcpSession.h"
 #include "Room.h"
 #include "Character.h"
 #include "Player.h"
@@ -79,7 +79,7 @@ void Room::BroadCastCharacterSync()
 			info->CopyFrom(*character->GetInfo()); 
 		}
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(pkt);
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(pkt);
 		session->Send(sendBuffer);
 	}
 }
@@ -106,7 +106,7 @@ void Room::BroadcastSpawnActor()
 			info->CopyFrom(*character->GetInfo());
 		}
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(pkt);
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(pkt);
 		session->Send(sendBuffer);
 	}
 }

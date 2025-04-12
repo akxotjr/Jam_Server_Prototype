@@ -1,50 +1,52 @@
 #include "pch.h"
 #include "ClientPacketHandler.h"
 #include "TimeManager.h"
-#include "GameSession.h"
+#include "GameTcpSession.h"
+#include "GameUdpSession.h"
 #include "Room.h"
 #include "RoomManager.h"
 #include "IdManager.h"
 #include "Player.h"
 #include "Bot.h"
 
-PacketHandlerFunc GPacketHandler[UINT16_MAX];
+PacketHandlerFunc GPacketHandler_Tcp[UINT16_MAX];
+PacketHandlerFunc GPacketHandler_Udp[UINT16_MAX];
 
-bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len)
+bool Handle_INVALID(SessionRef& session, BYTE* buffer, int32 len)
 {
 	return true;
 }
 
-bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
+bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt)
 {
-	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+	GameTcpSessionRef gameTcpSession = static_pointer_cast<GameTcpSession>(session);
 
 	{
-		if (gameSession->_currentPlayer)
+		if (gameTcpSession->_currentPlayer)
 		{
 			return false;
 		}
 
 		PlayerRef player = MakeShared<Player>();
-		player->SetOwnerSession(gameSession);
+		player->SetOwnerSession(gameTcpSession);
 		player->Init();
 
-		gameSession->_currentPlayer = player;
+		gameTcpSession->_currentPlayer = player;
 	}
 
 
 	Protocol::S_LOGIN loginPkt;
 	loginPkt.set_success(true);
 
-	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(loginPkt);
+	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(loginPkt);
 	session->Send(sendBuffer);
 
 	return true;
 }
 
-bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
+bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
-	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+	GameTcpSessionRef gameSession = static_pointer_cast<GameTcpSession>(session);
 
 	auto& player = gameSession->_currentPlayer;
 
@@ -60,13 +62,13 @@ bool Handle_C_ENTER_GAME(PacketSessionRef& session, Protocol::C_ENTER_GAME& pkt)
 		Protocol::S_ENTER_GAME enterGamePkt;
 		enterGamePkt.set_success(true);
 
-		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(enterGamePkt);
+		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(enterGamePkt);
 		session->Send(sendBuffer);
 	}
 	return true;
 }
 
-bool Handle_C_CHAT(PacketSessionRef& session, Protocol::C_CHAT& pkt)
+bool Handle_C_CHAT(SessionRef& session, Protocol::C_CHAT& pkt)
 {
 	auto msg = pkt.msg();
 
@@ -75,7 +77,7 @@ bool Handle_C_CHAT(PacketSessionRef& session, Protocol::C_CHAT& pkt)
 	return true;
 }
 
-bool Handle_C_TIMESYNC(PacketSessionRef& session, Protocol::C_TIMESYNC& pkt)
+bool Handle_C_TIMESYNC(SessionRef& session, Protocol::C_TIMESYNC& pkt)
 {
 	// temp
 	std::cout << "Handle C_TIMESYNK" << std::endl;
@@ -84,16 +86,16 @@ bool Handle_C_TIMESYNC(PacketSessionRef& session, Protocol::C_TIMESYNC& pkt)
 
 	Protocol::S_TIMESYNC timesyncPkt;
 	timesyncPkt.set_timestamp(serverTime);
-	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(timesyncPkt);
+	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(timesyncPkt);
 
 	session->Send(sendBuffer);
 
 	return true;
 }
 
-bool Handle_C_SPAWN_ACTOR(PacketSessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
+bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 {
-	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+	GameTcpSessionRef gameSession = static_pointer_cast<GameTcpSession>(session);
 
 	//auto& player = gameSession->_currentPlayer;
 
@@ -122,7 +124,7 @@ bool Handle_C_SPAWN_ACTOR(PacketSessionRef& session, Protocol::C_SPAWN_ACTOR& pk
 	return true;
 }
 
-bool Handle_C_CHARACTER_SYNC(PacketSessionRef& session, Protocol::C_CHARACTER_SYNC& pkt)
+bool Handle_C_CHARACTER_SYNC(SessionRef& session, Protocol::C_CHARACTER_SYNC& pkt)
 {
 	float timestamp = pkt.timestamp();
 	Protocol::CharacterInfo info = pkt.characterinfo();
@@ -134,9 +136,9 @@ bool Handle_C_CHARACTER_SYNC(PacketSessionRef& session, Protocol::C_CHARACTER_SY
 	return true;
 }
 
-bool Handle_C_PLAYER_INPUT(PacketSessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
+bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 {
-	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+	GameTcpSessionRef gameSession = static_pointer_cast<GameTcpSession>(session);
 
 	float timestamp = pkt.timestamp();
 	uint32 sequenceNumber = pkt.sequencenumber();
@@ -165,7 +167,7 @@ bool Handle_C_PLAYER_INPUT(PacketSessionRef& session, Protocol::C_PLAYER_INPUT& 
 		auto characterInfo = inputPkt.mutable_characterinfo();
 		characterInfo->CopyFrom(*player->GetInfo());
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(inputPkt);
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(inputPkt);
 
 		session->Send(sendBuffer);
 	}

@@ -14,7 +14,8 @@ enum class SessionType
 
 #define USING_SHARED_PTR(name) using name##Ref = std::shared_ptr<class name>;
 
-USING_SHARED_PTR(GameSession)
+USING_SHARED_PTR(GameTcpSession)
+USING_SHARED_PTR(GameUdpSession)
 USING_SHARED_PTR(Room)
 USING_SHARED_PTR(Actor)
 USING_SHARED_PTR(Character)

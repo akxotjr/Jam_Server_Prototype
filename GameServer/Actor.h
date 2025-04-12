@@ -13,12 +13,12 @@ public:
 	void SetPosition(Vec2 pos) { _position = pos; }
 	Vec2& GetPosition() { return _position; }
 
-	void SetOwnerSession(GameSessionRef ownerSession) { _ownerSession = ownerSession; }
-	GameSessionRef GetOwnerSession() { return _ownerSession.lock(); }
+	void SetOwnerSession(GameTcpSessionRef ownerSession) { _ownerSession = ownerSession; }
+	GameTcpSessionRef GetOwnerSession() { return _ownerSession.lock(); }
 
 private:
 
-	weak_ptr<GameSession> _ownerSession;
+	weak_ptr<GameTcpSession> _ownerSession;
 
 
 protected:

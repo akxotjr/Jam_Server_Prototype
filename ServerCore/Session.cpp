@@ -598,10 +598,10 @@ int32 TcpSession::IsParsingPacket(BYTE* buffer, const int32 len)
 		int32 dataSize = len - processLen;
 
 		// 최소한 헤더는 파싱할 수 있어야 한다.
-		if (dataSize < sizeof(PacketHeader))
+		if (dataSize < sizeof(TcpPacketHeader))
 			break;
 
-		PacketHeader header = *reinterpret_cast<PacketHeader*>(&buffer[processLen]);
+		TcpPacketHeader header = *reinterpret_cast<TcpPacketHeader*>(&buffer[processLen]);
 
 		// 헤더에 기록된 패킷 크기를 파싱할 수 있어야 한다.
 		if (dataSize < header.size)
@@ -770,7 +770,10 @@ void ReliableUdpSession::RegisterRecv()
 	_recvEvent.Init();
 	_recvEvent.owner = shared_from_this();
 
-	WSABUF wsaBuf = { _recvBuffer.FreeSize(), reinterpret_cast<CHAR*>(_recvBuffer.WritePos()) };
+	WSABUF wsaBuf = {};
+	wsaBuf.len = _recvBuffer.FreeSize();
+	wsaBuf.buf = reinterpret_cast<CHAR*>(_recvBuffer.WritePos());
+
 	DWORD numOfBytes = 0;
 	DWORD flags = 0;
 

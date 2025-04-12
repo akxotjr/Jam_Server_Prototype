@@ -27,7 +27,7 @@ private:
 
 	weak_ptr<ServerService> _serverService;
 
-	unordered_map<int32, GameSessionRef> _gameSessions;  // key - SessionId, value - SessionRef
+	unordered_map<int32, GameTcpSessionRef> _gameSessions;  // key - SessionId, value - SessionRef
 	unordered_map<int32, SessionRef> _chatSessions;
 };
 

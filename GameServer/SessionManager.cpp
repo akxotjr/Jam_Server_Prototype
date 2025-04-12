@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "SessionManager.h"
-#include "GameSession.h"
+#include "GameTcpSession.h"
 
 SessionManager GSessionManager;
 
@@ -14,7 +14,7 @@ void SessionManager::Add(SessionRef session)
         switch (type)
         {
         case SessionType::GAME_SESSION:
-            _gameSessions.insert({ id, static_pointer_cast<GameSession>(session) });
+            _gameSessions.insert({ id, static_pointer_cast<GameTcpSession>(session) });
             break;
         case SessionType::CHAT_SESSION:
             _chatSessions.insert({ id, session });

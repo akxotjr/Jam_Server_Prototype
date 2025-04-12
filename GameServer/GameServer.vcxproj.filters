@@ -33,9 +33,6 @@
     <ClCompile Include="ClientPacketHandler.cpp">
       <Filter>02.Network</Filter>
     </ClCompile>
-    <ClCompile Include="GameSession.cpp">
-      <Filter>02.Network</Filter>
-    </ClCompile>
     <ClCompile Include="SessionManager.cpp">
       <Filter>02.Network</Filter>
     </ClCompile>
@@ -72,15 +69,18 @@
     <ClCompile Include="Actor.cpp">
       <Filter>03.Contents</Filter>
     </ClCompile>
+    <ClCompile Include="GameTcpSession.cpp">
+      <Filter>02.Network</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUdpSession.cpp">
+      <Filter>02.Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>99.Headers</Filter>
     </ClInclude>
     <ClInclude Include="ClientPacketHandler.h">
-      <Filter>02.Network</Filter>
-    </ClInclude>
-    <ClInclude Include="GameSession.h">
       <Filter>02.Network</Filter>
     </ClInclude>
     <ClInclude Include="Types.h">
@@ -121,6 +121,12 @@
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>03.Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUdpSession.h">
+      <Filter>02.Network</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTcpSession.h">
+      <Filter>02.Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

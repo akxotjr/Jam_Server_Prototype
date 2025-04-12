@@ -7,7 +7,7 @@
 
 class Service;
 
-struct PacketHeader
+struct TcpPacketHeader
 {
 	uint16 size;
 	uint16 id;	// Protocol ID
@@ -37,8 +37,9 @@ public:
 protected:
 	virtual void			OnConnected() {}
 	virtual void			OnDisconnected() {}
+	virtual void			OnRecv(BYTE* buffer, int32 len) {}
 	virtual void			OnSend(int32 len) {}
-	virtual int32			OnRecv(BYTE* buffer, int32 len) { return len; }
+
 
 protected:
 	SOCKET					_socket = INVALID_SOCKET;
@@ -107,8 +108,10 @@ private:
 	 ReliableUdpSession
 ---------------------------*/
 
-struct UdpPacketHeader : public PacketHeader
+struct UdpPacketHeader
 {
+	uint16 size;
+	uint16 id;
 	uint16 sequence;
 };
 

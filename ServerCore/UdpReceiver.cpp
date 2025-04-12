@@ -69,7 +69,9 @@ void UdpReceiver::RegisterRecv()
     _recvEvent.Init();
     _recvEvent.owner = shared_from_this();
 
-    WSABUF wsaBuf = { _recvBuffer.FreeSize(), reinterpret_cast<CHAR*>(_recvBuffer.WritePos()) };
+    WSABUF wsaBuf = {};
+    wsaBuf.len = _recvBuffer.FreeSize();
+    wsaBuf.buf = reinterpret_cast<CHAR*>(_recvBuffer.WritePos());
 
     DWORD numOfBytes = 0;
     DWORD flags = 0;
@@ -116,10 +118,10 @@ int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSes
     {
         int32 dataSize = len - processLen;
 
-        if (dataSize < sizeof(PacketHeader))
+        if (dataSize < sizeof(UdpPacketHeader))
             break;
 
-        PacketHeader header = *reinterpret_cast<PacketHeader*>(&buffer[processLen]);
+        UdpPacketHeader header = *reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
 
         if (dataSize < header.size)
             break;

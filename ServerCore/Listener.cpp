@@ -78,10 +78,22 @@ void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 {
-	TcpSessionRef session = static_pointer_cast<TcpSession>(_service->CreateSession());
+	TcpSessionRef session = static_pointer_cast<TcpSession>(_service->CreateSession());	// TODO : check
+
+	if (!session)
+	{
+		int a = 0;
+		_service->CreateSession();
+	}
 
 	acceptEvent->Init();
 	acceptEvent->session = session;
+
+	BYTE* a = session->_recvBuffer.WritePos();
+	if (a == nullptr)
+	{
+		int32 b = 0;
+	}
 
 	DWORD bytesReceived = 0;
 	if (false == SocketUtils::AcceptEx(_socket, session->GetSocket(), session->_recvBuffer.WritePos(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, OUT & bytesReceived, static_cast<LPOVERLAPPED>(acceptEvent)))
@@ -89,7 +101,7 @@ void Listener::RegisterAccept(AcceptEvent* acceptEvent)
 		const int32 errorCode = ::WSAGetLastError();
 		if (errorCode != WSA_IO_PENDING)
 		{
-			RegisterAccept(acceptEvent);
+			//RegisterAccept(acceptEvent);
 		}
 	}
 }
@@ -104,7 +116,7 @@ void Listener::ProcessAccept(AcceptEvent* acceptEvent)
 		return;
 	}
 
-	SOCKADDR_IN sockAddress;
+	SOCKADDR_IN sockAddress = {};
 	int32 sizeOfSockAddr = sizeof(sockAddress);
 	if (SOCKET_ERROR == ::getpeername(session->GetSocket(), OUT reinterpret_cast<SOCKADDR*>(&sockAddress), &sizeOfSockAddr))
 	{

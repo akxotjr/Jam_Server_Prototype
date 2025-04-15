@@ -3,6 +3,7 @@
 #include "TimeManager.h"
 #include "GameTcpSession.h"
 #include "GameUdpSession.h"
+#include "GameUdpReceiver.h"
 #include "Room.h"
 #include "RoomManager.h"
 #include "IdManager.h"
@@ -59,10 +60,20 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 	gameSession->_room = GRoomManager.GetRoomById(1);	// temp
 	gameSession->_room.lock()->DoAsync(&Room::Enter, gameSession->_currentPlayer);
 
+
 	auto service = gameSession->GetService();
+	if (service == nullptr) return false;
+
+	//service->SetAndStartUdpReceiver(MakeShared<GameUdpReceiver>());
+
 	NetAddress udpAddr =  service->GetUdpNetAddress();
+	if (udpAddr.IsValid() == false) return false;
+
+	wstring a = udpAddr.GetIpAddress();
+	uint32 b = udpAddr.GetPort();
+
 	string ip;
-	ip.assign(udpAddr.GetIpAddress().begin(), udpAddr.GetIpAddress().end());
+	ip.assign(a.begin(), a.end());
 	uint32 port = udpAddr.GetPort();
 
 	{
@@ -79,8 +90,8 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 
 bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
 {
-	auto udpSession = dynamic_pointer_cast<ReliableUdpSessionRef>(session);
-	if (udpSession == nullptr) return false;
+	//auto udpSession = dynamic_pointer_cast<ReliableUdpSessionRef>(session);
+	//if (udpSession == nullptr) return false;
 
 	{
 		Protocol::S_HANDSHAKE handshakePkt;

@@ -13,8 +13,10 @@ public:
 
 	SOCKADDR_IN&	GetSockAddr() { return _sockAddr; }
 	const SOCKADDR_IN& GetSockAddr() const { return _sockAddr; }
-	wstring			GetIpAddress();
-	uint16			GetPort() { return ::ntohs(_sockAddr.sin_port); }
+	wstring			GetIpAddress() const;
+	uint16			GetPort() const { return ::ntohs(_sockAddr.sin_port); }
+
+	bool			IsValid() const;
 
 public:
 	static IN_ADDR	Ip2Address(const WCHAR* ip);

@@ -2,6 +2,7 @@
 #include "ClientPacketHandler.h"
 #include "Service.h"
 #include "GameTcpSession.h"
+#include "GameUdpReceiver.h"
 #include "ThreadManager.h"
 #include "RoomManager.h"
 #include "Room.h"
@@ -56,8 +57,8 @@ int main()
 
 	ServiceRef service = MakeShared<Service>(config, MakeShared<IocpCore>(), 50, 50);
     service->SetSessionFactory([]() -> SessionRef { return MakeShared<GameTcpSession>(); });
-
 	ASSERT_CRASH(service->Start());
+	service->SetAndStartUdpReceiver(MakeShared<GameUdpReceiver>());
 
 	for (int32 i = 0; i < 5; i++)
 	{
@@ -72,7 +73,7 @@ int main()
 	while (true)
 	{
 		GTimeManager.Update();
-		GRoomManager.Update();
+		//GRoomManager.Update();
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}

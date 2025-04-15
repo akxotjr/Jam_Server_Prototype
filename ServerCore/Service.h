@@ -49,13 +49,13 @@ public:
 	int32				GetMaxUdpSessionCount() { return _maxUdpSessionCount; }
 
 
-	void				SetUdpReceiver(UdpReceiverRef udpReceiver);
+	void				SetAndStartUdpReceiver(UdpReceiverRef udpReceiver);
 
 	ReliableUdpSessionRef			FindOrCreateUdpSession(const NetAddress& from);
 	void							CompleteUdpHandshake(const NetAddress& from);
 
 public:
-	NetAddress			GetTcpNetAddress() { return _config.tcpAddress.value_or(NetAddress(L"0.0.0.0", 0));; }
+	NetAddress			GetTcpNetAddress() { return _config.tcpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
 	NetAddress			GetUdpNetAddress() { return _config.udpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
 	IocpCoreRef&		GetIocpCore() { return _iocpCore; }
 
@@ -73,8 +73,8 @@ protected:
 	unordered_map<NetAddress, ReliableUdpSessionRef>	_pendingUdpSessions;
 
 
-	//int32				_sessionCount = 0;
-	//int32				_maxSessionCount = 0;
+	int32				_sessionCount = 0;
+	int32				_maxSessionCount = 0;
 
 	int32				_tcpSessionCount = 0;
 	int32				_maxTcpSessionCount = 0;

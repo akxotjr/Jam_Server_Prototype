@@ -56,13 +56,24 @@ void Service::Broadcast(SendBufferRef sendBuffer)
 
 SessionRef Service::CreateSession()
 {
-	if (_sessionCount + 1 > _maxSessionCount)
-		return nullptr;
-
 	SessionRef session = _sessionFactory();
-
 	if (session == nullptr)
 		return nullptr;
+
+	//if (session->IsTcp())
+	//{
+	//	if (_tcpSessionCount >= _maxTcpSessionCount)
+	//		return nullptr;
+	//	else
+	//		_tcpSessionCount++;
+	//}
+	//else if (session->IsUdp())
+	//{
+	//	if (_udpSessionCount >= _maxUdpSessionCount)
+	//		return nullptr;
+	//	else
+	//		_udpSessionCount++;
+	//}
 
 	session->SetService(shared_from_this());
 
@@ -113,9 +124,9 @@ void Service::ReleaseUdpSession(ReliableUdpSessionRef session)
 	_udpSessionCount--;
 }
 
-void Service::SetUdpReceiver(UdpReceiverRef udpReceiver)
+void Service::SetAndStartUdpReceiver(UdpReceiverRef udpReceiver)
 {
-	_udpReceiver = std::move(udpReceiver);
+	_udpReceiver = udpReceiver;
 	if (_udpReceiver == nullptr)
 		return;
 
@@ -152,7 +163,7 @@ ReliableUdpSessionRef Service::FindOrCreateUdpSession(const NetAddress& from)
 
 void Service::CompleteUdpHandshake(const NetAddress& from)
 {
-	WRITE_LOCK;
+	WRITE_LOCK
 
 	auto it = _pendingUdpSessions.find(from);
 	if (it != _pendingUdpSessions.end())

@@ -31,7 +31,12 @@ bool UdpReceiver::Start(ServiceRef service)
         return false;
 
 
-    RegisterRecv();
+    const int32 maxSessionCount = _service.lock()->GetMaxUdpSessionCount();
+    for (int32 i = 0; i < maxSessionCount; i++)
+    {
+        RegisterRecv();
+    }
+
     return true;
 }
 

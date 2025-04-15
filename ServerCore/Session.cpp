@@ -572,6 +572,7 @@ void TcpSession::ProcessSend(int32 numOfBytes)
 	_sendEvent.owner = nullptr;
 	_sendEvent.sendBuffers.clear();
 
+	cout << "Send " << numOfBytes << "bytes\n";
 	if (numOfBytes == 0)
 	{
 		Disconnect(L"Send 0 byte");
@@ -595,20 +596,19 @@ int32 TcpSession::IsParsingPacket(BYTE* buffer, const int32 len)
 	{
 		int32 dataSize = len - processLen;
 
-		// 최소한 헤더는 파싱할 수 있어야 한다.
 		if (dataSize < sizeof(TcpPacketHeader))
 			break;
 
-		TcpPacketHeader header = *reinterpret_cast<TcpPacketHeader*>(&buffer[processLen]);
+		TcpPacketHeader* header = reinterpret_cast<TcpPacketHeader*>(&buffer[processLen]);
 
-		// 헤더에 기록된 패킷 크기를 파싱할 수 있어야 한다.
-		if (dataSize < header.size)
+		if (dataSize < header->size || header->size < sizeof(TcpPacketHeader))
 			break;
 
-		// 패킷 조립 성공
-		OnRecv(&buffer[0], header.size);
-		processLen += header.size;
+		OnRecv(&buffer[processLen], header->size);
+
+		processLen += header->size;
 	}
+
 	return processLen;
 }
 
@@ -901,13 +901,15 @@ bool ReliableUdpSession::IsParsingPacket(BYTE* buffer, const int32 len)
 		if (dataSize < sizeof(UdpPacketHeader))
 			break;
 
-		UdpPacketHeader header = *reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
+		UdpPacketHeader* header = reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
 
-		if (dataSize < header.size)
+		if (dataSize < header->size || header->size < sizeof(UdpPacketHeader))
 			break;
 
-		OnRecv(&buffer[0], header.size);
-		processLen += header.size;
+		OnRecv(&buffer[processLen], header->size);
+
+		processLen += header->size;
 	}
+
 	return processLen;
 }

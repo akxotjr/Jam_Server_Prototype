@@ -21,7 +21,7 @@ Listener::~Listener()
 	}
 }
 
-bool Listener::StartAccept(ServerServiceRef service)
+bool Listener::StartAccept(ServiceRef service)
 {
 	_service = service;
 	if (_service == nullptr)
@@ -41,13 +41,13 @@ bool Listener::StartAccept(ServerServiceRef service)
 	if (SocketUtils::SetLinger(_socket, 0, 0) == false)
 		return false;
 
-	if (SocketUtils::Bind(_socket, _service->GetNetAddress()) == false)
+	if (SocketUtils::Bind(_socket, _service->GetTcpNetAddress()) == false)
 		return false;
 
 	if (SocketUtils::Listen(_socket) == false)
 		return false;
 
-	const int32 acceptCount = _service->GetMaxSessionCount();
+	const int32 acceptCount = _service->GetMaxTcpSessionCount();
 	for (int32 i = 0; i < acceptCount; i++)
 	{
 		AcceptEvent* acceptEvent = xnew<AcceptEvent>();

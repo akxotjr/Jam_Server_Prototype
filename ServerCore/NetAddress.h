@@ -12,13 +12,34 @@ public:
 	NetAddress(wstring ip, uint16 port);
 
 	SOCKADDR_IN&	GetSockAddr() { return _sockAddr; }
+	const SOCKADDR_IN& GetSockAddr() const { return _sockAddr; }
 	wstring			GetIpAddress();
 	uint16			GetPort() { return ::ntohs(_sockAddr.sin_port); }
 
 public:
 	static IN_ADDR	Ip2Address(const WCHAR* ip);
 
-private:
+	bool operator==(const NetAddress& other) const
+	{
+		return _sockAddr.sin_addr.S_un.S_addr == other._sockAddr.sin_addr.S_un.S_addr &&
+			_sockAddr.sin_port == other._sockAddr.sin_port;
+	}
+
+
+public:
 	SOCKADDR_IN		_sockAddr = {};
 };
 
+
+namespace std
+{
+	template <>
+	struct hash<NetAddress>
+	{
+		size_t operator()(const NetAddress& addr) const
+		{
+			return hash<uint32_t>()(addr.GetSockAddr().sin_addr.S_un.S_addr) ^
+				(hash<uint16_t>()(addr.GetSockAddr().sin_port) << 1);
+		}
+	};
+}

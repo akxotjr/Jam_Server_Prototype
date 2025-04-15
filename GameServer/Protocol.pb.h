@@ -64,6 +64,9 @@ extern C_CHATDefaultTypeInternal _C_CHAT_default_instance_;
 class C_ENTER_GAME;
 struct C_ENTER_GAMEDefaultTypeInternal;
 extern C_ENTER_GAMEDefaultTypeInternal _C_ENTER_GAME_default_instance_;
+class C_HANDSHAKE;
+struct C_HANDSHAKEDefaultTypeInternal;
+extern C_HANDSHAKEDefaultTypeInternal _C_HANDSHAKE_default_instance_;
 class C_LOGIN;
 struct C_LOGINDefaultTypeInternal;
 extern C_LOGINDefaultTypeInternal _C_LOGIN_default_instance_;
@@ -85,6 +88,9 @@ extern S_CHATDefaultTypeInternal _S_CHAT_default_instance_;
 class S_ENTER_GAME;
 struct S_ENTER_GAMEDefaultTypeInternal;
 extern S_ENTER_GAMEDefaultTypeInternal _S_ENTER_GAME_default_instance_;
+class S_HANDSHAKE;
+struct S_HANDSHAKEDefaultTypeInternal;
+extern S_HANDSHAKEDefaultTypeInternal _S_HANDSHAKE_default_instance_;
 class S_LOGIN;
 struct S_LOGINDefaultTypeInternal;
 extern S_LOGINDefaultTypeInternal _S_LOGIN_default_instance_;
@@ -169,7 +175,7 @@ class S_TIMESYNC final : public ::google::protobuf::Message
     return reinterpret_cast<const S_TIMESYNC*>(
         &_S_TIMESYNC_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 7;
+  static constexpr int kIndexInFileMessages = 9;
   friend void swap(S_TIMESYNC& a, S_TIMESYNC& b) { a.Swap(&b); }
   inline void Swap(S_TIMESYNC* other) {
     if (other == this) return;
@@ -490,6 +496,196 @@ class S_LOGIN final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class S_HANDSHAKE final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:Protocol.S_HANDSHAKE) */ {
+ public:
+  inline S_HANDSHAKE() : S_HANDSHAKE(nullptr) {}
+  ~S_HANDSHAKE() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(S_HANDSHAKE* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(S_HANDSHAKE));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR S_HANDSHAKE(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline S_HANDSHAKE(const S_HANDSHAKE& from) : S_HANDSHAKE(nullptr, from) {}
+  inline S_HANDSHAKE(S_HANDSHAKE&& from) noexcept
+      : S_HANDSHAKE(nullptr, std::move(from)) {}
+  inline S_HANDSHAKE& operator=(const S_HANDSHAKE& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_HANDSHAKE& operator=(S_HANDSHAKE&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_HANDSHAKE& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_HANDSHAKE* internal_default_instance() {
+    return reinterpret_cast<const S_HANDSHAKE*>(
+        &_S_HANDSHAKE_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 5;
+  friend void swap(S_HANDSHAKE& a, S_HANDSHAKE& b) { a.Swap(&b); }
+  inline void Swap(S_HANDSHAKE* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_HANDSHAKE* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  S_HANDSHAKE* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<S_HANDSHAKE>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const S_HANDSHAKE& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const S_HANDSHAKE& from) { S_HANDSHAKE::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(S_HANDSHAKE* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "Protocol.S_HANDSHAKE"; }
+
+ protected:
+  explicit S_HANDSHAKE(::google::protobuf::Arena* arena);
+  S_HANDSHAKE(::google::protobuf::Arena* arena, const S_HANDSHAKE& from);
+  S_HANDSHAKE(::google::protobuf::Arena* arena, S_HANDSHAKE&& from) noexcept
+      : S_HANDSHAKE(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kSuccessFieldNumber = 1,
+  };
+  // bool success = 1;
+  void clear_success() ;
+  bool success() const;
+  void set_success(bool value);
+
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:Protocol.S_HANDSHAKE)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const S_HANDSHAKE& from_msg);
+    bool success_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S_ENTER_GAME final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:Protocol.S_ENTER_GAME) */ {
  public:
@@ -636,8 +832,26 @@ class S_ENTER_GAME final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kIpFieldNumber = 2,
     kSuccessFieldNumber = 1,
+    kPortFieldNumber = 3,
   };
+  // string ip = 2;
+  void clear_ip() ;
+  const std::string& ip() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_ip(Arg_&& arg, Args_... args);
+  std::string* mutable_ip();
+  PROTOBUF_NODISCARD std::string* release_ip();
+  void set_allocated_ip(std::string* value);
+
+  private:
+  const std::string& _internal_ip() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip(
+      const std::string& value);
+  std::string* _internal_mutable_ip();
+
+  public:
   // bool success = 1;
   void clear_success() ;
   bool success() const;
@@ -648,13 +862,23 @@ class S_ENTER_GAME final : public ::google::protobuf::Message
   void _internal_set_success(bool value);
 
   public:
+  // uint32 port = 3;
+  void clear_port() ;
+  ::uint32_t port() const;
+  void set_port(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_port() const;
+  void _internal_set_port(::uint32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Protocol.S_ENTER_GAME)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 1, 0,
-      0, 2>
+      2, 3, 0,
+      32, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -671,7 +895,9 @@ class S_ENTER_GAME final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const S_ENTER_GAME& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr ip_;
     bool success_;
+    ::uint32_t port_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -739,7 +965,7 @@ class S_CHAT final : public ::google::protobuf::Message
     return reinterpret_cast<const S_CHAT*>(
         &_S_CHAT_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 5;
+  static constexpr int kIndexInFileMessages = 7;
   friend void swap(S_CHAT& a, S_CHAT& b) { a.Swap(&b); }
   inline void Swap(S_CHAT* other) {
     if (other == this) return;
@@ -946,7 +1172,7 @@ class C_TIMESYNC final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const C_TIMESYNC*>(
         &_C_TIMESYNC_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 6;
+  static constexpr int kIndexInFileMessages = 8;
   friend void swap(C_TIMESYNC& a, C_TIMESYNC& b) { a.Swap(&b); }
   inline void Swap(C_TIMESYNC* other) {
     if (other == this) return;
@@ -1091,7 +1317,7 @@ class C_SPAWN_ACTOR final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const C_SPAWN_ACTOR*>(
         &_C_SPAWN_ACTOR_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 8;
+  static constexpr int kIndexInFileMessages = 10;
   friend void swap(C_SPAWN_ACTOR& a, C_SPAWN_ACTOR& b) { a.Swap(&b); }
   inline void Swap(C_SPAWN_ACTOR* other) {
     if (other == this) return;
@@ -1237,7 +1463,7 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
     return reinterpret_cast<const C_PLAYER_INPUT*>(
         &_C_PLAYER_INPUT_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 12;
+  static constexpr int kIndexInFileMessages = 14;
   friend void swap(C_PLAYER_INPUT& a, C_PLAYER_INPUT& b) { a.Swap(&b); }
   inline void Swap(C_PLAYER_INPUT* other) {
     if (other == this) return;
@@ -1576,6 +1802,151 @@ class C_LOGIN final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
+class C_HANDSHAKE final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:Protocol.C_HANDSHAKE) */ {
+ public:
+  inline C_HANDSHAKE() : C_HANDSHAKE(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(C_HANDSHAKE* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(C_HANDSHAKE));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR C_HANDSHAKE(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline C_HANDSHAKE(const C_HANDSHAKE& from) : C_HANDSHAKE(nullptr, from) {}
+  inline C_HANDSHAKE(C_HANDSHAKE&& from) noexcept
+      : C_HANDSHAKE(nullptr, std::move(from)) {}
+  inline C_HANDSHAKE& operator=(const C_HANDSHAKE& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_HANDSHAKE& operator=(C_HANDSHAKE&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_HANDSHAKE& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_HANDSHAKE* internal_default_instance() {
+    return reinterpret_cast<const C_HANDSHAKE*>(
+        &_C_HANDSHAKE_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 4;
+  friend void swap(C_HANDSHAKE& a, C_HANDSHAKE& b) { a.Swap(&b); }
+  inline void Swap(C_HANDSHAKE* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_HANDSHAKE* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C_HANDSHAKE* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<C_HANDSHAKE>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const C_HANDSHAKE& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const C_HANDSHAKE& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "Protocol.C_HANDSHAKE"; }
+
+ protected:
+  explicit C_HANDSHAKE(::google::protobuf::Arena* arena);
+  C_HANDSHAKE(::google::protobuf::Arena* arena, const C_HANDSHAKE& from);
+  C_HANDSHAKE(::google::protobuf::Arena* arena, C_HANDSHAKE&& from) noexcept
+      : C_HANDSHAKE(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:Protocol.C_HANDSHAKE)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const C_HANDSHAKE& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
 class C_ENTER_GAME final : public ::google::protobuf::internal::ZeroFieldsBase
 /* @@protoc_insertion_point(class_definition:Protocol.C_ENTER_GAME) */ {
  public:
@@ -1780,7 +2151,7 @@ class C_CHAT final : public ::google::protobuf::Message
     return reinterpret_cast<const C_CHAT*>(
         &_C_CHAT_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 4;
+  static constexpr int kIndexInFileMessages = 6;
   friend void swap(C_CHAT& a, C_CHAT& b) { a.Swap(&b); }
   inline void Swap(C_CHAT* other) {
     if (other == this) return;
@@ -1976,7 +2347,7 @@ class S_SPAWN_ACTOR final : public ::google::protobuf::Message
     return reinterpret_cast<const S_SPAWN_ACTOR*>(
         &_S_SPAWN_ACTOR_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 9;
+  static constexpr int kIndexInFileMessages = 11;
   friend void swap(S_SPAWN_ACTOR& a, S_SPAWN_ACTOR& b) { a.Swap(&b); }
   inline void Swap(S_SPAWN_ACTOR* other) {
     if (other == this) return;
@@ -2185,7 +2556,7 @@ class S_PLAYER_INPUT final : public ::google::protobuf::Message
     return reinterpret_cast<const S_PLAYER_INPUT*>(
         &_S_PLAYER_INPUT_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 13;
+  static constexpr int kIndexInFileMessages = 15;
   friend void swap(S_PLAYER_INPUT& a, S_PLAYER_INPUT& b) { a.Swap(&b); }
   inline void Swap(S_PLAYER_INPUT* other) {
     if (other == this) return;
@@ -2393,7 +2764,7 @@ class S_CHARACTER_SYNC final : public ::google::protobuf::Message
     return reinterpret_cast<const S_CHARACTER_SYNC*>(
         &_S_CHARACTER_SYNC_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 11;
+  static constexpr int kIndexInFileMessages = 13;
   friend void swap(S_CHARACTER_SYNC& a, S_CHARACTER_SYNC& b) { a.Swap(&b); }
   inline void Swap(S_CHARACTER_SYNC* other) {
     if (other == this) return;
@@ -2602,7 +2973,7 @@ class C_CHARACTER_SYNC final : public ::google::protobuf::Message
     return reinterpret_cast<const C_CHARACTER_SYNC*>(
         &_C_CHARACTER_SYNC_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 10;
+  static constexpr int kIndexInFileMessages = 12;
   friend void swap(C_CHARACTER_SYNC& a, C_CHARACTER_SYNC& b) { a.Swap(&b); }
   inline void Swap(C_CHARACTER_SYNC* other) {
     if (other == this) return;
@@ -2818,6 +3189,106 @@ inline bool S_ENTER_GAME::_internal_success() const {
   return _impl_.success_;
 }
 inline void S_ENTER_GAME::_internal_set_success(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.success_ = value;
+}
+
+// string ip = 2;
+inline void S_ENTER_GAME::clear_ip() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ip_.ClearToEmpty();
+}
+inline const std::string& S_ENTER_GAME::ip() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Protocol.S_ENTER_GAME.ip)
+  return _internal_ip();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void S_ENTER_GAME::set_ip(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ip_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.ip)
+}
+inline std::string* S_ENTER_GAME::mutable_ip() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_ip();
+  // @@protoc_insertion_point(field_mutable:Protocol.S_ENTER_GAME.ip)
+  return _s;
+}
+inline const std::string& S_ENTER_GAME::_internal_ip() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ip_.Get();
+}
+inline void S_ENTER_GAME::_internal_set_ip(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ip_.Set(value, GetArena());
+}
+inline std::string* S_ENTER_GAME::_internal_mutable_ip() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.ip_.Mutable( GetArena());
+}
+inline std::string* S_ENTER_GAME::release_ip() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:Protocol.S_ENTER_GAME.ip)
+  return _impl_.ip_.Release();
+}
+inline void S_ENTER_GAME::set_allocated_ip(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ip_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.ip_.IsDefault()) {
+    _impl_.ip_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_ENTER_GAME.ip)
+}
+
+// uint32 port = 3;
+inline void S_ENTER_GAME::clear_port() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.port_ = 0u;
+}
+inline ::uint32_t S_ENTER_GAME::port() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ENTER_GAME.port)
+  return _internal_port();
+}
+inline void S_ENTER_GAME::set_port(::uint32_t value) {
+  _internal_set_port(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ENTER_GAME.port)
+}
+inline ::uint32_t S_ENTER_GAME::_internal_port() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.port_;
+}
+inline void S_ENTER_GAME::_internal_set_port(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.port_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// C_HANDSHAKE
+
+// -------------------------------------------------------------------
+
+// S_HANDSHAKE
+
+// bool success = 1;
+inline void S_HANDSHAKE::clear_success() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.success_ = false;
+}
+inline bool S_HANDSHAKE::success() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_HANDSHAKE.success)
+  return _internal_success();
+}
+inline void S_HANDSHAKE::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_HANDSHAKE.success)
+}
+inline bool S_HANDSHAKE::_internal_success() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.success_;
+}
+inline void S_HANDSHAKE::_internal_set_success(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.success_ = value;
 }

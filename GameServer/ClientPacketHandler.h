@@ -11,22 +11,25 @@ enum : uint16
 	PKT_S_LOGIN = 1001,
 	PKT_C_ENTER_GAME = 1002,
 	PKT_S_ENTER_GAME = 1003,
-	PKT_C_CHAT = 1004,
-	PKT_S_CHAT = 1005,
-	PKT_C_TIMESYNC = 1006,
-	PKT_S_TIMESYNC = 1007,
-	PKT_C_SPAWN_ACTOR = 1008,
-	PKT_S_SPAWN_ACTOR = 1009,
-	PKT_C_CHARACTER_SYNC = 1010,
-	PKT_S_CHARACTER_SYNC = 1011,
-	PKT_C_PLAYER_INPUT = 1012,
-	PKT_S_PLAYER_INPUT = 1013,
+	PKT_C_HANDSHAKE = 1004,
+	PKT_S_HANDSHAKE = 1005,
+	PKT_C_CHAT = 1006,
+	PKT_S_CHAT = 1007,
+	PKT_C_TIMESYNC = 1008,
+	PKT_S_TIMESYNC = 1009,
+	PKT_C_SPAWN_ACTOR = 1010,
+	PKT_S_SPAWN_ACTOR = 1011,
+	PKT_C_CHARACTER_SYNC = 1012,
+	PKT_S_CHARACTER_SYNC = 1013,
+	PKT_C_PLAYER_INPUT = 1014,
+	PKT_S_PLAYER_INPUT = 1015,
 };
 
 // Custom Handlers
 bool Handle_INVALID(SessionRef& session, BYTE* buffer, int32 len);
 bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt);
 bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt);
+bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt);
 bool Handle_C_CHAT(SessionRef& session, Protocol::C_CHAT& pkt);
 bool Handle_C_TIMESYNC(SessionRef& session, Protocol::C_TIMESYNC& pkt);
 bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt);
@@ -47,6 +50,8 @@ public:
 		GPacketHandler_Udp[PKT_C_LOGIN] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<UdpPacketHeader, Protocol::C_LOGIN> (Handle_C_LOGIN, session, buffer, len); };
 		GPacketHandler_Tcp[PKT_C_ENTER_GAME] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<TcpPacketHeader, Protocol::C_ENTER_GAME> (Handle_C_ENTER_GAME, session, buffer, len); };
 		GPacketHandler_Udp[PKT_C_ENTER_GAME] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<UdpPacketHeader, Protocol::C_ENTER_GAME> (Handle_C_ENTER_GAME, session, buffer, len); };
+		GPacketHandler_Tcp[PKT_C_HANDSHAKE] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<TcpPacketHeader, Protocol::C_HANDSHAKE> (Handle_C_HANDSHAKE, session, buffer, len); };
+		GPacketHandler_Udp[PKT_C_HANDSHAKE] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<UdpPacketHeader, Protocol::C_HANDSHAKE> (Handle_C_HANDSHAKE, session, buffer, len); };
 		GPacketHandler_Tcp[PKT_C_CHAT] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<TcpPacketHeader, Protocol::C_CHAT> (Handle_C_CHAT, session, buffer, len); };
 		GPacketHandler_Udp[PKT_C_CHAT] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<UdpPacketHeader, Protocol::C_CHAT> (Handle_C_CHAT, session, buffer, len); };
 		GPacketHandler_Tcp[PKT_C_TIMESYNC] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<TcpPacketHeader, Protocol::C_TIMESYNC> (Handle_C_TIMESYNC, session, buffer, len); };
@@ -85,6 +90,8 @@ public:
 	static SendBufferRef MakeSendBufferUdp(Protocol::S_LOGIN& pkt) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_S_LOGIN); }
 	static SendBufferRef MakeSendBufferTcp(Protocol::S_ENTER_GAME& pkt) { return MakeSendBufferImpl<TcpPacketHeader>(pkt, PKT_S_ENTER_GAME); }
 	static SendBufferRef MakeSendBufferUdp(Protocol::S_ENTER_GAME& pkt) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_S_ENTER_GAME); }
+	static SendBufferRef MakeSendBufferTcp(Protocol::S_HANDSHAKE& pkt) { return MakeSendBufferImpl<TcpPacketHeader>(pkt, PKT_S_HANDSHAKE); }
+	static SendBufferRef MakeSendBufferUdp(Protocol::S_HANDSHAKE& pkt) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_S_HANDSHAKE); }
 	static SendBufferRef MakeSendBufferTcp(Protocol::S_CHAT& pkt) { return MakeSendBufferImpl<TcpPacketHeader>(pkt, PKT_S_CHAT); }
 	static SendBufferRef MakeSendBufferUdp(Protocol::S_CHAT& pkt) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_S_CHAT); }
 	static SendBufferRef MakeSendBufferTcp(Protocol::S_TIMESYNC& pkt) { return MakeSendBufferImpl<TcpPacketHeader>(pkt, PKT_S_TIMESYNC); }

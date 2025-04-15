@@ -38,7 +38,7 @@ void GameTcpSession::OnRecv(BYTE* buffer, int32 len)
 	SessionRef session = GetSessionRef();	// TODO ?
 
 	// TODO : packetId 대역 체크
-	ClientPacketHandler::HandlePacket<GameTcpSession>(session, buffer, len);
+	ClientPacketHandler::HandlePacket<TcpPacketHeader>(session, buffer, len);
 }
 
 void GameTcpSession::OnSend(int32 len)

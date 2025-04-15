@@ -8,6 +8,7 @@
 #include "IdManager.h"
 #include "Player.h"
 #include "Bot.h"
+#include "Service.h"
 
 PacketHandlerFunc GPacketHandler_Tcp[UINT16_MAX];
 PacketHandlerFunc GPacketHandler_Udp[UINT16_MAX];
@@ -58,13 +59,37 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 	gameSession->_room = GRoomManager.GetRoomById(1);	// temp
 	gameSession->_room.lock()->DoAsync(&Room::Enter, gameSession->_currentPlayer);
 
+	auto service = gameSession->GetService();
+	NetAddress udpAddr =  service->GetUdpNetAddress();
+	string ip;
+	ip.assign(udpAddr.GetIpAddress().begin(), udpAddr.GetIpAddress().end());
+	uint32 port = udpAddr.GetPort();
+
 	{
 		Protocol::S_ENTER_GAME enterGamePkt;
 		enterGamePkt.set_success(true);
+		enterGamePkt.set_ip(ip);
+		enterGamePkt.set_port(port);
 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(enterGamePkt);
 		session->Send(sendBuffer);
 	}
+	return true;
+}
+
+bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
+{
+	auto udpSession = dynamic_pointer_cast<ReliableUdpSessionRef>(session);
+	if (udpSession == nullptr) return false;
+
+	{
+		Protocol::S_HANDSHAKE handshakePkt;
+		handshakePkt.set_success(true);
+
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(handshakePkt);
+		session->Send(sendBuffer);
+	}
+
 	return true;
 }
 

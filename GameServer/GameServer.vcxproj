@@ -148,6 +148,7 @@
     </ClCompile>
     <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="GameTcpSession.cpp" />
+    <ClCompile Include="GameUdpReceiver.cpp" />
     <ClCompile Include="GameUdpSession.cpp" />
     <ClCompile Include="IdManager.cpp" />
     <ClCompile Include="pch.cpp">
@@ -173,6 +174,7 @@
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="Enum.pb.h" />
     <ClInclude Include="GameTcpSession.h" />
+    <ClInclude Include="GameUdpReceiver.h" />
     <ClInclude Include="GameUdpSession.h" />
     <ClInclude Include="IdManager.h" />
     <ClInclude Include="pch.h" />

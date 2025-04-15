@@ -75,6 +75,9 @@
     <ClCompile Include="GameUdpSession.cpp">
       <Filter>02.Network</Filter>
     </ClCompile>
+    <ClCompile Include="GameUdpReceiver.cpp">
+      <Filter>02.Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -126,6 +129,9 @@
       <Filter>02.Network</Filter>
     </ClInclude>
     <ClInclude Include="GameTcpSession.h">
+      <Filter>02.Network</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUdpReceiver.h">
       <Filter>02.Network</Filter>
     </ClInclude>
   </ItemGroup>

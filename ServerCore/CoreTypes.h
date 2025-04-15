@@ -28,6 +28,7 @@ USING_SHARED_PTR(TcpSession);
 USING_SHARED_PTR(ReliableUdpSession);
 USING_SHARED_PTR(PacketSession);
 USING_SHARED_PTR(Listener);
+USING_SHARED_PTR(UdpReceiver);
 USING_SHARED_PTR(Service)
 USING_SHARED_PTR(ServerService);
 USING_SHARED_PTR(ClientService);

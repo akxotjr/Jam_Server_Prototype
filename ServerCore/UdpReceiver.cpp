@@ -5,7 +5,7 @@
 
 UdpReceiver::UdpReceiver() : _recvBuffer(BUFFER_SIZE)
 {
-    memset(&_fromAddr, 0, sizeof(_fromAddr));
+    memset(&_remoteAddr, 0, sizeof(_remoteAddr));
 }
 
 bool UdpReceiver::Start(ServiceRef service)
@@ -27,7 +27,7 @@ bool UdpReceiver::Start(ServiceRef service)
     if (SocketUtils::SetLinger(_socket, 0, 0) == false)
         return false;
 
-    if (SocketUtils::Bind(_socket, _service.lock()->GetNetAddress()) == false)
+    if (SocketUtils::Bind(_socket, _service.lock()->GetUdpNetAddress()) == false)
         return false;
 
 
@@ -52,7 +52,7 @@ void UdpReceiver::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
         return;
 
 
-    NetAddress from(_fromAddr);
+    NetAddress from(_remoteAddr);
     auto service = _service.lock();
     if (service == nullptr)
         return;
@@ -64,7 +64,7 @@ void UdpReceiver::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 
 void UdpReceiver::RegisterRecv()
 {
-    int32 fromLen = sizeof(_fromAddr);
+    int32 fromLen = sizeof(_remoteAddr);
 
     _recvEvent.Init();
     _recvEvent.owner = shared_from_this();
@@ -76,7 +76,7 @@ void UdpReceiver::RegisterRecv()
     DWORD numOfBytes = 0;
     DWORD flags = 0;
 
-    if (SOCKET_ERROR == ::WSARecvFrom(_socket, &wsaBuf, 1, OUT &numOfBytes, OUT& flags, reinterpret_cast<SOCKADDR*>(&_fromAddr), OUT &fromLen, &_recvEvent, nullptr))
+    if (SOCKET_ERROR == ::WSARecvFrom(_socket, &wsaBuf, 1, OUT &numOfBytes, OUT& flags, reinterpret_cast<SOCKADDR*>(&_remoteAddr), OUT &fromLen, &_recvEvent, nullptr))
     {
         const int errorCode = ::WSAGetLastError();
         if (errorCode != WSA_IO_PENDING)
@@ -126,7 +126,9 @@ int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSes
         if (dataSize < header.size)
             break;
 
-        session->OnHandshake(&buffer[0], header.size);
+        auto baseSession = static_pointer_cast<Session>(session);
+
+        OnRecv(baseSession, &buffer[0], header.size);
         processLen += header.size;
     }
     return processLen;

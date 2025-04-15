@@ -22,6 +22,8 @@ public:
 	virtual bool			Connect() = 0;
 	virtual void			Disconnect(const WCHAR* cause) = 0;
 	virtual void			Send(SendBufferRef sendBuffer) = 0;
+	virtual bool			IsTcp() const = 0;
+	virtual bool			IsUdp() const = 0;
 
 	ServiceRef				GetService() { return _service.lock(); }
 	void					SetService(ServiceRef service) { _service = service; }
@@ -47,7 +49,7 @@ protected:
 
 private:
 	weak_ptr<Service>		_service;
-	NetAddress				_netAddress = {};
+	NetAddress				_netAddress = {};	// local Address
 	uint32					_id = 0;
 };
 
@@ -67,6 +69,8 @@ public:
 	virtual bool			Connect() override;
 	virtual void			Disconnect(const WCHAR* cause) override;
 	virtual void			Send(SendBufferRef sendBuffer) override;
+	virtual bool			IsTcp() const override { return true; }
+	virtual bool			IsUdp() const override { return false; }
 
 private:
 	/* Iocp Object */
@@ -137,8 +141,13 @@ public:
 	virtual void			Send(SendBufferRef sendBuffer) override;
 	virtual void			SendReliable(SendBufferRef sendBuffer, float timestamp);
 
+	virtual bool			IsTcp() const override { return false; }
+	virtual bool			IsUdp() const override { return true; }
+
 	virtual void			OnHandshake(BYTE* buffer, int32 len) {};
 	void					HandleAck(uint16 ackSeq);
+
+	void					SetRemoteNetAddress(const NetAddress& address) { _remoteAddr = address; }
 
 private:
 	/* Iocp Object */

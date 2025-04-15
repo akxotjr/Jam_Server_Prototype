@@ -11,24 +11,24 @@ class UdpReceiver : public IocpObject
 public:
     UdpReceiver();
 
-    bool                Start(ServiceRef service);
+    bool                        Start(ServiceRef service);
+
+    virtual void                OnRecv(SessionRef& session, BYTE* buffer, int32 len) = 0;
 
     /* IocpObject interface impl */
-    virtual HANDLE      GetHandle() override;
-    virtual void        Dispatch(IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
+    virtual HANDLE              GetHandle() override;
+    virtual void                Dispatch(IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
 
 private:
-    void                RegisterRecv();
-    bool                ProcessRecv(int32 numOfBytes, ReliableUdpSessionRef session);
-    int32               IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSessionRef session);
+    void                        RegisterRecv();
+    bool                        ProcessRecv(int32 numOfBytes, ReliableUdpSessionRef session);
+    int32                       IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSessionRef session);
 
 private:
     SOCKET                      _socket = INVALID_SOCKET;
     RecvBuffer                  _recvBuffer;
-    SOCKADDR_IN                 _fromAddr = {};
+    SOCKADDR_IN                 _remoteAddr = {};	// is thread safe? 
     RecvEvent                   _recvEvent;
-
-    //NetAddress                  _remoteAddr;
 
     std::weak_ptr<Service>      _service;
 };

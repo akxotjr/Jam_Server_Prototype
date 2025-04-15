@@ -14,7 +14,7 @@ enum
 	WORKER_TICk = 64
 };
 
-void DoWorkerJob(ServerServiceRef& service)
+void DoWorkerJob(ServiceRef& service)
 {
 	while (true)
 	{
@@ -41,20 +41,21 @@ int main()
 	{
 		uint32 roomId = GRoomManager.CreateRoom();
 		RoomRef room = GRoomManager.GetRoomById(roomId);
-		for (int i = 0; i < 4; i++)
-		{
-			BotRef bot = MakeShared<Bot>();
-			bot->Init();
-			room->AddCharacter(bot);
-		}
+		//for (int i = 0; i < 4; i++)
+		//{
+		//	BotRef bot = MakeShared<Bot>();
+		//	bot->Init();
+		//	room->AddCharacter(bot);
+		//}
 	}
 
-	ServerServiceRef service = MakeShared<ServerService>(
-		NetAddress(L"127.0.0.1", 7777),
-		MakeShared<IocpCore>(),
-		MakeShared<GameTcpSession>, // TODO : SessionManager µî
-		100);
+	TransportConfig config = {
+		.tcpAddress = NetAddress(L"127.0.0.1", 7777),
+		.udpAddress = NetAddress(L"127.0.0.1", 8888)
+	};
 
+	ServiceRef service = MakeShared<Service>(config, MakeShared<IocpCore>(), 50, 50);
+    service->SetSessionFactory([]() -> SessionRef { return MakeShared<GameTcpSession>(); });
 
 	ASSERT_CRASH(service->Start());
 
@@ -67,7 +68,6 @@ int main()
 	}
 
 	// Main Thread
-
 	
 	while (true)
 	{

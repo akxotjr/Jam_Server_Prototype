@@ -407,8 +407,6 @@ bool TcpSession::RegisterConnect()
 {
 	if (IsConnected()) return false;
 
-	if (GetService()->GetServiceType() != ServiceType::Client) return false;
-
 	if (SocketUtils::SetReuseAddress(_socket, true) == false) return false;
 
 	if (SocketUtils::BindAnyAddress(_socket, 0) == false) return false;
@@ -417,7 +415,7 @@ bool TcpSession::RegisterConnect()
 	_connectEvent.owner = shared_from_this();
 
 	DWORD numOfBytes = 0;
-	SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
+	SOCKADDR_IN sockAddr = GetService()->GetTcpNetAddress().GetSockAddr();
 	if (SOCKET_ERROR == SocketUtils::ConnectEx(_socket, reinterpret_cast<SOCKADDR*>(&sockAddr), sizeof(sockAddr), nullptr, 0, &numOfBytes, &_connectEvent))
 	{
 		const int32 errorCode = ::WSAGetLastError();
@@ -526,7 +524,7 @@ void TcpSession::ProcessConnect()
 	_connectEvent.owner = nullptr;
 	_connected.store(true);
 
-	GetService()->AddSession(GetSessionRef());
+	GetService()->AddTcpSession(static_pointer_cast<TcpSession>(shared_from_this()));
 	OnConnected();
 	RegisterRecv();
 }
@@ -536,7 +534,7 @@ void TcpSession::ProcessDisconnect()
 	_disconnectEvent.owner = nullptr;
 
 	OnDisconnected();
-	GetService()->ReleaseSession(GetSessionRef());
+	GetService()->ReleaseTcpSession(static_pointer_cast<TcpSession>(shared_from_this()));
 }
 
 void TcpSession::ProcessRecv(int32 numOfBytes)

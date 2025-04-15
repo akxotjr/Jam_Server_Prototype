@@ -1,29 +1,30 @@
 #pragma once
 
 #include "NetAddress.h"
-#include "IocpCore.h"
-#include "Listener.h"
 #include <functional>
+#include <optional>
 
-enum class ServiceType : uint8
-{
-	Server,
-	Client
-};
+#include "UdpReceiver.h"
 
-using SessionFactory = function<SessionRef(void)>;
+using SessionFactory = function<SessionRef()>;
 
 /*--------------
 	 Service
 ---------------*/
 
+struct TransportConfig
+{
+	optional<NetAddress> tcpAddress;
+	optional<NetAddress> udpAddress;
+};
+
 class Service : public enable_shared_from_this<Service>
 {
 public:
-	Service(ServiceType type, NetAddress address, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount = 1);
+	Service(TransportConfig config, IocpCoreRef core, int32 maxSTcpSessionCount = 1, int32 maxUdpSessionCount = 1);
 	virtual ~Service();
 
-	virtual bool		Start() abstract;
+	virtual bool		Start();
 	bool				CanStart() { return _sessionFactory != nullptr; }
 
 	virtual void		CloseService();
@@ -31,60 +32,58 @@ public:
 
 	void				Broadcast(SendBufferRef sendBuffer);
 	SessionRef			CreateSession();
-	void				AddSession(SessionRef session);
-	void				ReleaseSession(SessionRef session);
-	int32				GetCurrentSessionCount() { return _sessionCount; }
-	int32				GetMaxSessionCount() { return _maxSessionCount; }
 
-	ReliableUdpSessionRef			FindOrCreateUdpSession(NetAddress from);
+	//void				AddSession(SessionRef session);
+	//void				ReleaseSession(SessionRef session);
+
+	void				AddTcpSession(TcpSessionRef session);
+	void				ReleaseTcpSession(TcpSessionRef session);
+
+	void				AddUdpSession(ReliableUdpSessionRef session);
+	void				ReleaseUdpSession(ReliableUdpSessionRef session);
+
+
+	int32				GetCurrentTcpSessionCount() { return _tcpSessionCount; }
+	int32				GetMaxTcpSessionCount() { return _maxTcpSessionCount; }
+	int32				GetCurrentUdpSessionCount() { return _udpSessionCount; }
+	int32				GetMaxUdpSessionCount() { return _maxUdpSessionCount; }
+
+
+	void				SetUdpReceiver(UdpReceiverRef udpReceiver);
+
+	ReliableUdpSessionRef			FindOrCreateUdpSession(const NetAddress& from);
+	void							CompleteUdpHandshake(const NetAddress& from);
 
 public:
-	ServiceType			GetServiceType() { return _type; }
-	NetAddress			GetNetAddress() { return _netAddress; }
+	NetAddress			GetTcpNetAddress() { return _config.tcpAddress.value_or(NetAddress(L"0.0.0.0", 0));; }
+	NetAddress			GetUdpNetAddress() { return _config.udpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
 	IocpCoreRef&		GetIocpCore() { return _iocpCore; }
 
 protected:
-	USE_LOCK;
+	USE_LOCK
 
-	ServiceType			_type;
-	NetAddress			_netAddress = {};
+	TransportConfig		_config;
+
 	IocpCoreRef			_iocpCore;
 
-	Set<SessionRef>		_sessions;
-	int32				_sessionCount = 0;
-	int32				_maxSessionCount = 0;
+	//Set<SessionRef>		_sessions;
+
+	Set<TcpSessionRef>									_tcpSessions;
+	Set<ReliableUdpSessionRef>							_udpSessions;
+	unordered_map<NetAddress, ReliableUdpSessionRef>	_pendingUdpSessions;
+
+
+	//int32				_sessionCount = 0;
+	//int32				_maxSessionCount = 0;
+
+	int32				_tcpSessionCount = 0;
+	int32				_maxTcpSessionCount = 0;
+	int32				_udpSessionCount = 0;
+	int32				_maxUdpSessionCount = 0;
+
 	SessionFactory		_sessionFactory;
-
-	//unordered_map<NetAddress, SessionRef> _udpSessions;
-};
-
-/*-----------------
-   ClientService
-------------------*/
-
-//class ClientService : public Service
-//{
-//public:
-//	ClientService(NetAddress targetAddress, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount = 1);
-//	virtual ~ClientService();
-//
-//	virtual bool	Start() override;
-//};
-
-/*-----------------
-    ServerService
-------------------*/
-
-class ServerService : public Service
-{
-public:
-	ServerService(NetAddress address, IocpCoreRef core, SessionFactory factory, int32 maxSessionCount = 1);
-	virtual ~ServerService();
-
-	virtual bool		Start() override;
-	virtual void		CloseService();
 
 private:
 	ListenerRef			_listener = nullptr;
+	UdpReceiverRef		_udpReceiver = nullptr;
 };
-

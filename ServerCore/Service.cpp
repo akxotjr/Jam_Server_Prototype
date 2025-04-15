@@ -33,7 +33,14 @@ void Service::Broadcast(SendBufferRef sendBuffer)
 
 SessionRef Service::CreateSession()
 {
+	if (_sessionCount + 1 > _maxSessionCount)
+		return nullptr;
+
 	SessionRef session = _sessionFactory();
+
+	if (session == nullptr)
+		return nullptr;
+
 	session->SetService(shared_from_this());
 
 	if (_iocpCore->Register(session) == false)

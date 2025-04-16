@@ -158,6 +158,24 @@ struct S_CHATDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_CHATDefaultTypeInternal _S_CHAT_default_instance_;
               template <typename>
+PROTOBUF_CONSTEXPR S_ACK::S_ACK(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct S_ACKDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR S_ACKDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~S_ACKDefaultTypeInternal() {}
+  union {
+    S_ACK _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S_ACKDefaultTypeInternal _S_ACK_default_instance_;
+              template <typename>
 PROTOBUF_CONSTEXPR C_TIMESYNC::C_TIMESYNC(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
@@ -304,6 +322,24 @@ struct C_CHATDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C_CHATDefaultTypeInternal _C_CHAT_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR C_ACK::C_ACK(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct C_ACKDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR C_ACKDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~C_ACKDefaultTypeInternal() {}
+  union {
+    C_ACK _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C_ACKDefaultTypeInternal _C_ACK_default_instance_;
 
 inline constexpr S_SPAWN_ACTOR::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -453,6 +489,22 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::Protocol::S_ENTER_GAME, _impl_.ip_),
         PROTOBUF_FIELD_OFFSET(::Protocol::S_ENTER_GAME, _impl_.port_),
         ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::Protocol::C_ACK, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::Protocol::S_ACK, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::Protocol::C_HANDSHAKE, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
@@ -585,24 +637,28 @@ static const ::_pbi::MigrationSchema
         {8, -1, -1, sizeof(::Protocol::S_LOGIN)},
         {17, -1, -1, sizeof(::Protocol::C_ENTER_GAME)},
         {25, -1, -1, sizeof(::Protocol::S_ENTER_GAME)},
-        {36, -1, -1, sizeof(::Protocol::C_HANDSHAKE)},
-        {44, -1, -1, sizeof(::Protocol::S_HANDSHAKE)},
-        {53, -1, -1, sizeof(::Protocol::C_CHAT)},
-        {62, -1, -1, sizeof(::Protocol::S_CHAT)},
-        {72, -1, -1, sizeof(::Protocol::C_TIMESYNC)},
-        {80, -1, -1, sizeof(::Protocol::S_TIMESYNC)},
-        {89, -1, -1, sizeof(::Protocol::C_SPAWN_ACTOR)},
-        {97, -1, -1, sizeof(::Protocol::S_SPAWN_ACTOR)},
-        {107, 117, -1, sizeof(::Protocol::C_CHARACTER_SYNC)},
-        {119, -1, -1, sizeof(::Protocol::S_CHARACTER_SYNC)},
-        {129, 143, -1, sizeof(::Protocol::C_PLAYER_INPUT)},
-        {149, 159, -1, sizeof(::Protocol::S_PLAYER_INPUT)},
+        {36, -1, -1, sizeof(::Protocol::C_ACK)},
+        {44, -1, -1, sizeof(::Protocol::S_ACK)},
+        {52, -1, -1, sizeof(::Protocol::C_HANDSHAKE)},
+        {60, -1, -1, sizeof(::Protocol::S_HANDSHAKE)},
+        {69, -1, -1, sizeof(::Protocol::C_CHAT)},
+        {78, -1, -1, sizeof(::Protocol::S_CHAT)},
+        {88, -1, -1, sizeof(::Protocol::C_TIMESYNC)},
+        {96, -1, -1, sizeof(::Protocol::S_TIMESYNC)},
+        {105, -1, -1, sizeof(::Protocol::C_SPAWN_ACTOR)},
+        {113, -1, -1, sizeof(::Protocol::S_SPAWN_ACTOR)},
+        {123, 133, -1, sizeof(::Protocol::C_CHARACTER_SYNC)},
+        {135, -1, -1, sizeof(::Protocol::S_CHARACTER_SYNC)},
+        {145, 159, -1, sizeof(::Protocol::C_PLAYER_INPUT)},
+        {165, 175, -1, sizeof(::Protocol::S_PLAYER_INPUT)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::Protocol::_C_LOGIN_default_instance_._instance,
     &::Protocol::_S_LOGIN_default_instance_._instance,
     &::Protocol::_C_ENTER_GAME_default_instance_._instance,
     &::Protocol::_S_ENTER_GAME_default_instance_._instance,
+    &::Protocol::_C_ACK_default_instance_._instance,
+    &::Protocol::_S_ACK_default_instance_._instance,
     &::Protocol::_C_HANDSHAKE_default_instance_._instance,
     &::Protocol::_S_HANDSHAKE_default_instance_._instance,
     &::Protocol::_C_CHAT_default_instance_._instance,
@@ -622,25 +678,25 @@ const char descriptor_table_protodef_Protocol_2eproto[] ABSL_ATTRIBUTE_SECTION_V
     "Struct.proto\"\t\n\007C_LOGIN\"\032\n\007S_LOGIN\022\017\n\007su"
     "ccess\030\001 \001(\010\"\016\n\014C_ENTER_GAME\"9\n\014S_ENTER_G"
     "AME\022\017\n\007success\030\001 \001(\010\022\n\n\002ip\030\002 \001(\t\022\014\n\004port"
-    "\030\003 \001(\r\"\r\n\013C_HANDSHAKE\"\036\n\013S_HANDSHAKE\022\017\n\007"
-    "success\030\001 \001(\010\"\025\n\006C_CHAT\022\013\n\003msg\030\001 \001(\t\"\'\n\006"
-    "S_CHAT\022\020\n\010playerId\030\001 \001(\004\022\013\n\003msg\030\002 \001(\t\"\014\n"
-    "\nC_TIMESYNC\"\037\n\nS_TIMESYNC\022\021\n\ttimestamp\030\001"
-    " \001(\002\"\017\n\rC_SPAWN_ACTOR\"Q\n\rS_SPAWN_ACTOR\022\020"
-    "\n\010playerId\030\001 \001(\r\022.\n\rcharacterInfo\030\002 \003(\0132"
-    "\027.Protocol.CharacterInfo\"U\n\020C_CHARACTER_"
-    "SYNC\022\021\n\ttimestamp\030\001 \001(\002\022.\n\rcharacterInfo"
-    "\030\002 \001(\0132\027.Protocol.CharacterInfo\"U\n\020S_CHA"
-    "RACTER_SYNC\022\021\n\ttimestamp\030\001 \001(\002\022.\n\rcharac"
-    "terInfo\030\002 \003(\0132\027.Protocol.CharacterInfo\"\276"
-    "\001\n\016C_PLAYER_INPUT\022\021\n\ttimestamp\030\001 \001(\002\022\026\n\016"
-    "sequenceNumber\030\002 \001(\r\022\"\n\007keyType\030\003 \001(\0162\021."
-    "Protocol.KeyType\022\021\n\tdeltaTime\030\004 \001(\002\022\026\n\tm"
-    "ousePosX\030\005 \001(\002H\000\210\001\001\022\026\n\tmousePosY\030\006 \001(\002H\001"
-    "\210\001\001B\014\n\n_mousePosXB\014\n\n_mousePosY\"X\n\016S_PLA"
-    "YER_INPUT\022\026\n\016sequenceNumber\030\001 \001(\r\022.\n\rCha"
-    "racterInfo\030\002 \001(\0132\027.Protocol.CharacterInf"
-    "ob\006proto3"
+    "\030\003 \001(\r\"\007\n\005C_ACK\"\007\n\005S_ACK\"\r\n\013C_HANDSHAKE\""
+    "\036\n\013S_HANDSHAKE\022\017\n\007success\030\001 \001(\010\"\025\n\006C_CHA"
+    "T\022\013\n\003msg\030\001 \001(\t\"\'\n\006S_CHAT\022\020\n\010playerId\030\001 \001"
+    "(\004\022\013\n\003msg\030\002 \001(\t\"\014\n\nC_TIMESYNC\"\037\n\nS_TIMES"
+    "YNC\022\021\n\ttimestamp\030\001 \001(\002\"\017\n\rC_SPAWN_ACTOR\""
+    "Q\n\rS_SPAWN_ACTOR\022\020\n\010playerId\030\001 \001(\r\022.\n\rch"
+    "aracterInfo\030\002 \003(\0132\027.Protocol.CharacterIn"
+    "fo\"U\n\020C_CHARACTER_SYNC\022\021\n\ttimestamp\030\001 \001("
+    "\002\022.\n\rcharacterInfo\030\002 \001(\0132\027.Protocol.Char"
+    "acterInfo\"U\n\020S_CHARACTER_SYNC\022\021\n\ttimesta"
+    "mp\030\001 \001(\002\022.\n\rcharacterInfo\030\002 \003(\0132\027.Protoc"
+    "ol.CharacterInfo\"\276\001\n\016C_PLAYER_INPUT\022\021\n\tt"
+    "imestamp\030\001 \001(\002\022\026\n\016sequenceNumber\030\002 \001(\r\022\""
+    "\n\007keyType\030\003 \001(\0162\021.Protocol.KeyType\022\021\n\tde"
+    "ltaTime\030\004 \001(\002\022\026\n\tmousePosX\030\005 \001(\002H\000\210\001\001\022\026\n"
+    "\tmousePosY\030\006 \001(\002H\001\210\001\001B\014\n\n_mousePosXB\014\n\n_"
+    "mousePosY\"X\n\016S_PLAYER_INPUT\022\026\n\016sequenceN"
+    "umber\030\001 \001(\r\022.\n\rCharacterInfo\030\002 \001(\0132\027.Pro"
+    "tocol.CharacterInfob\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] =
     {
@@ -651,13 +707,13 @@ static ::absl::once_flag descriptor_table_Protocol_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
     false,
     false,
-    889,
+    907,
     descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
     &descriptor_table_Protocol_2eproto_once,
     descriptor_table_Protocol_2eproto_deps,
     2,
-    16,
+    18,
     schemas,
     file_default_instances,
     TableStruct_Protocol_2eproto::offsets,
@@ -1372,6 +1428,212 @@ void S_ENTER_GAME::InternalSwap(S_ENTER_GAME* PROTOBUF_RESTRICT other) {
 
 ::google::protobuf::Metadata S_ENTER_GAME::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class C_ACK::_Internal {
+ public:
+};
+
+C_ACK::C_ACK(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:Protocol.C_ACK)
+}
+C_ACK::C_ACK(
+    ::google::protobuf::Arena* arena,
+    const C_ACK& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  C_ACK* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:Protocol.C_ACK)
+}
+
+inline void* C_ACK::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) C_ACK(arena);
+}
+constexpr auto C_ACK::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(C_ACK),
+                                            alignof(C_ACK));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull C_ACK::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_C_ACK_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &C_ACK::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<C_ACK>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &C_ACK::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<C_ACK>(), &C_ACK::ByteSizeLong,
+            &C_ACK::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(C_ACK, _impl_._cached_size_),
+        false,
+    },
+    &C_ACK::kDescriptorMethods,
+    &descriptor_table_Protocol_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* C_ACK::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> C_ACK::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::Protocol::C_ACK>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata C_ACK::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class S_ACK::_Internal {
+ public:
+};
+
+S_ACK::S_ACK(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:Protocol.S_ACK)
+}
+S_ACK::S_ACK(
+    ::google::protobuf::Arena* arena,
+    const S_ACK& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  S_ACK* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:Protocol.S_ACK)
+}
+
+inline void* S_ACK::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) S_ACK(arena);
+}
+constexpr auto S_ACK::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(S_ACK),
+                                            alignof(S_ACK));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull S_ACK::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_S_ACK_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &S_ACK::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<S_ACK>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &S_ACK::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<S_ACK>(), &S_ACK::ByteSizeLong,
+            &S_ACK::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(S_ACK, _impl_._cached_size_),
+        false,
+    },
+    &S_ACK::kDescriptorMethods,
+    &descriptor_table_Protocol_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* S_ACK::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> S_ACK::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::Protocol::S_ACK>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata S_ACK::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 

@@ -61,7 +61,7 @@ public:
 
 	{%- for pkt in parser.send_pkt %}
 	static SendBufferRef MakeSendBufferTcp(Protocol::{{pkt.name}}& pkt) { return MakeSendBufferImpl<TcpPacketHeader>(pkt, PKT_{{pkt.name}}); }
-	static SendBufferRef MakeSendBufferUdp(Protocol::{{pkt.name}}& pkt, uint16 seq) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_{{pkt.name}}, seq); }
+	static SendBufferRef MakeSendBufferUdp(Protocol::{{pkt.name}}& pkt) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_{{pkt.name}}); }
 	{%- endfor %}
 
 private:
@@ -76,7 +76,7 @@ private:
 	}
 
 	template<typename HeaderType, typename T>
-	static SendBufferRef MakeSendBufferImpl(T& pkt, uint16 pktId, std::optional<uint16> sequence = std::nullopt)
+	static SendBufferRef MakeSendBufferImpl(T& pkt, uint16 pktId)
 	{
 		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
 		const uint16 packetSize = dataSize + sizeof(HeaderType);
@@ -85,12 +85,6 @@ private:
 		HeaderType* header = reinterpret_cast<HeaderType*>(sendBuffer->Buffer());
 		header->size = packetSize;
 		header->id = pktId;
-
-		if constexpr(std::is_same_v<HeaderType, UdpPacketHeader>)
-		{
-			ASSERT_CRASH(sequence.has_value());
-			header->sequence = sequence.value();
-		}
 
 		BYTE* payload = reinterpret_cast<BYTE*>(header) + sizeof(HeaderType);
 		ASSERT_CRASH(pkt.SerializeToArray(payload, dataSize));

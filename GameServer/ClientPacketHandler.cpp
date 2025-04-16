@@ -88,6 +88,12 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 	return true;
 }
 
+bool Handle_C_ACK(SessionRef& session, Protocol::C_ACK& pkt)
+{
+	// TODO
+	return true;
+}
+
 bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
 {
 	//auto udpSession = dynamic_pointer_cast<ReliableUdpSessionRef>(session);
@@ -97,7 +103,7 @@ bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
 		Protocol::S_HANDSHAKE handshakePkt;
 		handshakePkt.set_success(true);
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(handshakePkt, 1);
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(handshakePkt);
 		session->Send(sendBuffer);
 	}
 

@@ -37,7 +37,7 @@ void GameTcpSession::OnDisconnected()
 
 void GameTcpSession::OnRecv(BYTE* buffer, int32 len)
 {
-	cout << "OnRecv" << '\n';
+	cout << "OnRecv : " << len << " bytes\n";
 	SessionRef session = GetSessionRef();	// TODO ?
 
 	// TODO : packetId 대역 체크
@@ -46,5 +46,5 @@ void GameTcpSession::OnRecv(BYTE* buffer, int32 len)
 
 void GameTcpSession::OnSend(int32 len)
 {
-	cout << "OnSend" << '\n';
+	cout << "OnSend : " << len << " bytes\n";
 }

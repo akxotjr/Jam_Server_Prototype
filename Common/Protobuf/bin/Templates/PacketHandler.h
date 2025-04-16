@@ -61,7 +61,7 @@ public:
 
 	{%- for pkt in parser.send_pkt %}
 	static SendBufferRef MakeSendBufferTcp(Protocol::{{pkt.name}}& pkt) { return MakeSendBufferImpl<TcpPacketHeader>(pkt, PKT_{{pkt.name}}); }
-	static SendBufferRef MakeSendBufferUdp(Protocol::{{pkt.name}}& pkt) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_{{pkt.name}}); }
+	static SendBufferRef MakeSendBufferUdp(Protocol::{{pkt.name}}& pkt, uint16 seq) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_{{pkt.name}}, seq); }
 	{%- endfor %}
 
 private:
@@ -92,7 +92,8 @@ private:
 			header->sequence = sequence.value();
 		}
 
-		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
+		BYTE* payload = reinterpret_cast<BYTE*>(header) + sizeof(HeaderType);
+		ASSERT_CRASH(pkt.SerializeToArray(payload, dataSize));
 		sendBuffer->Close(packetSize);
 
 		return sendBuffer;

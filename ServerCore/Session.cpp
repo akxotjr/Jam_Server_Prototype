@@ -572,7 +572,6 @@ void TcpSession::ProcessSend(int32 numOfBytes)
 	_sendEvent.owner = nullptr;
 	_sendEvent.sendBuffers.clear();
 
-	cout << "Send " << numOfBytes << "bytes\n";
 	if (numOfBytes == 0)
 	{
 		Disconnect(L"Send 0 byte");

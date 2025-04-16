@@ -97,7 +97,7 @@ bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
 		Protocol::S_HANDSHAKE handshakePkt;
 		handshakePkt.set_success(true);
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(handshakePkt);
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(handshakePkt, 1);
 		session->Send(sendBuffer);
 	}
 

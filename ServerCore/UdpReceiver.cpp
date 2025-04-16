@@ -24,9 +24,6 @@ bool UdpReceiver::Start(ServiceRef service)
     if (SocketUtils::SetReuseAddress(_socket, true) == false)
         return false;
 
-    if (SocketUtils::SetLinger(_socket, 0, 0) == false)
-        return false;
-
     if (SocketUtils::Bind(_socket, _service.lock()->GetUdpNetAddress()) == false)
         return false;
 
@@ -52,10 +49,6 @@ void UdpReceiver::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 
     if (iocpEvent->eventType != EventType::Recv)
         return;
-
-    if (_recvBuffer.OnWrite(numOfBytes) == false)
-        return;
-
 
     NetAddress from(_remoteAddr);
     auto service = _service.lock();

@@ -1120,10 +1120,11 @@ class S_CHAT final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class S_ACK final : public ::google::protobuf::internal::ZeroFieldsBase
+class S_ACK final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:Protocol.S_ACK) */ {
  public:
   inline S_ACK() : S_ACK(nullptr) {}
+  ~S_ACK() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
   void operator delete(S_ACK* msg, std::destroying_delete_t) {
@@ -1197,21 +1198,49 @@ class S_ACK final : public ::google::protobuf::internal::ZeroFieldsBase
   // implements Message ----------------------------------------------
 
   S_ACK* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<S_ACK>(arena);
+    return ::google::protobuf::Message::DefaultConstruct<S_ACK>(arena);
   }
-  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
-  inline void CopyFrom(const S_ACK& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
-  void MergeFrom(const S_ACK& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
-  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const S_ACK& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const S_ACK& from) { S_ACK::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
 
   public:
   bool IsInitialized() const {
     return true;
   }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(S_ACK* other);
  private:
   template <typename T>
   friend ::absl::string_view(
@@ -1236,12 +1265,36 @@ class S_ACK final : public ::google::protobuf::internal::ZeroFieldsBase
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
+  enum : int {
+    kLatestSequenceFieldNumber = 1,
+    kBitfieldFieldNumber = 2,
+  };
+  // uint32 latestSequence = 1;
+  void clear_latestsequence() ;
+  ::uint32_t latestsequence() const;
+  void set_latestsequence(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_latestsequence() const;
+  void _internal_set_latestsequence(::uint32_t value);
+
+  public:
+  // uint32 bitfield = 2;
+  void clear_bitfield() ;
+  ::uint32_t bitfield() const;
+  void set_bitfield(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_bitfield() const;
+  void _internal_set_bitfield(::uint32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Protocol.S_ACK)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 0, 0,
+      1, 2, 0,
       0, 2>
       _table_;
 
@@ -1259,8 +1312,12 @@ class S_ACK final : public ::google::protobuf::internal::ZeroFieldsBase
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const S_ACK& from_msg);
+    ::uint32_t latestsequence_;
+    ::uint32_t bitfield_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_Protocol_2eproto;
 };
 // -------------------------------------------------------------------
@@ -2439,10 +2496,11 @@ class C_CHAT final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class C_ACK final : public ::google::protobuf::internal::ZeroFieldsBase
+class C_ACK final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:Protocol.C_ACK) */ {
  public:
   inline C_ACK() : C_ACK(nullptr) {}
+  ~C_ACK() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
   void operator delete(C_ACK* msg, std::destroying_delete_t) {
@@ -2516,21 +2574,49 @@ class C_ACK final : public ::google::protobuf::internal::ZeroFieldsBase
   // implements Message ----------------------------------------------
 
   C_ACK* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<C_ACK>(arena);
+    return ::google::protobuf::Message::DefaultConstruct<C_ACK>(arena);
   }
-  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
-  inline void CopyFrom(const C_ACK& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
-  void MergeFrom(const C_ACK& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
-  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const C_ACK& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const C_ACK& from) { C_ACK::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
 
   public:
   bool IsInitialized() const {
     return true;
   }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(C_ACK* other);
  private:
   template <typename T>
   friend ::absl::string_view(
@@ -2555,12 +2641,36 @@ class C_ACK final : public ::google::protobuf::internal::ZeroFieldsBase
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
+  enum : int {
+    kLatestSequenceFieldNumber = 1,
+    kBitfieldFieldNumber = 2,
+  };
+  // uint32 latestSequence = 1;
+  void clear_latestsequence() ;
+  ::uint32_t latestsequence() const;
+  void set_latestsequence(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_latestsequence() const;
+  void _internal_set_latestsequence(::uint32_t value);
+
+  public:
+  // uint32 bitfield = 2;
+  void clear_bitfield() ;
+  ::uint32_t bitfield() const;
+  void set_bitfield(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_bitfield() const;
+  void _internal_set_bitfield(::uint32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Protocol.C_ACK)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 0, 0,
+      1, 2, 0,
       0, 2>
       _table_;
 
@@ -2578,8 +2688,12 @@ class C_ACK final : public ::google::protobuf::internal::ZeroFieldsBase
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const C_ACK& from_msg);
+    ::uint32_t latestsequence_;
+    ::uint32_t bitfield_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_Protocol_2eproto;
 };
 // -------------------------------------------------------------------
@@ -3563,9 +3677,97 @@ inline void S_ENTER_GAME::_internal_set_port(::uint32_t value) {
 
 // C_ACK
 
+// uint32 latestSequence = 1;
+inline void C_ACK::clear_latestsequence() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.latestsequence_ = 0u;
+}
+inline ::uint32_t C_ACK::latestsequence() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_ACK.latestSequence)
+  return _internal_latestsequence();
+}
+inline void C_ACK::set_latestsequence(::uint32_t value) {
+  _internal_set_latestsequence(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_ACK.latestSequence)
+}
+inline ::uint32_t C_ACK::_internal_latestsequence() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.latestsequence_;
+}
+inline void C_ACK::_internal_set_latestsequence(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.latestsequence_ = value;
+}
+
+// uint32 bitfield = 2;
+inline void C_ACK::clear_bitfield() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.bitfield_ = 0u;
+}
+inline ::uint32_t C_ACK::bitfield() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_ACK.bitfield)
+  return _internal_bitfield();
+}
+inline void C_ACK::set_bitfield(::uint32_t value) {
+  _internal_set_bitfield(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_ACK.bitfield)
+}
+inline ::uint32_t C_ACK::_internal_bitfield() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.bitfield_;
+}
+inline void C_ACK::_internal_set_bitfield(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.bitfield_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // S_ACK
+
+// uint32 latestSequence = 1;
+inline void S_ACK::clear_latestsequence() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.latestsequence_ = 0u;
+}
+inline ::uint32_t S_ACK::latestsequence() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ACK.latestSequence)
+  return _internal_latestsequence();
+}
+inline void S_ACK::set_latestsequence(::uint32_t value) {
+  _internal_set_latestsequence(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ACK.latestSequence)
+}
+inline ::uint32_t S_ACK::_internal_latestsequence() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.latestsequence_;
+}
+inline void S_ACK::_internal_set_latestsequence(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.latestsequence_ = value;
+}
+
+// uint32 bitfield = 2;
+inline void S_ACK::clear_bitfield() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.bitfield_ = 0u;
+}
+inline ::uint32_t S_ACK::bitfield() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ACK.bitfield)
+  return _internal_bitfield();
+}
+inline void S_ACK::set_bitfield(::uint32_t value) {
+  _internal_set_bitfield(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ACK.bitfield)
+}
+inline ::uint32_t S_ACK::_internal_bitfield() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.bitfield_;
+}
+inline void S_ACK::_internal_set_bitfield(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.bitfield_ = value;
+}
 
 // -------------------------------------------------------------------
 

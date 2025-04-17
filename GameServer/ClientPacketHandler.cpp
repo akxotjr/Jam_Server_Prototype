@@ -64,16 +64,13 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 	auto service = gameSession->GetService();
 	if (service == nullptr) return false;
 
-	//service->SetAndStartUdpReceiver(MakeShared<GameUdpReceiver>());
 
 	NetAddress udpAddr =  service->GetUdpNetAddress();
 	if (udpAddr.IsValid() == false) return false;
 
-	wstring a = udpAddr.GetIpAddress();
-	uint32 b = udpAddr.GetPort();
-
+	wstring wip = udpAddr.GetIpAddress();
 	string ip;
-	ip.assign(a.begin(), a.end());
+	ip.assign(wip.begin(), wip.end());
 	uint32 port = udpAddr.GetPort();
 
 	{
@@ -90,21 +87,33 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 
 bool Handle_C_ACK(SessionRef& session, Protocol::C_ACK& pkt)
 {
-	// TODO
+	auto udpSession = static_pointer_cast<GameUdpSession>(session);
+	if (udpSession == nullptr)
+		return false;
+
+	uint32 latestSeq = pkt.latestsequence();
+	uint32 bitfield = pkt.bitfield();
+
+	udpSession->HandleAck(latestSeq, bitfield);
 	return true;
 }
 
 bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
 {
-	//auto udpSession = dynamic_pointer_cast<ReliableUdpSessionRef>(session);
-	//if (udpSession == nullptr) return false;
+	auto udpSession = static_pointer_cast<GameUdpSession>(session);
+	if (udpSession == nullptr) 
+		return false;
+
+	udpSession->OnConnected();	// todo
 
 	{
+		float timestamp = GTimeManager.GetServerTime();
+
 		Protocol::S_HANDSHAKE handshakePkt;
 		handshakePkt.set_success(true);
 
 		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(handshakePkt);
-		session->Send(sendBuffer);
+		udpSession->SendReliable(sendBuffer, timestamp);
 	}
 
 	return true;

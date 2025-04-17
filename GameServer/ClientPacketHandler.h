@@ -83,6 +83,21 @@ public:
 		}
 		else if constexpr (std::is_same_v<HeaderType, UdpPacketHeader>)
 		{
+			uint16 seq = header->sequence;
+			if (seq > 0)
+			{
+				ReliableUdpSessionRef udpSession = static_pointer_cast<ReliableUdpSession>(session);
+				if (udpSession && udpSession->CheckAndRecordReceiveHistory(seq))
+				{
+					Protocol::S_ACK ackPkt;
+					ackPkt.set_latestsequence(header->sequence);
+					ackPkt.set_bitfield(udpSession->GenerateAckBitfield(seq));
+
+					SendBufferRef sendBuffer = MakeSendBufferUdp(ackPkt);
+					udpSession->Send(sendBuffer);
+				}
+			}
+
 			return GPacketHandler_Udp[header->id](session, buffer, len);
 		}
 		else

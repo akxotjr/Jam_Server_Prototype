@@ -5,12 +5,6 @@
 	SocketUtils
 -----------------*/
 
-enum class ProtocolType
-{
-	PROTOCOL_TCP,
-	PROTOCOL_UDP
-};
-
 class SocketUtils
 {
 public:

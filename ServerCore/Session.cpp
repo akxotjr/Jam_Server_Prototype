@@ -69,7 +69,6 @@ void TcpSession::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 		break;
 	case EventType::Send:
 		ProcessSend(numOfBytes);
-	default:
 		break;
 	}
 }
@@ -307,21 +306,26 @@ void TcpSession::HandleError(int32 errorCode)
 
 ReliableUdpSession::ReliableUdpSession() : _recvBuffer(BUFFER_SIZE)
 {
-	_socket = SocketUtils::CreateSocket(ProtocolType::PROTOCOL_UDP);
 }
 
 ReliableUdpSession::~ReliableUdpSession()
 {
-	SocketUtils::Close(_socket);
 }
 
 bool ReliableUdpSession::Connect()
 {
-	return false;
+	//RegisterConnect();
+
+	// temp
+	return true;
 }
 
 void ReliableUdpSession::Disconnect(const WCHAR* cause)
 {
+	if (_connected.exchange(false) == false)
+		return;
+
+	ProcessDisconnect();
 }
 
 void ReliableUdpSession::Send(SendBufferRef sendBuffer)
@@ -364,22 +368,28 @@ void ReliableUdpSession::SendReliable(SendBufferRef sendBuffer, float timestamp)
 
 HANDLE ReliableUdpSession::GetHandle()
 {
-	return reinterpret_cast<HANDLE>(_socket);
+	return reinterpret_cast<HANDLE>(GetService()->GetUdpSocket());
 }
 
 void ReliableUdpSession::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
 	switch (iocpEvent->eventType)
 	{
-	case EventType::Recv:
-		ProcessRecv(numOfBytes);
-		break;
 	case EventType::Send:
 		ProcessSend(numOfBytes);
-	default:
 		break;
 	}
 }
+
+//void ReliableUdpSession::RegisterConnect()
+//{
+//	
+//}
+//
+//void ReliableUdpSession::RegisterDisconnect()
+//{
+//
+//}
 
 void ReliableUdpSession::RegisterSend()
 {
@@ -418,7 +428,7 @@ void ReliableUdpSession::RegisterSend()
 
 	DWORD numOfBytes = 0;
 
-	if (SOCKET_ERROR == ::WSASendTo(_socket, wsaBufs.data(), static_cast<DWORD>(wsaBufs.size()), OUT &numOfBytes, 0, reinterpret_cast<SOCKADDR*>(&_remoteAddr.GetSockAddr()), sizeof(SOCKADDR_IN), &_sendEvent, nullptr))
+	if (SOCKET_ERROR == ::WSASendTo(GetService()->GetUdpSocket(), wsaBufs.data(), static_cast<DWORD>(wsaBufs.size()), OUT &numOfBytes, 0, reinterpret_cast<SOCKADDR*>(&GetRemoteNetAddress().GetSockAddr()), sizeof(SOCKADDR_IN), &_sendEvent, nullptr))
 	{
 		const int32 errorCode = ::WSAGetLastError();
 		if (errorCode != WSA_IO_PENDING)
@@ -431,30 +441,17 @@ void ReliableUdpSession::RegisterSend()
 	}
 }
 
-void ReliableUdpSession::RegisterRecv()
+void ReliableUdpSession::ProcessConnect()
 {
-	int32 fromLen = sizeof(_remoteAddr.GetSockAddr());
+	_connected.store(true);
+	GetService()->CompleteUdpHandshake(GetRemoteNetAddress());
+	OnConnected();
+}
 
-	_recvEvent.Init();
-	_recvEvent.owner = shared_from_this();
-
-	WSABUF wsaBuf = {};
-	wsaBuf.len = _recvBuffer.FreeSize();
-	wsaBuf.buf = reinterpret_cast<CHAR*>(_recvBuffer.WritePos());
-
-	DWORD numOfBytes = 0;
-	DWORD flags = 0;
-
-	if (SOCKET_ERROR == ::WSARecvFrom(_socket, &wsaBuf, 1, OUT &numOfBytes, OUT& flags, reinterpret_cast<SOCKADDR*>(&_remoteAddr.GetSockAddr()), OUT &fromLen, &_recvEvent, nullptr));
-	{
-		const int errorCode = ::WSAGetLastError();
-		if (errorCode != WSA_IO_PENDING)
-		{
-			std::cout << "WSARecvFrom failed: " << errorCode << std::endl;
-			_recvEvent.owner = nullptr;
-		}
-	}
-
+void ReliableUdpSession::ProcessDisconnect()
+{
+	OnDisconnected();
+	GetService()->ReleaseUdpSession(static_pointer_cast<ReliableUdpSession>(shared_from_this()));
 }
 
 void ReliableUdpSession::ProcessSend(int32 numOfBytes)
@@ -475,29 +472,6 @@ void ReliableUdpSession::ProcessSend(int32 numOfBytes)
 		_sendRegistered.store(false);
 	else
 		RegisterSend();
-}
-
-void ReliableUdpSession::ProcessRecv(int32 numOfBytes)
-{
-	_recvEvent.owner = nullptr;
-
-	if (_recvBuffer.OnWrite(numOfBytes) == false)
-	{
-		return;
-	}
-
-	const int32 dataSize = _recvBuffer.DataSize();
-	const int32 processLen = IsParsingPacket(_recvBuffer.ReadPos(), dataSize);
-
-	if (processLen < 0 || dataSize < processLen || _recvBuffer.OnRead(processLen) == false)
-	{
-		return;
-	}
-
-	_recvBuffer.Clean();
-
-	RegisterRecv();
-	return;
 }
 
 void ReliableUdpSession::Update(float serverTime)

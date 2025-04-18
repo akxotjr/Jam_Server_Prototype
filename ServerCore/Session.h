@@ -8,6 +8,7 @@
 #include "RecvBuffer.h"
 
 class Service;
+class UdpReceiver;
 
 struct TcpPacketHeader
 {
@@ -30,9 +31,9 @@ public:
 	ServiceRef								GetService() { return _service.lock(); }
 	void									SetService(ServiceRef service) { _service = service; }
 
-	NetAddress								GetNetAddress() { return _netAddress; }
-	void									SetNetAddress(NetAddress address) { _netAddress = address; }
-	SOCKET									GetSocket() { return _socket; }
+	NetAddress&								GetRemoteNetAddress() { return _remoteAddress; }
+	void									SetRemoteNetAddress(NetAddress address) { _remoteAddress = address; }
+	SOCKET									GetSocket() { return _socket; }	//todo
 	bool									IsConnected() { return _connected; }
 	SessionRef								GetSessionRef() { return static_pointer_cast<Session>(shared_from_this()); }
 	int32									GetId() { return _id; }
@@ -51,7 +52,7 @@ protected:
 
 private:
 	weak_ptr<Service>						_service;
-	NetAddress								_netAddress = {};	// local Address
+	NetAddress								_remoteAddress = {};
 	uint32									_id = 0;
 };
 
@@ -118,7 +119,7 @@ struct UdpPacketHeader
 {
 	uint16 size;
 	uint16 id;
-	uint16 sequence;
+	uint16 sequence = 0;
 };
 
 struct PendingPacket
@@ -133,6 +134,10 @@ class ReliableUdpSession : public Session
 {
 	enum { BUFFER_SIZE = 0x10000 }; // 64KB
 
+	friend class UdpReceiver;
+	friend class IocpCore;
+	friend class Service;
+
 public:
 	ReliableUdpSession();
 	virtual ~ReliableUdpSession();
@@ -146,24 +151,26 @@ public:
 	virtual bool							IsTcp() const override { return false; }
 	virtual bool							IsUdp() const override { return true; }
 
-	virtual void							OnHandshake(BYTE* buffer, int32 len) {};
 	void									HandleAck(uint16 latestSeq, uint32 bitfield);
 	bool									CheckAndRecordReceiveHistory(uint16 seq);
 	uint32									GenerateAckBitfield(uint16 latestSeq);
 
-	void									SetRemoteNetAddress(const NetAddress& address) { _remoteAddr = address; }
-
 private:
-	/* Iocp Object */
+	/* Iocp Object impl */
 	virtual HANDLE							GetHandle() override;
 	virtual void							Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
 
 private:
+	//void									RegisterConnect();
+	//void									RegisterDisconnect();
 	void									RegisterSend();
-	void									RegisterRecv();
+	//void									RegisterRecv();
 
+
+	void									ProcessConnect();
+	void									ProcessDisconnect();
 	void									ProcessSend(int32 numOfBytes);
-	void									ProcessRecv(int32 numOfBytes);
+	//void									ProcessRecv(int32 numOfBytes);
 
 	void									Update(float serverTime);
 
@@ -176,8 +183,6 @@ private:
 	RecvBuffer								_recvBuffer;
 	Queue<SendBufferRef>					_sendQueue;
 	Atomic<bool>							_sendRegistered = false;
-
-	NetAddress								_remoteAddr;
 
 protected:
 	unordered_map<uint16, PendingPacket>	_pendingAckMap;

@@ -26,12 +26,9 @@ USING_SHARED_PTR(IocpObject);
 USING_SHARED_PTR(Session);
 USING_SHARED_PTR(TcpSession);
 USING_SHARED_PTR(ReliableUdpSession);
-USING_SHARED_PTR(PacketSession);
+USING_SHARED_PTR(Service);
 USING_SHARED_PTR(Listener);
 USING_SHARED_PTR(UdpReceiver);
-USING_SHARED_PTR(Service)
-USING_SHARED_PTR(ServerService);
-USING_SHARED_PTR(ClientService);
 USING_SHARED_PTR(SendBuffer);
 USING_SHARED_PTR(SendBufferChunk);
 USING_SHARED_PTR(RecvBuffer);
@@ -42,6 +39,5 @@ USING_SHARED_PTR(JobQueue);
 #define size32(val)		static_cast<int32>(sizeof(val))
 #define len16(arr)		static_cast<int16>(sizeof(arr) / sizeof(arr[0]))
 #define len32(arr)		static_cast<int32>(sizeof(arr) / sizeof(arr[0]))
-
 
 #define _STOMP

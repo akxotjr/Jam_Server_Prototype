@@ -31,11 +31,11 @@ bool Service::Start()
 	if (_listener->StartAccept(service) == false)
 		return false;
 
-	//_udpReceiver = MakeShared<UdpReceiver>();
-	//if (_udpReceiver == nullptr)
-	//	return false;
+	if (_udpReceiver == nullptr)
+		return false;
 
-	//_udpReceiver->Start(service);
+	if (_udpReceiver->Start(service))
+		return false;
 
 	return true;
 }
@@ -54,26 +54,17 @@ void Service::Broadcast(SendBufferRef sendBuffer)
 	//}
 }
 
-SessionRef Service::CreateSession()
+SessionRef Service::CreateSession(ProtocolType protocol)
 {
-	SessionRef session = _sessionFactory();
-	if (session == nullptr)
-		return nullptr;
-
-	//if (session->IsTcp())
-	//{
-	//	if (_tcpSessionCount >= _maxTcpSessionCount)
-	//		return nullptr;
-	//	else
-	//		_tcpSessionCount++;
-	//}
-	//else if (session->IsUdp())
-	//{
-	//	if (_udpSessionCount >= _maxUdpSessionCount)
-	//		return nullptr;
-	//	else
-	//		_udpSessionCount++;
-	//}
+	SessionRef session = nullptr;
+	if (protocol == ProtocolType::PROTOCOL_TCP)
+	{
+		session = _tcpSessionFactory();
+	}
+	else if (protocol == ProtocolType::PROTOCOL_UDP)
+	{
+		session = _udpSessionFactory();
+	}
 
 	session->SetService(shared_from_this());
 
@@ -81,20 +72,6 @@ SessionRef Service::CreateSession()
 		return nullptr;
 	return session;
 }
-
-//void Service::AddSession(SessionRef session)
-//{
-//	WRITE_LOCK;
-//	_sessionCount++;
-//	_sessions.insert(session);
-//}
-//
-//void Service::ReleaseSession(SessionRef session)
-//{
-//	WRITE_LOCK;
-//	ASSERT_CRASH(_sessions.erase(session) != 0);
-//	_sessionCount--;
-//}
 
 void Service::AddTcpSession(TcpSessionRef session)
 {
@@ -124,24 +101,13 @@ void Service::ReleaseUdpSession(ReliableUdpSessionRef session)
 	_udpSessionCount--;
 }
 
-void Service::SetAndStartUdpReceiver(UdpReceiverRef udpReceiver)
-{
-	_udpReceiver = udpReceiver;
-	if (_udpReceiver == nullptr)
-		return;
-
-	ServiceRef service = static_pointer_cast<Service>(shared_from_this());
-
-	_udpReceiver->Start(service);
-}
-
 ReliableUdpSessionRef Service::FindOrCreateUdpSession(const NetAddress& from)
 {
 	WRITE_LOCK
 
 	for (auto& session : _udpSessions)
 	{
-		if (session->GetNetAddress() == from)
+		if (session->GetRemoteNetAddress() == from)
 			return session;
 	}
 
@@ -151,11 +117,11 @@ ReliableUdpSessionRef Service::FindOrCreateUdpSession(const NetAddress& from)
 		return it->second;
 	}
 
-	ReliableUdpSessionRef newSession = static_pointer_cast<ReliableUdpSession>(CreateSession());
+	auto newSession = static_pointer_cast<ReliableUdpSession>(CreateSession(ProtocolType::PROTOCOL_UDP));
 	if (newSession == nullptr)
 		return nullptr;
 
-	newSession->SetRemoteNetAddress(from);  // 보내온 주소 설정 (송신에 필요)
+	newSession->SetRemoteNetAddress(from);
 	_pendingUdpSessions[from] = newSession;
 
 	return newSession;
@@ -168,7 +134,7 @@ void Service::CompleteUdpHandshake(const NetAddress& from)
 	auto it = _pendingUdpSessions.find(from);
 	if (it != _pendingUdpSessions.end())
 	{
-		_udpSessions.insert(it->second);      // 정규 세션으로 등록
+		AddUdpSession(it->second);      // 정규 세션으로 등록
 		//AddSession(it->second);              // 공용 세션 관리에 추가 (선택적)
 		_pendingUdpSessions.erase(it);
 	}

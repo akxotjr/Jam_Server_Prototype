@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreTypes.h"
+#include "CoreEnums.h"
 #include "CoreMacro.h"
 #include "CoreTLS.h"
 #include "CoreGlobal.h"

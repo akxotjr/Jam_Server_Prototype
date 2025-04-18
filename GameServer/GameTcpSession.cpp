@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "GameTcpSession.h"
-
+#include "IdManager.h"
 #include "ClientPacketHandler.h"
 #include "SessionManager.h"
 #include "Room.h"
 
 GameTcpSession::GameTcpSession()
 {
+	uint32 id = GIdManager.Generate(IdType::Session);
+	SetId(id);
 }
 
 GameTcpSession::~GameTcpSession()
@@ -15,14 +17,14 @@ GameTcpSession::~GameTcpSession()
 
 void GameTcpSession::OnConnected()
 {
-	cout << "OnConnected" << '\n';
-	GSessionManager.Add(static_pointer_cast<GameTcpSession>(shared_from_this()));
+	cout << "GameTcpSession [" << GetId() << "] : OnConnected\n";
+	//GSessionManager.Add(static_pointer_cast<GameTcpSession>(shared_from_this()));
 }
 
 void GameTcpSession::OnDisconnected()
 {
-	cout << "OnDisonnected" << '\n';
-	GSessionManager.Remove(static_pointer_cast<GameTcpSession>(shared_from_this()));
+	cout << "GameTcpSession [" << GetId() << "] : OnDisconnected\n";
+	//GSessionManager.Remove(static_pointer_cast<GameTcpSession>(shared_from_this()));
 
 	if (_currentPlayer)
 	{
@@ -37,8 +39,8 @@ void GameTcpSession::OnDisconnected()
 
 void GameTcpSession::OnRecv(BYTE* buffer, int32 len)
 {
-	cout << "OnRecv : " << len << " bytes\n";
-	SessionRef session = GetSessionRef();	// TODO ?
+	cout << "GameTcpSession [" << GetId() << "] : OnRecv" << len << " bytes\n";
+	SessionRef session = GetSessionRef();
 
 	// TODO : packetId 대역 체크
 	ClientPacketHandler::HandlePacket<TcpPacketHeader>(session, buffer, len);
@@ -46,5 +48,5 @@ void GameTcpSession::OnRecv(BYTE* buffer, int32 len)
 
 void GameTcpSession::OnSend(int32 len)
 {
-	cout << "OnSend : " << len << " bytes\n";
+	cout << "GameTcpSession [" << GetId() << "] : OnSend" << len << " bytes\n";
 }

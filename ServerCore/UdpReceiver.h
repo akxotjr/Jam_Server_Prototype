@@ -2,7 +2,8 @@
 #include "IocpCore.h"
 #include "IocpEvent.h"
 #include "NetAddress.h"
-#include "Service.h"
+
+class Service;
 
 class UdpReceiver : public IocpObject
 {
@@ -12,8 +13,9 @@ public:
     UdpReceiver();
 
     bool                        Start(ServiceRef service);
-
     virtual void                OnRecv(SessionRef& session, BYTE* buffer, int32 len) = 0;
+
+    SOCKET                      GetSocket() const { return _socket; }
 
     /* IocpObject interface impl */
     virtual HANDLE              GetHandle() override;

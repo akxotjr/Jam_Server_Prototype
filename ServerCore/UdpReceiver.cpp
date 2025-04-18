@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "UdpReceiver.h"
+#include "Service.h"
 #include "SocketUtils.h"
 
 
@@ -79,7 +80,7 @@ void UdpReceiver::RegisterRecv()
         const int errorCode = ::WSAGetLastError();
         if (errorCode != WSA_IO_PENDING)
         {
-            std::cout << "WSARecvFrom failed: " << errorCode << std::endl;
+            std::cout << "[UDP Receiver] RecvFrom failed : " << errorCode << std::endl;
             _recvEvent.owner = nullptr;
         }
     }
@@ -110,6 +111,26 @@ bool UdpReceiver::ProcessRecv(int32 numOfBytes, ReliableUdpSessionRef session)
 
 int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSessionRef session)
 {
+    //int32 processLen = 0;
+
+    //while (true)
+    //{
+    //    int32 dataSize = len - processLen;
+
+    //    if (dataSize < sizeof(UdpPacketHeader))
+    //        break;
+
+    //    UdpPacketHeader header = *reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
+
+    //    if (dataSize < header.size)
+    //        break;
+
+    //    auto baseSession = static_pointer_cast<Session>(session);
+    //    OnRecv(baseSession, &buffer[0], header.size);
+
+    //    processLen += header.size;
+    //}
+
     int32 processLen = 0;
 
     while (true)
@@ -119,15 +140,16 @@ int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSes
         if (dataSize < sizeof(UdpPacketHeader))
             break;
 
-        UdpPacketHeader header = *reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
+        UdpPacketHeader* header = reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
 
-        if (dataSize < header.size)
+        if (dataSize < header->size || header->size < sizeof(UdpPacketHeader))
             break;
 
         auto baseSession = static_pointer_cast<Session>(session);
+        OnRecv(baseSession, &buffer[processLen], header->size);
 
-        OnRecv(baseSession, &buffer[0], header.size);
-        processLen += header.size;
+        processLen += header->size;
     }
+
     return processLen;
 }

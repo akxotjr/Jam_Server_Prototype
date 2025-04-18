@@ -120,6 +120,9 @@
     <ClInclude Include="UdpReceiver.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="CoreEnums.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">

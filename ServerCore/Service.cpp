@@ -34,7 +34,7 @@ bool Service::Start()
 	if (_udpReceiver == nullptr)
 		return false;
 
-	if (_udpReceiver->Start(service))
+	if (_udpReceiver->Start(service) == false)
 		return false;
 
 	return true;
@@ -60,6 +60,8 @@ SessionRef Service::CreateSession(ProtocolType protocol)
 	if (protocol == ProtocolType::PROTOCOL_TCP)
 	{
 		session = _tcpSessionFactory();
+		if (_iocpCore->Register(session) == false)
+			return nullptr;
 	}
 	else if (protocol == ProtocolType::PROTOCOL_UDP)
 	{
@@ -67,9 +69,6 @@ SessionRef Service::CreateSession(ProtocolType protocol)
 	}
 
 	session->SetService(shared_from_this());
-
-	if (_iocpCore->Register(session) == false)
-		return nullptr;
 	return session;
 }
 
@@ -122,6 +121,8 @@ ReliableUdpSessionRef Service::FindOrCreateUdpSession(const NetAddress& from)
 		return nullptr;
 
 	newSession->SetRemoteNetAddress(from);
+	newSession->ProcessConnect();
+
 	_pendingUdpSessions[from] = newSession;
 
 	return newSession;

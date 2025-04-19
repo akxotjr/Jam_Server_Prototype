@@ -163,7 +163,7 @@ private:
 private:
 	//void									RegisterConnect();
 	//void									RegisterDisconnect();
-	void									RegisterSend();
+	void									RegisterSend(SendBufferRef sendbuffer);
 	//void									RegisterRecv();
 
 
@@ -188,7 +188,7 @@ protected:
 	unordered_map<uint16, PendingPacket>	_pendingAckMap;
 	bitset<1024>							_receiveHistory;
 
-	uint16									_sendSeq = 0;			// 다음 보낼 sequence
+	uint16									_sendSeq = 1;			// 다음 보낼 sequence
 	float									_resendIntervalMs = 0.1f; // 재전송 대기 시간
 
 private:

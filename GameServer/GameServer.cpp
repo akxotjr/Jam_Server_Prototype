@@ -43,12 +43,12 @@ int main()
 	{
 		uint32 roomId = GRoomManager.CreateRoom();
 		RoomRef room = GRoomManager.GetRoomById(roomId);
-		//for (int i = 0; i < 4; i++)
-		//{
-		//	BotRef bot = MakeShared<Bot>();
-		//	bot->Init();
-		//	room->AddCharacter(bot);
-		//}
+		for (int i = 0; i < 4; i++)
+		{
+			BotRef bot = MakeShared<Bot>();
+			bot->Init();
+			room->AddCharacter(bot);
+		}
 	}
 
 	TransportConfig config = {

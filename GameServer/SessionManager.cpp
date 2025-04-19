@@ -1,102 +1,86 @@
 #include "pch.h"
 #include "SessionManager.h"
 #include "GameTcpSession.h"
+#include "GameUdpSession.h"
+#include "TimeManager.h"
 
 SessionManager GSessionManager;
 
 void SessionManager::Add(SessionRef session)
 {
-    int32 id = session->GetId();
-    auto type = static_cast<SessionType>(id / 1000);
+    uint32 id = session->GetId();
+    SessionBundle& bundle = _sessionMap[id];
 
+    WRITE_LOCK
+
+    if (session->IsTcp())
     {
-        WRITE_LOCK
-        switch (type)
-        {
-        case SessionType::GAME_SESSION:
-            _gameSessions.insert({ id, static_pointer_cast<GameTcpSession>(session) });
-            break;
-        case SessionType::CHAT_SESSION:
-            _chatSessions.insert({ id, session });
-            break;
-        default:
-            break;
-        }
+        bundle.tcpSession = static_pointer_cast<GameTcpSession>(session);
+    }
+    else if (session->IsUdp())
+    {
+        bundle.udpSession = static_pointer_cast<GameUdpSession>(session);
     }
 }
 
 void SessionManager::Remove(SessionRef session)
 {
     int32 id = session->GetId();
-    auto type = static_cast<SessionType>(id / 1000);
+    SessionBundle& bundle = _sessionMap[id];
+    
+    WRITE_LOCK
 
+    if (session->IsTcp())
     {
-        WRITE_LOCK
-        switch (type)
+        bundle.tcpSession = nullptr;
+    }
+    else if (session->IsUdp())
+    {
+        bundle.udpSession = nullptr;
+    }
+
+    if (!bundle.tcpSession && !bundle.udpSession)
+    {
+        _sessionMap.erase(id);
+    }
+}
+
+void SessionManager::Broadcast(ProtocolType type, SendBufferRef sendBuffer, bool reliable)
+{
+    WRITE_LOCK
+
+    for (auto& [id, bundle] : _sessionMap)
+    {
+        if (type == ProtocolType::PROTOCOL_TCP)
         {
-        case SessionType::GAME_SESSION:
-            _gameSessions.erase(id);
-            break;
-        case SessionType::CHAT_SESSION:
-            _chatSessions.erase(id);
-            break;
-        default:
-            break;
+            bundle.tcpSession->Send(sendBuffer);
+        }
+        else if (type == ProtocolType::PROTOCOL_UDP)
+        {
+            if (reliable)
+            {
+                float timestmap = GTimeManager.GetServerTime();
+                bundle.udpSession->SendReliable(sendBuffer, timestmap);
+            }
+            else
+            {
+                bundle.udpSession->Send(sendBuffer);
+            }
         }
     }
 }
 
-void SessionManager::Broadcast(SessionType type, SendBufferRef sendBuffer)
+SessionRef SessionManager::GetSessionById(ProtocolType type, uint32 id)
 {
     WRITE_LOCK
+    
 
-    switch (type)
+    if (type == ProtocolType::PROTOCOL_TCP)
     {
-    case SessionType::GAME_SESSION:
-        for (auto& [id, session] : _gameSessions)
-        {
-            session->Send(sendBuffer);
-        }
-        break;
-    case SessionType::CHAT_SESSION:
-        for (auto& [id, session] : _chatSessions)
-        {
-            session->Send(sendBuffer);
-        }
-        break;
-    default:
-        break;
+        return _sessionMap[id].tcpSession;
     }
-}
-
-SessionRef SessionManager::GetSessionById(int32 sessionId)
-{
-    SessionType type = static_cast<SessionType>(sessionId / 1000);
-
-    WRITE_LOCK
-    switch (type)
+    else if (type == ProtocolType::PROTOCOL_UDP)
     {
-    case SessionType::GAME_SESSION:
-        for (auto& [id, session] : _gameSessions)
-        {
-            if (id == sessionId)
-            {
-                return session;
-            }
-        }
-        break;
-    case SessionType::CHAT_SESSION:
-        for (auto& [id, session] : _chatSessions)
-        {
-            if (id == sessionId)
-            {
-                return session;
-            }
-        }
-        break;
-    default:
-        break;
+        return _sessionMap[id].udpSession;
     }
-
-    return nullptr;
 }

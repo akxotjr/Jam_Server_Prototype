@@ -17,14 +17,14 @@ GameTcpSession::~GameTcpSession()
 
 void GameTcpSession::OnConnected()
 {
-	cout << "GameTcpSession [" << GetId() << "] : OnConnected\n";
-	//GSessionManager.Add(static_pointer_cast<GameTcpSession>(shared_from_this()));
+	cout << "[TCP] ID = " << GetId() << " : OnConnected\n";
+	GSessionManager.Add(GetSessionRef());
 }
 
 void GameTcpSession::OnDisconnected()
 {
-	cout << "GameTcpSession [" << GetId() << "] : OnDisconnected\n";
-	//GSessionManager.Remove(static_pointer_cast<GameTcpSession>(shared_from_this()));
+	cout << "[TCP] ID = " << GetId() << " : OnDisconnected\n";
+	GSessionManager.Remove(GetSessionRef());
 
 	if (_currentPlayer)
 	{
@@ -39,7 +39,7 @@ void GameTcpSession::OnDisconnected()
 
 void GameTcpSession::OnRecv(BYTE* buffer, int32 len)
 {
-	cout << "GameTcpSession [" << GetId() << "] : OnRecv" << len << " bytes\n";
+	//cout << "GameTcpSession [" << GetId() << "] : OnRecv" << len << " bytes\n";
 	SessionRef session = GetSessionRef();
 
 	// TODO : packetId 대역 체크
@@ -48,5 +48,5 @@ void GameTcpSession::OnRecv(BYTE* buffer, int32 len)
 
 void GameTcpSession::OnSend(int32 len)
 {
-	cout << "GameTcpSession [" << GetId() << "] : OnSend" << len << " bytes\n";
+	//cout << "GameTcpSession [" << GetId() << "] : OnSend" << len << " bytes\n";
 }

@@ -315,7 +315,7 @@ ReliableUdpSession::~ReliableUdpSession()
 bool ReliableUdpSession::Connect()
 {
 	//RegisterConnect();
-
+	//ProcessConnect();
 	// temp
 	return true;
 }
@@ -333,18 +333,18 @@ void ReliableUdpSession::Send(SendBufferRef sendBuffer)
 	if (IsConnected() == false)
 		return;
 
-	bool registerSend = false;
+	//bool registerSend = false;
 
-	{
-		WRITE_LOCK;
-		_sendQueue.push(sendBuffer);
+	//{
+	//	WRITE_LOCK;
+	//	_sendQueue.push(sendBuffer);
 
-		if (_sendRegistered.exchange(true) == false)
-			registerSend = true;
-	}
+	//	if (_sendRegistered.exchange(true) == false)
+	//		registerSend = true;
+	//}
 
-	if (registerSend)
-		RegisterSend();
+	//if (registerSend)
+	RegisterSend(sendBuffer);
 }
 
 void ReliableUdpSession::SendReliable(SendBufferRef sendBuffer, float timestamp)
@@ -391,7 +391,7 @@ void ReliableUdpSession::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 //
 //}
 
-void ReliableUdpSession::RegisterSend()
+void ReliableUdpSession::RegisterSend(SendBufferRef sendBuffer)
 {
 	if (IsConnected() == false)
 		return;
@@ -399,46 +399,69 @@ void ReliableUdpSession::RegisterSend()
 	_sendEvent.Init();
 	_sendEvent.owner = shared_from_this();
 
-	{
-		WRITE_LOCK;
+	WSABUF wsaBuf;
+	wsaBuf.buf = reinterpret_cast<char*>(sendBuffer->Buffer());
+	wsaBuf.len = static_cast<ULONG>(sendBuffer->WriteSize());
 
-		int32 writeSize = 0;
-		while (_sendQueue.empty() == false)
-		{
-			SendBufferRef sendBuffer = _sendQueue.front();
-
-			writeSize += sendBuffer->WriteSize();
-			// TODO: exception check
-
-			_sendQueue.pop();
-			_sendEvent.sendBuffers.push_back(sendBuffer);
-		}
-	}
-
-	// Scatter-Gather
-	Vector<WSABUF> wsaBufs;
-	wsaBufs.reserve(_sendEvent.sendBuffers.size());
-	for (const SendBufferRef& sendBuffer : _sendEvent.sendBuffers)
-	{
-		WSABUF wsaBuf;
-		wsaBuf.buf = reinterpret_cast<char*>(sendBuffer->Buffer());
-		wsaBuf.len = static_cast<LONG>(sendBuffer->WriteSize());
-		wsaBufs.push_back(wsaBuf);
-	}
+	// temp
+	cout << GetRemoteNetAddress().GetPort() << std::endl;
 
 	DWORD numOfBytes = 0;
+	SOCKADDR_IN remoteAddr = GetRemoteNetAddress().GetSockAddr();
 
-	if (SOCKET_ERROR == ::WSASendTo(GetService()->GetUdpSocket(), wsaBufs.data(), static_cast<DWORD>(wsaBufs.size()), OUT &numOfBytes, 0, reinterpret_cast<SOCKADDR*>(&GetRemoteNetAddress().GetSockAddr()), sizeof(SOCKADDR_IN), &_sendEvent, nullptr))
+	if (SOCKET_ERROR == ::WSASendTo(GetService()->GetUdpSocket(), &wsaBuf, 1, OUT & numOfBytes, 0, reinterpret_cast<SOCKADDR*>(&remoteAddr), sizeof(SOCKADDR_IN), &_sendEvent, nullptr))
 	{
 		const int32 errorCode = ::WSAGetLastError();
 		if (errorCode != WSA_IO_PENDING)
 		{
+			cout << "Handle Error : " << errorCode << '\n';
 			HandleError(errorCode);
 			_sendEvent.owner = nullptr;
 			_sendEvent.sendBuffers.clear();
-			_sendRegistered.store(false);
+			//_sendRegistered.store(false);
 		}
 	}
+
+	//{
+	//	WRITE_LOCK;
+
+	//	int32 writeSize = 0;
+	//	while (_sendQueue.empty() == false)
+	//	{
+	//		SendBufferRef sendBuffer = _sendQueue.front();
+
+	//		writeSize += sendBuffer->WriteSize();
+	//		// TODO: exception check
+
+	//		_sendQueue.pop();
+	//		_sendEvent.sendBuffers.push_back(sendBuffer);
+	//	}
+	//}
+
+	//// Scatter-Gather
+	//Vector<WSABUF> wsaBufs;
+	//wsaBufs.reserve(_sendEvent.sendBuffers.size());
+	//for (const SendBufferRef& sendBuffer : _sendEvent.sendBuffers)
+	//{
+	//	WSABUF wsaBuf;
+	//	wsaBuf.buf = reinterpret_cast<char*>(sendBuffer->Buffer());
+	//	wsaBuf.len = static_cast<LONG>(sendBuffer->WriteSize());
+	//	wsaBufs.push_back(wsaBuf);
+	//}
+
+	//DWORD numOfBytes = 0;
+
+	//if (SOCKET_ERROR == ::WSASendTo(GetService()->GetUdpSocket(), wsaBufs.data(), static_cast<DWORD>(wsaBufs.size()), OUT &numOfBytes, 0, reinterpret_cast<SOCKADDR*>(&GetRemoteNetAddress().GetSockAddr()), sizeof(SOCKADDR_IN), &_sendEvent, nullptr))
+	//{
+	//	const int32 errorCode = ::WSAGetLastError();
+	//	if (errorCode != WSA_IO_PENDING)
+	//	{
+	//		HandleError(errorCode);
+	//		_sendEvent.owner = nullptr;
+	//		_sendEvent.sendBuffers.clear();
+	//		_sendRegistered.store(false);
+	//	}
+	//}
 }
 
 void ReliableUdpSession::ProcessConnect()
@@ -467,11 +490,11 @@ void ReliableUdpSession::ProcessSend(int32 numOfBytes)
 
 	OnSend(numOfBytes);
 
-	WRITE_LOCK
-	if (_sendQueue.empty())
-		_sendRegistered.store(false);
-	else
-		RegisterSend();
+	//WRITE_LOCK
+	//if (_sendQueue.empty())
+	//	_sendRegistered.store(false);
+	//else
+	//	RegisterSend();
 }
 
 void ReliableUdpSession::Update(float serverTime)

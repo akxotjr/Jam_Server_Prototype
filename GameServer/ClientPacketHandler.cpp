@@ -21,6 +21,7 @@ bool Handle_INVALID(SessionRef& session, BYTE* buffer, int32 len)
 
 bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt)
 {
+	std::cout << "[TCP] Recv : C_LOGIN\n";
 	GameTcpSessionRef gameTcpSession = static_pointer_cast<GameTcpSession>(session);
 
 	{
@@ -43,11 +44,14 @@ bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt)
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(loginPkt);
 	session->Send(sendBuffer);
 
+	std::cout << "[TCP] Send : S_LOGIN\n";
+
 	return true;
 }
 
 bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
+	std::cout << "[TCP] Recv : C_ENTER_GAME\n";
 	GameTcpSessionRef gameSession = static_pointer_cast<GameTcpSession>(session);
 
 	auto& player = gameSession->_currentPlayer;
@@ -81,12 +85,15 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(enterGamePkt);
 		session->Send(sendBuffer);
+
+		std::cout << "[TCP] Send : S_ENTER_GAME\n";
 	}
 	return true;
 }
 
 bool Handle_C_ACK(SessionRef& session, Protocol::C_ACK& pkt)
 {
+	std::cout << "[UDP] Recv : C_ACK\n";
 	auto udpSession = static_pointer_cast<GameUdpSession>(session);
 	if (udpSession == nullptr)
 		return false;
@@ -100,11 +107,10 @@ bool Handle_C_ACK(SessionRef& session, Protocol::C_ACK& pkt)
 
 bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
 {
+	std::cout << "[UDP] Recv : C_HANDSHAKE\n";
 	auto udpSession = static_pointer_cast<GameUdpSession>(session);
 	if (udpSession == nullptr) 
 		return false;
-
-	udpSession->OnConnected();	// todo
 
 	{
 		float timestamp = GTimeManager.GetServerTime();
@@ -114,6 +120,9 @@ bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
 
 		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(handshakePkt);
 		udpSession->SendReliable(sendBuffer, timestamp);
+
+
+		std::cout << "[UDP] Send : S_HANDSHAKE\n";
 	}
 
 	return true;
@@ -121,6 +130,7 @@ bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
 
 bool Handle_C_CHAT(SessionRef& session, Protocol::C_CHAT& pkt)
 {
+	std::cout << "[TCP] Recv : C_CHAT\n";
 	auto msg = pkt.msg();
 
 	cout << msg << endl;
@@ -130,8 +140,7 @@ bool Handle_C_CHAT(SessionRef& session, Protocol::C_CHAT& pkt)
 
 bool Handle_C_TIMESYNC(SessionRef& session, Protocol::C_TIMESYNC& pkt)
 {
-	// temp
-	std::cout << "Handle C_TIMESYNK" << std::endl;
+	std::cout << "[TCP] Recv : C_TIMESYNC\n";
 
 	float serverTime = GTimeManager.GetServerTime();
 
@@ -140,6 +149,8 @@ bool Handle_C_TIMESYNC(SessionRef& session, Protocol::C_TIMESYNC& pkt)
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(timesyncPkt);
 
 	session->Send(sendBuffer);
+
+	std::cout << "[TCP] Send : C_TIMESYNC\n";
 
 	return true;
 }

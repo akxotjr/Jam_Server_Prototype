@@ -22,12 +22,10 @@ void RecvBuffer::Clean()
 
 	if (dataSize == 0)
 	{
-		// 읽기 및 커서 가 동일한 위치라면 둘다 0으로 리셋
 		_readPos = _writePos = 0;
 	}
 	else
 	{
-		// 여유 공간이 버퍼 1개 크기 미만이면, 데이터를 앞으로 땅긴다.
 		if (FreeSize() > _bufferSize)
 		{
 			::memcpy(&_buffer[0], &_buffer[_readPos], dataSize);

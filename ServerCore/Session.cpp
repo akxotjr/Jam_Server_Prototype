@@ -451,14 +451,13 @@ void ReliableUdpSession::Update(float serverTime)
 		}
 	}
 
-	// 락 밖에서 재전송 호출
 	for (uint16 seq : resendList)
 	{
 		auto it = _pendingAckMap.find(seq);
 		if (it != _pendingAckMap.end())
 		{
 			std::cout << "[ReliableUDP] Re-sending seq: " << seq << "\n";
-			Send(it->second.buffer);
+			SendReliable(it->second.buffer, serverTime);
 		}
 	}
 }
@@ -466,16 +465,20 @@ void ReliableUdpSession::Update(float serverTime)
 void ReliableUdpSession::HandleAck(uint16 latestSeq, uint32 bitfield)
 {
 	WRITE_LOCK
-
 	std::cout << "[ACK] seq = ";
+
 	for (int i = 0; i <= 32; ++i)
 	{
 		uint16 ackSeq = latestSeq - i;
 
 		if (i == 0 || (bitfield & (1 << (i - 1))))
 		{
-			_pendingAckMap.erase(ackSeq);
-			std::cout << ackSeq << " ";
+			auto it = _pendingAckMap.find(ackSeq);
+			if (it != _pendingAckMap.end())
+			{
+				_pendingAckMap.erase(it);
+				std::cout << ackSeq << " ";
+			}
 		}
 	}
 	std::cout << "\n";
@@ -483,10 +486,14 @@ void ReliableUdpSession::HandleAck(uint16 latestSeq, uint32 bitfield)
 
 bool ReliableUdpSession::CheckAndRecordReceiveHistory(uint16 seq)
 {
+	if (!IsSeqGreater(seq, _latestSeq - 1024))
+		return false;
+
 	if (_receiveHistory.test(seq % 1024))
 		return false;
 
 	_receiveHistory.set(seq % 1024);
+	_latestSeq = IsSeqGreater(seq, _latestSeq) ? seq : _latestSeq;
 	return true;
 }
 
@@ -496,12 +503,15 @@ uint32 ReliableUdpSession::GenerateAckBitfield(uint16 latestSeq)
 	for (int i = 1; i <= 32; ++i)
 	{
 		uint16 seq = latestSeq - i;
+
+		if (!IsSeqGreater(latestSeq, seq))
+			continue;
+
 		if (_receiveHistory.test(seq % 1024))
 		{
 			bitfield |= (1 << (i - 1));
 		}
 	}
-
 	return bitfield;
 }
 

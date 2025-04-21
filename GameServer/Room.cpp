@@ -70,7 +70,8 @@ void Room::BroadCastCharacterSync()
 
 	for (auto& [id, player] : _players)
 	{
-		auto session = player->GetOwnerSession();
+		auto gameTcpSession = player->GetOwnerSession();
+		auto gameUdpSession = static_pointer_cast<GameUdpSession>(GSessionManager.GetSessionById(ProtocolType::PROTOCOL_UDP, gameTcpSession->GetId()));
 
 		Protocol::S_CHARACTER_SYNC pkt;
 
@@ -82,8 +83,10 @@ void Room::BroadCastCharacterSync()
 			info->CopyFrom(*character->GetInfo()); 
 		}
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(pkt);
-		session->Send(sendBuffer);
+
+
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(pkt);
+		gameUdpSession->SendReliable(sendBuffer, timestamp);
 	}
 }
 

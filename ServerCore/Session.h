@@ -169,6 +169,7 @@ private:
 	void									ProcessSend(int32 numOfBytes);
 
 	void									Update(float serverTime);
+	bool									IsSeqGreater(uint16 a, uint16 b) { return static_cast<int16>(a - b) > 0; }	// util 로 뺄지
 
 	void									HandleError(int32 errorCode);
 
@@ -179,6 +180,7 @@ protected:
 	unordered_map<uint16, PendingPacket>	_pendingAckMap;
 	bitset<1024>							_receiveHistory;
 
+	uint16									_latestSeq = 0;
 	uint16									_sendSeq = 1;			// 다음 보낼 sequence
 	float									_resendIntervalMs = 0.1f; // 재전송 대기 시간
 

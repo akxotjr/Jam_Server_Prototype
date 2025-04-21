@@ -88,23 +88,41 @@ void UdpReceiver::RegisterRecv()
 
 bool UdpReceiver::ProcessRecv(int32 numOfBytes, ReliableUdpSessionRef session)
 {
-    //_recvEvent.owner = nullptr;
 
-    if (_recvBuffer.OnWrite(numOfBytes) == false)
+
+    std::cout << "[ProcessRecv] numOfBytes = " << numOfBytes << "\n";
+    
+
+    if (!session)
     {
+        std::cout << "[ProcessRecv] session is nullptr or expired!\n";
         return false;
     }
 
-    const int32 dataSize = _recvBuffer.DataSize();
-    const int32 processLen = IsParsingPacket(_recvBuffer.ReadPos(), dataSize, session);
+    if (_recvBuffer.OnWrite(numOfBytes) == false)
+    {
+        std::cout << "[ProcessRecv] OnWrite failed! FreeSize: " << _recvBuffer.FreeSize() << ", numOfBytes: " << numOfBytes << "\n";
+        return false;
+    }
+    //std::cout << "[ProcessRecv] DataSize =  " << _recvBuffer.DataSize() << '\n';
+
+    BYTE* buf = _recvBuffer.ReadPos();
+    if (!buf)
+    {
+        std::cout << "[ProcessRecv] buffer is null\n";
+        return false;
+    }
+
+    int32 dataSize = _recvBuffer.DataSize();
+    int32 processLen = IsParsingPacket(buf, dataSize, session);
 
     if (processLen < 0 || dataSize < processLen || _recvBuffer.OnRead(processLen) == false)
     {
+        std::cout << "[ProcessRecv] Invalid processLen: " << processLen << ", dataSize: " << dataSize << "\n";
         return false;
     }
 
     _recvBuffer.Clean();
-
     RegisterRecv();
     return true;
 }
@@ -113,6 +131,27 @@ int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSes
 {
     int32 processLen = 0;
 
+    //while (true)
+    //{
+    //    int32 dataSize = len - processLen;
+
+    //    if (dataSize < sizeof(UdpPacketHeader))
+    //        break;
+
+    //    UdpPacketHeader* header = reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
+
+    //    if (dataSize < header->size || header->size < sizeof(UdpPacketHeader))
+    //        break;
+
+    //    if (processLen + header->size > len)
+    //        break;
+
+    //    auto baseSession = static_pointer_cast<Session>(session);
+    //    OnRecv(baseSession, &buffer[0], header->size);
+
+    //    processLen += header->size;
+    //}
+
     while (true)
     {
         int32 dataSize = len - processLen;
@@ -120,16 +159,35 @@ int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSes
         if (dataSize < sizeof(UdpPacketHeader))
             break;
 
-        UdpPacketHeader* header = reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
+        UdpPacketHeader header = *reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
 
-        if (dataSize < header->size || header->size < sizeof(UdpPacketHeader))
+        if (dataSize < header.size)
             break;
 
         auto baseSession = static_pointer_cast<Session>(session);
-        OnRecv(baseSession, &buffer[processLen], header->size);
-
-        processLen += header->size;
+        OnRecv(baseSession, &buffer[0], header.size);
+        processLen += header.size;
     }
+
+    //while (true)
+    //{
+    //    int32 dataSize = len - processLen;
+
+    //    if (dataSize < sizeof(UdpPacketHeader))
+    //        break;
+
+    //    // 여기가 크래시 지점
+    //    UdpPacketHeader* header = reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
+
+    //    if (header->size > dataSize)
+    //        break;
+
+    //    // 이 부분 잘못: buffer[0] 고정 말고 processLen 위치부터 읽어야 함
+    //    auto baseSession = static_pointer_cast<Session>(session);
+    //    OnRecv(baseSession, &buffer[processLen], header->size);
+
+    //    processLen += header->size;
+    //}
 
     return processLen;
 }

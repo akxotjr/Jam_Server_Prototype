@@ -4,6 +4,7 @@
 #include "GameTcpSession.h"
 #include "GameUdpSession.h"
 #include "GameUdpReceiver.h"
+#include "SessionManager.h"
 #include "Room.h"
 #include "RoomManager.h"
 #include "IdManager.h"
@@ -22,7 +23,13 @@ bool Handle_INVALID(SessionRef& session, BYTE* buffer, int32 len)
 bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt)
 {
 	std::cout << "[TCP] Recv : C_LOGIN\n";
+
 	GameTcpSessionRef gameTcpSession = static_pointer_cast<GameTcpSession>(session);
+
+	// 일단은 그냥 Session Id 사용 나중에 db 붙여서 userId 로
+	uint32 id = GIdManager.Generate(IdType::Session);
+	gameTcpSession->SetId(id);
+	GSessionManager.Add(session);
 
 	{
 		if (gameTcpSession->_currentPlayer)
@@ -40,6 +47,7 @@ bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt)
 
 	Protocol::S_LOGIN loginPkt;
 	loginPkt.set_success(true);
+	loginPkt.set_userid(id);
 
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(loginPkt);
 	session->Send(sendBuffer);
@@ -52,20 +60,21 @@ bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt)
 bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
 	std::cout << "[TCP] Recv : C_ENTER_GAME\n";
-	GameTcpSessionRef gameSession = static_pointer_cast<GameTcpSession>(session);
+	GameTcpSessionRef gameTcpSession = static_pointer_cast<GameTcpSession>(session);
 
-	auto& player = gameSession->_currentPlayer;
+	auto& player = gameTcpSession->_currentPlayer;
 
 	if (player == nullptr)
 	{
 		return false;
 	}
 
-	gameSession->_room = GRoomManager.GetRoomById(1);	// temp
-	gameSession->_room.lock()->DoAsync(&Room::Enter, gameSession->_currentPlayer);
+	//temp
+	gameTcpSession->SetRoom(GRoomManager.GetRoomById(1));
+	gameTcpSession->GetRoom()->DoAsync(&Room::Enter, gameTcpSession->_currentPlayer);
 
 
-	auto service = gameSession->GetService();
+	auto service = gameTcpSession->GetService();
 	if (service == nullptr) return false;
 
 
@@ -84,7 +93,7 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 		enterGamePkt.set_port(port);
 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(enterGamePkt);
-		session->Send(sendBuffer);
+		gameTcpSession->Send(sendBuffer);
 
 		std::cout << "[TCP] Send : S_ENTER_GAME\n";
 	}
@@ -108,9 +117,17 @@ bool Handle_C_ACK(SessionRef& session, Protocol::C_ACK& pkt)
 bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
 {
 	std::cout << "[UDP] Recv : C_HANDSHAKE\n";
+
+	uint32 id = pkt.userid();
+	session->SetId(id);
+	GSessionManager.Add(session);
+
+
 	auto udpSession = static_pointer_cast<GameUdpSession>(session);
 	if (udpSession == nullptr) 
 		return false;
+
+
 
 	{
 		float timestamp = GTimeManager.GetServerTime();
@@ -157,7 +174,14 @@ bool Handle_C_TIMESYNC(SessionRef& session, Protocol::C_TIMESYNC& pkt)
 
 bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 {
-	GameTcpSessionRef gameSession = static_pointer_cast<GameTcpSession>(session);
+	std::cout << "[UDP] Recv : C_SPAWN_ACTOR\n";
+
+	GameUdpSessionRef gameUdpSession = static_pointer_cast<GameUdpSession>(session);
+
+	uint32 id = gameUdpSession->GetId();
+
+	auto gameTcpSession = static_pointer_cast<GameTcpSession>(GSessionManager.GetSessionById(ProtocolType::PROTOCOL_TCP, id));
+	gameTcpSession->GetRoom()->BroadcastSpawnActor();
 
 	//auto& player = gameSession->_currentPlayer;
 
@@ -179,8 +203,8 @@ bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 	//auto sendBuffer = ClientPacketHandler::MakeSendBuffer(spawnActorPkt);
 	//session->Send(sendBuffer);
 
-	gameSession->_room = GRoomManager.GetRoomById(1);	// temp
-	gameSession->_room.lock()->BroadcastSpawnActor();
+	//gameSession->_room = GRoomManager.GetRoomById(1);	// temp
+	//gameSession->_room.lock()->BroadcastSpawnActor();
 	
 
 	return true;
@@ -188,6 +212,8 @@ bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 
 bool Handle_C_CHARACTER_SYNC(SessionRef& session, Protocol::C_CHARACTER_SYNC& pkt)
 {
+	std::cout << "[UDP] Recv : C_CHARACTER_SYNC\n";
+
 	float timestamp = pkt.timestamp();
 	Protocol::CharacterInfo info = pkt.characterinfo();
 
@@ -200,7 +226,10 @@ bool Handle_C_CHARACTER_SYNC(SessionRef& session, Protocol::C_CHARACTER_SYNC& pk
 
 bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 {
-	GameTcpSessionRef gameSession = static_pointer_cast<GameTcpSession>(session);
+	std::cout << "[UDP] Recv : C_PLAYER_INPUT\n";
+
+	GameUdpSessionRef gameUdpSession = static_pointer_cast<GameUdpSession>(session);
+	auto gameTcpSession = static_pointer_cast<GameTcpSession>(GSessionManager.GetSessionById(ProtocolType::PROTOCOL_TCP, gameUdpSession->GetId()));
 
 	float timestamp = pkt.timestamp();
 	uint32 sequenceNumber = pkt.sequencenumber();
@@ -216,7 +245,7 @@ bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 	if (pkt.has_mouseposy())
 		mousePosY = pkt.mouseposy();
 
-	auto& player = gameSession->_currentPlayer;
+	auto& player = gameTcpSession->_currentPlayer;
 
 	if (player == nullptr)
 		return false; 
@@ -229,9 +258,12 @@ bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 		auto characterInfo = inputPkt.mutable_characterinfo();
 		characterInfo->CopyFrom(*player->GetInfo());
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(inputPkt);
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(inputPkt);
 
-		session->Send(sendBuffer);
+		float timestamp = GTimeManager.GetServerTime();
+
+		gameUdpSession->SendReliable(sendBuffer, timestamp);
+		std::cout << "[UDP] Send : S_PLAYER_INPUT\n";
 	}
 
 	return false;

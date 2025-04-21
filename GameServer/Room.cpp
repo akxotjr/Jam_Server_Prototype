@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GameTcpSession.h"
+#include "GameUdpSession.h"
 #include "Room.h"
 #include "Character.h"
 #include "Player.h"
@@ -7,6 +8,8 @@
 #include "TimeManager.h"
 #include "ClientPacketHandler.h"
 #include "SendBuffer.h"
+#include "SessionManager.h"
+#include "TimeManager.h"
 
 void Room::Update()
 {
@@ -93,7 +96,9 @@ void Room::BroadcastSpawnActor()
 			continue;
 		}
 
-		auto session = player->GetOwnerSession();
+		auto tcpSession = player->GetOwnerSession();
+		auto udpSession = static_pointer_cast<GameUdpSession>(GSessionManager.GetSessionById(ProtocolType::PROTOCOL_UDP, tcpSession->GetId()));
+
 
 		Protocol::S_SPAWN_ACTOR pkt;
 
@@ -106,9 +111,12 @@ void Room::BroadcastSpawnActor()
 			info->CopyFrom(*character->GetInfo());
 		}
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(pkt);
-		session->Send(sendBuffer);
+		float timestamp = GTimeManager.GetServerTime();
+
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(pkt);
+		udpSession->SendReliable(sendBuffer, timestamp);
 	}
+	std::cout << "[UDP] Broadcast : S_SPAWN_ACTOR\n";
 }
 
 

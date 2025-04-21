@@ -15,10 +15,10 @@ GameUdpSession::~GameUdpSession()
 
 void GameUdpSession::OnConnected()
 {
-	cout << "[UDP] ID = " << GetId() << " : OnConnected\n";
+	cout << "[UDP] OnConnected\n";
 
 	// todo add to sessionManager
-	GSessionManager.Add(GetSessionRef());
+	//GSessionManager.Add(GetSessionRef());
 }
 
 void GameUdpSession::OnDisconnected()
@@ -34,6 +34,6 @@ void GameUdpSession::OnRecv(BYTE* buffer, int32 len)
 
 void GameUdpSession::OnSend(int32 len)
 {
-	cout << "Udp OnSend : " << GetId() << endl;
+	//cout << "Udp OnSend : " << GetId() << endl;
 	//cout << "GameUdpSession [" << GetId() << "] : OnSend" << len << " bytes\n";
 }

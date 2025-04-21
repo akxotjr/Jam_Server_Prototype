@@ -51,9 +51,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>03.Contents</Filter>
     </ClCompile>
-    <ClCompile Include="RoomManager.cpp">
-      <Filter>03.Contents</Filter>
-    </ClCompile>
     <ClCompile Include="TimeManager.cpp">
       <Filter>03.Manager</Filter>
     </ClCompile>
@@ -62,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="Bot.cpp">
       <Filter>03.Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="IdManager.cpp">
-      <Filter>97.Utils</Filter>
     </ClCompile>
     <ClCompile Include="Actor.cpp">
       <Filter>03.Contents</Filter>
@@ -77,6 +71,12 @@
     </ClCompile>
     <ClCompile Include="GameUdpReceiver.cpp">
       <Filter>02.Network</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomManager.cpp">
+      <Filter>03.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="IdManager.cpp">
+      <Filter>03.Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,9 +107,6 @@
     <ClInclude Include="Player.h">
       <Filter>03.Contents</Filter>
     </ClInclude>
-    <ClInclude Include="RoomManager.h">
-      <Filter>03.Contents</Filter>
-    </ClInclude>
     <ClInclude Include="TimeManager.h">
       <Filter>03.Manager</Filter>
     </ClInclude>
@@ -118,9 +115,6 @@
     </ClInclude>
     <ClInclude Include="Bot.h">
       <Filter>03.Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="IdManager.h">
-      <Filter>97.Utils</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>03.Contents</Filter>
@@ -133,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="GameUdpReceiver.h">
       <Filter>02.Network</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomManager.h">
+      <Filter>03.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="IdManager.h">
+      <Filter>03.Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

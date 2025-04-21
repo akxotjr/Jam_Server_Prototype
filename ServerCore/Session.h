@@ -36,8 +36,8 @@ public:
 	SOCKET									GetSocket() { return _socket; }	//todo
 	bool									IsConnected() { return _connected; }
 	SessionRef								GetSessionRef() { return static_pointer_cast<Session>(shared_from_this()); }
-	int32									GetId() { return _id; }
-	void									SetId(int32 id) { _id = id; }
+	uint32									GetId() { return _id; }
+	void									SetId(uint32 id) { _id = id; }
 
 protected:
 	virtual void							OnConnected() {}
@@ -161,28 +161,19 @@ private:
 	virtual void							Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
 
 private:
-	//void									RegisterConnect();
-	//void									RegisterDisconnect();
 	void									RegisterSend(SendBufferRef sendbuffer);
-	//void									RegisterRecv();
 
 
 	void									ProcessConnect();
 	void									ProcessDisconnect();
 	void									ProcessSend(int32 numOfBytes);
-	//void									ProcessRecv(int32 numOfBytes);
 
 	void									Update(float serverTime);
 
 	void									HandleError(int32 errorCode);
-	bool									IsParsingPacket(BYTE* buffer, int32 len);
 
 private:
 	USE_LOCK
-
-	RecvBuffer								_recvBuffer;
-	Queue<SendBufferRef>					_sendQueue;
-	Atomic<bool>							_sendRegistered = false;
 
 protected:
 	unordered_map<uint16, PendingPacket>	_pendingAckMap;
@@ -192,6 +183,5 @@ protected:
 	float									_resendIntervalMs = 0.1f; // 재전송 대기 시간
 
 private:
-	RecvEvent								_recvEvent;
 	SendEvent								_sendEvent;
 };

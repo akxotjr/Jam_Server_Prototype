@@ -7,8 +7,6 @@
 
 GameTcpSession::GameTcpSession()
 {
-	uint32 id = GIdManager.Generate(IdType::Session);
-	SetId(id);
 }
 
 GameTcpSession::~GameTcpSession()
@@ -17,8 +15,11 @@ GameTcpSession::~GameTcpSession()
 
 void GameTcpSession::OnConnected()
 {
-	cout << "[TCP] ID = " << GetId() << " : OnConnected\n";
-	GSessionManager.Add(GetSessionRef());
+	//uint32 id = GIdManager.Generate(IdType::Session);
+	//SetId(id);
+
+	cout << "[TCP] OnConnected\n";
+	//GSessionManager.Add(GetSessionRef());
 }
 
 void GameTcpSession::OnDisconnected()

@@ -121,9 +121,10 @@ ReliableUdpSessionRef Service::FindOrCreateUdpSession(const NetAddress& from)
 		return nullptr;
 
 	newSession->SetRemoteNetAddress(from);
-	newSession->ProcessConnect();
 
 	_pendingUdpSessions[from] = newSession;
+
+	newSession->ProcessConnect();
 
 	return newSession;
 }
@@ -135,8 +136,7 @@ void Service::CompleteUdpHandshake(const NetAddress& from)
 	auto it = _pendingUdpSessions.find(from);
 	if (it != _pendingUdpSessions.end())
 	{
-		AddUdpSession(it->second);      // 정규 세션으로 등록
-		//AddSession(it->second);              // 공용 세션 관리에 추가 (선택적)
+		AddUdpSession(it->second);
 		_pendingUdpSessions.erase(it);
 	}
 }

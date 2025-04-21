@@ -459,6 +459,7 @@ class S_LOGIN final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kSuccessFieldNumber = 1,
+    kUserIdFieldNumber = 2,
   };
   // bool success = 1;
   void clear_success() ;
@@ -470,12 +471,22 @@ class S_LOGIN final : public ::google::protobuf::Message
   void _internal_set_success(bool value);
 
   public:
+  // uint32 userId = 2;
+  void clear_userid() ;
+  ::uint32_t userid() const;
+  void set_userid(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_userid() const;
+  void _internal_set_userid(::uint32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Protocol.S_LOGIN)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 1, 0,
+      1, 2, 0,
       0, 2>
       _table_;
 
@@ -494,6 +505,7 @@ class S_LOGIN final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const S_LOGIN& from_msg);
     bool success_;
+    ::uint32_t userid_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -2010,10 +2022,11 @@ class C_LOGIN final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
-class C_HANDSHAKE final : public ::google::protobuf::internal::ZeroFieldsBase
+class C_HANDSHAKE final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:Protocol.C_HANDSHAKE) */ {
  public:
   inline C_HANDSHAKE() : C_HANDSHAKE(nullptr) {}
+  ~C_HANDSHAKE() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
   void operator delete(C_HANDSHAKE* msg, std::destroying_delete_t) {
@@ -2087,21 +2100,49 @@ class C_HANDSHAKE final : public ::google::protobuf::internal::ZeroFieldsBase
   // implements Message ----------------------------------------------
 
   C_HANDSHAKE* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<C_HANDSHAKE>(arena);
+    return ::google::protobuf::Message::DefaultConstruct<C_HANDSHAKE>(arena);
   }
-  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
-  inline void CopyFrom(const C_HANDSHAKE& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
-  void MergeFrom(const C_HANDSHAKE& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
-  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const C_HANDSHAKE& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const C_HANDSHAKE& from) { C_HANDSHAKE::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
 
   public:
   bool IsInitialized() const {
     return true;
   }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(C_HANDSHAKE* other);
  private:
   template <typename T>
   friend ::absl::string_view(
@@ -2126,12 +2167,25 @@ class C_HANDSHAKE final : public ::google::protobuf::internal::ZeroFieldsBase
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
+  enum : int {
+    kUserIdFieldNumber = 1,
+  };
+  // uint32 userId = 1;
+  void clear_userid() ;
+  ::uint32_t userid() const;
+  void set_userid(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_userid() const;
+  void _internal_set_userid(::uint32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Protocol.C_HANDSHAKE)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 0, 0,
+      0, 1, 0,
       0, 2>
       _table_;
 
@@ -2149,8 +2203,11 @@ class C_HANDSHAKE final : public ::google::protobuf::internal::ZeroFieldsBase
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const C_HANDSHAKE& from_msg);
+    ::uint32_t userid_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_Protocol_2eproto;
 };
 // -------------------------------------------------------------------
@@ -3573,6 +3630,28 @@ inline void S_LOGIN::_internal_set_success(bool value) {
   _impl_.success_ = value;
 }
 
+// uint32 userId = 2;
+inline void S_LOGIN::clear_userid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.userid_ = 0u;
+}
+inline ::uint32_t S_LOGIN::userid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_LOGIN.userId)
+  return _internal_userid();
+}
+inline void S_LOGIN::set_userid(::uint32_t value) {
+  _internal_set_userid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_LOGIN.userId)
+}
+inline ::uint32_t S_LOGIN::_internal_userid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.userid_;
+}
+inline void S_LOGIN::_internal_set_userid(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.userid_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // C_ENTER_GAME
@@ -3772,6 +3851,28 @@ inline void S_ACK::_internal_set_bitfield(::uint32_t value) {
 // -------------------------------------------------------------------
 
 // C_HANDSHAKE
+
+// uint32 userId = 1;
+inline void C_HANDSHAKE::clear_userid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.userid_ = 0u;
+}
+inline ::uint32_t C_HANDSHAKE::userid() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_HANDSHAKE.userId)
+  return _internal_userid();
+}
+inline void C_HANDSHAKE::set_userid(::uint32_t value) {
+  _internal_set_userid(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_HANDSHAKE.userId)
+}
+inline ::uint32_t C_HANDSHAKE::_internal_userid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.userid_;
+}
+inline void C_HANDSHAKE::_internal_set_userid(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.userid_ = value;
+}
 
 // -------------------------------------------------------------------
 

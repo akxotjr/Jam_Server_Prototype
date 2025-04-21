@@ -304,7 +304,7 @@ void TcpSession::HandleError(int32 errorCode)
 ---------------------------*/
 
 
-ReliableUdpSession::ReliableUdpSession() : _recvBuffer(BUFFER_SIZE)
+ReliableUdpSession::ReliableUdpSession()
 {
 }
 
@@ -333,17 +333,6 @@ void ReliableUdpSession::Send(SendBufferRef sendBuffer)
 	if (IsConnected() == false)
 		return;
 
-	//bool registerSend = false;
-
-	//{
-	//	WRITE_LOCK;
-	//	_sendQueue.push(sendBuffer);
-
-	//	if (_sendRegistered.exchange(true) == false)
-	//		registerSend = true;
-	//}
-
-	//if (registerSend)
 	RegisterSend(sendBuffer);
 }
 
@@ -373,23 +362,11 @@ HANDLE ReliableUdpSession::GetHandle()
 
 void ReliableUdpSession::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
-	switch (iocpEvent->eventType)
-	{
-	case EventType::Send:
-		ProcessSend(numOfBytes);
-		break;
-	}
-}
+	if (iocpEvent->eventType != EventType::Send)
+		return;
 
-//void ReliableUdpSession::RegisterConnect()
-//{
-//	
-//}
-//
-//void ReliableUdpSession::RegisterDisconnect()
-//{
-//
-//}
+	ProcessSend(numOfBytes);
+}
 
 void ReliableUdpSession::RegisterSend(SendBufferRef sendBuffer)
 {
@@ -403,9 +380,6 @@ void ReliableUdpSession::RegisterSend(SendBufferRef sendBuffer)
 	wsaBuf.buf = reinterpret_cast<char*>(sendBuffer->Buffer());
 	wsaBuf.len = static_cast<ULONG>(sendBuffer->WriteSize());
 
-	// temp
-	cout << GetRemoteNetAddress().GetPort() << std::endl;
-
 	DWORD numOfBytes = 0;
 	SOCKADDR_IN remoteAddr = GetRemoteNetAddress().GetSockAddr();
 
@@ -416,52 +390,10 @@ void ReliableUdpSession::RegisterSend(SendBufferRef sendBuffer)
 		{
 			cout << "Handle Error : " << errorCode << '\n';
 			HandleError(errorCode);
-			_sendEvent.owner = nullptr;
+			//_sendEvent.owner = nullptr;
 			_sendEvent.sendBuffers.clear();
-			//_sendRegistered.store(false);
 		}
 	}
-
-	//{
-	//	WRITE_LOCK;
-
-	//	int32 writeSize = 0;
-	//	while (_sendQueue.empty() == false)
-	//	{
-	//		SendBufferRef sendBuffer = _sendQueue.front();
-
-	//		writeSize += sendBuffer->WriteSize();
-	//		// TODO: exception check
-
-	//		_sendQueue.pop();
-	//		_sendEvent.sendBuffers.push_back(sendBuffer);
-	//	}
-	//}
-
-	//// Scatter-Gather
-	//Vector<WSABUF> wsaBufs;
-	//wsaBufs.reserve(_sendEvent.sendBuffers.size());
-	//for (const SendBufferRef& sendBuffer : _sendEvent.sendBuffers)
-	//{
-	//	WSABUF wsaBuf;
-	//	wsaBuf.buf = reinterpret_cast<char*>(sendBuffer->Buffer());
-	//	wsaBuf.len = static_cast<LONG>(sendBuffer->WriteSize());
-	//	wsaBufs.push_back(wsaBuf);
-	//}
-
-	//DWORD numOfBytes = 0;
-
-	//if (SOCKET_ERROR == ::WSASendTo(GetService()->GetUdpSocket(), wsaBufs.data(), static_cast<DWORD>(wsaBufs.size()), OUT &numOfBytes, 0, reinterpret_cast<SOCKADDR*>(&GetRemoteNetAddress().GetSockAddr()), sizeof(SOCKADDR_IN), &_sendEvent, nullptr))
-	//{
-	//	const int32 errorCode = ::WSAGetLastError();
-	//	if (errorCode != WSA_IO_PENDING)
-	//	{
-	//		HandleError(errorCode);
-	//		_sendEvent.owner = nullptr;
-	//		_sendEvent.sendBuffers.clear();
-	//		_sendRegistered.store(false);
-	//	}
-	//}
 }
 
 void ReliableUdpSession::ProcessConnect()
@@ -479,7 +411,7 @@ void ReliableUdpSession::ProcessDisconnect()
 
 void ReliableUdpSession::ProcessSend(int32 numOfBytes)
 {
-	_sendEvent.owner = nullptr;
+	//_sendEvent.owner = nullptr;
 	_sendEvent.sendBuffers.clear();
 
 	if (numOfBytes == 0)
@@ -489,12 +421,6 @@ void ReliableUdpSession::ProcessSend(int32 numOfBytes)
 	}
 
 	OnSend(numOfBytes);
-
-	//WRITE_LOCK
-	//if (_sendQueue.empty())
-	//	_sendRegistered.store(false);
-	//else
-	//	RegisterSend();
 }
 
 void ReliableUdpSession::Update(float serverTime)
@@ -541,6 +467,7 @@ void ReliableUdpSession::HandleAck(uint16 latestSeq, uint32 bitfield)
 {
 	WRITE_LOCK
 
+	std::cout << "[ACK] seq = ";
 	for (int i = 0; i <= 32; ++i)
 	{
 		uint16 ackSeq = latestSeq - i;
@@ -548,9 +475,10 @@ void ReliableUdpSession::HandleAck(uint16 latestSeq, uint32 bitfield)
 		if (i == 0 || (bitfield & (1 << (i - 1))))
 		{
 			_pendingAckMap.erase(ackSeq);
-			std::cout << "[ACK] seq=" << ackSeq << '\n';
+			std::cout << ackSeq << " ";
 		}
 	}
+	std::cout << "\n";
 }
 
 bool ReliableUdpSession::CheckAndRecordReceiveHistory(uint16 seq)
@@ -589,28 +517,4 @@ void ReliableUdpSession::HandleError(int32 errorCode)
 		cout << "Handle Error : " << errorCode << '\n';
 		break;
 	}
-}
-
-bool ReliableUdpSession::IsParsingPacket(BYTE* buffer, const int32 len)
-{
-	int32 processLen = 0;
-
-	while (true)
-	{
-		int32 dataSize = len - processLen;
-
-		if (dataSize < sizeof(UdpPacketHeader))
-			break;
-
-		UdpPacketHeader* header = reinterpret_cast<UdpPacketHeader*>(&buffer[processLen]);
-
-		if (dataSize < header->size || header->size < sizeof(UdpPacketHeader))
-			break;
-
-		OnRecv(&buffer[processLen], header->size);
-
-		processLen += header->size;
-	}
-
-	return processLen;
 }

@@ -12,6 +12,9 @@ public:
 	virtual void		OnRecv(BYTE* buffer, int32 len) override;
 	virtual void		OnSend(int32 len) override;
 
+	void				SetRoom(RoomRef room) { _room = room; }
+	RoomRef				GetRoom() { return _room.lock(); }
+
 public:
 	PlayerRef			_currentPlayer;
 	weak_ptr<Room>		_room;

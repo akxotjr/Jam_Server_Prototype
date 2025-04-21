@@ -12,6 +12,7 @@ message C_LOGIN
 message S_LOGIN
 {
 	bool success = 1;
+	uint32 userId = 2;
 	//repeated Player players = 2;
 }
 
@@ -41,6 +42,7 @@ message S_ACK
 
 message C_HANDSHAKE
 {
+	uint32 userId = 1;
 }
 
 message S_HANDSHAKE

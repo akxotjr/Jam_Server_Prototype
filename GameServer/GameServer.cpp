@@ -74,7 +74,7 @@ int main()
 	while (true)
 	{
 		GTimeManager.Update();
-		//GRoomManager.Update();
+		GRoomManager.Update();
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}

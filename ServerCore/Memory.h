@@ -26,7 +26,7 @@ namespace core::memory
 		void	Release(void* ptr);
 
 	private:
-		vector<MemoryPool*> _pools;
+		std::vector<MemoryPool*> _pools;
 
 		// 메모리 크기 <-> 메모리 풀
 		// O(1) 빠르게 찾기 위한 테이블
@@ -50,9 +50,9 @@ namespace core::memory
 	}
 
 	template<typename Type, typename... Args>
-	shared_ptr<Type> MakeShared(Args&&... args)
+	std::shared_ptr<Type> MakeShared(Args&&... args)
 	{
-		return shared_ptr<Type>{ xnew<Type>(forward<Args>(args)...), xdelete<Type> };
+		return std::shared_ptr<Type>{ xnew<Type>(forward<Args>(args)...), xdelete<Type> };
 	}
 }
 

@@ -33,9 +33,9 @@ namespace core::memory
 		}
 
 		template<typename... Args>
-		static shared_ptr<Type> MakeShared(Args&&... args)
+		static std::shared_ptr<Type> MakeShared(Args&&... args)
 		{
-			shared_ptr<Type> ptr = { Pop(forward<Args>(args)...), Push };
+			std::shared_ptr<Type> ptr = { Pop(std::forward<Args>(args)...), Push };
 			return ptr;
 		}
 

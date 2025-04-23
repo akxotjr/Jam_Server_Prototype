@@ -1,35 +1,37 @@
 #pragma once
 
-/*------------------
-	 IocpObject
--------------------*/
-
-class IocpObject : public enable_shared_from_this<IocpObject>
+namespace core::network
 {
-public:
-	virtual HANDLE GetHandle() abstract;
-	virtual void Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) abstract;
-};
+	/*------------------
+		IocpObject
+	-------------------*/
 
-/*------------------
-	  IocpCore
--------------------*/
+	class IocpObject : public enable_shared_from_this<IocpObject>
+	{
+	public:
+		virtual HANDLE GetHandle() = 0;
+		virtual void Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) = 0;
+	};
 
-class IocpCore
-{
-public:
-	IocpCore();
-	~IocpCore();
+	/*------------------
+		  IocpCore
+	-------------------*/
 
-	HANDLE	GetHandle() { return _iocpHandle; }
+	class IocpCore
+	{
+	public:
+		IocpCore();
+		~IocpCore();
 
-	bool	Register(IocpObjectRef iocpObject);
-	bool	Dispatch(uint32 timeoutMs = INFINITE);
+		HANDLE	GetHandle() { return _iocpHandle; }
 
-private:
-	HANDLE	_iocpHandle;
-};
+		bool	Register(IocpObjectRef iocpObject);
+		bool	Dispatch(uint32 timeoutMs = INFINITE);
 
-//TEMP
-extern IocpCore GIocpCore;
+	private:
+		HANDLE	_iocpHandle;
+	};
 
+	//TEMP
+	extern IocpCore GIocpCore;
+}

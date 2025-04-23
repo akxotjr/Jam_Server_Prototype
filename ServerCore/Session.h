@@ -7,183 +7,187 @@
 #include "NetAddress.h"
 #include "RecvBuffer.h"
 
-class Service;
-class UdpReceiver;
-
-struct TcpPacketHeader
+namespace core::network
 {
-	uint16 size;
-	uint16 id;
-};
+	class Service;
+	class UdpReceiver;
 
-class Session : public IocpObject
-{
-public:
-	Session() = default;
-	virtual ~Session() = default;
+	struct TcpPacketHeader
+	{
+		uint16 size;
+		uint16 id;
+	};
 
-	virtual bool							Connect() = 0;
-	virtual void							Disconnect(const WCHAR* cause) = 0;
-	virtual void							Send(SendBufferRef sendBuffer) = 0;
-	virtual bool							IsTcp() const = 0;
-	virtual bool							IsUdp() const = 0;
+	class Session : public IocpObject
+	{
+	public:
+		Session() = default;
+		virtual ~Session() = default;
 
-	ServiceRef								GetService() { return _service.lock(); }
-	void									SetService(ServiceRef service) { _service = service; }
+		virtual bool							Connect() = 0;
+		virtual void							Disconnect(const WCHAR* cause) = 0;
+		virtual void							Send(SendBufferRef sendBuffer) = 0;
+		virtual bool							IsTcp() const = 0;
+		virtual bool							IsUdp() const = 0;
 
-	NetAddress&								GetRemoteNetAddress() { return _remoteAddress; }
-	void									SetRemoteNetAddress(NetAddress address) { _remoteAddress = address; }
-	SOCKET									GetSocket() { return _socket; }	//todo
-	bool									IsConnected() { return _connected; }
-	SessionRef								GetSessionRef() { return static_pointer_cast<Session>(shared_from_this()); }
-	uint32									GetId() { return _id; }
-	void									SetId(uint32 id) { _id = id; }
+		ServiceRef								GetService() { return _service.lock(); }
+		void									SetService(ServiceRef service) { _service = service; }
 
-protected:
-	virtual void							OnConnected() {}
-	virtual void							OnDisconnected() {}
-	virtual void							OnRecv(BYTE* buffer, int32 len) {}
-	virtual void							OnSend(int32 len) {}
+		NetAddress& GetRemoteNetAddress() { return _remoteAddress; }
+		void									SetRemoteNetAddress(NetAddress address) { _remoteAddress = address; }
+		SOCKET									GetSocket() { return _socket; }	//todo
+		bool									IsConnected() { return _connected; }
+		SessionRef								GetSessionRef() { return static_pointer_cast<Session>(shared_from_this()); }
+		uint32									GetId() { return _id; }
+		void									SetId(uint32 id) { _id = id; }
 
-
-protected:
-	SOCKET									_socket = INVALID_SOCKET;
-	Atomic<bool>							_connected = false;
-
-private:
-	weak_ptr<Service>						_service;
-	NetAddress								_remoteAddress = {};
-	uint32									_id = 0;
-};
-
-class TcpSession : public Session
-{
-	enum { BUFFER_SIZE = 0x10000 }; // 64KB
-
-	friend class Listener;
-	friend class IocpCore;
-	friend class Service;
-
-public:
-	TcpSession();
-	virtual ~TcpSession();
-
-public:
-	virtual bool							Connect() override;
-	virtual void							Disconnect(const WCHAR* cause) override;
-	virtual void							Send(SendBufferRef sendBuffer) override;
-	virtual bool							IsTcp() const override { return true; }
-	virtual bool							IsUdp() const override { return false; }
-
-private:
-	/* Iocp Object impl */
-	virtual HANDLE							GetHandle() override;
-	virtual void							Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
-
-private:
-	// 전송 관련
-	bool									RegisterConnect();
-	bool									RegisterDisconnect();
-	void									RegisterRecv();
-	void									RegisterSend();
-
-	void									ProcessConnect();
-	void									ProcessDisconnect();
-	void									ProcessRecv(int32 numOfBytes);
-	void									ProcessSend(int32 numOfBytes);
-
-	int32									IsParsingPacket(BYTE* buffer, int32 len);
-
-	void									HandleError(int32 errorCode);
-
-private:
-	USE_LOCK
-
-	RecvBuffer								_recvBuffer;
-	Queue<SendBufferRef>					_sendQueue;
-	Atomic<bool>							_sendRegistered = false;
-
-private:
-	ConnectEvent							_connectEvent;
-	DisconnectEvent							_disconnectEvent;
-	RecvEvent								_recvEvent;
-	SendEvent								_sendEvent;
-};
+	protected:
+		virtual void							OnConnected() {}
+		virtual void							OnDisconnected() {}
+		virtual void							OnRecv(BYTE* buffer, int32 len) {}
+		virtual void							OnSend(int32 len) {}
 
 
-/*--------------------------
-	 ReliableUdpSession
----------------------------*/
+	protected:
+		SOCKET									_socket = INVALID_SOCKET;
+		Atomic<bool>							_connected = false;
 
-struct UdpPacketHeader
-{
-	uint16 size;
-	uint16 id;
-	uint16 sequence = 0;
-};
+	private:
+		weak_ptr<Service>						_service;
+		NetAddress								_remoteAddress = {};
+		uint32									_id = 0;
+	};
 
-struct PendingPacket
-{
-	SendBufferRef buffer;
-	uint16 sequence;
-	float timestamp;
-	uint32 retryCount = 0;
-};
+	class TcpSession : public Session
+	{
+		enum { BUFFER_SIZE = 0x10000 }; // 64KB
 
-class ReliableUdpSession : public Session
-{
-	enum { BUFFER_SIZE = 0x10000 }; // 64KB
+		friend class Listener;
+		friend class IocpCore;
+		friend class Service;
 
-	friend class UdpReceiver;
-	friend class IocpCore;
-	friend class Service;
+	public:
+		TcpSession();
+		virtual ~TcpSession();
 
-public:
-	ReliableUdpSession();
-	virtual ~ReliableUdpSession();
+	public:
+		virtual bool							Connect() override;
+		virtual void							Disconnect(const WCHAR* cause) override;
+		virtual void							Send(SendBufferRef sendBuffer) override;
+		virtual bool							IsTcp() const override { return true; }
+		virtual bool							IsUdp() const override { return false; }
 
-public:
-	virtual bool							Connect() override;
-	virtual void							Disconnect(const WCHAR* cause) override;
-	virtual void							Send(SendBufferRef sendBuffer) override;
-	virtual void							SendReliable(SendBufferRef sendBuffer, float timestamp);
+	private:
+		/* Iocp Object impl */
+		virtual HANDLE							GetHandle() override;
+		virtual void							Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
 
-	virtual bool							IsTcp() const override { return false; }
-	virtual bool							IsUdp() const override { return true; }
+	private:
+		// 전송 관련
+		bool									RegisterConnect();
+		bool									RegisterDisconnect();
+		void									RegisterRecv();
+		void									RegisterSend();
 
-	void									HandleAck(uint16 latestSeq, uint32 bitfield);
-	bool									CheckAndRecordReceiveHistory(uint16 seq);
-	uint32									GenerateAckBitfield(uint16 latestSeq);
+		void									ProcessConnect();
+		void									ProcessDisconnect();
+		void									ProcessRecv(int32 numOfBytes);
+		void									ProcessSend(int32 numOfBytes);
 
-private:
-	/* Iocp Object impl */
-	virtual HANDLE							GetHandle() override;
-	virtual void							Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
+		int32									IsParsingPacket(BYTE* buffer, int32 len);
 
-private:
-	void									RegisterSend(SendBufferRef sendbuffer);
+		void									HandleError(int32 errorCode);
+
+	private:
+		USE_LOCK
+
+			RecvBuffer								_recvBuffer;
+		Queue<SendBufferRef>					_sendQueue;
+		Atomic<bool>							_sendRegistered = false;
+
+	private:
+		ConnectEvent							_connectEvent;
+		DisconnectEvent							_disconnectEvent;
+		RecvEvent								_recvEvent;
+		SendEvent								_sendEvent;
+	};
 
 
-	void									ProcessConnect();
-	void									ProcessDisconnect();
-	void									ProcessSend(int32 numOfBytes);
+	/*--------------------------
+		 ReliableUdpSession
+	---------------------------*/
 
-	void									Update(float serverTime);
-	bool									IsSeqGreater(uint16 a, uint16 b) { return static_cast<int16>(a - b) > 0; }	// util 로 뺄지
+	struct UdpPacketHeader
+	{
+		uint16 size;
+		uint16 id;
+		uint16 sequence = 0;
+	};
 
-	void									HandleError(int32 errorCode);
+	struct PendingPacket
+	{
+		SendBufferRef buffer;
+		uint16 sequence;
+		float timestamp;
+		uint32 retryCount = 0;
+	};
 
-private:
-	USE_LOCK
+	class ReliableUdpSession : public Session
+	{
+		enum { BUFFER_SIZE = 0x10000 }; // 64KB
 
-protected:
-	unordered_map<uint16, PendingPacket>	_pendingAckMap;
-	bitset<1024>							_receiveHistory;
+		friend class UdpReceiver;
+		friend class IocpCore;
+		friend class Service;
 
-	uint16									_latestSeq = 0;
-	uint16									_sendSeq = 1;			// 다음 보낼 sequence
-	float									_resendIntervalMs = 0.1f; // 재전송 대기 시간
+	public:
+		ReliableUdpSession();
+		virtual ~ReliableUdpSession();
 
-private:
-	SendEvent								_sendEvent;
-};
+	public:
+		virtual bool							Connect() override;
+		virtual void							Disconnect(const WCHAR* cause) override;
+		virtual void							Send(SendBufferRef sendBuffer) override;
+		virtual void							SendReliable(SendBufferRef sendBuffer, float timestamp);
+
+		virtual bool							IsTcp() const override { return false; }
+		virtual bool							IsUdp() const override { return true; }
+
+		void									HandleAck(uint16 latestSeq, uint32 bitfield);
+		bool									CheckAndRecordReceiveHistory(uint16 seq);
+		uint32									GenerateAckBitfield(uint16 latestSeq);
+
+	private:
+		/* Iocp Object impl */
+		virtual HANDLE							GetHandle() override;
+		virtual void							Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
+
+	private:
+		void									RegisterSend(SendBufferRef sendbuffer);
+
+
+		void									ProcessConnect();
+		void									ProcessDisconnect();
+		void									ProcessSend(int32 numOfBytes);
+
+		void									Update(float serverTime);
+		bool									IsSeqGreater(uint16 a, uint16 b) { return static_cast<int16>(a - b) > 0; }	// util 로 뺄지
+
+		void									HandleError(int32 errorCode);
+
+	private:
+		USE_LOCK
+
+	protected:
+		unordered_map<uint16, PendingPacket>	_pendingAckMap;
+		bitset<1024>							_receiveHistory;
+
+		uint16									_latestSeq = 0;
+		uint16									_sendSeq = 1;			// 다음 보낼 sequence
+		float									_resendIntervalMs = 0.1f; // 재전송 대기 시간
+
+	private:
+		SendEvent								_sendEvent;
+	};
+}
+

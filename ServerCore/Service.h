@@ -5,98 +5,103 @@
 #include "NetAddress.h"
 #include "UdpReceiver.h"
 
-using SessionFactory = function<SessionRef()>;
-
-/*--------------
-	 Service
----------------*/
-
-struct TransportConfig
+namespace core::network
 {
-	optional<NetAddress> tcpAddress;
-	optional<NetAddress> udpAddress;
-};
+	using SessionFactory = function<SessionRef()>;
 
-class Service : public enable_shared_from_this<Service>
-{
-public:
-	Service(TransportConfig config, IocpCoreRef core, int32 maxSTcpSessionCount = 1, int32 maxUdpSessionCount = 1);
-	virtual ~Service();
+	/*--------------
+		 Service
+	---------------*/
 
-	virtual bool						Start();
-	bool								CanStart() { return _tcpSessionFactory != nullptr || _udpSessionFactory; }
+	struct TransportConfig
+	{
+		optional<NetAddress> tcpAddress;
+		optional<NetAddress> udpAddress;
+	};
 
-	virtual void						CloseService();
+	class Service : public enable_shared_from_this<Service>
+	{
+	public:
+		Service(TransportConfig config, IocpCoreRef core, int32 maxSTcpSessionCount = 1, int32 maxUdpSessionCount = 1);
+		virtual ~Service();
 
-	template<typename TCP, typename UDP> 
-	void								SetSessionFactory();
+		virtual bool						Start();
+		bool								CanStart() { return _tcpSessionFactory != nullptr || _udpSessionFactory; }
 
+		virtual void						CloseService();
 
-	void								Broadcast(SendBufferRef sendBuffer);
-	SessionRef							CreateSession(ProtocolType protocol);
-
-	void								AddTcpSession(TcpSessionRef session);
-	void								ReleaseTcpSession(TcpSessionRef session);
-
-	void								AddUdpSession(ReliableUdpSessionRef session);
-	void								ReleaseUdpSession(ReliableUdpSessionRef session);
+		template<typename TCP, typename UDP>
+		void								SetSessionFactory();
 
 
-	int32								GetCurrentTcpSessionCount() { return _tcpSessionCount; }
-	int32								GetMaxTcpSessionCount() { return _maxTcpSessionCount; }
-	int32								GetCurrentUdpSessionCount() { return _udpSessionCount; }
-	int32								GetMaxUdpSessionCount() { return _maxUdpSessionCount; }
+		void								Broadcast(SendBufferRef sendBuffer);
+		SessionRef							CreateSession(ProtocolType protocol);
+
+		void								AddTcpSession(TcpSessionRef session);
+		void								ReleaseTcpSession(TcpSessionRef session);
+
+		void								AddUdpSession(ReliableUdpSessionRef session);
+		void								ReleaseUdpSession(ReliableUdpSessionRef session);
 
 
-	void								SetUdpReceiver(UdpReceiverRef udpReceiver) { _udpReceiver = udpReceiver; };
-	SOCKET								GetUdpSocket() const { return _udpReceiver->GetSocket(); }
-
-	ReliableUdpSessionRef				FindOrCreateUdpSession(const NetAddress& from);
-	void								CompleteUdpHandshake(const NetAddress& from);
-
-public:
-	NetAddress							GetTcpNetAddress() { return _config.tcpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
-	NetAddress							GetUdpNetAddress() { return _config.udpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
-	IocpCoreRef&						GetIocpCore() { return _iocpCore; }
-
-protected:
-	USE_LOCK
-
-	TransportConfig										_config;
-
-	IocpCoreRef											_iocpCore;
-
-	Set<TcpSessionRef>									_tcpSessions;
-	Set<ReliableUdpSessionRef>							_udpSessions;
-	unordered_map<NetAddress, ReliableUdpSessionRef>	_pendingUdpSessions;
+		int32								GetCurrentTcpSessionCount() { return _tcpSessionCount; }
+		int32								GetMaxTcpSessionCount() { return _maxTcpSessionCount; }
+		int32								GetCurrentUdpSessionCount() { return _udpSessionCount; }
+		int32								GetMaxUdpSessionCount() { return _maxUdpSessionCount; }
 
 
-	int32												_sessionCount = 0;
-	int32												_maxSessionCount = 0;
+		void								SetUdpReceiver(UdpReceiverRef udpReceiver) { _udpReceiver = udpReceiver; };
+		SOCKET								GetUdpSocket() const { return _udpReceiver->GetSocket(); }
 
-	int32												_tcpSessionCount = 0;
-	int32												_maxTcpSessionCount = 0;
-	int32												_udpSessionCount = 0;
-	int32												_maxUdpSessionCount = 0;
+		ReliableUdpSessionRef				FindOrCreateUdpSession(const NetAddress& from);
+		void								CompleteUdpHandshake(const NetAddress& from);
 
-	SessionFactory										_tcpSessionFactory;
-	SessionFactory										_udpSessionFactory;
+	public:
+		NetAddress							GetTcpNetAddress() { return _config.tcpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
+		NetAddress							GetUdpNetAddress() { return _config.udpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
+		IocpCoreRef& GetIocpCore() { return _iocpCore; }
 
-private:
-	ListenerRef											_listener = nullptr;
-	UdpReceiverRef										_udpReceiver = nullptr;
-};
+	protected:
+		USE_LOCK
 
-template<typename TCP, typename UDP>
-inline void Service::SetSessionFactory()
-{
-	_tcpSessionFactory = []() -> SessionRef
-		{
-			return MakeShared<TCP>();
-		};
+		TransportConfig										_config;
 
-	_udpSessionFactory = []() -> SessionRef
-		{
-			return MakeShared<UDP>();
-		};
+		IocpCoreRef											_iocpCore;
+
+		Set<TcpSessionRef>									_tcpSessions;
+		Set<ReliableUdpSessionRef>							_udpSessions;
+		unordered_map<NetAddress, ReliableUdpSessionRef>	_pendingUdpSessions;
+
+
+		int32												_sessionCount = 0;
+		int32												_maxSessionCount = 0;
+
+		int32												_tcpSessionCount = 0;
+		int32												_maxTcpSessionCount = 0;
+		int32												_udpSessionCount = 0;
+		int32												_maxUdpSessionCount = 0;
+
+		SessionFactory										_tcpSessionFactory;
+		SessionFactory										_udpSessionFactory;
+
+	private:
+		ListenerRef											_listener = nullptr;
+		UdpReceiverRef										_udpReceiver = nullptr;
+	};
+
+	template<typename TCP, typename UDP>
+	inline void Service::SetSessionFactory()
+	{
+		_tcpSessionFactory = []() -> SessionRef
+			{
+				return MakeShared<TCP>();
+			};
+
+		_udpSessionFactory = []() -> SessionRef
+			{
+				return MakeShared<UDP>();
+			};
+	}
+
 }
+

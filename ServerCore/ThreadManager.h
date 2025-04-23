@@ -3,6 +3,9 @@
 #include <thread>
 #include <functional>
 
+#include "Memory.h"
+#include "ObjectPool.h"
+
 /*------------------
 	ThreadManager
 -------------------*/
@@ -11,13 +14,13 @@ namespace core::thread
 {
 	class ThreadManager
 	{
-		DECLARE_SINGLETON(ThreadManager)
+		DECLARE_SINGLETON(ThreadManager);
 
 	public:
 		void					Init() { InitTLS(); }
 		void					Shutdown() { Join(); }
 
-		void					Launch(function<void(void)> callback);
+		void					Launch(std::function<void(void)> callback);
 		void					Join();
 
 		void					InitTLS();
@@ -27,8 +30,8 @@ namespace core::thread
 		void					DistributeReservedJob();
 
 	private:
-		Mutex					_lock;
-		vector<std::thread>		_threads;
+		Mutex							_lock;
+		std::vector<std::thread>		_threads;
 	};
 }
 

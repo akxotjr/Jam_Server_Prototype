@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include <array>
 using namespace std;
+using namespace core::memory;
 
 template<typename Type, uint32 Size>
 using Array = array<Type, Size>;

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace core::utils
+namespace core::thread
 {
 	template<typename T>
 	class LockQueue

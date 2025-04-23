@@ -32,3 +32,18 @@
 		__analysis_assume(expr);	\
 	}								\
 }
+
+/*---------------
+	Singleton
+---------------*/
+
+
+#define DECLARE_SINGLETON(ClassName)					\
+public:                                                 \
+	static ClassName& Instance()						\
+	{													\
+		static ClassName instance;						\
+		return instance;								\	
+	}													\
+private:												\
+	ClassName() = default;								

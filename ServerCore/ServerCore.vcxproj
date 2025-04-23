@@ -189,9 +189,11 @@
     <ClInclude Include="Session.h" />
     <ClInclude Include="SocketUtils.h" />
     <ClInclude Include="ThreadManager.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TypeCast.h" />
     <ClInclude Include="CoreTypes.h" />
     <ClInclude Include="UdpReceiver.h" />
+    <ClInclude Include="CoreValues.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Allocator.cpp" />
@@ -226,6 +228,7 @@
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="SocketUtils.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="UdpReceiver.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

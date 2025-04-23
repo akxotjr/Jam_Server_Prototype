@@ -1,29 +1,30 @@
 #pragma once
 #include <functional>
 
-using CallbackType = std::function<void()>;
-
-class Job
+namespace core::job
 {
-public:
-	Job(CallbackType&& callback) : _callback(std::move(callback)) {}
+	using CallbackType = std::function<void()>;
 
-	template<typename T, typename Ret, typename... Args>
-	Job(shared_ptr<T> owner, Ret(T::*memFunc)(Args...), Args&&... args)
+	class Job
 	{
-		_callback = [owner, memFunc, args...]()
-			{
-				(owner.get()->*memFunc)(args...);
-			};
-	}
+	public:
+		Job(CallbackType&& callback) : _callback(std::move(callback)) {}
 
-	void Execute()
-	{
-		_callback();
-	}
+		template<typename T, typename Ret, typename... Args>
+		Job(std::shared_ptr<T> owner, Ret(T::*memFunc)(Args...), Args&&... args)
+		{
+			_callback = [owner, memFunc, args...]()
+				{
+					(owner.get()->*memFunc)(args...);
+				};
+		}
+
+		void			Execute() { _callback(); }
+
+	private:
+		CallbackType	_callback;
+	};	
+}
 
 
-private:
-	CallbackType _callback;
-};
 

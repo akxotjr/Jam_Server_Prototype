@@ -1,35 +1,42 @@
 #pragma once
+#include "Container.h"
+#include "Lock.h"
 
-struct JobData
+namespace core::job
 {
-	JobData(weak_ptr<JobQueue> owner, JobRef job) : owner(owner), job(job) {}
-
-	weak_ptr<JobQueue>  owner;
-	JobRef				job;
-};
-
-struct TimerItem
-{
-	bool operator<(const TimerItem& other) const
+	struct JobData
 	{
-		return executeTick > other.executeTick;
-	}
+		JobData(std::weak_ptr<JobQueue> owner, JobRef job) : owner(owner), job(job) {}
 
-	uint64				executeTick = 0;
-	JobData*			jobData = nullptr;
-};
+		std::weak_ptr<JobQueue>			owner;
+		JobRef							job;
+	};
+
+	struct TimerItem
+	{
+		bool operator<(const TimerItem& other) const
+		{
+			return executeTime > other.executeTime;
+		}
+
+		double						executeTime = 0;
+		JobData*					jobData = nullptr;
+	};
 
 
-class JobTimer
-{
-public:
-	void Reserve(uint64 tickAfter, weak_ptr<JobQueue> owner, JobRef job);
-	void Distribute(uint64 now);
-	void Clear();
+	class JobTimer
+	{
+		DECLARE_SINGLETON(JobTimer)
 
-private:
-	USE_LOCK;
-	PriorityQueue<TimerItem>	_items;
-	Atomic<bool>				_distributing = false;
-};
+	public:
+		void						Reserve(double afterTime, std::weak_ptr<JobQueue> owner, JobRef job);
+		void						Distribute(double now);
+		void						Clear();
+
+	private:
+		USE_LOCK
+		PriorityQueue<TimerItem>	_items;
+		Atomic<bool>				_distributing = false;
+	};
+}
 

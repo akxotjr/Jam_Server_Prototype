@@ -1,7 +1,10 @@
 #pragma once
 
-enum class ProtocolType
+namespace core
 {
-	PROTOCOL_TCP,
-	PROTOCOL_UDP
-};
+	enum class ProtocolType
+	{
+		PROTOCOL_TCP,
+		PROTOCOL_UDP
+	};
+}

@@ -10,28 +10,41 @@
 #include "Bot.h"
 #include "IdManager.h"
 #include "TimeManager.h"
+#include "Values.h"
 
-enum
-{
-	WORKER_TICk = 64
-};
 
 void DoWorkerJob(ServiceRef& service)
 {
 	while (true)
 	{
-		// TODO
-		// hardcoding 된 WORKER_TICK을 DoGlobalQueueWork() 에 맞춰 자동보정되게 설정
-		LEndTickCount = ::GetTickCount64() + WORKER_TICk;
+		LEndTickCount = ::GetTickCount64() + WORKER_TICK_MS;
 
 		service->GetIocpCore()->Dispatch(10);
 
-		// 예약된 일감 처리
-		ThreadManager::DistributeReservedJob();
-
-		// 글로벌 큐
-		ThreadManager::DoGlobalQueueWork();
+		core::thread::ThreadManager::Instance().DistributeReservedJob();
+		core::thread::ThreadManager::Instance().DoGlobalQueueWork();
 	}
+}
+
+void MainLoop()
+{
+	//GTimeManager.Init();
+
+	double elapsedTime = 0.0;
+
+	while (true)
+	{
+		GTimeManager.Update();
+		elapsedTime += GTimeManager.GetDeltaTime();
+
+		while (elapsedTime >= TICK_INTERVAL_S)
+		{
+			GRoomManager.Update();
+			elapsedTime -= TICK_INTERVAL_S;
+		}
+	}
+
+	GThreadManager->Join();
 }
 
 int main()
@@ -61,25 +74,8 @@ int main()
 	service->SetUdpReceiver(MakeShared<GameUdpReceiver>());
 	ASSERT_CRASH(service->Start());
 
-	for (int32 i = 0; i < 5; i++)
-	{
-		GThreadManager->Launch([&service]()
-			{
-				DoWorkerJob(service);
-			});
-	}
-
 	// Main Thread
-	
-	while (true)
-	{
-		GTimeManager.Update();
-		GRoomManager.Update();
-
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
-	}
-
-	GThreadManager->Join();
+	MainLoop();
 
 	return 0;
 }

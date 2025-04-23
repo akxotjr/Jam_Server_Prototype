@@ -469,7 +469,7 @@ void ReliableUdpSession::HandleAck(uint16 latestSeq, uint32 bitfield)
 	WRITE_LOCK
 	std::cout << "[ACK] seq = ";
 
-	for (int i = 0; i <= 32; ++i)
+	for (int i = 0; i <= BITFIELD_SIZE; ++i)
 	{
 		uint16 ackSeq = latestSeq - i;
 
@@ -488,13 +488,13 @@ void ReliableUdpSession::HandleAck(uint16 latestSeq, uint32 bitfield)
 
 bool ReliableUdpSession::CheckAndRecordReceiveHistory(uint16 seq)
 {
-	if (!IsSeqGreater(seq, _latestSeq - 1024))
+	if (!IsSeqGreater(seq, _latestSeq - WINDOW_SIZE))
 		return false;
 
-	if (_receiveHistory.test(seq % 1024))
+	if (_receiveHistory.test(seq % WINDOW_SIZE))
 		return false;
 
-	_receiveHistory.set(seq % 1024);
+	_receiveHistory.set(seq % WINDOW_SIZE);
 	_latestSeq = IsSeqGreater(seq, _latestSeq) ? seq : _latestSeq;
 	return true;
 }
@@ -502,14 +502,14 @@ bool ReliableUdpSession::CheckAndRecordReceiveHistory(uint16 seq)
 uint32 ReliableUdpSession::GenerateAckBitfield(uint16 latestSeq)
 {
 	uint32 bitfield = 0;
-	for (int i = 1; i <= 32; ++i)
+	for (int i = 1; i <= BITFIELD_SIZE; ++i)
 	{
 		uint16 seq = latestSeq - i;
 
 		if (!IsSeqGreater(latestSeq, seq))
 			continue;
 
-		if (_receiveHistory.test(seq % 1024))
+		if (_receiveHistory.test(seq % WINDOW_SIZE))
 		{
 			bitfield |= (1 << (i - 1));
 		}

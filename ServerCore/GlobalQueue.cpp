@@ -1,23 +1,17 @@
 #include "pch.h"
 #include "GlobalQueue.h"
 
-GlobalQueue::GlobalQueue()
+namespace core::job
 {
-	
-}
+	void GlobalQueue::Push(const JobQueueRef& jobQueue)
+	{
+		_jobQueues.Push(jobQueue);
+	}
 
-GlobalQueue::~GlobalQueue()
-{
-}
+	JobQueueRef GlobalQueue::Pop()
+	{
+		return _jobQueues.Pop();
+	}
 
-void GlobalQueue::Push(JobQueueRef jobQueue)
-{
-	_jobQueues.Push(jobQueue);
 }
-
-JobQueueRef GlobalQueue::Pop()
-{
-	return _jobQueues.Pop();
-}
-
 

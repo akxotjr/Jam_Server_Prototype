@@ -123,6 +123,10 @@
     <ClInclude Include="CoreEnums.h">
       <Filter>Main</Filter>
     </ClInclude>
+    <ClInclude Include="CoreValues.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -209,5 +213,6 @@
     <ClCompile Include="UdpReceiver.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
 </Project>

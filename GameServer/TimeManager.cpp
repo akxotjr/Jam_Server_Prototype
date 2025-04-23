@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "TimeManager.h"
-#include "ClientPacketHandler.h"
 
 TimeManager GTimeManager;
 
@@ -15,11 +14,9 @@ void TimeManager::Update()
 	uint64 currentCount;
 	::QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&currentCount));
 
-	_deltaTime = (currentCount - _prevCount) / static_cast<float>(_frequency);
+	_deltaTime = (currentCount - _prevCount) / static_cast<double>(_frequency);
 
 	_serverTime += _deltaTime;
 
 	_prevCount = currentCount;
-
-	//std::cout << "ServerTime : " << _serverTime << std::endl;
 }

@@ -19,7 +19,25 @@ using CondVar				= std::condition_variable;
 using UniqueLock			= std::unique_lock<std::mutex>;
 using LockGuard				= std::lock_guard<std::mutex>;
 
+
+
 #define USING_SHARED_PTR(name) using name##Ref = std::shared_ptr<class name>;
+
+namespace core
+{
+
+}
+
+namespace core::job
+{
+	USING_SHARED_PTR(Job);
+	USING_SHARED_PTR(JobQueue);
+}
+
+namespace core::network
+{
+	
+}
 
 USING_SHARED_PTR(IocpCore);
 USING_SHARED_PTR(IocpObject);
@@ -32,8 +50,7 @@ USING_SHARED_PTR(UdpReceiver);
 USING_SHARED_PTR(SendBuffer);
 USING_SHARED_PTR(SendBufferChunk);
 USING_SHARED_PTR(RecvBuffer);
-USING_SHARED_PTR(Job);
-USING_SHARED_PTR(JobQueue);
+
 
 #define size16(val)		static_cast<int16>(sizeof(val))
 #define size32(val)		static_cast<int32>(sizeof(val))

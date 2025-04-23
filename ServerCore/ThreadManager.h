@@ -7,23 +7,28 @@
 	ThreadManager
 -------------------*/
 
-class ThreadManager
+namespace core::thread
 {
-public:
-	ThreadManager();
-	~ThreadManager();
+	class ThreadManager
+	{
+		DECLARE_SINGLETON(ThreadManager)
 
-	void	Launch(function<void(void)> callback);
-	void	Join();
+	public:
+		void					Init() { InitTLS(); }
+		void					Shutdown() { Join(); }
 
-	static void InitTLS();
-	static void DestroyTLS();
+		void					Launch(function<void(void)> callback);
+		void					Join();
 
-	static void DoGlobalQueueWork();
-	static void DistributeReservedJob();
+		void					InitTLS();
+		void					DestroyTLS();
 
-private:
-	Mutex			_lock;
-	vector<thread>	_threads;
-};
+		void					DoGlobalQueueWork();
+		void					DistributeReservedJob();
+
+	private:
+		Mutex					_lock;
+		vector<std::thread>		_threads;
+	};
+}
 

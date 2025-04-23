@@ -1,15 +1,17 @@
 #pragma once
 
-class GlobalQueue
+namespace core::job
 {
-public:
-	GlobalQueue();
-	~GlobalQueue();
+	class GlobalQueue
+	{
+		DECLARE_SINGLETON(GlobalQueue)
 
-	void Push(JobQueueRef jobQueue);
-	JobQueueRef Pop();
+	public:
+		void					Push(const JobQueueRef& jobQueue);
+		JobQueueRef				Pop();
 
-private:
-	LockQueue<JobQueueRef> _jobQueues;
-};
+	private:
+		LockQueue<JobQueueRef>	_jobQueues;
+	};
+}
 

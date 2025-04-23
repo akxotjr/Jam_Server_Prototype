@@ -1,42 +1,45 @@
 #pragma once
 
-template<typename T>
-class LockQueue
+namespace core::utils
 {
-public:
-	void Push(T job)
+	template<typename T>
+	class LockQueue
 	{
-		WRITE_LOCK;
-		_items.push(job);
-	}
-
-	T Pop()
-	{
-		WRITE_LOCK;
-		if (_items.empty())
-			return T();
-
-		T ret = _items.front();
-		_items.pop();
-		return ret;
-	}
-
-	void PopAll(OUT Vector<T>& items)
-	{
-		WRITE_LOCK;
-		while (T item = Pop())
+	public:
+		void Push(T job)
 		{
-			items.push_back(item);
+			WRITE_LOCK
+			_items.push(job);
 		}
-	}
 
-	void Clear()
-	{
-		WRITE_LOCK;
-		_items = Queue<T>();
-	}
+		T Pop()
+		{
+			WRITE_LOCK
+			if (_items.empty())
+				return T();
 
-private:
-	USE_LOCK;
-	Queue<T> _items;
-};
+			T ret = _items.front();
+			_items.pop();
+			return ret;
+		}
+
+		void PopAll(OUT Vector<T>& items)
+		{
+			WRITE_LOCK
+			while (T item = Pop())
+			{
+				items.push_back(item);
+			}
+		}
+
+		void Clear()
+		{
+			WRITE_LOCK
+			_items = Queue<T>();
+		}
+
+	private:
+		USE_LOCK
+		Queue<T> _items;
+	};
+}

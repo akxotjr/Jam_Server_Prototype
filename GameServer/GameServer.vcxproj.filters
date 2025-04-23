@@ -134,6 +134,9 @@
     <ClInclude Include="IdManager.h">
       <Filter>03.Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Values.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Protobuf\bin\Enum.proto">

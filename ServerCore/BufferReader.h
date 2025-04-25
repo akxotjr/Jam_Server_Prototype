@@ -7,9 +7,9 @@
 class BufferReader
 {
 public:
-	BufferReader();
+	BufferReader() = default;
 	BufferReader(BYTE* buffer, uint32 size, uint32 pos = 0);
-	~BufferReader();
+	~BufferReader() = default;
 
 	BYTE*			Buffer() { return _buffer; }
 	uint32			Size() { return _size; }

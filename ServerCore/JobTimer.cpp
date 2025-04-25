@@ -8,7 +8,7 @@ namespace core::job
 	void JobTimer::Reserve(double afterTime, std::weak_ptr<JobQueue> owner, JobRef job)
 	{
 		const double executeTime = TimeManager::Instance().GetServerTime() + afterTime;
-		JobData* jobData = ObjectPool<JobData>::Pop(owner, job);
+		JobData* jobData = memory::ObjectPool<JobData>::Pop(owner, job);
 
 		WRITE_LOCK
 
@@ -43,7 +43,7 @@ namespace core::job
 			if (JobQueueRef owner = item.jobData->owner.lock())
 				owner->Push(item.jobData->job);
 
-			ObjectPool<JobData>::Push(item.jobData);
+			memory::ObjectPool<JobData>::Push(item.jobData);
 		}
 
 		_distributing.store(false);
@@ -56,7 +56,7 @@ namespace core::job
 		while (!_items.empty())
 		{
 			const TimerItem& timerItem = _items.top();
-			ObjectPool<JobData>::Push(timerItem.jobData);
+			memory::ObjectPool<JobData>::Push(timerItem.jobData);
 			_items.pop();
 		}
 	}

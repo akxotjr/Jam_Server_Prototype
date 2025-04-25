@@ -1,18 +1,16 @@
 #include "pch.h"
 #include "ThreadManager.h"
-#include "CoreTLS.h"
-#include "CoreGlobal.h"
 #include "GlobalQueue.h"
 #include "JobQueue.h"
 #include "TimeManager.h"
 
 /*------------------
-ThreadManager
+	ThreadManager
 -------------------*/
 
 namespace core::thread
 {
-	void ThreadManager::Launch(function<void(void)> callback)
+	void ThreadManager::Launch(std::function<void(void)> callback)
 	{
 		LockGuard guard(_lock);
 	

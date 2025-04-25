@@ -38,7 +38,7 @@ namespace core::memory
 	Type* xnew(Args&&... args)
 	{
 		Type* memory = static_cast<Type*>(PoolAllocator::Alloc(sizeof(Type)));
-		new(memory)Type(forward<Args>(args)...); // placement new
+		new(memory)Type(std::forward<Args>(args)...); // placement new
 		return memory;
 	}
 
@@ -52,7 +52,7 @@ namespace core::memory
 	template<typename Type, typename... Args>
 	std::shared_ptr<Type> MakeShared(Args&&... args)
 	{
-		return std::shared_ptr<Type>{ xnew<Type>(forward<Args>(args)...), xdelete<Type> };
+		return std::shared_ptr<Type>{ xnew<Type>(std::forward<Args>(args)...), xdelete<Type> };
 	}
 }
 

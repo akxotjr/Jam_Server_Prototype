@@ -59,7 +59,7 @@ namespace core::network
 	public:
 		NetAddress							GetTcpNetAddress() { return _config.tcpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
 		NetAddress							GetUdpNetAddress() { return _config.udpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
-		IocpCoreRef& GetIocpCore() { return _iocpCore; }
+		IocpCoreRef&						GetIocpCore() { return _iocpCore; }
 
 	protected:
 		USE_LOCK

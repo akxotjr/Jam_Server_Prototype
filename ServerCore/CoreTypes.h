@@ -26,10 +26,6 @@ using LockGuard = std::lock_guard<std::mutex>;
 
 #define USING_SHARED_PTR(name) using name##Ref = std::shared_ptr<class name>;
 
-namespace core
-{
-
-}
 
 namespace core::job
 {

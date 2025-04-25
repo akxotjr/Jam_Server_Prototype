@@ -1,20 +1,10 @@
 #include "pch.h"
 #include "CoreGlobal.h"
-#include "ThreadManager.h"
 #include "Memory.h"
-#include "DeadLockProfiler.h"
-#include "GlobalQueue.h"
-#include "JobTimer.h"
 #include "SocketUtils.h"
-#include "SendBuffer.h"
+#include "ThreadManager.h"
 
-//ThreadManager*		GThreadManager = nullptr;
-Memory*				GMemory = nullptr;
-//DeadLockProfiler*	GDeadLockProfiler = nullptr;
-//GlobalQueue*		GGlobalQueue = nullptr;
-//JobTimer*			GJobTimer = nullptr;
-
-SendBufferManager*	GSendBufferManager = nullptr;
+core::memory::Memory*				GMemory = nullptr;
 
 
 namespace core
@@ -24,28 +14,18 @@ namespace core
 	public:
 		CoreGlobal()
 		{
-			//GThreadManager = new ThreadManager();
-			GMemory = new Memory();
-			GSendBufferManager = new SendBufferManager();
-			//GGlobalQueue = new GlobalQueue();
-			//GJobTimer = new JobTimer();
-			//GDeadLockProfiler = new DeadLockProfiler();
+			GMemory = new memory::Memory();
 
 			thread::ThreadManager::Instance().Init();	// for Main Thread
-			SocketUtils::Init();
+			network::SocketUtils::Init();
 		}
 
 		~CoreGlobal()
 		{
-			//delete GThreadManager;
 			delete GMemory;
-			delete GSendBufferManager;
-			//delete GGlobalQueue;
-			//delete GJobTimer;
-			//delete GDeadLockProfiler;
 
 			thread::ThreadManager::Instance().Shutdown();
-			SocketUtils::Clear();
+			network::SocketUtils::Clear();
 		}
 	} GCoreGlobal;
 }

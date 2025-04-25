@@ -23,7 +23,7 @@ namespace core::network
 	public:
 		IocpEvent(EventType type);
 
-		void		Init();
+		void			Init();
 
 	public:
 		EventType		eventType;

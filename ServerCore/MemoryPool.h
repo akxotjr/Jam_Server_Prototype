@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace core::memory
 {
 	enum
@@ -12,8 +13,7 @@ namespace core::memory
 	------------------*/
 
 	
-	//DECLSPEC_ALIGN(SLIST_ALIGNMENT);
-	alignas(SLIST_ALIGNMENT)
+	DECLSPEC_ALIGN(SLIST_ALIGNMENT)
 	struct MemoryHeader : public SLIST_ENTRY
 	{
 		// [MemoryHeader][Data]
@@ -40,22 +40,21 @@ namespace core::memory
 	------------------*/
 
 	
-	//DECLSPEC_ALIGN(SLIST_ALIGNMENT);
-	alignas(SLIST_ALIGNMENT)
+	DECLSPEC_ALIGN(SLIST_ALIGNMENT)
 	class MemoryPool
 	{
 	public:
 		MemoryPool(int32 allocSize);
 		~MemoryPool();
 
-		void			Push(MemoryHeader* ptr);
-		MemoryHeader* Pop();
+		void					Push(MemoryHeader* ptr);
+		MemoryHeader*			Pop();
 
 	private:
-		SLIST_HEADER	_header;
-		int32			_allocSize = 0;
-		std::atomic<int32>	_useCount = 0;
-		std::atomic<int32>	_reserveCount = 0;
+		SLIST_HEADER			_header;
+		int32					_allocSize = 0;
+		std::atomic<int32>		_useCount = 0;
+		std::atomic<int32>		_reserveCount = 0;
 	};
 
 }

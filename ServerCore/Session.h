@@ -101,7 +101,7 @@ namespace core::network
 	private:
 		USE_LOCK
 
-			RecvBuffer								_recvBuffer;
+		RecvBuffer								_recvBuffer;
 		Queue<SendBufferRef>					_sendQueue;
 		Atomic<bool>							_sendRegistered = false;
 

@@ -7,11 +7,11 @@ namespace core::job
 		DECLARE_SINGLETON(GlobalQueue)
 
 	public:
-		void					Push(const JobQueueRef& jobQueue);
-		JobQueueRef				Pop();
+		void							Push(const JobQueueRef& jobQueue);
+		JobQueueRef						Pop();
 
 	private:
-		LockQueue<JobQueueRef>	_jobQueues;
+		thread::LockQueue<JobQueueRef>	_jobQueues;
 	};
 }
 

@@ -2,16 +2,19 @@
 #include "Job.h"
 #include "JobTimer.h"
 #include "LockQueue.h"
+#include "Memory.h"
+#include "ObjectPool.h"
 
 
 namespace core::job
 {
+	
 	class JobQueue : public enable_shared_from_this<JobQueue>
 	{
 	public:
 		void DoAsync(CallbackType&& callback)
 		{
-			Push(core::memory::ObjectPool<Job>::MakeShared(std::move(callback)));
+			Push(memory::ObjectPool<Job>::MakeShared(std::move(callback)));
 		}
 
 		template<typename T, typename Ret, typename... Args>
@@ -35,14 +38,14 @@ namespace core::job
 			JobTimer::Instance().Reserve(tickAfter, shared_from_this(), job);
 		}
 
-		void ClearJobs() { _jobs.Clear(); }
+		void							ClearJobs() { _jobs.Clear(); }
 
-		void Push(JobRef job, bool pushOnly = false);
-		void Execute();
+		void							Push(JobRef job, bool pushOnly = false);
+		void							Execute();
 
 	protected:
-		thread::LockQueue<JobRef>	_jobs;
-		Atomic<int32>		_jobCount = 0;
+		thread::LockQueue<JobRef>		_jobs;
+		Atomic<int32>					_jobCount = 0;
 	};
 
 }

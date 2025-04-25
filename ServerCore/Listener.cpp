@@ -19,7 +19,7 @@ namespace core::network
 		{
 			// TODO
 
-			xdelete(acceptEvent);
+			memory::xdelete(acceptEvent);
 		}
 	}
 
@@ -52,7 +52,7 @@ namespace core::network
 		const int32 acceptCount = _service->GetMaxTcpSessionCount();
 		for (int32 i = 0; i < acceptCount; i++)
 		{
-			AcceptEvent* acceptEvent = xnew<AcceptEvent>();
+			AcceptEvent* acceptEvent = memory::xnew<AcceptEvent>();
 			acceptEvent->owner = shared_from_this();
 			_acceptEvents.push_back(acceptEvent);
 			RegisterAccept(acceptEvent);

@@ -3,9 +3,6 @@
 #include <thread>
 #include <functional>
 
-#include "Memory.h"
-#include "ObjectPool.h"
-
 /*------------------
 	ThreadManager
 -------------------*/
@@ -14,7 +11,7 @@ namespace core::thread
 {
 	class ThreadManager
 	{
-		DECLARE_SINGLETON(ThreadManager);
+		DECLARE_SINGLETON(ThreadManager)
 
 	public:
 		void					Init() { InitTLS(); }
@@ -32,6 +29,7 @@ namespace core::thread
 	private:
 		Mutex							_lock;
 		std::vector<std::thread>		_threads;
+
 	};
 }
 

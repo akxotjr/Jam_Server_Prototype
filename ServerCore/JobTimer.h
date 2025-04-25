@@ -19,8 +19,8 @@ namespace core::job
 			return executeTime > other.executeTime;
 		}
 
-		double						executeTime = 0;
-		JobData*					jobData = nullptr;
+		double							executeTime = 0;
+		JobData*						jobData = nullptr;
 	};
 
 
@@ -29,14 +29,14 @@ namespace core::job
 		DECLARE_SINGLETON(JobTimer)
 
 	public:
-		void						Reserve(double afterTime, std::weak_ptr<JobQueue> owner, JobRef job);
-		void						Distribute(double now);
-		void						Clear();
+		void							Reserve(double afterTime, std::weak_ptr<JobQueue> owner, JobRef job);
+		void							Distribute(double now);
+		void							Clear();
 
 	private:
 		USE_LOCK
-		PriorityQueue<TimerItem>	_items;
-		Atomic<bool>				_distributing = false;
+		PriorityQueue<TimerItem>		_items;
+		Atomic<bool>					_distributing = false;
 	};
 }
 

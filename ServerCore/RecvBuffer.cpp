@@ -13,9 +13,6 @@ namespace core::network
 		_buffer.resize(_capacity);
 	}
 
-	RecvBuffer::~RecvBuffer()
-	{
-	}
 
 	void RecvBuffer::Clean()
 	{

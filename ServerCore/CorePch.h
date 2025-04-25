@@ -1,5 +1,9 @@
 #pragma once
 
+#include <windows.h>
+#include <winnt.h>         // ก็ SLIST_ENTRY, SLIST_HEADER ต๎
+#include <intrin.h>        // ก็ InterlockedPushEntrySList ต๎
+
 #include "CoreTypes.h"
 #include "CoreEnums.h"
 #include "CoreValues.h"
@@ -8,7 +12,6 @@
 #include "CoreGlobal.h"
 #include "Container.h"
 
-#include <windows.h>
 #include <iostream>
 using namespace std;
 

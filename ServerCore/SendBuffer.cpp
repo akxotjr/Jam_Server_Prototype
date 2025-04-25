@@ -14,11 +14,6 @@ namespace core::network
 
 	}
 
-	SendBuffer::~SendBuffer()
-	{
-
-	}
-
 	void SendBuffer::Close(uint32 writeSize)
 	{
 		ASSERT_CRASH(_allocSize >= writeSize);
@@ -58,7 +53,7 @@ namespace core::network
 
 		_open = true;
 
-		return ObjectPool<SendBuffer>::MakeShared(shared_from_this(), Buffer(), allocSize);
+		return memory::ObjectPool<SendBuffer>::MakeShared(shared_from_this(), Buffer(), allocSize);
 	}
 
 	void SendBufferChunk::Close(uint32 writeSize)
@@ -106,7 +101,7 @@ namespace core::network
 				return sendBufferChunk;
 			}
 		}
-		return SendBufferChunkRef(xnew<SendBufferChunk>(), PushGlobal);
+		return SendBufferChunkRef(memory::xnew<SendBufferChunk>(), PushGlobal);
 	}
 
 	void SendBufferManager::Push(SendBufferChunkRef buffer)
@@ -118,7 +113,7 @@ namespace core::network
 	void SendBufferManager::PushGlobal(SendBufferChunk* buffer)
 	{
 		//cout << "PushGlobal SENDBUFFERCHUNK" << endl;
-		GSendBufferManager->Push(SendBufferChunkRef(buffer, PushGlobal));
+		SendBufferManager::Instance().Push(SendBufferChunkRef(buffer, PushGlobal));
 	}
 
 }

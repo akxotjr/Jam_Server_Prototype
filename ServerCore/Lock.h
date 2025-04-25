@@ -25,14 +25,14 @@ namespace core::thread
         };
 
     public:
-        void WriteLock(const char* name);
-        void WriteUnlock(const char* name);
-        void ReadLock(const char* name);
-        void ReadUnlock(const char* name);
+        void            WriteLock(const char* name);
+        void            WriteUnlock(const char* name);
+        void            ReadLock(const char* name);
+        void            ReadUnlock(const char* name);
 
     private:
-        Atomic<uint32> _lockFlag = EMPTY_FLAG;
-        uint16 _writeCount = 0;
+        Atomic<uint32>  _lockFlag = EMPTY_FLAG;
+        uint16          _writeCount = 0;
     };
 
     /*----------------
@@ -46,7 +46,7 @@ namespace core::thread
         ~ReadLockGuard() { _lock.ReadUnlock(_name); }
 
     private:
-        Lock& _lock;
+        Lock&       _lock;
         const char* _name;
     };
 
@@ -57,7 +57,7 @@ namespace core::thread
         ~WriteLockGuard() { _lock.WriteUnlock(_name); }
 
     private:
-        Lock& _lock;
+        Lock&       _lock;
         const char* _name;
     };
 }

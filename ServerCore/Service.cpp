@@ -25,7 +25,7 @@ namespace core::network
 		if (CanStart() == false)
 			return false;
 
-		_listener = MakeShared<Listener>();
+		_listener = memory::MakeShared<Listener>();
 		if (_listener == nullptr)
 			return false;
 
@@ -77,28 +77,32 @@ namespace core::network
 	void Service::AddTcpSession(TcpSessionRef session)
 	{
 		WRITE_LOCK
-			_tcpSessionCount++;
+
+		_tcpSessionCount++;
 		_tcpSessions.insert(session);
 	}
 
 	void Service::ReleaseTcpSession(TcpSessionRef session)
 	{
 		WRITE_LOCK
-			ASSERT_CRASH(_tcpSessions.erase(session) != 0);
+
+		ASSERT_CRASH(_tcpSessions.erase(session) != 0);
 		_tcpSessionCount--;
 	}
 
 	void Service::AddUdpSession(ReliableUdpSessionRef session)
 	{
 		WRITE_LOCK
-			_udpSessionCount++;
+
+		_udpSessionCount++;
 		_udpSessions.insert(session);
 	}
 
 	void Service::ReleaseUdpSession(ReliableUdpSessionRef session)
 	{
 		WRITE_LOCK
-			ASSERT_CRASH(_udpSessions.erase(session) != 0);
+
+		ASSERT_CRASH(_udpSessions.erase(session) != 0);
 		_udpSessionCount--;
 	}
 
@@ -135,7 +139,7 @@ namespace core::network
 	{
 		WRITE_LOCK
 
-			auto it = _pendingUdpSessions.find(from);
+		auto it = _pendingUdpSessions.find(from);
 		if (it != _pendingUdpSessions.end())
 		{
 			AddUdpSession(it->second);

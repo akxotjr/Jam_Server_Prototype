@@ -108,9 +108,6 @@
     <ClInclude Include="JobQueue.h">
       <Filter>Job</Filter>
     </ClInclude>
-    <ClInclude Include="LockQueue.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalQueue.h">
       <Filter>Job</Filter>
     </ClInclude>
@@ -126,7 +123,12 @@
     <ClInclude Include="CoreValues.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="LockQueue.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -201,9 +203,6 @@
     <ClCompile Include="JobQueue.cpp">
       <Filter>Job</Filter>
     </ClCompile>
-    <ClCompile Include="LockQueue.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalQueue.cpp">
       <Filter>Job</Filter>
     </ClCompile>
@@ -213,6 +212,11 @@
     <ClCompile Include="UdpReceiver.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="LockQueue.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

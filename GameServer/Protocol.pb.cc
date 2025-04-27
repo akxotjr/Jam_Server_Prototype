@@ -53,8 +53,8 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 
 inline constexpr S_LOGIN::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : success_{false},
-        userid_{0u},
+      : userid_{::uint64_t{0u}},
+        success_{false},
         _cached_size_{0} {}
 
 template <typename>
@@ -706,7 +706,7 @@ const char descriptor_table_protodef_Protocol_2eproto[] ABSL_ATTRIBUTE_SECTION_V
     protodesc_cold) = {
     "\n\016Protocol.proto\022\010Protocol\032\nEnum.proto\032\014"
     "Struct.proto\"\t\n\007C_LOGIN\"*\n\007S_LOGIN\022\017\n\007su"
-    "ccess\030\001 \001(\010\022\016\n\006userId\030\002 \001(\r\"\016\n\014C_ENTER_G"
+    "ccess\030\001 \001(\010\022\016\n\006userId\030\002 \001(\004\"\016\n\014C_ENTER_G"
     "AME\"9\n\014S_ENTER_GAME\022\017\n\007success\030\001 \001(\010\022\n\n\002"
     "ip\030\002 \001(\t\022\014\n\004port\030\003 \001(\r\"1\n\005C_ACK\022\026\n\016lates"
     "tSequence\030\001 \001(\r\022\020\n\010bitfield\030\002 \001(\r\"1\n\005S_A"
@@ -715,17 +715,17 @@ const char descriptor_table_protodef_Protocol_2eproto[] ABSL_ATTRIBUTE_SECTION_V
     "_HANDSHAKE\022\017\n\007success\030\001 \001(\010\"\025\n\006C_CHAT\022\013\n"
     "\003msg\030\001 \001(\t\"\'\n\006S_CHAT\022\020\n\010playerId\030\001 \001(\004\022\013"
     "\n\003msg\030\002 \001(\t\"\014\n\nC_TIMESYNC\"\037\n\nS_TIMESYNC\022"
-    "\021\n\ttimestamp\030\001 \001(\002\"\017\n\rC_SPAWN_ACTOR\"Q\n\rS"
+    "\021\n\ttimestamp\030\001 \001(\001\"\017\n\rC_SPAWN_ACTOR\"Q\n\rS"
     "_SPAWN_ACTOR\022\020\n\010playerId\030\001 \001(\r\022.\n\rcharac"
     "terInfo\030\002 \003(\0132\027.Protocol.CharacterInfo\"U"
-    "\n\020C_CHARACTER_SYNC\022\021\n\ttimestamp\030\001 \001(\002\022.\n"
+    "\n\020C_CHARACTER_SYNC\022\021\n\ttimestamp\030\001 \001(\001\022.\n"
     "\rcharacterInfo\030\002 \001(\0132\027.Protocol.Characte"
     "rInfo\"U\n\020S_CHARACTER_SYNC\022\021\n\ttimestamp\030\001"
-    " \001(\002\022.\n\rcharacterInfo\030\002 \003(\0132\027.Protocol.C"
+    " \001(\001\022.\n\rcharacterInfo\030\002 \003(\0132\027.Protocol.C"
     "haracterInfo\"\276\001\n\016C_PLAYER_INPUT\022\021\n\ttimes"
-    "tamp\030\001 \001(\002\022\026\n\016sequenceNumber\030\002 \001(\r\022\"\n\007ke"
+    "tamp\030\001 \001(\001\022\026\n\016sequenceNumber\030\002 \001(\r\022\"\n\007ke"
     "yType\030\003 \001(\0162\021.Protocol.KeyType\022\021\n\tdeltaT"
-    "ime\030\004 \001(\002\022\026\n\tmousePosX\030\005 \001(\002H\000\210\001\001\022\026\n\tmou"
+    "ime\030\004 \001(\001\022\026\n\tmousePosX\030\005 \001(\002H\000\210\001\001\022\026\n\tmou"
     "sePosY\030\006 \001(\002H\001\210\001\001B\014\n\n_mousePosXB\014\n\n_mous"
     "ePosY\"X\n\016S_PLAYER_INPUT\022\026\n\016sequenceNumbe"
     "r\030\001 \001(\r\022.\n\rCharacterInfo\030\002 \001(\0132\027.Protoco"
@@ -885,11 +885,11 @@ inline PROTOBUF_NDEBUG_INLINE S_LOGIN::Impl_::Impl_(
 inline void S_LOGIN::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, success_),
+               offsetof(Impl_, userid_),
            0,
-           offsetof(Impl_, userid_) -
-               offsetof(Impl_, success_) +
-               sizeof(Impl_::userid_));
+           offsetof(Impl_, success_) -
+               offsetof(Impl_, userid_) +
+               sizeof(Impl_::success_));
 }
 S_LOGIN::~S_LOGIN() {
   // @@protoc_insertion_point(destructor:Protocol.S_LOGIN)
@@ -956,8 +956,8 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> S_LOGIN::_table_ = {
     ::_pbi::TcParser::GetTable<::Protocol::S_LOGIN>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // uint32 userId = 2;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(S_LOGIN, _impl_.userid_), 63>(),
+    // uint64 userId = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(S_LOGIN, _impl_.userid_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(S_LOGIN, _impl_.userid_)}},
     // bool success = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(S_LOGIN, _impl_.success_), 63>(),
@@ -968,9 +968,9 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> S_LOGIN::_table_ = {
     // bool success = 1;
     {PROTOBUF_FIELD_OFFSET(S_LOGIN, _impl_.success_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // uint32 userId = 2;
+    // uint64 userId = 2;
     {PROTOBUF_FIELD_OFFSET(S_LOGIN, _impl_.userid_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
   // no aux_entries
   {{
@@ -984,9 +984,9 @@ PROTOBUF_NOINLINE void S_LOGIN::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.success_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.userid_) -
-      reinterpret_cast<char*>(&_impl_.success_)) + sizeof(_impl_.userid_));
+  ::memset(&_impl_.userid_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.success_) -
+      reinterpret_cast<char*>(&_impl_.userid_)) + sizeof(_impl_.success_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -1012,10 +1012,10 @@ PROTOBUF_NOINLINE void S_LOGIN::Clear() {
                 1, this_._internal_success(), target);
           }
 
-          // uint32 userId = 2;
+          // uint64 userId = 2;
           if (this_._internal_userid() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
                 2, this_._internal_userid(), target);
           }
 
@@ -1044,14 +1044,14 @@ PROTOBUF_NOINLINE void S_LOGIN::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
+            // uint64 userId = 2;
+            if (this_._internal_userid() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_userid());
+            }
             // bool success = 1;
             if (this_._internal_success() != 0) {
               total_size += 2;
-            }
-            // uint32 userId = 2;
-            if (this_._internal_userid() != 0) {
-              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-                  this_._internal_userid());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -1066,11 +1066,11 @@ void S_LOGIN::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google:
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_success() != 0) {
-    _this->_impl_.success_ = from._impl_.success_;
-  }
   if (from._internal_userid() != 0) {
     _this->_impl_.userid_ = from._impl_.userid_;
+  }
+  if (from._internal_success() != 0) {
+    _this->_impl_.success_ = from._impl_.success_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1087,11 +1087,11 @@ void S_LOGIN::InternalSwap(S_LOGIN* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S_LOGIN, _impl_.userid_)
-      + sizeof(S_LOGIN::_impl_.userid_)
-      - PROTOBUF_FIELD_OFFSET(S_LOGIN, _impl_.success_)>(
-          reinterpret_cast<char*>(&_impl_.success_),
-          reinterpret_cast<char*>(&other->_impl_.success_));
+      PROTOBUF_FIELD_OFFSET(S_LOGIN, _impl_.success_)
+      + sizeof(S_LOGIN::_impl_.success_)
+      - PROTOBUF_FIELD_OFFSET(S_LOGIN, _impl_.userid_)>(
+          reinterpret_cast<char*>(&_impl_.userid_),
+          reinterpret_cast<char*>(&other->_impl_.userid_));
 }
 
 ::google::protobuf::Metadata S_LOGIN::GetMetadata() const {
@@ -3076,15 +3076,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> S_TIMESYNC::_table_ = {
     ::_pbi::TcParser::GetTable<::Protocol::S_TIMESYNC>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float timestamp = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(S_TIMESYNC, _impl_.timestamp_)}},
+    // double timestamp = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(S_TIMESYNC, _impl_.timestamp_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float timestamp = 1;
+    // double timestamp = 1;
     {PROTOBUF_FIELD_OFFSET(S_TIMESYNC, _impl_.timestamp_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -3117,10 +3117,10 @@ PROTOBUF_NOINLINE void S_TIMESYNC::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float timestamp = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_timestamp()) != 0) {
+          // double timestamp = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_timestamp()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_timestamp(), target);
           }
 
@@ -3148,9 +3148,9 @@ PROTOBUF_NOINLINE void S_TIMESYNC::Clear() {
           (void)cached_has_bits;
 
            {
-            // float timestamp = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_timestamp()) != 0) {
-              total_size += 5;
+            // double timestamp = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_timestamp()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -3165,7 +3165,7 @@ void S_TIMESYNC::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goog
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_timestamp()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_timestamp()) != 0) {
     _this->_impl_.timestamp_ = from._impl_.timestamp_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -3698,15 +3698,15 @@ const ::_pbi::TcParseTable<1, 2, 1, 0, 2> C_CHARACTER_SYNC::_table_ = {
     // .Protocol.CharacterInfo characterInfo = 2;
     {::_pbi::TcParser::FastMtS1,
      {18, 0, 0, PROTOBUF_FIELD_OFFSET(C_CHARACTER_SYNC, _impl_.characterinfo_)}},
-    // float timestamp = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(C_CHARACTER_SYNC, _impl_.timestamp_)}},
+    // double timestamp = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(C_CHARACTER_SYNC, _impl_.timestamp_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float timestamp = 1;
+    // double timestamp = 1;
     {PROTOBUF_FIELD_OFFSET(C_CHARACTER_SYNC, _impl_.timestamp_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .Protocol.CharacterInfo characterInfo = 2;
     {PROTOBUF_FIELD_OFFSET(C_CHARACTER_SYNC, _impl_.characterinfo_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
@@ -3748,10 +3748,10 @@ PROTOBUF_NOINLINE void C_CHARACTER_SYNC::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float timestamp = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_timestamp()) != 0) {
+          // double timestamp = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_timestamp()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_timestamp(), target);
           }
 
@@ -3796,9 +3796,9 @@ PROTOBUF_NOINLINE void C_CHARACTER_SYNC::Clear() {
             }
           }
            {
-            // float timestamp = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_timestamp()) != 0) {
-              total_size += 5;
+            // double timestamp = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_timestamp()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -3824,7 +3824,7 @@ void C_CHARACTER_SYNC::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
       _this->_impl_.characterinfo_->MergeFrom(*from._impl_.characterinfo_);
     }
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_timestamp()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_timestamp()) != 0) {
     _this->_impl_.timestamp_ = from._impl_.timestamp_;
   }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
@@ -3986,15 +3986,15 @@ const ::_pbi::TcParseTable<1, 2, 1, 0, 2> S_CHARACTER_SYNC::_table_ = {
     // repeated .Protocol.CharacterInfo characterInfo = 2;
     {::_pbi::TcParser::FastMtR1,
      {18, 63, 0, PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_.characterinfo_)}},
-    // float timestamp = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_.timestamp_)}},
+    // double timestamp = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_.timestamp_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float timestamp = 1;
+    // double timestamp = 1;
     {PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_.timestamp_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // repeated .Protocol.CharacterInfo characterInfo = 2;
     {PROTOBUF_FIELD_OFFSET(S_CHARACTER_SYNC, _impl_.characterinfo_), 0, 0,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
@@ -4031,10 +4031,10 @@ PROTOBUF_NOINLINE void S_CHARACTER_SYNC::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float timestamp = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_timestamp()) != 0) {
+          // double timestamp = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_timestamp()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_timestamp(), target);
           }
 
@@ -4083,9 +4083,9 @@ PROTOBUF_NOINLINE void S_CHARACTER_SYNC::Clear() {
             }
           }
            {
-            // float timestamp = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_timestamp()) != 0) {
-              total_size += 5;
+            // double timestamp = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_timestamp()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -4102,7 +4102,7 @@ void S_CHARACTER_SYNC::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
 
   _this->_internal_mutable_characterinfo()->MergeFrom(
       from._internal_characterinfo());
-  if (::absl::bit_cast<::uint32_t>(from._internal_timestamp()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_timestamp()) != 0) {
     _this->_impl_.timestamp_ = from._impl_.timestamp_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -4230,18 +4230,18 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> C_PLAYER_INPUT::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float timestamp = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.timestamp_)}},
+    // double timestamp = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.timestamp_)}},
     // uint32 sequenceNumber = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(C_PLAYER_INPUT, _impl_.sequencenumber_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.sequencenumber_)}},
     // .Protocol.KeyType keyType = 3;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(C_PLAYER_INPUT, _impl_.keytype_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.keytype_)}},
-    // float deltaTime = 4;
-    {::_pbi::TcParser::FastF32S1,
-     {37, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.deltatime_)}},
+    // double deltaTime = 4;
+    {::_pbi::TcParser::FastF64S1,
+     {33, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.deltatime_)}},
     // optional float mousePosX = 5;
     {::_pbi::TcParser::FastF32S1,
      {45, 0, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.mouseposx_)}},
@@ -4252,18 +4252,18 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> C_PLAYER_INPUT::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // float timestamp = 1;
+    // double timestamp = 1;
     {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.timestamp_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // uint32 sequenceNumber = 2;
     {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.sequencenumber_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
     // .Protocol.KeyType keyType = 3;
     {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.keytype_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // float deltaTime = 4;
+    // double deltaTime = 4;
     {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.deltatime_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // optional float mousePosX = 5;
     {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.mouseposx_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kFloat)},
@@ -4311,10 +4311,10 @@ PROTOBUF_NOINLINE void C_PLAYER_INPUT::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float timestamp = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_timestamp()) != 0) {
+          // double timestamp = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_timestamp()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_timestamp(), target);
           }
 
@@ -4332,10 +4332,10 @@ PROTOBUF_NOINLINE void C_PLAYER_INPUT::Clear() {
                 3, this_._internal_keytype(), target);
           }
 
-          // float deltaTime = 4;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_deltatime()) != 0) {
+          // double deltaTime = 4;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_deltatime()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_deltatime(), target);
           }
 
@@ -4379,9 +4379,9 @@ PROTOBUF_NOINLINE void C_PLAYER_INPUT::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float timestamp = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_timestamp()) != 0) {
-              total_size += 5;
+            // double timestamp = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_timestamp()) != 0) {
+              total_size += 9;
             }
             // uint32 sequenceNumber = 2;
             if (this_._internal_sequencenumber() != 0) {
@@ -4393,9 +4393,9 @@ PROTOBUF_NOINLINE void C_PLAYER_INPUT::Clear() {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_keytype());
             }
-            // float deltaTime = 4;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_deltatime()) != 0) {
-              total_size += 5;
+            // double deltaTime = 4;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_deltatime()) != 0) {
+              total_size += 9;
             }
           }
           cached_has_bits = this_._impl_._has_bits_[0];
@@ -4421,7 +4421,7 @@ void C_PLAYER_INPUT::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_timestamp()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_timestamp()) != 0) {
     _this->_impl_.timestamp_ = from._impl_.timestamp_;
   }
   if (from._internal_sequencenumber() != 0) {
@@ -4430,7 +4430,7 @@ void C_PLAYER_INPUT::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::
   if (from._internal_keytype() != 0) {
     _this->_impl_.keytype_ = from._impl_.keytype_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_deltatime()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_deltatime()) != 0) {
     _this->_impl_.deltatime_ = from._impl_.deltatime_;
   }
   cached_has_bits = from._impl_._has_bits_[0];

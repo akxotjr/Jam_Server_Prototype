@@ -22,7 +22,7 @@ namespace core::memory
 		Memory();
 		~Memory();
 
-		void* Allocate(int32 size);
+		void*	Allocate(int32 size);
 		void	Release(void* ptr);
 
 	private:

@@ -1,5 +1,9 @@
 #pragma once
+#include "Memory.h"
 
-extern class core::memory::Memory*			GMemory;
+namespace core
+{
+	extern class memory::Memory* GMemory;
+}
 
 

@@ -21,7 +21,7 @@ void Room::Update()
 		}
 	}
 
-	float deltaTime = GTimeManager.GetDeltaTime();
+	float deltaTime = TimeManager::Instance().GetDeltaTime();
 	_sumTime += deltaTime;
 
 	if (_sumTime >= 0.05f) 
@@ -66,7 +66,7 @@ void Room::RemoveCharacter(CharacterRef character)
 
 void Room::BroadCastCharacterSync()
 {
-	float timestamp = GTimeManager.GetServerTime();
+	float timestamp = TimeManager::Instance().GetServerTime();
 
 	for (auto& [id, player] : _players)
 	{
@@ -108,13 +108,13 @@ void Room::BroadcastSpawnActor()
 		uint32 id = player->GetInfo()->id();
 		pkt.set_playerid(id);
 
+		double timestamp = TimeManager::Instance().GetServerTime();
+
 		for (auto& [i, character] : _characters)
 		{
 			Protocol::CharacterInfo* info = pkt.add_characterinfo();
 			info->CopyFrom(*character->GetInfo());
 		}
-
-		float timestamp = GTimeManager.GetServerTime();
 
 		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(pkt);
 		udpSession->SendReliable(sendBuffer, timestamp);

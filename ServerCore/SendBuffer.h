@@ -64,7 +64,7 @@ namespace core::network
 
 	class SendBufferManager
 	{
-		DECLARE_SINGLETON(SendBufferManager);
+		DECLARE_SINGLETON(SendBufferManager)
 
 	public:
 		SendBufferRef				Open(uint32 size);

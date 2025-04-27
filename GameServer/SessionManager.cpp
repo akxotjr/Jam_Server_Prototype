@@ -6,7 +6,7 @@
 
 SessionManager GSessionManager;
 
-void SessionManager::Add(SessionRef session)
+void SessionManager::Add(network::SessionRef session)
 {
     uint32 id = session->GetId();
     SessionBundle& bundle = _sessionMap[id];
@@ -23,7 +23,7 @@ void SessionManager::Add(SessionRef session)
     }
 }
 
-void SessionManager::Remove(SessionRef session)
+void SessionManager::Remove(network::SessionRef session)
 {
     int32 id = session->GetId();
     SessionBundle& bundle = _sessionMap[id];
@@ -45,7 +45,7 @@ void SessionManager::Remove(SessionRef session)
     }
 }
 
-void SessionManager::Broadcast(ProtocolType type, SendBufferRef sendBuffer, bool reliable)
+void SessionManager::Broadcast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable)
 {
     WRITE_LOCK
 
@@ -59,7 +59,7 @@ void SessionManager::Broadcast(ProtocolType type, SendBufferRef sendBuffer, bool
         {
             if (reliable)
             {
-                float timestmap = GTimeManager.GetServerTime();
+                float timestmap = TimeManager::Instance().GetServerTime();
                 bundle.udpSession->SendReliable(sendBuffer, timestmap);
             }
             else
@@ -70,7 +70,7 @@ void SessionManager::Broadcast(ProtocolType type, SendBufferRef sendBuffer, bool
     }
 }
 
-SessionRef SessionManager::GetSessionById(ProtocolType type, uint32 id)
+network::SessionRef SessionManager::GetSessionById(ProtocolType type, uint32 id)
 {
     WRITE_LOCK
     

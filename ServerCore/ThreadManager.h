@@ -23,7 +23,7 @@ namespace core::thread
 		void					InitTLS();
 		void					DestroyTLS();
 
-		void					DoGlobalQueueWork();
+		int32					DoGlobalQueueWork();
 		void					DistributeReservedJob();
 
 	private:

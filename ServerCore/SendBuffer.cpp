@@ -73,27 +73,27 @@ namespace core::network
 
 	SendBufferRef SendBufferManager::Open(uint32 size)
 	{
-		if (LSendBufferChunk == nullptr)
+		if (thread::LSendBufferChunk == nullptr)
 		{
-			LSendBufferChunk = Pop();
-			LSendBufferChunk->Reset();
+			thread::LSendBufferChunk = Pop();
+			thread::LSendBufferChunk->Reset();
 		}
 
-		ASSERT_CRASH(LSendBufferChunk->IsOpen() == false);
+		ASSERT_CRASH(thread::LSendBufferChunk->IsOpen() == false);
 
-		if (LSendBufferChunk->FreeSize() < size)
+		if (thread::LSendBufferChunk->FreeSize() < size)
 		{
-			LSendBufferChunk = Pop();
-			LSendBufferChunk->Reset();
+			thread::LSendBufferChunk = Pop();
+			thread::LSendBufferChunk->Reset();
 		}
 
-		return LSendBufferChunk->Open(size);
+		return thread::LSendBufferChunk->Open(size);
 	}
 
 	SendBufferChunkRef SendBufferManager::Pop()
 	{
 		{
-			WRITE_LOCK;
+			WRITE_LOCK
 			if (_sendBufferChunks.empty() == false)
 			{
 				SendBufferChunkRef sendBufferChunk = _sendBufferChunks.back();
@@ -106,13 +106,12 @@ namespace core::network
 
 	void SendBufferManager::Push(SendBufferChunkRef buffer)
 	{
-		WRITE_LOCK;
+		WRITE_LOCK
 		_sendBufferChunks.push_back(buffer);
 	}
 
 	void SendBufferManager::PushGlobal(SendBufferChunk* buffer)
 	{
-		//cout << "PushGlobal SENDBUFFERCHUNK" << endl;
 		SendBufferManager::Instance().Push(SendBufferChunkRef(buffer, PushGlobal));
 	}
 

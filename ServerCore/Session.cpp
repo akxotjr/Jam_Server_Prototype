@@ -340,7 +340,7 @@ namespace core::network
 		RegisterSend(sendBuffer);
 	}
 
-	void ReliableUdpSession::SendReliable(SendBufferRef sendBuffer, float timestamp)
+	void ReliableUdpSession::SendReliable(SendBufferRef sendBuffer, double timestamp)
 	{
 		uint16 seq = _sendSeq++;
 
@@ -427,7 +427,7 @@ namespace core::network
 		OnSend(numOfBytes);
 	}
 
-	void ReliableUdpSession::Update(float serverTime)
+	void ReliableUdpSession::Update(double serverTime)
 	{
 		Vector<uint16> resendList;
 
@@ -436,7 +436,7 @@ namespace core::network
 
 				for (auto& [seq, pkt] : _pendingAckMap)
 				{
-					float elapsed = serverTime - pkt.timestamp;
+					double elapsed = serverTime - pkt.timestamp;
 
 					if (elapsed >= _resendIntervalMs)
 					{

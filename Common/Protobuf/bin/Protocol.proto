@@ -12,7 +12,7 @@ message C_LOGIN
 message S_LOGIN
 {
 	bool success = 1;
-	uint32 userId = 2;
+	uint64 userId = 2;
 	//repeated Player players = 2;
 }
 
@@ -67,7 +67,7 @@ message C_TIMESYNC
 
 message S_TIMESYNC
 {
-	float timestamp = 1;
+	double timestamp = 1;
 }
 
 message C_SPAWN_ACTOR
@@ -82,22 +82,22 @@ message S_SPAWN_ACTOR
 
 message C_CHARACTER_SYNC
 {
-	float timestamp = 1;
+	double timestamp = 1;
 	CharacterInfo characterInfo = 2;
 }
 
 message S_CHARACTER_SYNC
 {
-	float timestamp = 1;
+	double timestamp = 1;
 	repeated CharacterInfo characterInfo = 2;
 }
 
 message C_PLAYER_INPUT
 {
-	float timestamp = 1;
+	double timestamp = 1;
 	uint32 sequenceNumber = 2;
 	KeyType keyType = 3;
-	float deltaTime = 4;
+	double deltaTime = 4;
 	optional float mousePosX = 5;
 	optional float mousePosY = 6;
 }

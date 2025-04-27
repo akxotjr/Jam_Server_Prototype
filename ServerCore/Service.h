@@ -7,7 +7,7 @@
 
 namespace core::network
 {
-	using SessionFactory = function<SessionRef()>;
+	using SessionFactory = std::function<SessionRef()>;
 
 	/*--------------
 		 Service
@@ -15,8 +15,8 @@ namespace core::network
 
 	struct TransportConfig
 	{
-		optional<NetAddress> tcpAddress;
-		optional<NetAddress> udpAddress;
+		std::optional<NetAddress> tcpAddress;
+		std::optional<NetAddress> udpAddress;
 	};
 
 	class Service : public enable_shared_from_this<Service>
@@ -26,7 +26,7 @@ namespace core::network
 		virtual ~Service();
 
 		virtual bool						Start();
-		bool								CanStart() { return _tcpSessionFactory != nullptr || _udpSessionFactory; }
+		bool								CanStart() const { return _tcpSessionFactory != nullptr || _udpSessionFactory; }
 
 		virtual void						CloseService();
 
@@ -44,10 +44,10 @@ namespace core::network
 		void								ReleaseUdpSession(ReliableUdpSessionRef session);
 
 
-		int32								GetCurrentTcpSessionCount() { return _tcpSessionCount; }
-		int32								GetMaxTcpSessionCount() { return _maxTcpSessionCount; }
-		int32								GetCurrentUdpSessionCount() { return _udpSessionCount; }
-		int32								GetMaxUdpSessionCount() { return _maxUdpSessionCount; }
+		int32								GetCurrentTcpSessionCount() const { return _tcpSessionCount; }
+		int32								GetMaxTcpSessionCount() const { return _maxTcpSessionCount; }
+		int32								GetCurrentUdpSessionCount() const { return _udpSessionCount; }
+		int32								GetMaxUdpSessionCount() const { return _maxUdpSessionCount; }
 
 
 		void								SetUdpReceiver(UdpReceiverRef udpReceiver) { _udpReceiver = udpReceiver; };
@@ -57,8 +57,8 @@ namespace core::network
 		void								CompleteUdpHandshake(const NetAddress& from);
 
 	public:
-		NetAddress							GetTcpNetAddress() { return _config.tcpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
-		NetAddress							GetUdpNetAddress() { return _config.udpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
+		NetAddress							GetTcpNetAddress() const { return _config.tcpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
+		NetAddress							GetUdpNetAddress() const { return _config.udpAddress.value_or(NetAddress(L"0.0.0.0", 0)); }
 		IocpCoreRef&						GetIocpCore() { return _iocpCore; }
 
 	protected:
@@ -94,12 +94,12 @@ namespace core::network
 	{
 		_tcpSessionFactory = []() -> SessionRef
 			{
-				return MakeShared<TCP>();
+				return memory::MakeShared<TCP>();
 			};
 
 		_udpSessionFactory = []() -> SessionRef
 			{
-				return MakeShared<UDP>();
+				return memory::MakeShared<UDP>();
 			};
 	}
 

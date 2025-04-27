@@ -1,6 +1,6 @@
 #pragma once
 
-class GameTcpSession : public TcpSession
+class GameTcpSession : public network::TcpSession
 {
 public:
 	GameTcpSession();

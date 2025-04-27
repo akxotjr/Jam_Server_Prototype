@@ -20,7 +20,7 @@ void Player::Init()
 
 void Player::Update()
 {
-	float deltaTime = GTimeManager.GetDeltaTime();
+	float deltaTime = TimeManager::Instance().GetDeltaTime();
 
 	if ((_targetPos - _position).Length() < 1.5f)
 	{

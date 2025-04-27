@@ -270,14 +270,14 @@ class S_TIMESYNC final : public ::google::protobuf::Message
   enum : int {
     kTimestampFieldNumber = 1,
   };
-  // float timestamp = 1;
+  // double timestamp = 1;
   void clear_timestamp() ;
-  float timestamp() const;
-  void set_timestamp(float value);
+  double timestamp() const;
+  void set_timestamp(double value);
 
   private:
-  float _internal_timestamp() const;
-  void _internal_set_timestamp(float value);
+  double _internal_timestamp() const;
+  void _internal_set_timestamp(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:Protocol.S_TIMESYNC)
@@ -303,7 +303,7 @@ class S_TIMESYNC final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const S_TIMESYNC& from_msg);
-    float timestamp_;
+    double timestamp_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -458,9 +458,19 @@ class S_LOGIN final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kSuccessFieldNumber = 1,
     kUserIdFieldNumber = 2,
+    kSuccessFieldNumber = 1,
   };
+  // uint64 userId = 2;
+  void clear_userid() ;
+  ::uint64_t userid() const;
+  void set_userid(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_userid() const;
+  void _internal_set_userid(::uint64_t value);
+
+  public:
   // bool success = 1;
   void clear_success() ;
   bool success() const;
@@ -469,16 +479,6 @@ class S_LOGIN final : public ::google::protobuf::Message
   private:
   bool _internal_success() const;
   void _internal_set_success(bool value);
-
-  public:
-  // uint32 userId = 2;
-  void clear_userid() ;
-  ::uint32_t userid() const;
-  void set_userid(::uint32_t value);
-
-  private:
-  ::uint32_t _internal_userid() const;
-  void _internal_set_userid(::uint32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:Protocol.S_LOGIN)
@@ -504,8 +504,8 @@ class S_LOGIN final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const S_LOGIN& from_msg);
+    ::uint64_t userid_;
     bool success_;
-    ::uint32_t userid_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1777,14 +1777,14 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
     kMousePosXFieldNumber = 5,
     kMousePosYFieldNumber = 6,
   };
-  // float timestamp = 1;
+  // double timestamp = 1;
   void clear_timestamp() ;
-  float timestamp() const;
-  void set_timestamp(float value);
+  double timestamp() const;
+  void set_timestamp(double value);
 
   private:
-  float _internal_timestamp() const;
-  void _internal_set_timestamp(float value);
+  double _internal_timestamp() const;
+  void _internal_set_timestamp(double value);
 
   public:
   // uint32 sequenceNumber = 2;
@@ -1807,14 +1807,14 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
   void _internal_set_keytype(::Protocol::KeyType value);
 
   public:
-  // float deltaTime = 4;
+  // double deltaTime = 4;
   void clear_deltatime() ;
-  float deltatime() const;
-  void set_deltatime(float value);
+  double deltatime() const;
+  void set_deltatime(double value);
 
   private:
-  float _internal_deltatime() const;
-  void _internal_set_deltatime(float value);
+  double _internal_deltatime() const;
+  void _internal_set_deltatime(double value);
 
   public:
   // optional float mousePosX = 5;
@@ -1864,10 +1864,10 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
                           const C_PLAYER_INPUT& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    float timestamp_;
+    double timestamp_;
     ::uint32_t sequencenumber_;
     int keytype_;
-    float deltatime_;
+    double deltatime_;
     float mouseposx_;
     float mouseposy_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -3338,14 +3338,14 @@ class S_CHARACTER_SYNC final : public ::google::protobuf::Message
   const ::Protocol::CharacterInfo& characterinfo(int index) const;
   ::Protocol::CharacterInfo* add_characterinfo();
   const ::google::protobuf::RepeatedPtrField<::Protocol::CharacterInfo>& characterinfo() const;
-  // float timestamp = 1;
+  // double timestamp = 1;
   void clear_timestamp() ;
-  float timestamp() const;
-  void set_timestamp(float value);
+  double timestamp() const;
+  void set_timestamp(double value);
 
   private:
-  float _internal_timestamp() const;
-  void _internal_set_timestamp(float value);
+  double _internal_timestamp() const;
+  void _internal_set_timestamp(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:Protocol.S_CHARACTER_SYNC)
@@ -3372,7 +3372,7 @@ class S_CHARACTER_SYNC final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const S_CHARACTER_SYNC& from_msg);
     ::google::protobuf::RepeatedPtrField< ::Protocol::CharacterInfo > characterinfo_;
-    float timestamp_;
+    double timestamp_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -3545,14 +3545,14 @@ class C_CHARACTER_SYNC final : public ::google::protobuf::Message
   ::Protocol::CharacterInfo* _internal_mutable_characterinfo();
 
   public:
-  // float timestamp = 1;
+  // double timestamp = 1;
   void clear_timestamp() ;
-  float timestamp() const;
-  void set_timestamp(float value);
+  double timestamp() const;
+  void set_timestamp(double value);
 
   private:
-  float _internal_timestamp() const;
-  void _internal_set_timestamp(float value);
+  double _internal_timestamp() const;
+  void _internal_set_timestamp(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:Protocol.C_CHARACTER_SYNC)
@@ -3581,7 +3581,7 @@ class C_CHARACTER_SYNC final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::Protocol::CharacterInfo* characterinfo_;
-    float timestamp_;
+    double timestamp_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -3630,24 +3630,24 @@ inline void S_LOGIN::_internal_set_success(bool value) {
   _impl_.success_ = value;
 }
 
-// uint32 userId = 2;
+// uint64 userId = 2;
 inline void S_LOGIN::clear_userid() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.userid_ = 0u;
+  _impl_.userid_ = ::uint64_t{0u};
 }
-inline ::uint32_t S_LOGIN::userid() const {
+inline ::uint64_t S_LOGIN::userid() const {
   // @@protoc_insertion_point(field_get:Protocol.S_LOGIN.userId)
   return _internal_userid();
 }
-inline void S_LOGIN::set_userid(::uint32_t value) {
+inline void S_LOGIN::set_userid(::uint64_t value) {
   _internal_set_userid(value);
   // @@protoc_insertion_point(field_set:Protocol.S_LOGIN.userId)
 }
-inline ::uint32_t S_LOGIN::_internal_userid() const {
+inline ::uint64_t S_LOGIN::_internal_userid() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.userid_;
 }
-inline void S_LOGIN::_internal_set_userid(::uint32_t value) {
+inline void S_LOGIN::_internal_set_userid(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.userid_ = value;
 }
@@ -4034,24 +4034,24 @@ inline void S_CHAT::set_allocated_msg(std::string* value) {
 
 // S_TIMESYNC
 
-// float timestamp = 1;
+// double timestamp = 1;
 inline void S_TIMESYNC::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = 0;
 }
-inline float S_TIMESYNC::timestamp() const {
+inline double S_TIMESYNC::timestamp() const {
   // @@protoc_insertion_point(field_get:Protocol.S_TIMESYNC.timestamp)
   return _internal_timestamp();
 }
-inline void S_TIMESYNC::set_timestamp(float value) {
+inline void S_TIMESYNC::set_timestamp(double value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:Protocol.S_TIMESYNC.timestamp)
 }
-inline float S_TIMESYNC::_internal_timestamp() const {
+inline double S_TIMESYNC::_internal_timestamp() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.timestamp_;
 }
-inline void S_TIMESYNC::_internal_set_timestamp(float value) {
+inline void S_TIMESYNC::_internal_set_timestamp(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = value;
 }
@@ -4135,24 +4135,24 @@ S_SPAWN_ACTOR::_internal_mutable_characterinfo() {
 
 // C_CHARACTER_SYNC
 
-// float timestamp = 1;
+// double timestamp = 1;
 inline void C_CHARACTER_SYNC::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = 0;
 }
-inline float C_CHARACTER_SYNC::timestamp() const {
+inline double C_CHARACTER_SYNC::timestamp() const {
   // @@protoc_insertion_point(field_get:Protocol.C_CHARACTER_SYNC.timestamp)
   return _internal_timestamp();
 }
-inline void C_CHARACTER_SYNC::set_timestamp(float value) {
+inline void C_CHARACTER_SYNC::set_timestamp(double value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:Protocol.C_CHARACTER_SYNC.timestamp)
 }
-inline float C_CHARACTER_SYNC::_internal_timestamp() const {
+inline double C_CHARACTER_SYNC::_internal_timestamp() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.timestamp_;
 }
-inline void C_CHARACTER_SYNC::_internal_set_timestamp(float value) {
+inline void C_CHARACTER_SYNC::_internal_set_timestamp(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = value;
 }
@@ -4252,24 +4252,24 @@ inline void C_CHARACTER_SYNC::set_allocated_characterinfo(::Protocol::CharacterI
 
 // S_CHARACTER_SYNC
 
-// float timestamp = 1;
+// double timestamp = 1;
 inline void S_CHARACTER_SYNC::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = 0;
 }
-inline float S_CHARACTER_SYNC::timestamp() const {
+inline double S_CHARACTER_SYNC::timestamp() const {
   // @@protoc_insertion_point(field_get:Protocol.S_CHARACTER_SYNC.timestamp)
   return _internal_timestamp();
 }
-inline void S_CHARACTER_SYNC::set_timestamp(float value) {
+inline void S_CHARACTER_SYNC::set_timestamp(double value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:Protocol.S_CHARACTER_SYNC.timestamp)
 }
-inline float S_CHARACTER_SYNC::_internal_timestamp() const {
+inline double S_CHARACTER_SYNC::_internal_timestamp() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.timestamp_;
 }
-inline void S_CHARACTER_SYNC::_internal_set_timestamp(float value) {
+inline void S_CHARACTER_SYNC::_internal_set_timestamp(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = value;
 }
@@ -4323,24 +4323,24 @@ S_CHARACTER_SYNC::_internal_mutable_characterinfo() {
 
 // C_PLAYER_INPUT
 
-// float timestamp = 1;
+// double timestamp = 1;
 inline void C_PLAYER_INPUT::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = 0;
 }
-inline float C_PLAYER_INPUT::timestamp() const {
+inline double C_PLAYER_INPUT::timestamp() const {
   // @@protoc_insertion_point(field_get:Protocol.C_PLAYER_INPUT.timestamp)
   return _internal_timestamp();
 }
-inline void C_PLAYER_INPUT::set_timestamp(float value) {
+inline void C_PLAYER_INPUT::set_timestamp(double value) {
   _internal_set_timestamp(value);
   // @@protoc_insertion_point(field_set:Protocol.C_PLAYER_INPUT.timestamp)
 }
-inline float C_PLAYER_INPUT::_internal_timestamp() const {
+inline double C_PLAYER_INPUT::_internal_timestamp() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.timestamp_;
 }
-inline void C_PLAYER_INPUT::_internal_set_timestamp(float value) {
+inline void C_PLAYER_INPUT::_internal_set_timestamp(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = value;
 }
@@ -4389,24 +4389,24 @@ inline void C_PLAYER_INPUT::_internal_set_keytype(::Protocol::KeyType value) {
   _impl_.keytype_ = value;
 }
 
-// float deltaTime = 4;
+// double deltaTime = 4;
 inline void C_PLAYER_INPUT::clear_deltatime() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.deltatime_ = 0;
 }
-inline float C_PLAYER_INPUT::deltatime() const {
+inline double C_PLAYER_INPUT::deltatime() const {
   // @@protoc_insertion_point(field_get:Protocol.C_PLAYER_INPUT.deltaTime)
   return _internal_deltatime();
 }
-inline void C_PLAYER_INPUT::set_deltatime(float value) {
+inline void C_PLAYER_INPUT::set_deltatime(double value) {
   _internal_set_deltatime(value);
   // @@protoc_insertion_point(field_set:Protocol.C_PLAYER_INPUT.deltaTime)
 }
-inline float C_PLAYER_INPUT::_internal_deltatime() const {
+inline double C_PLAYER_INPUT::_internal_deltatime() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.deltatime_;
 }
-inline void C_PLAYER_INPUT::_internal_set_deltatime(float value) {
+inline void C_PLAYER_INPUT::_internal_set_deltatime(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.deltatime_ = value;
 }

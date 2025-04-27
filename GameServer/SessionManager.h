@@ -18,12 +18,12 @@ struct SessionBundle
 class SessionManager
 {
 public:
-	void					Add(SessionRef session);
-	void					Remove(SessionRef session);
+	void					Add(network::SessionRef session);
+	void					Remove(network::SessionRef session);
 
-	void					Broadcast(ProtocolType type, SendBufferRef sendBuffer, bool reliable);
+	void					Broadcast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable);
 
-	SessionRef				GetSessionById(ProtocolType type, uint32 id);
+	network::SessionRef				GetSessionById(ProtocolType type, uint32 id);
 
 private:
 	USE_LOCK

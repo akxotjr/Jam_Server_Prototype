@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "JobQueue.h"
 #include "GlobalQueue.h"
+#include "TimeManager.h"
 
 
 namespace core::job
@@ -12,7 +13,7 @@ namespace core::job
 
 		if (prevCount == 0)
 		{
-			if (LCurrentJobQueue == nullptr && pushOnly == false)
+			if (thread::LCurrentJobQueue == nullptr && pushOnly == false)
 			{
 				Execute();
 			}
@@ -27,7 +28,7 @@ namespace core::job
 
 	void JobQueue::Execute()
 	{
-		LCurrentJobQueue = this;
+		thread::LCurrentJobQueue = this;
 
 		while (true)
 		{
@@ -41,14 +42,14 @@ namespace core::job
 
 			if (_jobCount.fetch_sub(jobCount) == jobCount)
 			{
-				LCurrentJobQueue = nullptr;
+				thread::LCurrentJobQueue = nullptr;
 				return;
 			}
 
-			const uint64 now = ::GetTickCount64();
-			if (now >= LEndTime)
+			const double now = TimeManager::Instance().GetServerTime();
+			if (now >= thread::LEndTime)
 			{
-				LCurrentJobQueue = nullptr;
+				thread::LCurrentJobQueue = nullptr;
 
 				GlobalQueue::Instance().Push(shared_from_this());
 				break;

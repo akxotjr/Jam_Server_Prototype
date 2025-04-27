@@ -3,14 +3,14 @@
 
 class Player;
 
-class Room : public JobQueue
+class Room : public job::JobQueue
 {
 public:
 	void		Update();
 
 	void		Enter(PlayerRef player);
 	void		Leave(PlayerRef player);	// todo : add another version(by id)
-	void		Broadcast(SendBufferRef sendBuffer);
+	void		Broadcast(network::SendBufferRef sendBuffer);
 
 	void		SetId(uint32 id) { _id = id; }
 	uint32&		GetId() { return _id; }

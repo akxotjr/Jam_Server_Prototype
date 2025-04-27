@@ -165,7 +165,6 @@
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
@@ -184,7 +183,6 @@
     <ClInclude Include="RoomManager.h" />
     <ClInclude Include="SessionManager.h" />
     <ClInclude Include="Struct.pb.h" />
-    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Values.h" />
   </ItemGroup>

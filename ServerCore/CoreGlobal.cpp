@@ -1,21 +1,21 @@
 #include "pch.h"
 #include "CoreGlobal.h"
-#include "Memory.h"
 #include "SocketUtils.h"
 #include "ThreadManager.h"
-
-core::memory::Memory*				GMemory = nullptr;
+#include "TimeManager.h"
 
 
 namespace core
 {
+	memory::Memory* GMemory = nullptr;
+
 	class CoreGlobal
 	{	
 	public:
 		CoreGlobal()
 		{
 			GMemory = new memory::Memory();
-
+			TimeManager::Instance().Init();
 			thread::ThreadManager::Instance().Init();	// for Main Thread
 			network::SocketUtils::Init();
 		}

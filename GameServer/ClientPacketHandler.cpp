@@ -130,7 +130,7 @@ bool Handle_C_HANDSHAKE(SessionRef& session, Protocol::C_HANDSHAKE& pkt)
 
 
 	{
-		float timestamp = GTimeManager.GetServerTime();
+		double timestamp = TimeManager::Instance().GetServerTime();
 
 		Protocol::S_HANDSHAKE handshakePkt;
 		handshakePkt.set_success(true);
@@ -159,7 +159,7 @@ bool Handle_C_TIMESYNC(SessionRef& session, Protocol::C_TIMESYNC& pkt)
 {
 	//std::cout << "[TCP] Recv : C_TIMESYNC\n";
 
-	float serverTime = GTimeManager.GetServerTime();
+	double serverTime = TimeManager::Instance().GetServerTime();
 
 	Protocol::S_TIMESYNC timesyncPkt;
 	timesyncPkt.set_timestamp(serverTime);
@@ -260,7 +260,7 @@ bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 
 		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(inputPkt);
 
-		float serverTime = GTimeManager.GetServerTime();
+		float serverTime = TimeManager::Instance().GetServerTime();
 
 		gameUdpSession->SendReliable(sendBuffer, serverTime);
 		std::cout << "[UDP] Send : S_PLAYER_INPUT\n";

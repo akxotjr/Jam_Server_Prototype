@@ -1,6 +1,7 @@
 #pragma once
 #include "Protocol.pb.h"
 
+using namespace core::network;
 using PacketHandlerFunc = std::function<bool(SessionRef&, BYTE*, int32)>;
 extern PacketHandlerFunc GPacketHandler_Tcp[UINT16_MAX];
 extern PacketHandlerFunc GPacketHandler_Udp[UINT16_MAX];
@@ -142,7 +143,7 @@ private:
 		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
 		const uint16 packetSize = dataSize + sizeof(HeaderType);
 
-		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
+		SendBufferRef sendBuffer = SendBufferManager::Instance().Open(packetSize);
 		HeaderType* header = reinterpret_cast<HeaderType*>(sendBuffer->Buffer());
 		header->size = packetSize;
 		header->id = pktId;

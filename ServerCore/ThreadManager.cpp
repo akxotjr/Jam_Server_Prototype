@@ -43,8 +43,10 @@ namespace core::thread
 	
 	}
 	
-	void ThreadManager::DoGlobalQueueWork()
+	int32 ThreadManager::DoGlobalQueueWork()
 	{
+		int32 workCount = 0;
+
 		while (true)
 		{
 			double now = TimeManager::Instance().GetServerTime();
@@ -56,7 +58,9 @@ namespace core::thread
 				break;
 	
 			jobQueue->Execute();
+			++workCount;
 		}
+		return workCount;
 	}
 	
 	void ThreadManager::DistributeReservedJob()

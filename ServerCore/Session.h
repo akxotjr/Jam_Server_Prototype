@@ -128,7 +128,7 @@ namespace core::network
 	{
 		SendBufferRef buffer;
 		uint16 sequence;
-		float timestamp;
+		double timestamp;
 		uint32 retryCount = 0;
 	};
 
@@ -148,7 +148,7 @@ namespace core::network
 		virtual bool							Connect() override;
 		virtual void							Disconnect(const WCHAR* cause) override;
 		virtual void							Send(SendBufferRef sendBuffer) override;
-		virtual void							SendReliable(SendBufferRef sendBuffer, float timestamp);
+		virtual void							SendReliable(SendBufferRef sendBuffer, double timestamp);
 
 		virtual bool							IsTcp() const override { return false; }
 		virtual bool							IsUdp() const override { return true; }
@@ -170,7 +170,7 @@ namespace core::network
 		void									ProcessDisconnect();
 		void									ProcessSend(int32 numOfBytes);
 
-		void									Update(float serverTime);
+		void									Update(double serverTime);
 		bool									IsSeqGreater(uint16 a, uint16 b) { return static_cast<int16>(a - b) > 0; }	// util ·Î »¬Áö
 
 		void									HandleError(int32 errorCode);

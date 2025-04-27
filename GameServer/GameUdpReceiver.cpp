@@ -12,7 +12,7 @@ GameUdpReceiver::~GameUdpReceiver()
 {
 }
 
-void GameUdpReceiver::OnRecv(SessionRef& session, BYTE* buffer, int32 len)
+void GameUdpReceiver::OnRecv(network::SessionRef& session, BYTE* buffer, int32 len)
 {
-	ClientPacketHandler::HandlePacket<UdpPacketHeader>(session, buffer, len);
+	ClientPacketHandler::HandlePacket<network::UdpPacketHeader>(session, buffer, len);
 }

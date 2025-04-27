@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Bot.h"
-#include "TimeManager.h"
 #include <algorithm>
 #include <random>
+#include <TimeManager.h>
 
 Bot::Bot()
 {
@@ -42,7 +42,7 @@ void Bot::Init()
 
 void Bot::Update()
 {
-    float deltaTime = GTimeManager.GetDeltaTime();
+    float deltaTime = TimeManager::Instance().GetDeltaTime();
     Vec2 nextPos = _position + _velocity * deltaTime;
 
     bool isChangedVelocity = false;

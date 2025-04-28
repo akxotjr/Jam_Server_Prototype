@@ -7,7 +7,7 @@ class Character : public Actor
 
 public:
 	Character();
-	virtual ~Character();
+	virtual ~Character() override;
 
 	virtual void Init();
 	virtual void Update();

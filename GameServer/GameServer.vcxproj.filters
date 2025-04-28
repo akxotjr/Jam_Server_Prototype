@@ -22,6 +22,9 @@
     <Filter Include="97.Utils">
       <UniqueIdentifier>{6be5d511-d104-4ca5-a997-e652366723f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Contents\Actor">
+      <UniqueIdentifier>{d71c47c5-863b-4ff5-bbf8-7c891d26f549}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -48,16 +51,10 @@
     <ClCompile Include="Room.cpp">
       <Filter>03.Contents</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>03.Contents</Filter>
-    </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>03.Contents</Filter>
     </ClCompile>
     <ClCompile Include="Bot.cpp">
-      <Filter>03.Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor.cpp">
       <Filter>03.Contents</Filter>
     </ClCompile>
     <ClCompile Include="GameTcpSession.cpp">
@@ -74,6 +71,21 @@
     </ClCompile>
     <ClCompile Include="IdManager.cpp">
       <Filter>03.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>03.Contents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticActor.cpp">
+      <Filter>03.Contents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterActor.cpp">
+      <Filter>03.Contents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicActor.cpp">
+      <Filter>03.Contents\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>03.Contents\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,16 +113,10 @@
     <ClInclude Include="Room.h">
       <Filter>03.Contents</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>03.Contents</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>03.Contents</Filter>
     </ClInclude>
     <ClInclude Include="Bot.h">
-      <Filter>03.Contents</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor.h">
       <Filter>03.Contents</Filter>
     </ClInclude>
     <ClInclude Include="GameUdpSession.h">
@@ -130,6 +136,21 @@
     </ClInclude>
     <ClInclude Include="Values.h">
       <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>03.Contents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticActor.h">
+      <Filter>03.Contents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicActor.h">
+      <Filter>03.Contents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterActor.h">
+      <Filter>03.Contents\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>03.Contents\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

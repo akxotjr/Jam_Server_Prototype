@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(VcpkgRoot)\installed\x64-windows\include;$(SolutionDir)ServerCore;$(IncludePath)</IncludePath>
+    <IncludePath>$(VcpkgRoot)\installed\x64-windows\include;$(SolutionDir)\Include\PhysX5\include;$(SolutionDir)ServerCore;$(IncludePath)</IncludePath>
     <LibraryPath>$(VcpkgRoot)\installed\x64-windows\lib;$(SolutionDir)Libraries\Libs;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)Intermediates\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -142,7 +142,9 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterActor.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
+    <ClCompile Include="DynamicActor.cpp" />
     <ClCompile Include="Enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -162,6 +164,7 @@
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="SessionManager.cpp" />
+    <ClCompile Include="StaticActor.cpp" />
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -170,7 +173,9 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterActor.h" />
     <ClInclude Include="ClientPacketHandler.h" />
+    <ClInclude Include="DynamicActor.h" />
     <ClInclude Include="Enum.pb.h" />
     <ClInclude Include="GameTcpSession.h" />
     <ClInclude Include="GameUdpReceiver.h" />
@@ -182,6 +187,7 @@
     <ClInclude Include="Room.h" />
     <ClInclude Include="RoomManager.h" />
     <ClInclude Include="SessionManager.h" />
+    <ClInclude Include="StaticActor.h" />
     <ClInclude Include="Struct.pb.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Values.h" />

@@ -1,21 +1,40 @@
 #pragma once
-#include "Character.h"
+#include "CharacterActor.h"
 
-class Player : public Character
+
+enum class KeyType : uint32
 {
-	using Super = Character;
+	KEY_W = 0,
+	KEY_S,
+	KEY_D,
+	KEY_A
+};
+
+
+class Player : public CharacterActor
+{
+	using Super = CharacterActor;
 
 public:
 	Player();
-	virtual ~Player();
+	virtual ~Player() override;
 
-	virtual void Init();
-	virtual void Update();
+	virtual void Init() override;
+	virtual void Update() override;
 
-	void ProcessPlayerInpuf(float timestamp, uint32 sequenceNumber, Protocol::KeyType key, float deltaTime, Vec2 targetPos);
-	uint32 GetLastSequence() { return _lastProcessSequence; }
+	void ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence);
+
+
+	uint32 GetLastSequence() const { return _lastProcessSequence; }
 
 private:
-	uint32 _lastProcessSequence;
-	Vec2 _targetPos;
+	void ProcessKeyField(uint32& keyField);
+
+private:
+	uint32	_lastProcessSequence;
+
+	physx::PxCapsuleController* _controller;
+
+	bool _isOnGround = false;
+	bool _isJumping = false;
 };

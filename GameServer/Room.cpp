@@ -5,11 +5,10 @@
 #include "Character.h"
 #include "Player.h"
 #include "Bot.h"
-#include "TimeManager.h"
+#include <TimeManager.h>
 #include "ClientPacketHandler.h"
 #include "SendBuffer.h"
 #include "SessionManager.h"
-#include "TimeManager.h"
 
 void Room::Update()
 {
@@ -21,14 +20,14 @@ void Room::Update()
 		}
 	}
 
-	float deltaTime = TimeManager::Instance().GetDeltaTime();
-	_sumTime += deltaTime;
+	//double deltaTime = TimeManager::Instance().GetDeltaTime();
+	//_sumTime += deltaTime;
 
-	if (_sumTime >= 0.05f) 
-	{
+	//if (_sumTime >= 0.05) 
+	//{
 		BroadCastCharacterSync();
-		_sumTime = 0.f;
-	}
+	//	_sumTime = 0.0;
+	//}
 }
 
 void Room::Enter(PlayerRef player)
@@ -66,12 +65,15 @@ void Room::RemoveCharacter(CharacterRef character)
 
 void Room::BroadCastCharacterSync()
 {
-	float timestamp = TimeManager::Instance().GetServerTime();
+	double timestamp = TimeManager::Instance().GetServerTime();
 
 	for (auto& [id, player] : _players)
 	{
 		auto gameTcpSession = player->GetOwnerSession();
 		auto gameUdpSession = static_pointer_cast<GameUdpSession>(GSessionManager.GetSessionById(ProtocolType::PROTOCOL_UDP, gameTcpSession->GetId()));
+
+		if (gameUdpSession == nullptr) 
+			return;
 
 		Protocol::S_CHARACTER_SYNC pkt;
 
@@ -82,8 +84,6 @@ void Room::BroadCastCharacterSync()
 			Protocol::CharacterInfo* info = pkt.add_characterinfo();
 			info->CopyFrom(*character->GetInfo()); 
 		}
-
-
 
 		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(pkt);
 		gameUdpSession->SendReliable(sendBuffer, timestamp);

@@ -35,7 +35,7 @@ void DoWorkerJob(network::ServiceRef& service)
 
 		core::thread::LEndTime = TimeManager::Instance().GetServerTime() + nextTime;
 
-		std::this_thread::yield();
+		//std::this_thread::yield();
 	}
 }
 
@@ -83,6 +83,15 @@ int main()
 	service->SetSessionFactory<GameTcpSession, GameUdpSession>();
 	service->SetUdpReceiver(MakeShared<GameUdpReceiver>());
 	ASSERT_CRASH(service->Start());
+
+
+	for (int32 i = 0; i < 5; i++)
+	{
+		core::thread::ThreadManager::Instance().Launch([&service]()
+			{
+				DoWorkerJob(service);
+			});
+	}
 
 	// Main Thread
 	MainLoop();

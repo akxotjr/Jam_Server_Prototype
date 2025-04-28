@@ -5,6 +5,8 @@ class Player;
 
 class Room : public job::JobQueue
 {
+	friend class Player;
+
 public:
 	void		Update();
 
@@ -35,6 +37,10 @@ private:
 	unordered_map<uint32, PlayerRef>		_players;
 	unordered_map<uint32, CharacterRef>		_characters; // character doesn't have asession
 
-	Atomic<float> _sumTime = 0.f;
+	Atomic<double> _sumTime = 0.f;
+
+	physx::PxScene* _scene;
+	physx::PxControllerManager* _controllerManager = PxCreateControllerManager(*_scene);
+
 };
 

@@ -7,26 +7,22 @@ public:
 	Actor();
 	virtual ~Actor();
 
-	virtual void		Init();
-	virtual void		Update() = 0;
+	virtual void				Init(RoomRef room);
+	virtual void				Update() = 0;
 
-	void				SetPosition(Vec2 pos) { _position = pos; }
-	Vec2&				GetPosition() { return _position; }
+	RoomRef						GetOwnerRoom() const { return _ownerRoom.lock(); }
 
-	void				SetOwnerSession(GameTcpSessionRef ownerSession) { _ownerSession = ownerSession; }
-	GameTcpSessionRef	GetOwnerSession() { return _ownerSession.lock(); }
+	physx::PxActor*				GetPxActor() const { return _pxActor; }
+	uint32						GetId() const { return _id; }
 
-	RoomRef				GetOwnerRoom() const { return _ownerRoom.lock(); }
-
-private:
-	weak_ptr<GameTcpSession> _ownerSession;
-
-	std::weak_ptr<Room> _ownerRoom;
 
 protected:
-	Vec2 _position = { GWinSizeX / 2, GWinSizeY / 2 };	//temp
+	std::weak_ptr<Room>			_ownerRoom;
 
-	uint64			_id = 0;
-	physx::PxVec3	_pos = {};
+	uint32						_id = 0;
+
+	physx::PxVec3				_position = { 0.0f, 0.0f, 0.0f };
+	physx::PxQuat				_rotation = { 0.0f, 0.0f, 0.0f, 1.0f };
+	physx::PxActor*				_pxActor = nullptr;
 };
 

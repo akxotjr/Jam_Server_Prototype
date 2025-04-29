@@ -4,37 +4,66 @@
 #include "Room.h"
 #include "Character.h"
 #include "Player.h"
-#include "Bot.h"
 #include <TimeManager.h>
 #include "ClientPacketHandler.h"
-#include "SendBuffer.h"
+#include "RoomManager.h"
 #include "SessionManager.h"
+
+Room::Room()
+{
+}
+
+Room::~Room()
+{
+	_scene->release();
+	_scene = nullptr;
+}
+
+void Room::Init()
+{
+	physx::PxPhysics* physics = RoomManager::Instance().GetPxPhysics();
+
+	physx::PxSceneDesc sceneDesc(physics->getTolerancesScale());
+	sceneDesc.gravity = physx::PxVec3(0.0f, -9.8f, 0.0f);
+	sceneDesc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(1);	// TODO
+	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
+
+	_scene = physics->createScene(sceneDesc);
+	if (_scene == nullptr)
+		CRASH("PxScene is nullptr.")
+}
 
 void Room::Update()
 {
-	for (auto& [id, character] : _characters)
+	float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
+	_scene->simulate(deltaTime);
+
+	for (auto& player : _players | views::values)
 	{
-		if (character)
-		{
-			character->Update();
-		}
+		player->Update();
 	}
 
-	//double deltaTime = TimeManager::Instance().GetDeltaTime();
-	//_sumTime += deltaTime;
+	MulticastActorSync();
+}
 
-	//if (_sumTime >= 0.05) 
-	//{
-		BroadCastCharacterSync();
-	//	_sumTime = 0.0;
-	//}
+void Room::AddActor(ActorRef actor)
+{
+	actor->Init(GetRoomRef());
+
+	_scene->addActor(*actor->GetPxActor());
+	_actors.insert({ actor->GetId(), actor });
+}
+
+void Room::RemoveActor(ActorRef actor)
+{
+	_scene->removeActor(*actor->GetPxActor());
+	_actors.erase(actor->GetId());
 }
 
 void Room::Enter(PlayerRef player)
 {
 	WRITE_LOCK
 	_players[player->GetInfo()->id()] = player;
-	_characters[player->GetInfo()->id()] = player;
 }
 
 void Room::Leave(PlayerRef player)
@@ -43,25 +72,50 @@ void Room::Leave(PlayerRef player)
 	_players.erase(player->GetInfo()->id());
 }
 
-void Room::Broadcast(SendBufferRef sendBuffer)
+void Room::Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable)
 {
-	for (auto& p : _players)
+	for (auto& player : _players | views::values)
 	{
-		p.second->GetOwnerSession()->Send(sendBuffer);
+		uint32 userId = player->GetUserId();
+
+		auto session = SessionManager::Instance().GetSessionByUserId(type, userId);
+
+		if (type == ProtocolType::PROTOCOL_TCP && session->IsTcp())
+		{
+			session->Send(sendBuffer);
+		}
+		else if (type == ProtocolType::PROTOCOL_UDP && session->IsUdp())
+		{
+			auto udpSession = static_pointer_cast<ReliableUdpSession>(session);
+			if (reliable)
+			{
+				double timestamp = TimeManager::Instance().GetServerTime();
+				udpSession->SendReliable(sendBuffer, timestamp);
+			}
+			else
+			{
+				udpSession->Send(sendBuffer);
+			}
+		}
 	}
 }
 
-void Room::AddCharacter(CharacterRef character)
+void Room::MulticastActorSync()
 {
-	WRITE_LOCK
-	_characters[character->GetInfo()->id()] = character;
+	
 }
 
-void Room::RemoveCharacter(CharacterRef character)
-{
-	WRITE_LOCK
-	_characters.erase(character->GetInfo()->id());
-}
+//void Room::AddCharacter(CharacterRef character)
+//{
+//	WRITE_LOCK
+//	_characters[character->GetInfo()->id()] = character;
+//}
+//
+//void Room::RemoveCharacter(CharacterRef character)
+//{
+//	WRITE_LOCK
+//	_characters.erase(character->GetInfo()->id());
+//}
 
 void Room::BroadCastCharacterSync()
 {

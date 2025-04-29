@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Player.h"
-#include "Room.h"
 #include "TimeManager.h"
 
 Player::Player()
@@ -9,21 +8,11 @@ Player::Player()
 
 Player::~Player()
 {
-	_controller->release();
-	_controller = nullptr;
 }
 
-void Player::Init()
+void Player::Init(RoomRef room)
 {
-	Super::Init();
-
-	physx::PxCapsuleControllerDesc desc = {};
-	desc.position = physx::PxExtendedVec3(0, 1, 0);
-	desc.radius = 0.5f;
-	desc.height = 1.8f;
-	desc.slopeLimit = cosf(physx::PxPi * 0.25f); // 45µµ
-	_controller = dynamic_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_controllerManager->createController(desc));
-
+	Super::Init(room);
 
 	//_info->set_name("player" + to_string(_info->id()));
 	//_info->set_type(Protocol::ActorType::ACTOR_TYPE_PLAYER);
@@ -32,10 +21,15 @@ void Player::Init()
 void Player::Update()
 {
 	float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
-	physx::PxVec3 displacement = _velocity * deltaTime;
+
+	if (!_isOnGround)
+		_verticalVelocity += -9.8f * deltaTime;	// TODO
+
+	physx::PxVec3 finalVelocity(_horizontalVelocity.x, _verticalVelocity, _horizontalVelocity.z);
 
 	physx::PxControllerFilters filters;
-	physx::PxControllerCollisionFlags collisionFlags = _controller->move(displacement, 0.001f, deltaTime, filters);
+	physx::PxControllerCollisionFlags collisionFlags = _controller->move(finalVelocity * deltaTime, 0.001f, deltaTime, filters);
+
 
 	// TODO : collision 
 	if (collisionFlags & physx::PxControllerCollisionFlag::eCOLLISION_DOWN)
@@ -48,7 +42,7 @@ void Player::Update()
 	}
 
 	physx::PxExtendedVec3 pos = _controller->getPosition();
-	_pos = physx::PxVec3(static_cast<float>(pos.x), static_cast<float>(pos.y), static_cast<float>(pos.z));
+	_position = physx::PxVec3(static_cast<float>(pos.x), static_cast<float>(pos.y), static_cast<float>(pos.z));
 }
 
 void Player::ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence)
@@ -78,7 +72,7 @@ void Player::ProcessKeyField(uint32& keyField)
 	if (moveDir.magnitudeSquared() > 0.f)
 		moveDir = moveDir.getNormalized();
 
-	_velocity = moveDir * _moveSpeed;
+	_horizontalVelocity = moveDir * _moveSpeed;
 
 	// TODO : JUMP, Fire, Skill etc.
 	// isJump

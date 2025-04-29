@@ -9,17 +9,16 @@ public:
 	CharacterActor();
 	virtual ~CharacterActor() override;
 
-	void Init();
-	void Update();
+	virtual void					Init(RoomRef room) override;
+	virtual void					Update() override;
 
 protected:
-	physx::PxVec3 _velocity = {};
+	physx::PxCapsuleController*		_controller;
 
-	physx::PxVec3		_horizontalVelocity = {};	//TODO
-	float				_verticalVelocity = 0.0f;
-	physx::PxQuat		_rotation = {};
+	physx::PxVec3					_horizontalVelocity = {};
+	float							_verticalVelocity = 0.0f;
 
-	//temp
-	float _moveSpeed = 3.f;
+	float							_moveSpeed = 3.f;
+	float							_jumpSpeed = 3.f;
 };
 

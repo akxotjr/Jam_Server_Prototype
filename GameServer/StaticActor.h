@@ -9,7 +9,7 @@ public:
 	StaticActor();
 	virtual ~StaticActor() override;
 
-	virtual void Init();
-	virtual void Update();
+	virtual void Init(RoomRef room) override;
+	virtual void Update() override;
 };
 

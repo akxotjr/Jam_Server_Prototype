@@ -5,42 +5,45 @@ class Player;
 
 class Room : public job::JobQueue
 {
+	friend class CharacterActor;
 	friend class Player;
 
 public:
-	void		Update();
+	Room();
+	virtual ~Room();
 
-	void		Enter(PlayerRef player);
-	void		Leave(PlayerRef player);	// todo : add another version(by id)
-	void		Broadcast(network::SendBufferRef sendBuffer);
+	void					Init();
+	void					Update();
 
-	void		SetId(uint32 id) { _id = id; }
+	void					AddActor(ActorRef actor);
+	void					RemoveActor(ActorRef actor);
+
+	void					Enter(PlayerRef player);
+	void					Leave(PlayerRef player);	// todo : add another version(by id)
+	void					Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable = false);
+
+	void					MulticastActorSync();
+
 	uint32&		GetId() { return _id; }
 
 	RoomRef		GetRoomRef() { return static_pointer_cast<Room>(shared_from_this()); }
 	
 	PlayerRef	GetPlayerById(int32 id) { return _players[id]; }
 
-	// temp
-	void		AddCharacter(CharacterRef character);
-	void		RemoveCharacter(CharacterRef character);
-
 	void		BroadCastCharacterSync();
 	void		BroadcastSpawnActor();
 
-	unordered_map<uint32, CharacterRef>& GetCharacters() { return _characters; }
+
+	physx::PxScene* GetPxScene() const { return _scene; }
 
 private:
 	USE_LOCK
 	uint32									_id;
 
 	unordered_map<uint32, PlayerRef>		_players;
-	unordered_map<uint32, CharacterRef>		_characters; // character doesn't have asession
+	unordered_map<uint32, ActorRef>			_actors;
 
-	Atomic<double> _sumTime = 0.f;
-
-	physx::PxScene* _scene;
-	physx::PxControllerManager* _controllerManager = PxCreateControllerManager(*_scene);
-
+	physx::PxScene*							_scene;
+	physx::PxControllerManager*				_controllerManager;
 };
 

@@ -3,11 +3,16 @@
 #include "Room.h"
 #include "IdManager.h"
 
-RoomManager GRoomManager;
+void RoomManager::Init(physx::PxFoundation* foundation)
+{
+	_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, physx::PxTolerancesScale(), true, nullptr);
+	if (_physics == nullptr) 
+		CRASH("_physics is nullptr.")
+}
 
 void RoomManager::Update()
 {
-	for (auto& [id, room] : _rooms)
+	for (auto& room : _rooms | views::values)
 	{
 		room->Update();
 	}

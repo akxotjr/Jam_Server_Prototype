@@ -4,8 +4,6 @@
 #include "GameUdpSession.h"
 #include "TimeManager.h"
 
-SessionManager GSessionManager;
-
 void SessionManager::Add(network::SessionRef session)
 {
     uint32 id = session->GetId();
@@ -45,17 +43,17 @@ void SessionManager::Remove(network::SessionRef session)
     }
 }
 
-void SessionManager::Broadcast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable)
+void SessionManager::Multicast(ProtocolType protocol, network::SendBufferRef sendBuffer, bool reliable)
 {
     WRITE_LOCK
 
     for (auto& [id, bundle] : _sessionMap)
     {
-        if (type == ProtocolType::PROTOCOL_TCP)
+        if (protocol == ProtocolType::PROTOCOL_TCP)
         {
             bundle.tcpSession->Send(sendBuffer);
         }
-        else if (type == ProtocolType::PROTOCOL_UDP)
+        else if (protocol == ProtocolType::PROTOCOL_UDP)
         {
             if (reliable)
             {
@@ -70,10 +68,9 @@ void SessionManager::Broadcast(ProtocolType type, network::SendBufferRef sendBuf
     }
 }
 
-network::SessionRef SessionManager::GetSessionById(ProtocolType type, uint32 id)
+network::SessionRef SessionManager::GetSessionByUserId(ProtocolType type, uint32 id)
 {
     WRITE_LOCK
-    
 
     if (type == ProtocolType::PROTOCOL_TCP)
     {

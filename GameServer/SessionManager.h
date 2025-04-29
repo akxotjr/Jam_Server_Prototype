@@ -17,18 +17,18 @@ struct SessionBundle
 
 class SessionManager
 {
+	DECLARE_SINGLETON(SessionManager)
+
 public:
-	void					Add(network::SessionRef session);
-	void					Remove(network::SessionRef session);
+	void							Add(network::SessionRef session);
+	void							Remove(network::SessionRef session);
 
-	void					Broadcast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable);
+	void							Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable);
 
-	network::SessionRef				GetSessionById(ProtocolType type, uint32 id);
+	network::SessionRef				GetSessionByUserId(ProtocolType type, uint32 id);
 
 private:
 	USE_LOCK
 
-	unordered_map<uint64, SessionBundle> _sessionMap; // sessionId // todo: UID
+	unordered_map<uint32, SessionBundle> _sessionMap; // sessionId // todo: UID
 };
-
-extern SessionManager GSessionManager;

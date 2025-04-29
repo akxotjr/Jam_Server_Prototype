@@ -148,6 +148,7 @@
     <ClCompile Include="Enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="GameTcpSession.cpp" />
     <ClCompile Include="GameUdpReceiver.cpp" />
@@ -168,6 +169,8 @@
     <ClCompile Include="Struct.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TransformCompressor.cpp" />
+    <ClCompile Include="UserManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
@@ -177,6 +180,7 @@
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="DynamicActor.h" />
     <ClInclude Include="Enum.pb.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameTcpSession.h" />
     <ClInclude Include="GameUdpReceiver.h" />
     <ClInclude Include="GameUdpSession.h" />
@@ -189,7 +193,9 @@
     <ClInclude Include="SessionManager.h" />
     <ClInclude Include="StaticActor.h" />
     <ClInclude Include="Struct.pb.h" />
+    <ClInclude Include="TransformCompressor.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="UserManager.h" />
     <ClInclude Include="Values.h" />
   </ItemGroup>
   <ItemGroup>

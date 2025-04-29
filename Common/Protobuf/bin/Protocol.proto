@@ -96,7 +96,7 @@ message C_PLAYER_INPUT
 {
 	double timestamp = 1;
 	uint32 sequenceNumber = 2;
-	KeyType keyType = 3;
+	uint32 keyField = 3;
 	double deltaTime = 4;
 	optional float mousePosX = 5;
 	optional float mousePosY = 6;

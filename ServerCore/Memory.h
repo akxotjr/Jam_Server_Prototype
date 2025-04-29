@@ -50,7 +50,7 @@ namespace core::memory
 	}
 
 	template<typename Type, typename... Args>
-	std::shared_ptr<Type> MakeShared(Args&&... args)
+	shared_ptr<Type> MakeShared(Args&&... args)
 	{
 		return std::shared_ptr<Type>{ xnew<Type>(std::forward<Args>(args)...), xdelete<Type> };
 	}

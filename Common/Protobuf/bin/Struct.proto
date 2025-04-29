@@ -3,19 +3,14 @@ package Protocol;
 
 import "Enum.proto";
 
-message CharacterMovementInfo
+message Transform	// 16 bytes
 {
-	float positionX = 1;
-	float positionY = 2;
-	float velocityX = 3;
-	float velocityY = 4;
-	float speed = 5;
+	uint64 position = 1;
+	uint64 velocity_speed = 2;
 }
 
-message CharacterInfo
+message ActorInfo	// 20 bytes
 {
-	ActorType type = 1;
-	uint64 id = 2;
-	string name = 3;
-	CharacterMovementInfo movementInfo = 4;
+	uint32 id = 1;
+	Transform transform = 2;
 }

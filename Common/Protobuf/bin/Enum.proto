@@ -23,13 +23,6 @@ enum KeyType
     KEY_1 = 31;
     KEY_2 = 32;
 }
-// temp
-enum ActorType
-{
-	ACTOR_TYPE_PLAYER = 0;
-	ACTOR_TYPE_BOT = 1;
-	ACTOR_TYPE_MONSTER = 2;
-}
 
 enum PlayerType
 {

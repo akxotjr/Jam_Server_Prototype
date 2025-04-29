@@ -4,20 +4,23 @@ class Room;
 
 class RoomManager
 {
-public:
-	RoomManager() {};
-	~RoomManager() {};
+	DECLARE_SINGLETON(RoomManager)
 
+public:
+	void							Init(physx::PxFoundation* foundation);
 	void							Update();
 
 	uint32							CreateRoom();
+
 	void							AddRoom(RoomRef room);
 	void							RemoveRoom(RoomRef room);
 
 	RoomRef							GetRoomById(uint32 id) { return _rooms[id]; }
 
-private:
-	unordered_map<uint32, RoomRef>	_rooms;
-};
+	physx::PxPhysics*				GetPxPhysics() const { return _physics; }
 
-extern RoomManager GRoomManager;
+private:
+	unordered_map<uint32, RoomRef>	_rooms;	// key : id, value : room
+
+	physx::PxPhysics*				_physics;
+};

@@ -25,10 +25,10 @@ public:
 
 	void							Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable);
 
-	network::SessionRef				GetSessionByUserId(ProtocolType type, uint32 id);
+	network::SessionRef				GetSessionByUserId(ProtocolType type, uint32 userId);
 
 private:
 	USE_LOCK
 
-	unordered_map<uint32, SessionBundle> _sessionMap; // sessionId // todo: UID
+	unordered_map<uint32, SessionBundle> _sessionMap; // key - uid, 
 };

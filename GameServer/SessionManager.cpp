@@ -23,7 +23,7 @@ void SessionManager::Add(network::SessionRef session)
 
 void SessionManager::Remove(network::SessionRef session)
 {
-    int32 id = session->GetId();
+    uint32 id = session->GetId();
     SessionBundle& bundle = _sessionMap[id];
     
     WRITE_LOCK
@@ -57,8 +57,8 @@ void SessionManager::Multicast(ProtocolType protocol, network::SendBufferRef sen
         {
             if (reliable)
             {
-                float timestmap = TimeManager::Instance().GetServerTime();
-                bundle.udpSession->SendReliable(sendBuffer, timestmap);
+                double timestamp = TimeManager::Instance().GetServerTime();
+                bundle.udpSession->SendReliable(sendBuffer, timestamp);
             }
             else
             {
@@ -68,16 +68,16 @@ void SessionManager::Multicast(ProtocolType protocol, network::SendBufferRef sen
     }
 }
 
-network::SessionRef SessionManager::GetSessionByUserId(ProtocolType type, uint32 id)
+network::SessionRef SessionManager::GetSessionByUserId(ProtocolType type, uint32 userId)
 {
     WRITE_LOCK
 
     if (type == ProtocolType::PROTOCOL_TCP)
     {
-        return _sessionMap[id].tcpSession;
+        return _sessionMap[userId].tcpSession;
     }
     else if (type == ProtocolType::PROTOCOL_UDP)
     {
-        return _sessionMap[id].udpSession;
+        return _sessionMap[userId].udpSession;
     }
 }

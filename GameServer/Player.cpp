@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "Player.h"
 #include "TimeManager.h"
+#include "IdManager.h"
 
 Player::Player()
 {
+	_id = IdManager::Instance().Generate(IdType::Actor, ActorTypePrefix::Player);
 }
 
 Player::~Player()

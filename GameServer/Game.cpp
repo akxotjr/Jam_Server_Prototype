@@ -8,6 +8,8 @@
 #include "IdManager.h"
 #include "Service.h"
 #include "Values.h"
+#include "GameTcpSession.h"
+#include "GameUdpSession.h"
 
 Game::Game()
 {

@@ -4,7 +4,7 @@
 
 Actor::Actor()
 {
-	_id = GIdManager.Generate(IdType::Actor);
+	
 }
 
 Actor::~Actor()

@@ -19,13 +19,13 @@ void GameTcpSession::OnConnected()
 	//SetId(id);
 
 	cout << "[TCP] OnConnected\n";
-	//GSessionManager.Add(GetSessionRef());
+	//SessionManager::Instance().Add(GetSessionRef());
 }
 
 void GameTcpSession::OnDisconnected()
 {
 	cout << "[TCP] ID = " << GetId() << " : OnDisconnected\n";
-	GSessionManager.Remove(GetSessionRef());
+	SessionManager::Instance().Remove(GetSessionRef());
 
 	if (_currentPlayer)
 	{

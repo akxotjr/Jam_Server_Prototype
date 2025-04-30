@@ -102,6 +102,7 @@
     <ClCompile Include="TransformCompressor.cpp">
       <Filter>97.Utils</Filter>
     </ClCompile>
+    <ClCompile Include="GameContextManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -176,6 +177,7 @@
     <ClInclude Include="TransformCompressor.h">
       <Filter>97.Utils</Filter>
     </ClInclude>
+    <ClInclude Include="GameContextManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Protobuf\bin\Enum.proto">

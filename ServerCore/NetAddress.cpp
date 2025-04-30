@@ -31,7 +31,7 @@ namespace core::network
 
 	bool NetAddress::IsValid() const
 	{
-		return GetIpAddress() != L"" && GetPort() != 0;
+		return !GetIpAddress().empty() && GetPort() != 0;
 	}
 
 	IN_ADDR NetAddress::Ip2Address(const WCHAR* ip)

@@ -1,4 +1,5 @@
 #pragma once
+#include "Actor.h"
 
 enum class IdType
 {
@@ -9,13 +10,15 @@ enum class IdType
 	MAX
 };
 
-enum class ActorTypePrefix : uint8_t
+enum class ActorTypePrefix : uint8
 {
 	None = 0x0,
 	Player = 0x1,
 	Monster = 0x2,
 	Bot = 0x3,
 	Projectile = 0x4,
+
+	COUNT
 };
 
 
@@ -24,28 +27,14 @@ class IdManager
 	DECLARE_SINGLETON(IdManager)
 
 public:
-	void	Init();
+	void				Init();
 
-	uint32	Generate(IdType type)
-	{
-		return _idPools[static_cast<uint32>(type)]++;
-	}
+	uint32				Generate(IdType type, std::optional<ActorTypePrefix> actorType = ActorTypePrefix::None);
 
-	uint32_t GenerateActorId(ActorTypePrefix type, uint32_t instanceId)
-	{
-		return (static_cast<uint32_t>(type) << 28) | (instanceId & 0x0FFFFFFF);
-	}
-
-	ActorTypePrefix GetActorType(uint32_t actorId)
-	{
-		return static_cast<ActorTypePrefix>(actorId >> 28);
-	}
-
-	uint32_t GetActorInstanceId(uint32_t actorId)
-	{
-		return actorId & 0x0FFFFFFF;
-	}
+	ActorTypePrefix		GetActorType(uint32 actorId);
+	uint32				GetActorInstanceId(uint32 actorId);
 
 private:
-	Array<Atomic<uint32>, static_cast<uint32>(IdType::MAX)> _idPools;
+	Array<Atomic<uint32>, static_cast<uint32>(IdType::MAX)>				_idPools;
+	Array<Atomic<uint32>, static_cast<uint32>(ActorTypePrefix::COUNT)>	_actorIdPools;
 };

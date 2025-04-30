@@ -63,13 +63,13 @@ void Room::RemoveActor(ActorRef actor)
 void Room::Enter(PlayerRef player)
 {
 	WRITE_LOCK
-	_players[player->GetInfo()->id()] = player;
+	_players[player->GetId()] = player;
 }
 
 void Room::Leave(PlayerRef player)
 {
 	WRITE_LOCK
-	_players.erase(player->GetInfo()->id());
+	_players.erase(player->GetId());
 }
 
 void Room::Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable)
@@ -80,29 +80,23 @@ void Room::Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool 
 
 		auto session = SessionManager::Instance().GetSessionByUserId(type, userId);
 
-		if (type == ProtocolType::PROTOCOL_TCP && session->IsTcp())
-		{
-			session->Send(sendBuffer);
-		}
-		else if (type == ProtocolType::PROTOCOL_UDP && session->IsUdp())
+		if (type == ProtocolType::PROTOCOL_UDP && session->IsUdp() && reliable)
 		{
 			auto udpSession = static_pointer_cast<ReliableUdpSession>(session);
-			if (reliable)
-			{
-				double timestamp = TimeManager::Instance().GetServerTime();
-				udpSession->SendReliable(sendBuffer, timestamp);
-			}
-			else
-			{
-				udpSession->Send(sendBuffer);
-			}
+			double timestamp = TimeManager::Instance().GetServerTime();
+			udpSession->SendReliable(sendBuffer, timestamp);
+		}
+		else  // tcp or unreliable udp 
+		{
+			session->Send(sendBuffer);
 		}
 	}
 }
 
 void Room::MulticastActorSync()
 {
-	
+	Protocol::S_SYNC_ACTOR pkt;
+
 }
 
 //void Room::AddCharacter(CharacterRef character)
@@ -119,61 +113,61 @@ void Room::MulticastActorSync()
 
 void Room::BroadCastCharacterSync()
 {
-	double timestamp = TimeManager::Instance().GetServerTime();
+	//double timestamp = TimeManager::Instance().GetServerTime();
 
-	for (auto& [id, player] : _players)
-	{
-		auto gameTcpSession = player->GetOwnerSession();
-		auto gameUdpSession = static_pointer_cast<GameUdpSession>(GSessionManager.GetSessionById(ProtocolType::PROTOCOL_UDP, gameTcpSession->GetId()));
+	//for (auto& [id, player] : _players)
+	//{
+	//	auto gameTcpSession = player->GetOwnerSession();
+	//	auto gameUdpSession = static_pointer_cast<GameUdpSession>(GSessionManager.GetSessionById(ProtocolType::PROTOCOL_UDP, gameTcpSession->GetId()));
 
-		if (gameUdpSession == nullptr) 
-			return;
+	//	if (gameUdpSession == nullptr) 
+	//		return;
 
-		Protocol::S_CHARACTER_SYNC pkt;
+	//	Protocol::S_CHARACTER_SYNC pkt;
 
-		pkt.set_timestamp(timestamp);
+	//	pkt.set_timestamp(timestamp);
 
-		for (auto& [i, character] : _characters)
-		{
-			Protocol::CharacterInfo* info = pkt.add_characterinfo();
-			info->CopyFrom(*character->GetInfo()); 
-		}
+	//	for (auto& [i, character] : _characters)
+	//	{
+	//		Protocol::CharacterInfo* info = pkt.add_characterinfo();
+	//		info->CopyFrom(*character->GetInfo()); 
+	//	}
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(pkt);
-		gameUdpSession->SendReliable(sendBuffer, timestamp);
-	}
+	//	auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(pkt);
+	//	gameUdpSession->SendReliable(sendBuffer, timestamp);
+	//}
 }
 
 void Room::BroadcastSpawnActor()
 {
-	for (auto& [id, player] : _players)
-	{
-		if (!player)
-		{
-			continue;
-		}
+	//for (auto& [id, player] : _players)
+	//{
+	//	if (!player)
+	//	{
+	//		continue;
+	//	}
 
-		auto tcpSession = player->GetOwnerSession();
-		auto udpSession = static_pointer_cast<GameUdpSession>(GSessionManager.GetSessionById(ProtocolType::PROTOCOL_UDP, tcpSession->GetId()));
+	//	auto tcpSession = player->GetOwnerSession();
+	//	auto udpSession = static_pointer_cast<GameUdpSession>(GSessionManager.GetSessionById(ProtocolType::PROTOCOL_UDP, tcpSession->GetId()));
 
 
-		Protocol::S_SPAWN_ACTOR pkt;
+	//	Protocol::S_SPAWN_ACTOR pkt;
 
-		uint32 id = player->GetInfo()->id();
-		pkt.set_playerid(id);
+	//	uint32 id = player->GetInfo()->id();
+	//	pkt.set_playerid(id);
 
-		double timestamp = TimeManager::Instance().GetServerTime();
+	//	double timestamp = TimeManager::Instance().GetServerTime();
 
-		for (auto& [i, character] : _characters)
-		{
-			Protocol::CharacterInfo* info = pkt.add_characterinfo();
-			info->CopyFrom(*character->GetInfo());
-		}
+	//	for (auto& [i, character] : _characters)
+	//	{
+	//		Protocol::CharacterInfo* info = pkt.add_characterinfo();
+	//		info->CopyFrom(*character->GetInfo());
+	//	}
 
-		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(pkt);
-		udpSession->SendReliable(sendBuffer, timestamp);
-	}
-	std::cout << "[UDP] Broadcast : S_SPAWN_ACTOR\n";
+	//	auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(pkt);
+	//	udpSession->SendReliable(sendBuffer, timestamp);
+	//}
+	//std::cout << "[UDP] Broadcast : S_SPAWN_ACTOR\n";
 }
 
 

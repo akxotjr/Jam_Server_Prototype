@@ -26,7 +26,7 @@ namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace Protocol {
 }  // namespace Protocol
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_Enum_2eproto[3];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_Enum_2eproto[2];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_Enum_2eproto = nullptr;
 const ::uint32_t TableStruct_Enum_2eproto::offsets[1] = {};
@@ -40,9 +40,7 @@ const char descriptor_table_protodef_Enum_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIA
     "\020\014\022\t\n\005KEY_D\020\r\022\t\n\005KEY_Q\020\016\022\t\n\005KEY_E\020\017\022\n\n\006K"
     "EY_UP\020\024\022\014\n\010KEY_DOWN\020\025\022\014\n\010KEY_LEFT\020\026\022\r\n\tK"
     "EY_RIGHT\020\027\022\r\n\tKEY_SPACE\020\036\022\t\n\005KEY_1\020\037\022\t\n\005"
-    "KEY_2\020 *N\n\tActorType\022\025\n\021ACTOR_TYPE_PLAYE"
-    "R\020\000\022\022\n\016ACTOR_TYPE_BOT\020\001\022\026\n\022ACTOR_TYPE_MO"
-    "NSTER\020\002*h\n\nPlayerType\022\024\n\020PLAYER_TYPE_NON"
+    "KEY_2\020 *h\n\nPlayerType\022\024\n\020PLAYER_TYPE_NON"
     "E\020\000\022\026\n\022PLAYER_TYPE_KNIGHT\020\001\022\024\n\020PLAYER_TY"
     "PE_MAGE\020\002\022\026\n\022PLAYER_TYPE_ARCHER\020\003b\006proto"
     "3"
@@ -51,7 +49,7 @@ static ::absl::once_flag descriptor_table_Enum_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Enum_2eproto = {
     false,
     false,
-    441,
+    361,
     descriptor_table_protodef_Enum_2eproto,
     "Enum.proto",
     &descriptor_table_Enum_2eproto_once,
@@ -74,18 +72,9 @@ PROTOBUF_CONSTINIT const uint32_t KeyType_internal_data_[] = {
 bool KeyType_IsValid(int value) {
   return 0 <= value && value <= 32 && ((7531985927u >> value) & 1) != 0;
 }
-const ::google::protobuf::EnumDescriptor* ActorType_descriptor() {
-  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
-  return file_level_enum_descriptors_Enum_2eproto[1];
-}
-PROTOBUF_CONSTINIT const uint32_t ActorType_internal_data_[] = {
-    196608u, 0u, };
-bool ActorType_IsValid(int value) {
-  return 0 <= value && value <= 2;
-}
 const ::google::protobuf::EnumDescriptor* PlayerType_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
-  return file_level_enum_descriptors_Enum_2eproto[2];
+  return file_level_enum_descriptors_Enum_2eproto[1];
 }
 PROTOBUF_CONSTINIT const uint32_t PlayerType_internal_data_[] = {
     262144u, 0u, };

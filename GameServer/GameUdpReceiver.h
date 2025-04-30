@@ -1,7 +1,7 @@
 #pragma once
 #include "UdpReceiver.h"
 
-class GameUdpReceiver : public network::UdpReceiver
+class GameUdpReceiver : public core::network::UdpReceiver
 {
 public:
 	GameUdpReceiver();

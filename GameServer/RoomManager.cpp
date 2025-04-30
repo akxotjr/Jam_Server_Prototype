@@ -21,12 +21,14 @@ void RoomManager::Update()
 uint32 RoomManager::CreateRoom()
 {
 	RoomRef room = MakeShared<Room>();
-	uint32 id = GIdManager.Generate(IdType::Room);
-	room->SetId(id);
+	//uint32 id = GIdManager.Generate(IdType::Room);
+	//room->SetId(id);
 
 	_rooms.insert({ room->GetId(), room});
 
-	return id;
+	//return id;
+
+	return 0;
 }
 
 void RoomManager::AddRoom(RoomRef room)

@@ -6,13 +6,13 @@ import "Struct.proto";
 
 message C_LOGIN
 {
-
+	string id = 1;
+	string pw = 2;
 }
 
 message S_LOGIN
 {
-	bool success = 1;
-	uint64 userId = 2;
+	uint32 userId = 1;
 	//repeated Player players = 2;
 }
 
@@ -61,11 +61,11 @@ message S_CHAT
 	string msg = 2;
 }
 
-message C_TIMESYNC
+message C_SYNC_TIME
 {
 }
 
-message S_TIMESYNC
+message S_SYNC_TIME
 {
 	double timestamp = 1;
 }
@@ -77,19 +77,19 @@ message C_SPAWN_ACTOR
 message S_SPAWN_ACTOR
 {
 	uint32 playerId = 1;
-	repeated CharacterInfo characterInfo = 2;
+	repeated ActorInfo actorInfo = 2;
 }
 
-message C_CHARACTER_SYNC
+message C_SYNC_ACTOR
 {
 	double timestamp = 1;
-	CharacterInfo characterInfo = 2;
+	ActorInfo actorInfo = 2;
 }
 
-message S_CHARACTER_SYNC
+message S_SYNC_ACTOR
 {
 	double timestamp = 1;
-	repeated CharacterInfo characterInfo = 2;
+	repeated ActorInfo actorInfo = 2;
 }
 
 message C_PLAYER_INPUT
@@ -105,5 +105,5 @@ message C_PLAYER_INPUT
 message S_PLAYER_INPUT
 {
 	uint32 sequenceNumber = 1;
-	CharacterInfo CharacterInfo = 2;
+	ActorInfo actorInfo = 2;
 }

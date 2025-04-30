@@ -19,7 +19,7 @@ public:
 	void					RemoveActor(ActorRef actor);
 
 	void					Enter(PlayerRef player);
-	void					Leave(PlayerRef player);	// todo : add another version(by id)
+	void					Leave(PlayerRef player);
 	void					Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable = false);
 
 	void					MulticastActorSync();
@@ -38,12 +38,13 @@ public:
 
 private:
 	USE_LOCK
-	uint32									_id;
+
+	uint32									_id = 0;
 
 	unordered_map<uint32, PlayerRef>		_players;
 	unordered_map<uint32, ActorRef>			_actors;
 
-	physx::PxScene*							_scene;
-	physx::PxControllerManager*				_controllerManager;
+	physx::PxScene*							_scene = nullptr;
+	physx::PxControllerManager*				_controllerManager = nullptr;
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
-class GameUdpSession : public network::ReliableUdpSession
+class GameUdpSession : public core::network::ReliableUdpSession
 {
 public:
 	GameUdpSession();

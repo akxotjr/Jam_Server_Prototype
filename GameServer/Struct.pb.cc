@@ -26,17 +26,14 @@ namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace Protocol {
 
-inline constexpr CharacterMovementInfo::Impl_::Impl_(
+inline constexpr Transform::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : positionx_{0},
-        positiony_{0},
-        velocityx_{0},
-        velocityy_{0},
-        speed_{0},
+      : position_{::uint64_t{0u}},
+        velocity_speed_{::uint64_t{0u}},
         _cached_size_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR CharacterMovementInfo::CharacterMovementInfo(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR Transform::Transform(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
@@ -44,29 +41,25 @@ PROTOBUF_CONSTEXPR CharacterMovementInfo::CharacterMovementInfo(::_pbi::Constant
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct CharacterMovementInfoDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CharacterMovementInfoDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CharacterMovementInfoDefaultTypeInternal() {}
+struct TransformDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TransformDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TransformDefaultTypeInternal() {}
   union {
-    CharacterMovementInfo _instance;
+    Transform _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CharacterMovementInfoDefaultTypeInternal _CharacterMovementInfo_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TransformDefaultTypeInternal _Transform_default_instance_;
 
-inline constexpr CharacterInfo::Impl_::Impl_(
+inline constexpr ActorInfo::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
-        name_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        movementinfo_{nullptr},
-        id_{::uint64_t{0u}},
-        type_{static_cast< ::Protocol::ActorType >(0)} {}
+        transform_{nullptr},
+        id_{0u} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR CharacterInfo::CharacterInfo(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR ActorInfo::ActorInfo(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
@@ -74,16 +67,16 @@ PROTOBUF_CONSTEXPR CharacterInfo::CharacterInfo(::_pbi::ConstantInitialized)
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct CharacterInfoDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CharacterInfoDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CharacterInfoDefaultTypeInternal() {}
+struct ActorInfoDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ActorInfoDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ActorInfoDefaultTypeInternal() {}
   union {
-    CharacterInfo _instance;
+    ActorInfo _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CharacterInfoDefaultTypeInternal _CharacterInfo_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ActorInfoDefaultTypeInternal _ActorInfo_default_instance_;
 }  // namespace Protocol
 static constexpr const ::_pb::EnumDescriptor**
     file_level_enum_descriptors_Struct_2eproto = nullptr;
@@ -93,55 +86,45 @@ const ::uint32_t
     TableStruct_Struct_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         ~0u,  // no _has_bits_
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterMovementInfo, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::Transform, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterMovementInfo, _impl_.positionx_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterMovementInfo, _impl_.positiony_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterMovementInfo, _impl_.velocityx_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterMovementInfo, _impl_.velocityy_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterMovementInfo, _impl_.speed_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterInfo, _impl_._has_bits_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterInfo, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::Transform, _impl_.position_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::Transform, _impl_.velocity_speed_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::ActorInfo, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::ActorInfo, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterInfo, _impl_.type_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterInfo, _impl_.id_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterInfo, _impl_.name_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::CharacterInfo, _impl_.movementinfo_),
-        ~0u,
-        ~0u,
+        PROTOBUF_FIELD_OFFSET(::Protocol::ActorInfo, _impl_.id_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::ActorInfo, _impl_.transform_),
         ~0u,
         0,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, -1, -1, sizeof(::Protocol::CharacterMovementInfo)},
-        {13, 25, -1, sizeof(::Protocol::CharacterInfo)},
+        {0, -1, -1, sizeof(::Protocol::Transform)},
+        {10, 20, -1, sizeof(::Protocol::ActorInfo)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
-    &::Protocol::_CharacterMovementInfo_default_instance_._instance,
-    &::Protocol::_CharacterInfo_default_instance_._instance,
+    &::Protocol::_Transform_default_instance_._instance,
+    &::Protocol::_ActorInfo_default_instance_._instance,
 };
 const char descriptor_table_protodef_Struct_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\014Struct.proto\022\010Protocol\032\nEnum.proto\"r\n\025"
-    "CharacterMovementInfo\022\021\n\tpositionX\030\001 \001(\002"
-    "\022\021\n\tpositionY\030\002 \001(\002\022\021\n\tvelocityX\030\003 \001(\002\022\021"
-    "\n\tvelocityY\030\004 \001(\002\022\r\n\005speed\030\005 \001(\002\"\203\001\n\rCha"
-    "racterInfo\022!\n\004type\030\001 \001(\0162\023.Protocol.Acto"
-    "rType\022\n\n\002id\030\002 \001(\004\022\014\n\004name\030\003 \001(\t\0225\n\014movem"
-    "entInfo\030\004 \001(\0132\037.Protocol.CharacterMoveme"
-    "ntInfob\006proto3"
+    "\n\014Struct.proto\022\010Protocol\032\nEnum.proto\"5\n\t"
+    "Transform\022\020\n\010position\030\001 \001(\004\022\026\n\016velocity_"
+    "speed\030\002 \001(\004\"\?\n\tActorInfo\022\n\n\002id\030\001 \001(\r\022&\n\t"
+    "transform\030\002 \001(\0132\023.Protocol.Transformb\006pr"
+    "oto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[1] =
     {
@@ -151,7 +134,7 @@ static ::absl::once_flag descriptor_table_Struct_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
     false,
     false,
-    294,
+    164,
     descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
     &descriptor_table_Struct_2eproto_once,
@@ -167,206 +150,164 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto
 namespace Protocol {
 // ===================================================================
 
-class CharacterMovementInfo::_Internal {
+class Transform::_Internal {
  public:
 };
 
-CharacterMovementInfo::CharacterMovementInfo(::google::protobuf::Arena* arena)
+Transform::Transform(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Protocol.CharacterMovementInfo)
+  // @@protoc_insertion_point(arena_constructor:Protocol.Transform)
 }
-CharacterMovementInfo::CharacterMovementInfo(
-    ::google::protobuf::Arena* arena, const CharacterMovementInfo& from)
-    : CharacterMovementInfo(arena) {
+Transform::Transform(
+    ::google::protobuf::Arena* arena, const Transform& from)
+    : Transform(arena) {
   MergeFrom(from);
 }
-inline PROTOBUF_NDEBUG_INLINE CharacterMovementInfo::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE Transform::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : _cached_size_{0} {}
 
-inline void CharacterMovementInfo::SharedCtor(::_pb::Arena* arena) {
+inline void Transform::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, positionx_),
+               offsetof(Impl_, position_),
            0,
-           offsetof(Impl_, speed_) -
-               offsetof(Impl_, positionx_) +
-               sizeof(Impl_::speed_));
+           offsetof(Impl_, velocity_speed_) -
+               offsetof(Impl_, position_) +
+               sizeof(Impl_::velocity_speed_));
 }
-CharacterMovementInfo::~CharacterMovementInfo() {
-  // @@protoc_insertion_point(destructor:Protocol.CharacterMovementInfo)
+Transform::~Transform() {
+  // @@protoc_insertion_point(destructor:Protocol.Transform)
   SharedDtor(*this);
 }
-inline void CharacterMovementInfo::SharedDtor(MessageLite& self) {
-  CharacterMovementInfo& this_ = static_cast<CharacterMovementInfo&>(self);
+inline void Transform::SharedDtor(MessageLite& self) {
+  Transform& this_ = static_cast<Transform&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.~Impl_();
 }
 
-inline void* CharacterMovementInfo::PlacementNew_(const void*, void* mem,
+inline void* Transform::PlacementNew_(const void*, void* mem,
                                         ::google::protobuf::Arena* arena) {
-  return ::new (mem) CharacterMovementInfo(arena);
+  return ::new (mem) Transform(arena);
 }
-constexpr auto CharacterMovementInfo::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(CharacterMovementInfo),
-                                            alignof(CharacterMovementInfo));
+constexpr auto Transform::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(Transform),
+                                            alignof(Transform));
 }
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::internal::ClassDataFull CharacterMovementInfo::_class_data_ = {
+const ::google::protobuf::internal::ClassDataFull Transform::_class_data_ = {
     ::google::protobuf::internal::ClassData{
-        &_CharacterMovementInfo_default_instance_._instance,
+        &_Transform_default_instance_._instance,
         &_table_.header,
         nullptr,  // OnDemandRegisterArenaDtor
         nullptr,  // IsInitialized
-        &CharacterMovementInfo::MergeImpl,
-        ::google::protobuf::Message::GetNewImpl<CharacterMovementInfo>(),
+        &Transform::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<Transform>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        &CharacterMovementInfo::SharedDtor,
-        ::google::protobuf::Message::GetClearImpl<CharacterMovementInfo>(), &CharacterMovementInfo::ByteSizeLong,
-            &CharacterMovementInfo::_InternalSerialize,
+        &Transform::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<Transform>(), &Transform::ByteSizeLong,
+            &Transform::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-        PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_._cached_size_),
+        PROTOBUF_FIELD_OFFSET(Transform, _impl_._cached_size_),
         false,
     },
-    &CharacterMovementInfo::kDescriptorMethods,
+    &Transform::kDescriptorMethods,
     &descriptor_table_Struct_2eproto,
     nullptr,  // tracker
 };
-const ::google::protobuf::internal::ClassData* CharacterMovementInfo::GetClassData() const {
+const ::google::protobuf::internal::ClassData* Transform::GetClassData() const {
   ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
   ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 5, 0, 0, 2> CharacterMovementInfo::_table_ = {
+const ::_pbi::TcParseTable<1, 2, 0, 0, 2> Transform::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    5, 56,  // max_field_number, fast_idx_mask
+    2, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967264,  // skipmap
+    4294967292,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    5,  // num_field_entries
+    2,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Protocol::CharacterMovementInfo>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Protocol::Transform>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    {::_pbi::TcParser::MiniParse, {}},
-    // float positionX = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.positionx_)}},
-    // float positionY = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.positiony_)}},
-    // float velocityX = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.velocityx_)}},
-    // float velocityY = 4;
-    {::_pbi::TcParser::FastF32S1,
-     {37, 63, 0, PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.velocityy_)}},
-    // float speed = 5;
-    {::_pbi::TcParser::FastF32S1,
-     {45, 63, 0, PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.speed_)}},
-    {::_pbi::TcParser::MiniParse, {}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // uint64 velocity_speed = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Transform, _impl_.velocity_speed_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(Transform, _impl_.velocity_speed_)}},
+    // uint64 position = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Transform, _impl_.position_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(Transform, _impl_.position_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float positionX = 1;
-    {PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.positionx_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float positionY = 2;
-    {PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.positiony_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float velocityX = 3;
-    {PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.velocityx_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float velocityY = 4;
-    {PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.velocityy_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float speed = 5;
-    {PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // uint64 position = 1;
+    {PROTOBUF_FIELD_OFFSET(Transform, _impl_.position_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 velocity_speed = 2;
+    {PROTOBUF_FIELD_OFFSET(Transform, _impl_.velocity_speed_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
   // no aux_entries
   {{
   }},
 };
 
-PROTOBUF_NOINLINE void CharacterMovementInfo::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.CharacterMovementInfo)
+PROTOBUF_NOINLINE void Transform::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.Transform)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.positionx_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.speed_) -
-      reinterpret_cast<char*>(&_impl_.positionx_)) + sizeof(_impl_.speed_));
+  ::memset(&_impl_.position_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.velocity_speed_) -
+      reinterpret_cast<char*>(&_impl_.position_)) + sizeof(_impl_.velocity_speed_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* CharacterMovementInfo::_InternalSerialize(
+        ::uint8_t* Transform::_InternalSerialize(
             const MessageLite& base, ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const CharacterMovementInfo& this_ = static_cast<const CharacterMovementInfo&>(base);
+          const Transform& this_ = static_cast<const Transform&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* CharacterMovementInfo::_InternalSerialize(
+        ::uint8_t* Transform::_InternalSerialize(
             ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const CharacterMovementInfo& this_ = *this;
+          const Transform& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:Protocol.CharacterMovementInfo)
+          // @@protoc_insertion_point(serialize_to_array_start:Protocol.Transform)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float positionX = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_positionx()) != 0) {
+          // uint64 position = 1;
+          if (this_._internal_position() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                1, this_._internal_positionx(), target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                1, this_._internal_position(), target);
           }
 
-          // float positionY = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_positiony()) != 0) {
+          // uint64 velocity_speed = 2;
+          if (this_._internal_velocity_speed() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                2, this_._internal_positiony(), target);
-          }
-
-          // float velocityX = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_velocityx()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                3, this_._internal_velocityx(), target);
-          }
-
-          // float velocityY = 4;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_velocityy()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                4, this_._internal_velocityy(), target);
-          }
-
-          // float speed = 5;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                5, this_._internal_speed(), target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                2, this_._internal_velocity_speed(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -374,18 +315,18 @@ PROTOBUF_NOINLINE void CharacterMovementInfo::Clear() {
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:Protocol.CharacterMovementInfo)
+          // @@protoc_insertion_point(serialize_to_array_end:Protocol.Transform)
           return target;
         }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t CharacterMovementInfo::ByteSizeLong(const MessageLite& base) {
-          const CharacterMovementInfo& this_ = static_cast<const CharacterMovementInfo&>(base);
+        ::size_t Transform::ByteSizeLong(const MessageLite& base) {
+          const Transform& this_ = static_cast<const Transform&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t CharacterMovementInfo::ByteSizeLong() const {
-          const CharacterMovementInfo& this_ = *this;
+        ::size_t Transform::ByteSizeLong() const {
+          const Transform& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:Protocol.CharacterMovementInfo)
+          // @@protoc_insertion_point(message_byte_size_start:Protocol.Transform)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
@@ -394,312 +335,251 @@ PROTOBUF_NOINLINE void CharacterMovementInfo::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float positionX = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_positionx()) != 0) {
-              total_size += 5;
+            // uint64 position = 1;
+            if (this_._internal_position() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_position());
             }
-            // float positionY = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_positiony()) != 0) {
-              total_size += 5;
-            }
-            // float velocityX = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_velocityx()) != 0) {
-              total_size += 5;
-            }
-            // float velocityY = 4;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_velocityy()) != 0) {
-              total_size += 5;
-            }
-            // float speed = 5;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
-              total_size += 5;
+            // uint64 velocity_speed = 2;
+            if (this_._internal_velocity_speed() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_velocity_speed());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
         }
 
-void CharacterMovementInfo::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<CharacterMovementInfo*>(&to_msg);
-  auto& from = static_cast<const CharacterMovementInfo&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.CharacterMovementInfo)
+void Transform::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<Transform*>(&to_msg);
+  auto& from = static_cast<const Transform&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.Transform)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_positionx()) != 0) {
-    _this->_impl_.positionx_ = from._impl_.positionx_;
+  if (from._internal_position() != 0) {
+    _this->_impl_.position_ = from._impl_.position_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_positiony()) != 0) {
-    _this->_impl_.positiony_ = from._impl_.positiony_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_velocityx()) != 0) {
-    _this->_impl_.velocityx_ = from._impl_.velocityx_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_velocityy()) != 0) {
-    _this->_impl_.velocityy_ = from._impl_.velocityy_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_speed()) != 0) {
-    _this->_impl_.speed_ = from._impl_.speed_;
+  if (from._internal_velocity_speed() != 0) {
+    _this->_impl_.velocity_speed_ = from._impl_.velocity_speed_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void CharacterMovementInfo::CopyFrom(const CharacterMovementInfo& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.CharacterMovementInfo)
+void Transform::CopyFrom(const Transform& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.Transform)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void CharacterMovementInfo::InternalSwap(CharacterMovementInfo* PROTOBUF_RESTRICT other) {
+void Transform::InternalSwap(Transform* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.speed_)
-      + sizeof(CharacterMovementInfo::_impl_.speed_)
-      - PROTOBUF_FIELD_OFFSET(CharacterMovementInfo, _impl_.positionx_)>(
-          reinterpret_cast<char*>(&_impl_.positionx_),
-          reinterpret_cast<char*>(&other->_impl_.positionx_));
+      PROTOBUF_FIELD_OFFSET(Transform, _impl_.velocity_speed_)
+      + sizeof(Transform::_impl_.velocity_speed_)
+      - PROTOBUF_FIELD_OFFSET(Transform, _impl_.position_)>(
+          reinterpret_cast<char*>(&_impl_.position_),
+          reinterpret_cast<char*>(&other->_impl_.position_));
 }
 
-::google::protobuf::Metadata CharacterMovementInfo::GetMetadata() const {
+::google::protobuf::Metadata Transform::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class CharacterInfo::_Internal {
+class ActorInfo::_Internal {
  public:
   using HasBits =
-      decltype(std::declval<CharacterInfo>()._impl_._has_bits_);
+      decltype(std::declval<ActorInfo>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_._has_bits_);
 };
 
-CharacterInfo::CharacterInfo(::google::protobuf::Arena* arena)
+ActorInfo::ActorInfo(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Protocol.CharacterInfo)
+  // @@protoc_insertion_point(arena_constructor:Protocol.ActorInfo)
 }
-inline PROTOBUF_NDEBUG_INLINE CharacterInfo::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE ActorInfo::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::Protocol::CharacterInfo& from_msg)
+    const Impl_& from, const ::Protocol::ActorInfo& from_msg)
       : _has_bits_{from._has_bits_},
-        _cached_size_{0},
-        name_(arena, from.name_) {}
+        _cached_size_{0} {}
 
-CharacterInfo::CharacterInfo(
+ActorInfo::ActorInfo(
     ::google::protobuf::Arena* arena,
-    const CharacterInfo& from)
+    const ActorInfo& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  CharacterInfo* const _this = this;
+  ActorInfo* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
-  _impl_.movementinfo_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::Protocol::CharacterMovementInfo>(
-                              arena, *from._impl_.movementinfo_)
+  _impl_.transform_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::Protocol::Transform>(
+                              arena, *from._impl_.transform_)
                         : nullptr;
-  ::memcpy(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, id_),
-           reinterpret_cast<const char *>(&from._impl_) +
-               offsetof(Impl_, id_),
-           offsetof(Impl_, type_) -
-               offsetof(Impl_, id_) +
-               sizeof(Impl_::type_));
+  _impl_.id_ = from._impl_.id_;
 
-  // @@protoc_insertion_point(copy_constructor:Protocol.CharacterInfo)
+  // @@protoc_insertion_point(copy_constructor:Protocol.ActorInfo)
 }
-inline PROTOBUF_NDEBUG_INLINE CharacterInfo::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE ActorInfo::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
-      : _cached_size_{0},
-        name_(arena) {}
+      : _cached_size_{0} {}
 
-inline void CharacterInfo::SharedCtor(::_pb::Arena* arena) {
+inline void ActorInfo::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, movementinfo_),
+               offsetof(Impl_, transform_),
            0,
-           offsetof(Impl_, type_) -
-               offsetof(Impl_, movementinfo_) +
-               sizeof(Impl_::type_));
+           offsetof(Impl_, id_) -
+               offsetof(Impl_, transform_) +
+               sizeof(Impl_::id_));
 }
-CharacterInfo::~CharacterInfo() {
-  // @@protoc_insertion_point(destructor:Protocol.CharacterInfo)
+ActorInfo::~ActorInfo() {
+  // @@protoc_insertion_point(destructor:Protocol.ActorInfo)
   SharedDtor(*this);
 }
-inline void CharacterInfo::SharedDtor(MessageLite& self) {
-  CharacterInfo& this_ = static_cast<CharacterInfo&>(self);
+inline void ActorInfo::SharedDtor(MessageLite& self) {
+  ActorInfo& this_ = static_cast<ActorInfo&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.name_.Destroy();
-  delete this_._impl_.movementinfo_;
+  delete this_._impl_.transform_;
   this_._impl_.~Impl_();
 }
 
-inline void* CharacterInfo::PlacementNew_(const void*, void* mem,
+inline void* ActorInfo::PlacementNew_(const void*, void* mem,
                                         ::google::protobuf::Arena* arena) {
-  return ::new (mem) CharacterInfo(arena);
+  return ::new (mem) ActorInfo(arena);
 }
-constexpr auto CharacterInfo::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(CharacterInfo),
-                                            alignof(CharacterInfo));
+constexpr auto ActorInfo::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ActorInfo),
+                                            alignof(ActorInfo));
 }
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::internal::ClassDataFull CharacterInfo::_class_data_ = {
+const ::google::protobuf::internal::ClassDataFull ActorInfo::_class_data_ = {
     ::google::protobuf::internal::ClassData{
-        &_CharacterInfo_default_instance_._instance,
+        &_ActorInfo_default_instance_._instance,
         &_table_.header,
         nullptr,  // OnDemandRegisterArenaDtor
         nullptr,  // IsInitialized
-        &CharacterInfo::MergeImpl,
-        ::google::protobuf::Message::GetNewImpl<CharacterInfo>(),
+        &ActorInfo::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<ActorInfo>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        &CharacterInfo::SharedDtor,
-        ::google::protobuf::Message::GetClearImpl<CharacterInfo>(), &CharacterInfo::ByteSizeLong,
-            &CharacterInfo::_InternalSerialize,
+        &ActorInfo::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<ActorInfo>(), &ActorInfo::ByteSizeLong,
+            &ActorInfo::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-        PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_._cached_size_),
+        PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_._cached_size_),
         false,
     },
-    &CharacterInfo::kDescriptorMethods,
+    &ActorInfo::kDescriptorMethods,
     &descriptor_table_Struct_2eproto,
     nullptr,  // tracker
 };
-const ::google::protobuf::internal::ClassData* CharacterInfo::GetClassData() const {
+const ::google::protobuf::internal::ClassData* ActorInfo::GetClassData() const {
   ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
   ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 1, 35, 2> CharacterInfo::_table_ = {
+const ::_pbi::TcParseTable<1, 2, 1, 0, 2> ActorInfo::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_._has_bits_),
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    2, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967292,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
+    2,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Protocol::CharacterInfo>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Protocol::ActorInfo>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .Protocol.CharacterMovementInfo movementInfo = 4;
+    // .Protocol.Transform transform = 2;
     {::_pbi::TcParser::FastMtS1,
-     {34, 0, 0, PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_.movementinfo_)}},
-    // .Protocol.ActorType type = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(CharacterInfo, _impl_.type_), 63>(),
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_.type_)}},
-    // uint64 id = 2;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(CharacterInfo, _impl_.id_), 63>(),
-     {16, 63, 0, PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_.id_)}},
-    // string name = 3;
-    {::_pbi::TcParser::FastUS1,
-     {26, 63, 0, PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_.name_)}},
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.transform_)}},
+    // uint32 id = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ActorInfo, _impl_.id_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.id_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .Protocol.ActorType type = 1;
-    {PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_.type_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // uint64 id = 2;
-    {PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_.id_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
-    // string name = 3;
-    {PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_.name_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // .Protocol.CharacterMovementInfo movementInfo = 4;
-    {PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_.movementinfo_), _Internal::kHasBitsOffset + 0, 0,
+    // uint32 id = 1;
+    {PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.id_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // .Protocol.Transform transform = 2;
+    {PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.transform_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
-    {::_pbi::TcParser::GetTable<::Protocol::CharacterMovementInfo>()},
+    {::_pbi::TcParser::GetTable<::Protocol::Transform>()},
   }}, {{
-    "\26\0\0\4\0\0\0\0"
-    "Protocol.CharacterInfo"
-    "name"
   }},
 };
 
-PROTOBUF_NOINLINE void CharacterInfo::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.CharacterInfo)
+PROTOBUF_NOINLINE void ActorInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.ActorInfo)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.name_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.movementinfo_ != nullptr);
-    _impl_.movementinfo_->Clear();
+    ABSL_DCHECK(_impl_.transform_ != nullptr);
+    _impl_.transform_->Clear();
   }
-  ::memset(&_impl_.id_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.type_) -
-      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.type_));
+  _impl_.id_ = 0u;
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* CharacterInfo::_InternalSerialize(
+        ::uint8_t* ActorInfo::_InternalSerialize(
             const MessageLite& base, ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const CharacterInfo& this_ = static_cast<const CharacterInfo&>(base);
+          const ActorInfo& this_ = static_cast<const ActorInfo&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* CharacterInfo::_InternalSerialize(
+        ::uint8_t* ActorInfo::_InternalSerialize(
             ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const CharacterInfo& this_ = *this;
+          const ActorInfo& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:Protocol.CharacterInfo)
+          // @@protoc_insertion_point(serialize_to_array_start:Protocol.ActorInfo)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // .Protocol.ActorType type = 1;
-          if (this_._internal_type() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteEnumToArray(
-                1, this_._internal_type(), target);
-          }
-
-          // uint64 id = 2;
+          // uint32 id = 1;
           if (this_._internal_id() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
-                2, this_._internal_id(), target);
-          }
-
-          // string name = 3;
-          if (!this_._internal_name().empty()) {
-            const std::string& _s = this_._internal_name();
-            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Protocol.CharacterInfo.name");
-            target = stream->WriteStringMaybeAliased(3, _s, target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                1, this_._internal_id(), target);
           }
 
           cached_has_bits = this_._impl_._has_bits_[0];
-          // .Protocol.CharacterMovementInfo movementInfo = 4;
+          // .Protocol.Transform transform = 2;
           if (cached_has_bits & 0x00000001u) {
             target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                4, *this_._impl_.movementinfo_, this_._impl_.movementinfo_->GetCachedSize(), target,
+                2, *this_._impl_.transform_, this_._impl_.transform_->GetCachedSize(), target,
                 stream);
           }
 
@@ -708,18 +588,18 @@ PROTOBUF_NOINLINE void CharacterInfo::Clear() {
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:Protocol.CharacterInfo)
+          // @@protoc_insertion_point(serialize_to_array_end:Protocol.ActorInfo)
           return target;
         }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t CharacterInfo::ByteSizeLong(const MessageLite& base) {
-          const CharacterInfo& this_ = static_cast<const CharacterInfo&>(base);
+        ::size_t ActorInfo::ByteSizeLong(const MessageLite& base) {
+          const ActorInfo& this_ = static_cast<const ActorInfo&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t CharacterInfo::ByteSizeLong() const {
-          const CharacterInfo& this_ = *this;
+        ::size_t ActorInfo::ByteSizeLong() const {
+          const ActorInfo& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:Protocol.CharacterInfo)
+          // @@protoc_insertion_point(message_byte_size_start:Protocol.ActorInfo)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
@@ -728,92 +608,71 @@ PROTOBUF_NOINLINE void CharacterInfo::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // string name = 3;
-            if (!this_._internal_name().empty()) {
-              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                              this_._internal_name());
-            }
-          }
-           {
-            // .Protocol.CharacterMovementInfo movementInfo = 4;
+            // .Protocol.Transform transform = 2;
             cached_has_bits = this_._impl_._has_bits_[0];
             if (cached_has_bits & 0x00000001u) {
               total_size += 1 +
-                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.movementinfo_);
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.transform_);
             }
           }
            {
-            // uint64 id = 2;
+            // uint32 id = 1;
             if (this_._internal_id() != 0) {
-              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_id());
-            }
-            // .Protocol.ActorType type = 1;
-            if (this_._internal_type() != 0) {
-              total_size += 1 +
-                            ::_pbi::WireFormatLite::EnumSize(this_._internal_type());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
         }
 
-void CharacterInfo::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<CharacterInfo*>(&to_msg);
-  auto& from = static_cast<const CharacterInfo&>(from_msg);
+void ActorInfo::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<ActorInfo*>(&to_msg);
+  auto& from = static_cast<const ActorInfo&>(from_msg);
   ::google::protobuf::Arena* arena = _this->GetArena();
-  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.CharacterInfo)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.ActorInfo)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_name().empty()) {
-    _this->_internal_set_name(from._internal_name());
-  }
   cached_has_bits = from._impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(from._impl_.movementinfo_ != nullptr);
-    if (_this->_impl_.movementinfo_ == nullptr) {
-      _this->_impl_.movementinfo_ =
-          ::google::protobuf::Message::CopyConstruct<::Protocol::CharacterMovementInfo>(arena, *from._impl_.movementinfo_);
+    ABSL_DCHECK(from._impl_.transform_ != nullptr);
+    if (_this->_impl_.transform_ == nullptr) {
+      _this->_impl_.transform_ =
+          ::google::protobuf::Message::CopyConstruct<::Protocol::Transform>(arena, *from._impl_.transform_);
     } else {
-      _this->_impl_.movementinfo_->MergeFrom(*from._impl_.movementinfo_);
+      _this->_impl_.transform_->MergeFrom(*from._impl_.transform_);
     }
   }
   if (from._internal_id() != 0) {
     _this->_impl_.id_ = from._impl_.id_;
   }
-  if (from._internal_type() != 0) {
-    _this->_impl_.type_ = from._impl_.type_;
-  }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void CharacterInfo::CopyFrom(const CharacterInfo& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.CharacterInfo)
+void ActorInfo::CopyFrom(const ActorInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.ActorInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void CharacterInfo::InternalSwap(CharacterInfo* PROTOBUF_RESTRICT other) {
+void ActorInfo::InternalSwap(ActorInfo* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* arena = GetArena();
-  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_.type_)
-      + sizeof(CharacterInfo::_impl_.type_)
-      - PROTOBUF_FIELD_OFFSET(CharacterInfo, _impl_.movementinfo_)>(
-          reinterpret_cast<char*>(&_impl_.movementinfo_),
-          reinterpret_cast<char*>(&other->_impl_.movementinfo_));
+      PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.id_)
+      + sizeof(ActorInfo::_impl_.id_)
+      - PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.transform_)>(
+          reinterpret_cast<char*>(&_impl_.transform_),
+          reinterpret_cast<char*>(&other->_impl_.transform_));
 }
 
-::google::protobuf::Metadata CharacterInfo::GetMetadata() const {
+::google::protobuf::Metadata ActorInfo::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

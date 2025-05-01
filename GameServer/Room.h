@@ -1,6 +1,8 @@
 #pragma once
 #include "JobQueue.h"
 
+constexpr uint32 MAX_ADMISSION = 4;	// todo
+
 class Player;
 
 class Room : public job::JobQueue
@@ -18,31 +20,27 @@ public:
 	void					AddActor(ActorRef actor);
 	void					RemoveActor(ActorRef actor);
 
-	void					Enter(PlayerRef player);
+	bool					Enter(PlayerRef player);
 	void					Leave(PlayerRef player);
-	void					Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable = false);
+	void					Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable = false, double timestamp = 0.0);
+	void					MulticastSpawnActor();
+	void					MulticastSyncActor();
 
-	void					MulticastActorSync();
-
-	uint32&		GetId() { return _id; }
-
-	RoomRef		GetRoomRef() { return static_pointer_cast<Room>(shared_from_this()); }
+	uint32&					GetRoomId() { return _roomId; }
+	RoomRef					GetRoomRef() { return static_pointer_cast<Room>(shared_from_this()); }
 	
-	PlayerRef	GetPlayerById(int32 id) { return _players[id]; }
-
-	void		BroadCastCharacterSync();
-	void		BroadcastSpawnActor();
+	PlayerRef				GetPlayerByUserId(uint32 userId) { return _players[userId]; }
 
 
-	physx::PxScene* GetPxScene() const { return _scene; }
+	physx::PxScene*			GetPxScene() const { return _scene; }
 
 private:
 	USE_LOCK
 
-	uint32									_id = 0;
+	uint32									_roomId = 0;
 
-	unordered_map<uint32, PlayerRef>		_players;
-	unordered_map<uint32, ActorRef>			_actors;
+	unordered_map<uint32, PlayerRef>		_players;	// key = userId, value = PlayerRef 
+	unordered_map<uint32, ActorRef>			_actors;	// key = actorId, value = ActorRef
 
 	physx::PxScene*							_scene = nullptr;
 	physx::PxControllerManager*				_controllerManager = nullptr;

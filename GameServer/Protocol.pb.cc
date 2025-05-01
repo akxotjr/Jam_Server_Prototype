@@ -405,7 +405,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 inline constexpr S_SPAWN_ACTOR::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : actorinfo_{},
-        playerid_{0u},
         _cached_size_{0} {}
 
 template <typename>
@@ -615,7 +614,6 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::Protocol::S_SPAWN_ACTOR, _impl_.playerid_),
         PROTOBUF_FIELD_OFFSET(::Protocol::S_SPAWN_ACTOR, _impl_.actorinfo_),
         PROTOBUF_FIELD_OFFSET(::Protocol::C_SYNC_ACTOR, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::Protocol::C_SYNC_ACTOR, _internal_metadata_),
@@ -689,10 +687,10 @@ static const ::_pbi::MigrationSchema
         {103, -1, -1, sizeof(::Protocol::S_SYNC_TIME)},
         {112, -1, -1, sizeof(::Protocol::C_SPAWN_ACTOR)},
         {120, -1, -1, sizeof(::Protocol::S_SPAWN_ACTOR)},
-        {130, 140, -1, sizeof(::Protocol::C_SYNC_ACTOR)},
-        {142, -1, -1, sizeof(::Protocol::S_SYNC_ACTOR)},
-        {152, 166, -1, sizeof(::Protocol::C_PLAYER_INPUT)},
-        {172, 182, -1, sizeof(::Protocol::S_PLAYER_INPUT)},
+        {129, 139, -1, sizeof(::Protocol::C_SYNC_ACTOR)},
+        {141, -1, -1, sizeof(::Protocol::S_SYNC_ACTOR)},
+        {151, 165, -1, sizeof(::Protocol::C_PLAYER_INPUT)},
+        {171, 181, -1, sizeof(::Protocol::S_PLAYER_INPUT)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::Protocol::_C_LOGIN_default_instance_._instance,
@@ -728,19 +726,18 @@ const char descriptor_table_protodef_Protocol_2eproto[] ABSL_ATTRIBUTE_SECTION_V
     "CHAT\022\013\n\003msg\030\001 \001(\t\"\'\n\006S_CHAT\022\020\n\010playerId\030"
     "\001 \001(\004\022\013\n\003msg\030\002 \001(\t\"\r\n\013C_SYNC_TIME\" \n\013S_S"
     "YNC_TIME\022\021\n\ttimestamp\030\001 \001(\001\"\017\n\rC_SPAWN_A"
-    "CTOR\"I\n\rS_SPAWN_ACTOR\022\020\n\010playerId\030\001 \001(\r\022"
-    "&\n\tactorInfo\030\002 \003(\0132\023.Protocol.ActorInfo\""
-    "I\n\014C_SYNC_ACTOR\022\021\n\ttimestamp\030\001 \001(\001\022&\n\tac"
-    "torInfo\030\002 \001(\0132\023.Protocol.ActorInfo\"I\n\014S_"
-    "SYNC_ACTOR\022\021\n\ttimestamp\030\001 \001(\001\022&\n\tactorIn"
-    "fo\030\002 \003(\0132\023.Protocol.ActorInfo\"\254\001\n\016C_PLAY"
-    "ER_INPUT\022\021\n\ttimestamp\030\001 \001(\001\022\026\n\016sequenceN"
-    "umber\030\002 \001(\r\022\020\n\010keyField\030\003 \001(\r\022\021\n\tdeltaTi"
-    "me\030\004 \001(\001\022\026\n\tmousePosX\030\005 \001(\002H\000\210\001\001\022\026\n\tmous"
-    "ePosY\030\006 \001(\002H\001\210\001\001B\014\n\n_mousePosXB\014\n\n_mouse"
-    "PosY\"P\n\016S_PLAYER_INPUT\022\026\n\016sequenceNumber"
-    "\030\001 \001(\r\022&\n\tactorInfo\030\002 \001(\0132\023.Protocol.Act"
-    "orInfob\006proto3"
+    "CTOR\"7\n\rS_SPAWN_ACTOR\022&\n\tactorInfo\030\001 \003(\013"
+    "2\023.Protocol.ActorInfo\"I\n\014C_SYNC_ACTOR\022\021\n"
+    "\ttimestamp\030\001 \001(\001\022&\n\tactorInfo\030\002 \001(\0132\023.Pr"
+    "otocol.ActorInfo\"I\n\014S_SYNC_ACTOR\022\021\n\ttime"
+    "stamp\030\001 \001(\001\022&\n\tactorInfo\030\002 \003(\0132\023.Protoco"
+    "l.ActorInfo\"\254\001\n\016C_PLAYER_INPUT\022\021\n\ttimest"
+    "amp\030\001 \001(\001\022\026\n\016sequenceNumber\030\002 \001(\r\022\020\n\010key"
+    "Field\030\003 \001(\r\022\021\n\tdeltaTime\030\004 \001(\001\022\026\n\tmouseP"
+    "osX\030\005 \001(\002H\000\210\001\001\022\026\n\tmousePosY\030\006 \001(\002H\001\210\001\001B\014"
+    "\n\n_mousePosXB\014\n\n_mousePosY\"P\n\016S_PLAYER_I"
+    "NPUT\022\026\n\016sequenceNumber\030\001 \001(\r\022&\n\tactorInf"
+    "o\030\002 \001(\0132\023.Protocol.ActorInfob\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] =
     {
@@ -751,7 +748,7 @@ static ::absl::once_flag descriptor_table_Protocol_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
     false,
     false,
-    974,
+    956,
     descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
     &descriptor_table_Protocol_2eproto_once,
@@ -3464,7 +3461,6 @@ S_SPAWN_ACTOR::S_SPAWN_ACTOR(
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  _impl_.playerid_ = from._impl_.playerid_;
 
   // @@protoc_insertion_point(copy_constructor:Protocol.S_SPAWN_ACTOR)
 }
@@ -3476,7 +3472,6 @@ inline PROTOBUF_NDEBUG_INLINE S_SPAWN_ACTOR::Impl_::Impl_(
 
 inline void S_SPAWN_ACTOR::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.playerid_ = {};
 }
 S_SPAWN_ACTOR::~S_SPAWN_ACTOR() {
   // @@protoc_insertion_point(destructor:Protocol.S_SPAWN_ACTOR)
@@ -3537,15 +3532,15 @@ const ::google::protobuf::internal::ClassData* S_SPAWN_ACTOR::GetClassData() con
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 1, 0, 2> S_SPAWN_ACTOR::_table_ = {
+const ::_pbi::TcParseTable<0, 1, 1, 0, 2> S_SPAWN_ACTOR::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    2, 8,  // max_field_number, fast_idx_mask
+    1, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967292,  // skipmap
+    4294967294,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    2,  // num_field_entries
+    1,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -3555,19 +3550,13 @@ const ::_pbi::TcParseTable<1, 2, 1, 0, 2> S_SPAWN_ACTOR::_table_ = {
     ::_pbi::TcParser::GetTable<::Protocol::S_SPAWN_ACTOR>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // repeated .Protocol.ActorInfo actorInfo = 2;
+    // repeated .Protocol.ActorInfo actorInfo = 1;
     {::_pbi::TcParser::FastMtR1,
-     {18, 63, 0, PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.actorinfo_)}},
-    // uint32 playerId = 1;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(S_SPAWN_ACTOR, _impl_.playerid_), 63>(),
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.playerid_)}},
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.actorinfo_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // uint32 playerId = 1;
-    {PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.playerid_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // repeated .Protocol.ActorInfo actorInfo = 2;
+    // repeated .Protocol.ActorInfo actorInfo = 1;
     {PROTOBUF_FIELD_OFFSET(S_SPAWN_ACTOR, _impl_.actorinfo_), 0, 0,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
@@ -3584,7 +3573,6 @@ PROTOBUF_NOINLINE void S_SPAWN_ACTOR::Clear() {
   (void) cached_has_bits;
 
   _impl_.actorinfo_.Clear();
-  _impl_.playerid_ = 0u;
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -3603,21 +3591,14 @@ PROTOBUF_NOINLINE void S_SPAWN_ACTOR::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // uint32 playerId = 1;
-          if (this_._internal_playerid() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-                1, this_._internal_playerid(), target);
-          }
-
-          // repeated .Protocol.ActorInfo actorInfo = 2;
+          // repeated .Protocol.ActorInfo actorInfo = 1;
           for (unsigned i = 0, n = static_cast<unsigned>(
                                    this_._internal_actorinfo_size());
                i < n; i++) {
             const auto& repfield = this_._internal_actorinfo().Get(i);
             target =
                 ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                    2, repfield, repfield.GetCachedSize(),
+                    1, repfield, repfield.GetCachedSize(),
                     target, stream);
           }
 
@@ -3646,19 +3627,12 @@ PROTOBUF_NOINLINE void S_SPAWN_ACTOR::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // repeated .Protocol.ActorInfo actorInfo = 2;
+            // repeated .Protocol.ActorInfo actorInfo = 1;
             {
               total_size += 1UL * this_._internal_actorinfo_size();
               for (const auto& msg : this_._internal_actorinfo()) {
                 total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
               }
-            }
-          }
-           {
-            // uint32 playerId = 1;
-            if (this_._internal_playerid() != 0) {
-              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-                  this_._internal_playerid());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -3675,9 +3649,6 @@ void S_SPAWN_ACTOR::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
 
   _this->_internal_mutable_actorinfo()->MergeFrom(
       from._internal_actorinfo());
-  if (from._internal_playerid() != 0) {
-    _this->_impl_.playerid_ = from._impl_.playerid_;
-  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -3693,7 +3664,6 @@ void S_SPAWN_ACTOR::InternalSwap(S_SPAWN_ACTOR* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.actorinfo_.InternalSwap(&other->_impl_.actorinfo_);
-        swap(_impl_.playerid_, other->_impl_.playerid_);
 }
 
 ::google::protobuf::Metadata S_SPAWN_ACTOR::GetMetadata() const {

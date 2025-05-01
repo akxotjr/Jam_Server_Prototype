@@ -26,27 +26,29 @@ class Player : public CharacterActor
 
 public:
 	Player();
-	virtual ~Player() override;
+	virtual ~Player() override = default;
 
-	virtual void        Init(RoomRef room) override;
-	virtual void        Update() override;
+	virtual void                    Init(RoomRef room) override;
+	virtual void                    Update() override;
 
-	void                ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence);
+	void                            ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence);
 
 
-	uint32              GetLastSequence() const { return _lastProcessSequence; }
+	uint32                          GetLastSequence() const { return _lastProcessSequence; }
 
-    void                SetUserId(uint32 id) { _userId = id; }
-    uint32              GetUserId() { return _userId; }
+    void                            SetUserId(uint32 id) { _userId = id; }
+    uint32                          GetUserId() const { return _userId; }
+
+    virtual	Protocol::Transform		ToTransform() const override;
 
 private:
-	void                ProcessKeyField(uint32& keyField);
+	void                            ProcessKeyField(uint32& keyField);
 
 private:
-    uint32              _userId;
+    uint32                          _userId;
 
-	uint32	            _lastProcessSequence;
+	uint32	                        _lastProcessSequence;
 
-	bool                _isOnGround = false;
-	bool                _isJumping = false;
+	bool                            _isOnGround = false;
+	bool                            _isJumping = false;
 };

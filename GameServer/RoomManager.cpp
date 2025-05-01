@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "RoomManager.h"
 #include "Room.h"
-#include "IdManager.h"
 
 void RoomManager::Init(physx::PxFoundation* foundation)
 {
@@ -18,29 +17,34 @@ void RoomManager::Update()
 	}
 }
 
-uint32 RoomManager::CreateRoom()
+RoomRef RoomManager::CreateRoom()
 {
 	RoomRef room = MakeShared<Room>();
-	//uint32 id = GIdManager.Generate(IdType::Room);
-	//room->SetId(id);
+	room->Init();
 
-	_rooms.insert({ room->GetId(), room});
-
-	//return id;
-
-	return 0;
+	return room;
 }
 
 void RoomManager::AddRoom(RoomRef room)
 {
-	uint32 id = room->GetId();
+	uint32 id = room->GetRoomId();
 
 	_rooms.insert({ id, room });
 }
 
 void RoomManager::RemoveRoom(RoomRef room)
 {
-	uint32 id = room->GetId();
+	uint32 id = room->GetRoomId();
 
 	_rooms.erase(id);
+}
+
+RoomRef RoomManager::GetRoomByUserId(uint32 userId)
+{
+	for (auto& room : _rooms | views::values)
+	{
+		if (room->GetPlayerByUserId(userId))
+			return room;
+	}
+	return nullptr;
 }

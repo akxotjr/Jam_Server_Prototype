@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CharacterActor.h"
 #include "Room.h"
+#include "TransformCompressor.h"
 
 CharacterActor::CharacterActor()
 {
@@ -27,3 +28,14 @@ void CharacterActor::Init(RoomRef room)
 void CharacterActor::Update()
 {
 }
+
+Protocol::Transform CharacterActor::ToTransform() const
+{
+	Protocol::Transform transform;
+	transform.set_position(TransformCompressor::PackPosition(_position.x, _position.y, _position.z));
+	transform.set_velocity_speed(TransformCompressor::PackVelocityAndSpeed(_horizontalVelocity.x, _verticalVelocity, _horizontalVelocity.z, _moveSpeed));
+	transform.set_rotation(TransformCompressor::PackRotation(_rotation.x, _rotation.y, _rotation.z));
+	return transform;
+}
+
+

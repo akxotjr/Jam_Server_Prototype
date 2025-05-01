@@ -1,15 +1,11 @@
 #include "pch.h"
 #include "ClientPacketHandler.h"
 #include "TimeManager.h"
-#include "GameTcpSession.h"
 #include "GameUdpSession.h"
-#include "GameUdpReceiver.h"
 #include "SessionManager.h"
 #include "Room.h"
 #include "RoomManager.h"
-#include "IdManager.h"
 #include "Player.h"
-#include "Bot.h"
 #include "Service.h"
 #include "UserManager.h"
 
@@ -84,7 +80,7 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 	PlayerRef player = MakeShared<Player>();
 	player->SetUserId(session->GetId());
 
-	auto room = RoomManager::Instance().GetRoomById(1);
+	auto room = RoomManager::Instance().GetRoomByRoomId(1);
 	room->Enter(player);
 
 	NetAddress udpAddress = session->GetService()->GetUdpNetAddress();
@@ -215,9 +211,13 @@ bool Handle_C_SYNC_TIME(SessionRef& session, Protocol::C_SYNC_TIME& pkt)
 
 bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 {
-	
-
 	//std::cout << "[UDP] Recv : C_SPAWN_ACTOR\n";
+
+	uint32 userId = session->GetId();
+
+	auto room = RoomManager::Instance().GetRoomByUserId(userId);
+	room->DoAsync(&Room::MulticastSpawnActor);
+
 
 	//GameUdpSessionRef gameUdpSession = static_pointer_cast<GameUdpSession>(session);
 
@@ -232,14 +232,6 @@ bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 bool Handle_C_SYNC_ACTOR(SessionRef& session, Protocol::C_SYNC_ACTOR& pkt)
 {
 	//std::cout << "[UDP] Recv : C_CHARACTER_SYNC\n";
-
-	//float timestamp = pkt.timestamp();
-	//Protocol::CharacterInfo info = pkt.characterinfo();
-
-	//uint32 id = info.id();
-
-
-	//
 	return true;
 }
 

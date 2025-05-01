@@ -5,19 +5,12 @@
 
 Player::Player()
 {
-	_id = IdManager::Instance().Generate(IdType::Actor, ActorTypePrefix::Player);
-}
-
-Player::~Player()
-{
+	_actorId = IdManager::Instance().Generate(IdType::Actor, ActorTypePrefix::Player);
 }
 
 void Player::Init(RoomRef room)
 {
 	Super::Init(room);
-
-	//_info->set_name("player" + to_string(_info->id()));
-	//_info->set_type(Protocol::ActorType::ACTOR_TYPE_PLAYER);
 }
 
 void Player::Update()
@@ -55,6 +48,11 @@ void Player::ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, u
 
 	// if isFire then Fire(cameraYaw, cameraPitch)
 
+}
+
+Protocol::Transform Player::ToTransform() const
+{
+	return Super::ToTransform();
 }
 
 void Player::ProcessKeyField(uint32& keyField)

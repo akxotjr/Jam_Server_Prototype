@@ -220,6 +220,7 @@ class Transform final : public ::google::protobuf::Message
   enum : int {
     kPositionFieldNumber = 1,
     kVelocitySpeedFieldNumber = 2,
+    kRotationFieldNumber = 3,
   };
   // uint64 position = 1;
   void clear_position() ;
@@ -241,12 +242,22 @@ class Transform final : public ::google::protobuf::Message
   void _internal_set_velocity_speed(::uint64_t value);
 
   public:
+  // uint64 rotation = 3;
+  void clear_rotation() ;
+  ::uint64_t rotation() const;
+  void set_rotation(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_rotation() const;
+  void _internal_set_rotation(::uint64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Protocol.Transform)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 0,
+      2, 3, 0,
       0, 2>
       _table_;
 
@@ -266,6 +277,7 @@ class Transform final : public ::google::protobuf::Message
                           const Transform& from_msg);
     ::uint64_t position_;
     ::uint64_t velocity_speed_;
+    ::uint64_t rotation_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -539,6 +551,28 @@ inline ::uint64_t Transform::_internal_velocity_speed() const {
 inline void Transform::_internal_set_velocity_speed(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.velocity_speed_ = value;
+}
+
+// uint64 rotation = 3;
+inline void Transform::clear_rotation() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.rotation_ = ::uint64_t{0u};
+}
+inline ::uint64_t Transform::rotation() const {
+  // @@protoc_insertion_point(field_get:Protocol.Transform.rotation)
+  return _internal_rotation();
+}
+inline void Transform::set_rotation(::uint64_t value) {
+  _internal_set_rotation(value);
+  // @@protoc_insertion_point(field_set:Protocol.Transform.rotation)
+}
+inline ::uint64_t Transform::_internal_rotation() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.rotation_;
+}
+inline void Transform::_internal_set_rotation(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.rotation_ = value;
 }
 
 // -------------------------------------------------------------------

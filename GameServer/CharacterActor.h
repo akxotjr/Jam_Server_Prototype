@@ -12,6 +12,8 @@ public:
 	virtual void					Init(RoomRef room) override;
 	virtual void					Update() override;
 
+	virtual	Protocol::Transform		ToTransform() const override;
+
 protected:
 	physx::PxCapsuleController*		_controller;
 

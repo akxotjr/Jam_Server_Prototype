@@ -30,6 +30,7 @@ inline constexpr Transform::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : position_{::uint64_t{0u}},
         velocity_speed_{::uint64_t{0u}},
+        rotation_{::uint64_t{0u}},
         _cached_size_{0} {}
 
 template <typename>
@@ -95,6 +96,7 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::Protocol::Transform, _impl_.position_),
         PROTOBUF_FIELD_OFFSET(::Protocol::Transform, _impl_.velocity_speed_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::Transform, _impl_.rotation_),
         PROTOBUF_FIELD_OFFSET(::Protocol::ActorInfo, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::Protocol::ActorInfo, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -112,7 +114,7 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::Protocol::Transform)},
-        {10, 20, -1, sizeof(::Protocol::ActorInfo)},
+        {11, 21, -1, sizeof(::Protocol::ActorInfo)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::Protocol::_Transform_default_instance_._instance,
@@ -120,11 +122,11 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_Struct_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\014Struct.proto\022\010Protocol\032\nEnum.proto\"5\n\t"
+    "\n\014Struct.proto\022\010Protocol\032\nEnum.proto\"G\n\t"
     "Transform\022\020\n\010position\030\001 \001(\004\022\026\n\016velocity_"
-    "speed\030\002 \001(\004\"\?\n\tActorInfo\022\n\n\002id\030\001 \001(\r\022&\n\t"
-    "transform\030\002 \001(\0132\023.Protocol.Transformb\006pr"
-    "oto3"
+    "speed\030\002 \001(\004\022\020\n\010rotation\030\003 \001(\004\"\?\n\tActorIn"
+    "fo\022\n\n\002id\030\001 \001(\r\022&\n\ttransform\030\002 \001(\0132\023.Prot"
+    "ocol.Transformb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[1] =
     {
@@ -134,7 +136,7 @@ static ::absl::once_flag descriptor_table_Struct_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
     false,
     false,
-    164,
+    182,
     descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
     &descriptor_table_Struct_2eproto_once,
@@ -178,9 +180,9 @@ inline void Transform::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, position_),
            0,
-           offsetof(Impl_, velocity_speed_) -
+           offsetof(Impl_, rotation_) -
                offsetof(Impl_, position_) +
-               sizeof(Impl_::velocity_speed_));
+               sizeof(Impl_::rotation_));
 }
 Transform::~Transform() {
   // @@protoc_insertion_point(destructor:Protocol.Transform)
@@ -229,15 +231,15 @@ const ::google::protobuf::internal::ClassData* Transform::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 0, 2> Transform::_table_ = {
+const ::_pbi::TcParseTable<2, 3, 0, 0, 2> Transform::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    2, 8,  // max_field_number, fast_idx_mask
+    3, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967292,  // skipmap
+    4294967288,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    2,  // num_field_entries
+    3,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -247,12 +249,16 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> Transform::_table_ = {
     ::_pbi::TcParser::GetTable<::Protocol::Transform>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // uint64 velocity_speed = 2;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Transform, _impl_.velocity_speed_), 63>(),
-     {16, 63, 0, PROTOBUF_FIELD_OFFSET(Transform, _impl_.velocity_speed_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // uint64 position = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Transform, _impl_.position_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(Transform, _impl_.position_)}},
+    // uint64 velocity_speed = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Transform, _impl_.velocity_speed_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(Transform, _impl_.velocity_speed_)}},
+    // uint64 rotation = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Transform, _impl_.rotation_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(Transform, _impl_.rotation_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -261,6 +267,9 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> Transform::_table_ = {
     (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
     // uint64 velocity_speed = 2;
     {PROTOBUF_FIELD_OFFSET(Transform, _impl_.velocity_speed_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 rotation = 3;
+    {PROTOBUF_FIELD_OFFSET(Transform, _impl_.rotation_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
   // no aux_entries
@@ -276,8 +285,8 @@ PROTOBUF_NOINLINE void Transform::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.position_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.velocity_speed_) -
-      reinterpret_cast<char*>(&_impl_.position_)) + sizeof(_impl_.velocity_speed_));
+      reinterpret_cast<char*>(&_impl_.rotation_) -
+      reinterpret_cast<char*>(&_impl_.position_)) + sizeof(_impl_.rotation_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -308,6 +317,13 @@ PROTOBUF_NOINLINE void Transform::Clear() {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
                 2, this_._internal_velocity_speed(), target);
+          }
+
+          // uint64 rotation = 3;
+          if (this_._internal_rotation() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                3, this_._internal_rotation(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -345,6 +361,11 @@ PROTOBUF_NOINLINE void Transform::Clear() {
               total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
                   this_._internal_velocity_speed());
             }
+            // uint64 rotation = 3;
+            if (this_._internal_rotation() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_rotation());
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -364,6 +385,9 @@ void Transform::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
   if (from._internal_velocity_speed() != 0) {
     _this->_impl_.velocity_speed_ = from._impl_.velocity_speed_;
   }
+  if (from._internal_rotation() != 0) {
+    _this->_impl_.rotation_ = from._impl_.rotation_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -379,8 +403,8 @@ void Transform::InternalSwap(Transform* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Transform, _impl_.velocity_speed_)
-      + sizeof(Transform::_impl_.velocity_speed_)
+      PROTOBUF_FIELD_OFFSET(Transform, _impl_.rotation_)
+      + sizeof(Transform::_impl_.rotation_)
       - PROTOBUF_FIELD_OFFSET(Transform, _impl_.position_)>(
           reinterpret_cast<char*>(&_impl_.position_),
           reinterpret_cast<char*>(&other->_impl_.position_));

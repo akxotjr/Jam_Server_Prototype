@@ -3,13 +3,14 @@ package Protocol;
 
 import "Enum.proto";
 
-message Transform	// 16 bytes
+message Transform	// 24 bytes	
 {
-	uint64 position = 1;
+	uint64 position = 1;	// todo: append flag(jump, fire, etc) in rest 16 bit
 	uint64 velocity_speed = 2;
+	uint64 rotation = 3;
 }
 
-message ActorInfo	// 20 bytes
+message ActorInfo	// 28 bytes
 {
 	uint32 id = 1;
 	Transform transform = 2;

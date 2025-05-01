@@ -29,6 +29,7 @@ public:
 		auto& ctx = _gameContexts[userId];
 		(..., Set(ctx, std::forward<Args>(args)));
 	}
+
 	void RemoveGameContext(uint32 userId)
 	{
 		_gameContexts.erase(userId);

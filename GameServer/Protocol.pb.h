@@ -3167,10 +3167,9 @@ class S_SPAWN_ACTOR final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kActorInfoFieldNumber = 2,
-    kPlayerIdFieldNumber = 1,
+    kActorInfoFieldNumber = 1,
   };
-  // repeated .Protocol.ActorInfo actorInfo = 2;
+  // repeated .Protocol.ActorInfo actorInfo = 1;
   int actorinfo_size() const;
   private:
   int _internal_actorinfo_size() const;
@@ -3187,22 +3186,12 @@ class S_SPAWN_ACTOR final : public ::google::protobuf::Message
   const ::Protocol::ActorInfo& actorinfo(int index) const;
   ::Protocol::ActorInfo* add_actorinfo();
   const ::google::protobuf::RepeatedPtrField<::Protocol::ActorInfo>& actorinfo() const;
-  // uint32 playerId = 1;
-  void clear_playerid() ;
-  ::uint32_t playerid() const;
-  void set_playerid(::uint32_t value);
-
-  private:
-  ::uint32_t _internal_playerid() const;
-  void _internal_set_playerid(::uint32_t value);
-
-  public:
   // @@protoc_insertion_point(class_scope:Protocol.S_SPAWN_ACTOR)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 1,
+      0, 1, 1,
       0, 2>
       _table_;
 
@@ -3221,7 +3210,6 @@ class S_SPAWN_ACTOR final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const S_SPAWN_ACTOR& from_msg);
     ::google::protobuf::RepeatedPtrField< ::Protocol::ActorInfo > actorinfo_;
-    ::uint32_t playerid_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -4195,29 +4183,7 @@ inline void S_SYNC_TIME::_internal_set_timestamp(double value) {
 
 // S_SPAWN_ACTOR
 
-// uint32 playerId = 1;
-inline void S_SPAWN_ACTOR::clear_playerid() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.playerid_ = 0u;
-}
-inline ::uint32_t S_SPAWN_ACTOR::playerid() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_SPAWN_ACTOR.playerId)
-  return _internal_playerid();
-}
-inline void S_SPAWN_ACTOR::set_playerid(::uint32_t value) {
-  _internal_set_playerid(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_SPAWN_ACTOR.playerId)
-}
-inline ::uint32_t S_SPAWN_ACTOR::_internal_playerid() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.playerid_;
-}
-inline void S_SPAWN_ACTOR::_internal_set_playerid(::uint32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.playerid_ = value;
-}
-
-// repeated .Protocol.ActorInfo actorInfo = 2;
+// repeated .Protocol.ActorInfo actorInfo = 1;
 inline int S_SPAWN_ACTOR::_internal_actorinfo_size() const {
   return _internal_actorinfo().size();
 }

@@ -76,7 +76,8 @@ message C_SPAWN_ACTOR
 
 message S_SPAWN_ACTOR
 {
-	repeated ActorInfo actorInfo = 1;
+	uint32 playerActorId = 1;
+	repeated ActorInfo actorInfo = 2;
 }
 
 message C_SYNC_ACTOR

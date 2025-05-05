@@ -29,7 +29,11 @@ public:
 	uint32&					GetRoomId() { return _roomId; }
 	RoomRef					GetRoomRef() { return static_pointer_cast<Room>(shared_from_this()); }
 	
-	PlayerRef				GetPlayerByUserId(uint32 userId) { return _players[userId]; }
+	PlayerRef				GetPlayerByUserId(uint32 userId)
+	{
+		int a = 0;
+		return _players[userId];
+	}
 
 
 	physx::PxScene*			GetPxScene() const { return _scene; }

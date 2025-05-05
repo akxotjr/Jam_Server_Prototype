@@ -19,6 +19,8 @@ bool Handle_INVALID(SessionRef& session, BYTE* buffer, int32 len)
 
 bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt)
 {
+	std::cout << "[TCP] Recv : C_LOGIN\n";
+
 	const string id = pkt.id();
 	const string pw = pkt.pw();
 
@@ -36,11 +38,8 @@ bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt)
 	loginPkt.set_userid(userId);
 	auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(loginPkt);
 	session->Send(sendBuffer);
-	
 
-
-
-	//std::cout << "[TCP] Recv : C_LOGIN\n";
+	std::cout << "[TCP] Send : S_LOGIN\n";
 
 	//GameTcpSessionRef gameTcpSession = static_pointer_cast<GameTcpSession>(session);
 
@@ -77,6 +76,8 @@ bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt)
 
 bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 {
+	std::cout << "[TCP] Recv : C_ENTER_GAME\n";
+
 	PlayerRef player = MakeShared<Player>();
 	player->SetUserId(session->GetId());
 
@@ -97,9 +98,10 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(enterGamePkt);
 		session->Send(sendBuffer);
+
+		std::cout << "[TCP] Send : S_ENTER_GAME\n";
 	}
 
-	//std::cout << "[TCP] Recv : C_ENTER_GAME\n";
 	//GameTcpSessionRef gameTcpSession = static_pointer_cast<GameTcpSession>(session);
 
 	//auto& player = gameTcpSession->_currentPlayer;
@@ -215,7 +217,7 @@ bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 
 	uint32 userId = session->GetId();
 
-	auto room = RoomManager::Instance().GetRoomByUserId(userId);
+	auto room = RoomManager::Instance().GetRoomByRoomId(1);	//temp
 	room->DoAsync(&Room::MulticastSpawnActor);
 
 

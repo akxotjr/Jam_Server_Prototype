@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Binaries\$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(VcpkgRoot)\installed\x64-windows\include;$(SolutionDir)\Include\PhysX5\include;$(SolutionDir)ServerCore;$(IncludePath)</IncludePath>
+    <IncludePath>$(VcpkgRoot)\installed\x64-windows\include;$(SolutionDir)ServerCore;$(IncludePath)</IncludePath>
     <LibraryPath>$(VcpkgRoot)\installed\x64-windows\lib;$(SolutionDir)Libraries\Libs;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)Intermediates\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>

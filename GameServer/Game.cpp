@@ -36,6 +36,13 @@ void Game::Init()
 	ClientPacketHandler::Init();
 	IdManager::Instance().Init();
 	RoomManager::Instance().Init(_foundation);
+
+
+	// temp
+	{
+		RoomRef room = RoomManager::Instance().CreateRoom();	// <- room id = 1
+		RoomManager::Instance().AddRoom(room);
+	}
 }
 
 void Game::Loop()

@@ -228,8 +228,6 @@ namespace core::network
 		const int32 dataSize = _recvBuffer.DataSize();
 		const int32 processLen = IsParsingPacket(_recvBuffer.ReadPos(), dataSize);
 
-		cout << "[TCP] DataSize = " << dataSize << " : ProcessLen = " << processLen << "\n";
-
 		if (processLen < 0 || dataSize < processLen || _recvBuffer.OnRead(processLen) == false)
 		{
 			Disconnect(L"OnRead Overflow");

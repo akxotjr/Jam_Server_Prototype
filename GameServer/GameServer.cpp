@@ -63,17 +63,6 @@ int main()
 {
 	//ClientPacketHandler::Init();
 
-	// temp
-	//{
-	//	uint32 roomId = GRoomManager.CreateRoom();
-	//	RoomRef room = GRoomManager.GetRoomById(roomId);
-	//	for (int i = 0; i < 4; i++)
-	//	{
-	//		BotRef bot = MakeShared<Bot>();
-	//		bot->Init();
-	//		room->AddCharacter(bot);
-	//	}
-	//}
 
 	//network::TransportConfig config = {
 	//	.tcpAddress = network::NetAddress(L"127.0.0.1", 7777),

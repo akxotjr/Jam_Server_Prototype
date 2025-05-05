@@ -6,6 +6,7 @@
 #include "IdManager.h"
 #include "RoomManager.h"
 #include "SessionManager.h"
+#include "GameUdpSession.h"
 
 Room::Room()
 {
@@ -28,14 +29,17 @@ void Room::Init()
 	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
 
 	_scene = physics->createScene(sceneDesc);
-	if (_scene == nullptr)
-		CRASH("PxScene is nullptr.")
+	ASSERT_CRASH(_scene != nullptr)
+
+	_controllerManager = PxCreateControllerManager(*_scene);
+	ASSERT_CRASH(_controllerManager != nullptr)
 }
 
 void Room::Update()
 {
 	float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
 	_scene->simulate(deltaTime);
+	_scene->fetchResults(true);	//temp
 
 	for (auto& player : _players | views::values)
 	{
@@ -66,6 +70,7 @@ bool Room::Enter(PlayerRef player)
 	if (_players.size() > MAX_ADMISSION)
 		return false;
 
+	player->Init(GetRoomRef());
 	_players[player->GetActorId()] = player;
 
 	return true;
@@ -100,18 +105,29 @@ void Room::Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool 
 void Room::MulticastSpawnActor()
 {
 	Protocol::S_SPAWN_ACTOR spawnPkt;
-
+	double timestamp = TimeManager::Instance().GetServerTime();
 	for (auto& actor : _actors | views::values)
 	{
-		if (actor->IsDirty()) continue;
-
 		Protocol::ActorInfo* info = spawnPkt.add_actorinfo();
 		info->set_id(actor->GetActorId());
 		*info->mutable_transform() = actor->ToTransform();
 	}
 
-	auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(spawnPkt);
-	Multicast(ProtocolType::PROTOCOL_UDP, sendBuffer, true);
+	for (auto& player : _players | views::values)
+	{
+		Protocol::ActorInfo* info = spawnPkt.add_actorinfo();
+		info->set_id(player->GetActorId());
+		*info->mutable_transform() = player->ToTransform();
+	}
+
+	for (auto& player : _players | views::values)	// todo
+	{
+		spawnPkt.set_playeractorid(player->GetActorId());
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(spawnPkt);
+
+		auto session = static_pointer_cast<GameUdpSession>(SessionManager::Instance().GetSessionByUserId(ProtocolType::PROTOCOL_UDP, player->GetUserId()));
+		session->SendReliable(sendBuffer, timestamp);
+	}
 }
 
 void Room::MulticastSyncActor()

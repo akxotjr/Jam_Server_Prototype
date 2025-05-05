@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CharacterActor.h"
 #include "Room.h"
+#include "RoomManager.h"
 #include "TransformCompressor.h"
 
 CharacterActor::CharacterActor()
@@ -22,7 +23,9 @@ void CharacterActor::Init(RoomRef room)
 	desc.radius = 0.5f;
 	desc.height = 1.8f;
 	desc.slopeLimit = cosf(physx::PxPi * 0.25f); // 45µµ
-	_controller = dynamic_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_controllerManager->createController(desc));
+	desc.material = RoomManager::Instance().GetPxPhysics()->createMaterial(0.5f, 0.5f, 0.1f);
+	_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_controllerManager->createController(desc));
+	ASSERT_CRASH(_controller != nullptr)
 }
 
 void CharacterActor::Update()

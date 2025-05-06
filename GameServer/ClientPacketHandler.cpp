@@ -196,7 +196,7 @@ bool Handle_C_CHAT(SessionRef& session, Protocol::C_CHAT& pkt)
 
 bool Handle_C_SYNC_TIME(SessionRef& session, Protocol::C_SYNC_TIME& pkt)
 {
-	//std::cout << "[TCP] Recv : C_TIMESYNC\n";
+	std::cout << "[TCP] Recv : C_TIMESYNC\n";
 
 	double timestamp = TimeManager::Instance().GetServerTime();
 
@@ -206,14 +206,14 @@ bool Handle_C_SYNC_TIME(SessionRef& session, Protocol::C_SYNC_TIME& pkt)
 
 	session->Send(sendBuffer);
 
-	//std::cout << "[TCP] Send : C_TIMESYNC\n";
+	std::cout << "[TCP] Send : C_TIMESYNC\n";
 
 	return true;
 }
 
 bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 {
-	//std::cout << "[UDP] Recv : C_SPAWN_ACTOR\n";
+	std::cout << "[UDP] Recv : C_SPAWN_ACTOR\n";
 
 	uint32 userId = session->GetId();
 
@@ -233,13 +233,13 @@ bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 
 bool Handle_C_SYNC_ACTOR(SessionRef& session, Protocol::C_SYNC_ACTOR& pkt)
 {
-	//std::cout << "[UDP] Recv : C_CHARACTER_SYNC\n";
+	std::cout << "[UDP] Recv : C_CHARACTER_SYNC\n";
 	return true;
 }
 
 bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 {
-	//std::cout << "[UDP] Recv : C_PLAYER_INPUT\n";
+	std::cout << "[UDP] Recv : C_PLAYER_INPUT\n";
 
 	//GameUdpSessionRef gameUdpSession = static_pointer_cast<GameUdpSession>(session);
 	//auto gameTcpSession = static_pointer_cast<GameTcpSession>(GSessionManager.GetSessionById(ProtocolType::PROTOCOL_TCP, gameUdpSession->GetId()));

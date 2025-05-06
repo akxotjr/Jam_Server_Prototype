@@ -128,6 +128,8 @@ void Room::MulticastSpawnActor()
 		auto session = static_pointer_cast<GameUdpSession>(SessionManager::Instance().GetSessionByUserId(ProtocolType::PROTOCOL_UDP, player->GetUserId()));
 		session->SendReliable(sendBuffer, timestamp);
 	}
+
+	std::cout << "[UDP] Multicast : S_SPAWN_ACTOR\n";
 }
 
 void Room::MulticastSyncActor()

@@ -39,7 +39,7 @@ void Room::Update()
 {
 	float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
 	_scene->simulate(deltaTime);
-	_scene->fetchResults(true);	//temp
+	_scene->fetchResults(true);	// temp
 
 	for (auto& player : _players | views::values)
 	{
@@ -71,7 +71,7 @@ bool Room::Enter(PlayerRef player)
 		return false;
 
 	player->Init(GetRoomRef());
-	_players[player->GetActorId()] = player;
+	_players[player->GetUserId()] = player;
 
 	return true;
 }
@@ -79,7 +79,7 @@ bool Room::Enter(PlayerRef player)
 void Room::Leave(PlayerRef player)
 {
 	WRITE_LOCK
-	_players.erase(player->GetActorId());
+	_players.erase(player->GetUserId());
 }
 
 void Room::Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable, double timestamp)
@@ -89,6 +89,7 @@ void Room::Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool 
 		uint32 userId = player->GetUserId();
 
 		auto session = SessionManager::Instance().GetSessionByUserId(type, userId);
+		if (!session) continue;
 
 		if (type == ProtocolType::PROTOCOL_UDP && session->IsUdp() && reliable)
 		{
@@ -146,8 +147,25 @@ void Room::MulticastSyncActor()
 		*info->mutable_transform() = actor->ToTransform();
 	}
 
+	for (auto& player : _players | views::values)
+	{
+		Protocol::ActorInfo* info = syncPkt.add_actorinfo();
+		info->set_id(player->GetActorId());
+		*info->mutable_transform() = player->ToTransform();
+		info->set_sequence(player->GetLastSequence());
+	}
+
 	auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(syncPkt);
 	Multicast(ProtocolType::PROTOCOL_UDP, sendBuffer, true, timestamp);
+}
+
+PlayerRef Room::GetPlayerByUserId(uint32 userId)
+{
+	auto it = _players.find(userId);
+	if (it != _players.end())
+		return it->second;
+
+	return nullptr;
 }
 
 

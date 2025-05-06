@@ -38,6 +38,8 @@ void Player::Update()
 
 	physx::PxExtendedVec3 pos = _controller->getPosition();
 	_position = physx::PxVec3(static_cast<float>(pos.x), static_cast<float>(pos.y), static_cast<float>(pos.z));
+
+	cout << "Position (" << _position.x << ", " << _position.y << ", " << _position.z << ")\n";
 }
 
 void Player::ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence)
@@ -73,6 +75,8 @@ void Player::ProcessKeyField(uint32& keyField)
 		moveDir = moveDir.getNormalized();
 
 	_horizontalVelocity = moveDir * _moveSpeed;
+
+	cout << "_horizontalVelocity (" << _horizontalVelocity.x << ", " << _horizontalVelocity.y << ", " << _horizontalVelocity.z << ")\n";
 
 	// TODO : JUMP, Fire, Skill etc.
 	// isJump

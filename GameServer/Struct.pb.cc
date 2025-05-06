@@ -57,7 +57,8 @@ inline constexpr ActorInfo::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         transform_{nullptr},
-        id_{0u} {}
+        id_{0u},
+        sequence_{0u} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR ActorInfo::ActorInfo(::_pbi::ConstantInitialized)
@@ -107,14 +108,16 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::Protocol::ActorInfo, _impl_.id_),
         PROTOBUF_FIELD_OFFSET(::Protocol::ActorInfo, _impl_.transform_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::ActorInfo, _impl_.sequence_),
         ~0u,
         0,
+        1,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::Protocol::Transform)},
-        {11, 21, -1, sizeof(::Protocol::ActorInfo)},
+        {11, 22, -1, sizeof(::Protocol::ActorInfo)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::Protocol::_Transform_default_instance_._instance,
@@ -124,9 +127,10 @@ const char descriptor_table_protodef_Struct_2eproto[] ABSL_ATTRIBUTE_SECTION_VAR
     protodesc_cold) = {
     "\n\014Struct.proto\022\010Protocol\032\nEnum.proto\"G\n\t"
     "Transform\022\020\n\010position\030\001 \001(\004\022\026\n\016velocity_"
-    "speed\030\002 \001(\004\022\020\n\010rotation\030\003 \001(\004\"\?\n\tActorIn"
+    "speed\030\002 \001(\004\022\020\n\010rotation\030\003 \001(\004\"c\n\tActorIn"
     "fo\022\n\n\002id\030\001 \001(\r\022&\n\ttransform\030\002 \001(\0132\023.Prot"
-    "ocol.Transformb\006proto3"
+    "ocol.Transform\022\025\n\010sequence\030\003 \001(\rH\000\210\001\001B\013\n"
+    "\t_sequenceb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[1] =
     {
@@ -136,7 +140,7 @@ static ::absl::once_flag descriptor_table_Struct_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
     false,
     false,
-    182,
+    218,
     descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
     &descriptor_table_Struct_2eproto_once,
@@ -455,7 +459,13 @@ ActorInfo::ActorInfo(
   _impl_.transform_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::Protocol::Transform>(
                               arena, *from._impl_.transform_)
                         : nullptr;
-  _impl_.id_ = from._impl_.id_;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, id_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, id_),
+           offsetof(Impl_, sequence_) -
+               offsetof(Impl_, id_) +
+               sizeof(Impl_::sequence_));
 
   // @@protoc_insertion_point(copy_constructor:Protocol.ActorInfo)
 }
@@ -469,9 +479,9 @@ inline void ActorInfo::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, transform_),
            0,
-           offsetof(Impl_, id_) -
+           offsetof(Impl_, sequence_) -
                offsetof(Impl_, transform_) +
-               sizeof(Impl_::id_));
+               sizeof(Impl_::sequence_));
 }
 ActorInfo::~ActorInfo() {
   // @@protoc_insertion_point(destructor:Protocol.ActorInfo)
@@ -521,15 +531,15 @@ const ::google::protobuf::internal::ClassData* ActorInfo::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 1, 0, 2> ActorInfo::_table_ = {
+const ::_pbi::TcParseTable<2, 3, 1, 0, 2> ActorInfo::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_._has_bits_),
     0, // no _extensions_
-    2, 8,  // max_field_number, fast_idx_mask
+    3, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967292,  // skipmap
+    4294967288,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    2,  // num_field_entries
+    3,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -539,12 +549,16 @@ const ::_pbi::TcParseTable<1, 2, 1, 0, 2> ActorInfo::_table_ = {
     ::_pbi::TcParser::GetTable<::Protocol::ActorInfo>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .Protocol.Transform transform = 2;
-    {::_pbi::TcParser::FastMtS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.transform_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // uint32 id = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ActorInfo, _impl_.id_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.id_)}},
+    // .Protocol.Transform transform = 2;
+    {::_pbi::TcParser::FastMtS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.transform_)}},
+    // optional uint32 sequence = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ActorInfo, _impl_.sequence_), 1>(),
+     {24, 1, 0, PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.sequence_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -554,6 +568,9 @@ const ::_pbi::TcParseTable<1, 2, 1, 0, 2> ActorInfo::_table_ = {
     // .Protocol.Transform transform = 2;
     {PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.transform_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // optional uint32 sequence = 3;
+    {PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.sequence_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
   }}, {{
     {::_pbi::TcParser::GetTable<::Protocol::Transform>()},
   }}, {{
@@ -573,6 +590,7 @@ PROTOBUF_NOINLINE void ActorInfo::Clear() {
     _impl_.transform_->Clear();
   }
   _impl_.id_ = 0u;
+  _impl_.sequence_ = 0u;
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -605,6 +623,13 @@ PROTOBUF_NOINLINE void ActorInfo::Clear() {
             target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                 2, *this_._impl_.transform_, this_._impl_.transform_->GetCachedSize(), target,
                 stream);
+          }
+
+          // optional uint32 sequence = 3;
+          if (cached_has_bits & 0x00000002u) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                3, this_._internal_sequence(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -646,6 +671,13 @@ PROTOBUF_NOINLINE void ActorInfo::Clear() {
                   this_._internal_id());
             }
           }
+           {
+            // optional uint32 sequence = 3;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_sequence());
+            }
+          }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
         }
@@ -672,6 +704,9 @@ void ActorInfo::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
   if (from._internal_id() != 0) {
     _this->_impl_.id_ = from._impl_.id_;
   }
+  if (cached_has_bits & 0x00000002u) {
+    _this->_impl_.sequence_ = from._impl_.sequence_;
+  }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -689,8 +724,8 @@ void ActorInfo::InternalSwap(ActorInfo* PROTOBUF_RESTRICT other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.id_)
-      + sizeof(ActorInfo::_impl_.id_)
+      PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.sequence_)
+      + sizeof(ActorInfo::_impl_.sequence_)
       - PROTOBUF_FIELD_OFFSET(ActorInfo, _impl_.transform_)>(
           reinterpret_cast<char*>(&_impl_.transform_),
           reinterpret_cast<char*>(&other->_impl_.transform_));

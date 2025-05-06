@@ -22,6 +22,7 @@ void CharacterActor::Init(RoomRef room)
 	desc.position = physx::PxExtendedVec3(0, 1, 0);
 	desc.radius = 0.5f;
 	desc.height = 1.8f;
+	desc.upDirection = physx::PxVec3(0, 1, 0);
 	desc.slopeLimit = cosf(physx::PxPi * 0.25f); // 45µµ
 	desc.material = RoomManager::Instance().GetPxPhysics()->createMaterial(0.5f, 0.5f, 0.1f);
 	_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_controllerManager->createController(desc));
@@ -30,6 +31,7 @@ void CharacterActor::Init(RoomRef room)
 
 void CharacterActor::Update()
 {
+	
 }
 
 Protocol::Transform CharacterActor::ToTransform() const

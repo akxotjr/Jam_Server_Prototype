@@ -4,8 +4,11 @@
 
 Actor::~Actor()
 {
-	_pxActor->release();
-	_pxActor = nullptr;
+	if (_pxActor)
+	{
+		_pxActor->release();
+		_pxActor = nullptr;
+	}
 }
 
 void Actor::Init(RoomRef room)

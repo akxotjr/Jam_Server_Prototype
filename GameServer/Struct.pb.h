@@ -434,6 +434,7 @@ class ActorInfo final : public ::google::protobuf::Message
   enum : int {
     kTransformFieldNumber = 2,
     kIdFieldNumber = 1,
+    kSequenceFieldNumber = 3,
   };
   // .Protocol.Transform transform = 2;
   bool has_transform() const;
@@ -460,12 +461,23 @@ class ActorInfo final : public ::google::protobuf::Message
   void _internal_set_id(::uint32_t value);
 
   public:
+  // optional uint32 sequence = 3;
+  bool has_sequence() const;
+  void clear_sequence() ;
+  ::uint32_t sequence() const;
+  void set_sequence(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_sequence() const;
+  void _internal_set_sequence(::uint32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Protocol.ActorInfo)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 1,
+      2, 3, 1,
       0, 2>
       _table_;
 
@@ -487,6 +499,7 @@ class ActorInfo final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::Protocol::Transform* transform_;
     ::uint32_t id_;
+    ::uint32_t sequence_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -695,6 +708,34 @@ inline void ActorInfo::set_allocated_transform(::Protocol::Transform* value) {
 
   _impl_.transform_ = reinterpret_cast<::Protocol::Transform*>(value);
   // @@protoc_insertion_point(field_set_allocated:Protocol.ActorInfo.transform)
+}
+
+// optional uint32 sequence = 3;
+inline bool ActorInfo::has_sequence() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline void ActorInfo::clear_sequence() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sequence_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline ::uint32_t ActorInfo::sequence() const {
+  // @@protoc_insertion_point(field_get:Protocol.ActorInfo.sequence)
+  return _internal_sequence();
+}
+inline void ActorInfo::set_sequence(::uint32_t value) {
+  _internal_set_sequence(value);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  // @@protoc_insertion_point(field_set:Protocol.ActorInfo.sequence)
+}
+inline ::uint32_t ActorInfo::_internal_sequence() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.sequence_;
+}
+inline void ActorInfo::_internal_set_sequence(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sequence_ = value;
 }
 
 #ifdef __GNUC__

@@ -16,7 +16,7 @@ public:
 
 	bool						IsDirty() const { return _isDirty; }
 
-	virtual						Protocol::Transform ToTransform() const;
+	virtual	Protocol::Transform ToTransform() const;
 
 protected:
 	std::weak_ptr<Room>			_ownerRoom;

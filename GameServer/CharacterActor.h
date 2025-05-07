@@ -20,7 +20,7 @@ protected:
 	physx::PxVec3					_horizontalVelocity = {0.0f, 0.0f, 0.0f};
 	float							_verticalVelocity = 0.0f;
 
-	float							_moveSpeed = 5.f;
+	float							_moveSpeed = 1000000.f;
 	float							_jumpSpeed = 3.f;
 };
 

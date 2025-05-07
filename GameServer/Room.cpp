@@ -24,7 +24,7 @@ void Room::Init()
 	physx::PxPhysics* physics = RoomManager::Instance().GetPxPhysics();
 
 	physx::PxSceneDesc sceneDesc(physics->getTolerancesScale());
-	sceneDesc.gravity = physx::PxVec3(0.0f, -9.8f, 0.0f);
+	sceneDesc.gravity = physx::PxVec3(0.0f, 0.0f, 0.0f); // TODO gravity
 	sceneDesc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(1);	// TODO
 	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
 

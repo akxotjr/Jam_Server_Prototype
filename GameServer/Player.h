@@ -49,6 +49,6 @@ private:
 
 	uint32	                        _lastProcessSequence;
 
-	bool                            _isOnGround = true;
+	bool                            _isOnGround = false;
 	bool                            _isJumping = false;
 };

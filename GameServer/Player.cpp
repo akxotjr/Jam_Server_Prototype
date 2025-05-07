@@ -17,29 +17,27 @@ void Player::Update()
 {
 	float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
 
-	if (!_isOnGround)
-		_verticalVelocity += -9.8f * deltaTime;	// TODO
+	//if (!_isOnGround)
+	//	_verticalVelocity += -9.8f * deltaTime;	// TODO
 
 	physx::PxVec3 finalVelocity(_horizontalVelocity.x, _verticalVelocity, _horizontalVelocity.z);
 
 	physx::PxControllerFilters filters;
-	physx::PxControllerCollisionFlags collisionFlags = _controller->move(finalVelocity * deltaTime, 0.001f, deltaTime, filters);
+	physx::PxControllerCollisionFlags collisionFlags = _controller->move(finalVelocity * deltaTime, 0.0f, deltaTime, filters);
 
 
-	// TODO : collision 
-	if (collisionFlags & physx::PxControllerCollisionFlag::eCOLLISION_DOWN)
-	{
-		_isOnGround = true;
-	}
-	else
-	{
-		_isOnGround = false;
-	}
+	//// TODO : collision 
+	//if (collisionFlags & physx::PxControllerCollisionFlag::eCOLLISION_DOWN)
+	//{
+	//	_isOnGround = true;
+	//}
+	//else
+	//{
+	//	_isOnGround = false;
+	//}
 
 	physx::PxExtendedVec3 pos = _controller->getPosition();
 	_position = physx::PxVec3(static_cast<float>(pos.x), static_cast<float>(pos.y), static_cast<float>(pos.z));
-
-	cout << "Position (" << _position.x << ", " << _position.y << ", " << _position.z << ")\n";
 }
 
 void Player::ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence)
@@ -47,7 +45,8 @@ void Player::ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, u
 	_lastProcessSequence = sequence;
 
 	ProcessKeyField(keyField);
-
+	Update();
+	_horizontalVelocity = physx::PxVec3(0, 0, 0);
 	// if isFire then Fire(cameraYaw, cameraPitch)
 
 }
@@ -76,7 +75,7 @@ void Player::ProcessKeyField(uint32& keyField)
 
 	_horizontalVelocity = moveDir * _moveSpeed;
 
-	cout << "_horizontalVelocity (" << _horizontalVelocity.x << ", " << _horizontalVelocity.y << ", " << _horizontalVelocity.z << ")\n";
+	/*cout << "_horizontalVelocity (" << _horizontalVelocity.x << ", " << _horizontalVelocity.y << ", " << _horizontalVelocity.z << ")\n";*/
 
 	// TODO : JUMP, Fire, Skill etc.
 	// isJump

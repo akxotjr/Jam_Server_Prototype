@@ -19,9 +19,9 @@ void CharacterActor::Init(RoomRef room)
 	Super::Init(room);
 
 	physx::PxCapsuleControllerDesc desc = {};
-	desc.position = physx::PxExtendedVec3(0, 1, 0);
-	desc.radius = 0.5f;
-	desc.height = 1.8f;
+	desc.position = physx::PxExtendedVec3(0, 0, 0);
+	desc.radius = 0.1f;
+	desc.height = 0.8f;
 	desc.upDirection = physx::PxVec3(0, 1, 0);
 	desc.slopeLimit = cosf(physx::PxPi * 0.25f); // 45µµ
 	desc.material = RoomManager::Instance().GetPxPhysics()->createMaterial(0.5f, 0.5f, 0.1f);

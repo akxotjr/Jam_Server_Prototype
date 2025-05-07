@@ -47,7 +47,7 @@ void SessionManager::Multicast(ProtocolType protocol, network::SendBufferRef sen
 {
     WRITE_LOCK
 
-    for (auto& [id, bundle] : _sessionMap)
+    for (auto& bundle : _sessionMap | views::values)
     {
         if (protocol == ProtocolType::PROTOCOL_TCP)
         {
@@ -80,4 +80,6 @@ network::SessionRef SessionManager::GetSessionByUserId(ProtocolType type, uint32
     {
         return _sessionMap[userId].udpSession;
     }
+
+    return nullptr;
 }

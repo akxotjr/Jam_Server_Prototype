@@ -7,6 +7,7 @@
 #include "RoomManager.h"
 #include "SessionManager.h"
 #include "GameUdpSession.h"
+#include "Values.h"
 
 Room::Room()
 {
@@ -37,8 +38,10 @@ void Room::Init()
 
 void Room::Update()
 {
-	float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
-	_scene->simulate(deltaTime);
+	//float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
+	//_scene->simulate(deltaTime);
+
+	_scene->simulate(static_cast<float>(TICK_INTERVAL_S));
 	_scene->fetchResults(true);	// temp
 
 	for (auto& player : _players | views::values)

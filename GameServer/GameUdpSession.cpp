@@ -2,14 +2,6 @@
 #include "GameUdpSession.h"
 #include "SessionManager.h"
 
-GameUdpSession::GameUdpSession()
-{
-}
-
-GameUdpSession::~GameUdpSession()
-{
-}
-
 void GameUdpSession::OnConnected()
 {
 	cout << "[UDP] OnConnected\n";

@@ -3,10 +3,10 @@
 class GameUdpSession : public core::network::ReliableUdpSession
 {
 public:
-	GameUdpSession();
-	virtual ~GameUdpSession();
+	GameUdpSession() = default;
+	virtual ~GameUdpSession() override = default;
 
-
+	/* Session impl */
 	virtual void		OnConnected() override;
 	virtual void		OnDisconnected() override;
 	virtual void		OnRecv(BYTE* buffer, int32 len) override;

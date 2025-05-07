@@ -31,7 +31,6 @@ public:
 	
 	PlayerRef				GetPlayerByUserId(uint32 userId);
 
-
 	physx::PxScene*			GetPxScene() const { return _scene; }
 
 private:

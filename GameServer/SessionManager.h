@@ -23,12 +23,12 @@ public:
 	void							Add(network::SessionRef session);
 	void							Remove(network::SessionRef session);
 
-	void							Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable);
+	void							Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable = false);
 
 	network::SessionRef				GetSessionByUserId(ProtocolType type, uint32 userId);
 
 private:
 	USE_LOCK
 
-	unordered_map<uint32, SessionBundle> _sessionMap; // key - uid, 
+	unordered_map<uint32, SessionBundle> _sessionMap; // key - user id
 };

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Player.h"
-#include "TimeManager.h"
 #include "IdManager.h"
+#include "Values.h"
 
 Player::Player()
 {
@@ -15,7 +15,8 @@ void Player::Init(RoomRef room)
 
 void Player::Update()
 {
-	float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
+	//float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
+	float deltaTime = static_cast<float>(TICK_INTERVAL_S);
 
 	//if (!_isOnGround)
 	//	_verticalVelocity += -9.8f * deltaTime;	// TODO

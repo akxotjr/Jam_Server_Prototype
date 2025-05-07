@@ -160,13 +160,13 @@ bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 
 bool Handle_C_SYNC_ACTOR(SessionRef& session, Protocol::C_SYNC_ACTOR& pkt)
 {
-	std::cout << "[UDP] Recv : C_CHARACTER_SYNC\n";
+	//std::cout << "[UDP] Recv : C_SYNC_ACTOR\n";
 	return true;
 }
 
 bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 {
-	std::cout << "[UDP] Recv : C_PLAYER_INPUT\n";
+	//std::cout << "[UDP] Recv : C_PLAYER_INPUT\n";
 
 	uint32 seq = pkt.sequence();
 	uint32 keyField = pkt.keyfield();

@@ -14,7 +14,7 @@ namespace core::thread
 	{
 		LockGuard guard(_lock);
 	
-		_threads.push_back(std::thread([=]()
+		_threads.push_back(std::thread([this, callback]()
 			{
 				InitTLS();
 				callback();
@@ -69,5 +69,4 @@ namespace core::thread
 	
 		job::JobTimer::Instance().Distribute(now);
 	}
-
 }

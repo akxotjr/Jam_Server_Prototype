@@ -105,6 +105,7 @@
     <ClCompile Include="GameContextManager.cpp">
       <Filter>97.Utils</Filter>
     </ClCompile>
+    <ClCompile Include="PhysxWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -182,6 +183,7 @@
     <ClInclude Include="GameContextManager.h">
       <Filter>97.Utils</Filter>
     </ClInclude>
+    <ClInclude Include="PhysxWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Protobuf\bin\Enum.proto">

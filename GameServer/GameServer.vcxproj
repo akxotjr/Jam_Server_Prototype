@@ -159,7 +159,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="PhysxWrapper.cpp" />
+    <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Protocol.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -189,7 +189,7 @@
     <ClInclude Include="GameUdpSession.h" />
     <ClInclude Include="IdManager.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="PhysxWrapper.h" />
+    <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Protocol.pb.h" />
     <ClInclude Include="Room.h" />

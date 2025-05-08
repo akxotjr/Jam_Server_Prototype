@@ -31,7 +31,7 @@ public:
 	
 	PlayerRef				GetPlayerByUserId(uint32 userId);
 
-	physx::PxScene*			GetPxScene() const { return _scene; }
+	physx::PxScene*			GetPxScene() const { return _pxScene; }
 
 private:
 	USE_LOCK
@@ -41,7 +41,9 @@ private:
 	unordered_map<uint32, PlayerRef>		_players;	// key = userId, value = PlayerRef 
 	unordered_map<uint32, ActorRef>			_actors;	// key = actorId, value = ActorRef
 
-	physx::PxScene*							_scene = nullptr;
-	physx::PxControllerManager*				_controllerManager = nullptr;
+	physx::PxScene*							_pxScene = nullptr;
+	physx::PxControllerManager*				_pxControllerManager = nullptr;
+
+	shared_ptr<core::thread::LockQueue<job::Job>>		_physicsQueue;
 };
 

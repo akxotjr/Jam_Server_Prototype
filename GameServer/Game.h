@@ -11,14 +11,13 @@ public:
 
 private:
 	void							MainThreadLoop();
-	void							WorkerThreadLoop();
-	void							DoWorkerJob();
+	void							NetworkThreadLoop();
+	void							DoNetworkJob();
+
+	void							PhysXThreadLoop();
+	void							DoPhysXJob();
 
 private:
-	physx::PxFoundation*			_foundation = nullptr;
-	physx::PxDefaultAllocator		_allocatorCallback;
-	physx::PxDefaultErrorCallback	_errorCallback;
-
 	network::ServiceRef				_service = nullptr;
 };
 

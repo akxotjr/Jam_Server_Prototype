@@ -29,7 +29,6 @@ namespace core::thread
 	private:
 		Mutex							_lock;
 		std::vector<std::thread>		_threads;
-
 	};
 }
 

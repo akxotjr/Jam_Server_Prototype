@@ -3,6 +3,7 @@
 #include "RoomManager.h"
 #include <TimeManager.h>
 #include <ThreadManager.h>
+#include "PhysicsManager.h"
 #include "GameUdpReceiver.h"
 #include "ClientPacketHandler.h"
 #include "IdManager.h"
@@ -27,15 +28,15 @@ Game::Game()
 
 Game::~Game()
 {
-	_foundation->release();
-	_foundation = nullptr;
+	PhysicsManager::Instance().Shutdown();
 }
 
 void Game::Init()
 {
-	ClientPacketHandler::Init();
 	IdManager::Instance().Init();
-	RoomManager::Instance().Init(_foundation);
+	PhysicsManager::Instance().Init();
+	ClientPacketHandler::Init();
+	RoomManager::Instance().Init();
 
 
 	// temp
@@ -49,7 +50,8 @@ void Game::Loop()
 {
 	ASSERT_CRASH(_service->Start())
 
-	WorkerThreadLoop();
+	PhysXThreadLoop();		// TODO : ¼ø¼­ »ý°¢ÇØºÁ¾ßµÊ
+	NetworkThreadLoop();
 	MainThreadLoop();
 }
 
@@ -72,18 +74,18 @@ void Game::MainThreadLoop()
 	core::thread::ThreadManager::Instance().Join();
 }
 
-void Game::WorkerThreadLoop()
+void Game::NetworkThreadLoop()
 {
 	for (int32 i = 0; i < 5; i++)
 	{
 		core::thread::ThreadManager::Instance().Launch([this]()
 			{
-				DoWorkerJob();
+				DoNetworkJob();
 			});
 	}
 }
 
-void Game::DoWorkerJob()
+void Game::DoNetworkJob()
 {
 	while (true)
 	{
@@ -105,5 +107,35 @@ void Game::DoWorkerJob()
 		core::thread::LEndTime = TimeManager::Instance().GetServerTime() + nextTime;
 
 		std::this_thread::yield();
+	}
+}
+
+void Game::PhysXThreadLoop()
+{
+	for (int32 i = 0; i < 1; i++)
+	{
+		core::thread::ThreadManager::Instance().Launch([this]()
+			{
+				DoPhysXJob();
+			});
+	}
+}
+
+void Game::DoPhysXJob()
+{
+	while (true)
+	{
+		int32 workCount = 0;
+
+		double nextTime = 0.0;
+
+		if (workCount == 0)
+			nextTime = 0.01;
+		else if (workCount < 5)
+			nextTime = 0.005;
+		else
+			nextTime = 0.001;
+
+		core::thread::LEndTime = TimeManager::Instance().GetServerTime() + nextTime;
 	}
 }

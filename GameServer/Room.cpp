@@ -4,50 +4,51 @@
 #include <TimeManager.h>
 #include "ClientPacketHandler.h"
 #include "IdManager.h"
-#include "RoomManager.h"
 #include "SessionManager.h"
 #include "GameUdpSession.h"
 #include "Values.h"
+#include "PhysicsManager.h"
 
 Room::Room()
 {
 	_roomId = IdManager::Instance().Generate(IdType::Room);
+	_physicsQueue = std::make_shared<core::thread::LockQueue<job::Job>>();
 }
 
 Room::~Room()
 {
-	_scene->release();
-	_scene = nullptr;
+	PhysicsManager::Instance().RemovePhysicsQueue(_roomId);
+
+	if (_pxScene)
+		_pxScene->release();
 }
 
 void Room::Init()
 {
-	physx::PxPhysics* physics = RoomManager::Instance().GetPxPhysics();
+	_pxScene = PhysicsManager::Instance().CreatePxScene();
+	ASSERT_CRASH(_pxScene != nullptr)
 
-	physx::PxSceneDesc sceneDesc(physics->getTolerancesScale());
-	sceneDesc.gravity = physx::PxVec3(0.0f, 0.0f, 0.0f); // TODO gravity
-	sceneDesc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(1);	// TODO
-	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
+	PhysicsManager::Instance().AddPhysicsQueue(_roomId, _physicsQueue);
 
-	_scene = physics->createScene(sceneDesc);
-	ASSERT_CRASH(_scene != nullptr)
-
-	_controllerManager = PxCreateControllerManager(*_scene);
-	ASSERT_CRASH(_controllerManager != nullptr)
+	_physicsQueue->Push(job::Job([this]()
+		{
+			_pxControllerManager = PxCreateControllerManager(*_pxScene);
+			ASSERT_CRASH(_pxControllerManager != nullptr)
+		}));
 }
 
 void Room::Update()
 {
-	//float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
-	//_scene->simulate(deltaTime);
+	_physicsQueue->Push(job::Job([this]()
+		{
+			_pxScene->simulate(static_cast<float>(TICK_INTERVAL_S));
+			_pxScene->fetchResults(true);	// temp
 
-	_scene->simulate(static_cast<float>(TICK_INTERVAL_S));
-	_scene->fetchResults(true);	// temp
-
-	for (auto& player : _players | views::values)
-	{
-		player->Update();
-	}
+			for (auto& player : _players | views::values)
+			{
+				player->Update();
+			}
+		}));
 
 	MulticastSyncActor();
 }
@@ -56,13 +57,22 @@ void Room::AddActor(ActorRef actor)
 {
 	actor->Init(GetRoomRef());
 
-	_scene->addActor(*actor->GetPxActor());
+	_physicsQueue->Push(job::Job([this, actor]()
+		{
+			_pxScene->addActor(*actor->GetPxActor());
+		}));
+
 	_actors.insert({ actor->GetActorId(), actor });
 }
 
 void Room::RemoveActor(ActorRef actor)
 {
-	_scene->removeActor(*actor->GetPxActor());
+
+	_physicsQueue->Push(job::Job([this, actor]()
+		{
+			_pxScene->removeActor(*actor->GetPxActor());
+		}));
+
 	_actors.erase(actor->GetActorId());
 }
 

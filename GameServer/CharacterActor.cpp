@@ -25,7 +25,7 @@ void CharacterActor::Init(RoomRef room)
 	desc.upDirection = physx::PxVec3(0, 1, 0);
 	desc.slopeLimit = cosf(physx::PxPi * 0.25f); // 45µµ
 	desc.material = RoomManager::Instance().GetPxPhysics()->createMaterial(0.5f, 0.5f, 0.1f);
-	_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_controllerManager->createController(desc));
+	_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_pxControllerManager->createController(desc));
 	ASSERT_CRASH(_controller != nullptr)
 }
 

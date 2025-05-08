@@ -2,11 +2,8 @@
 #include "RoomManager.h"
 #include "Room.h"
 
-void RoomManager::Init(physx::PxFoundation* foundation)
+void RoomManager::Init()
 {
-	_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, physx::PxTolerancesScale(), true, nullptr);
-	if (_physics == nullptr) 
-		CRASH("_physics is nullptr.")
 }
 
 void RoomManager::Update()

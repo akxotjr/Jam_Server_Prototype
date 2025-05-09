@@ -49,7 +49,7 @@ void Game::Loop()
 {
 	ASSERT_CRASH(_service->Start())
 
-	PhysXThreadLoop();		// TODO : ¼ø¼­ »ý°¢ÇØºÁ¾ßµÊ
+	PhysicsThreadLoop();		// TODO : ¼ø¼­ »ý°¢ÇØºÁ¾ßµÊ
 	NetworkThreadLoop();
 	MainThreadLoop();
 }
@@ -109,18 +109,18 @@ void Game::DoNetworkJob()
 	}
 }
 
-void Game::PhysXThreadLoop()
+void Game::PhysicsThreadLoop()
 {
 	for (int32 i = 0; i < 1; i++)
 	{
 		core::thread::ThreadManager::Instance().Launch([this]()
 			{
-				DoPhysXJob();
+				DoPhysicsJob();
 			});
 	}
 }
 
-void Game::DoPhysXJob()
+void Game::DoPhysicsJob()
 {
 	while (true)
 	{

@@ -7,6 +7,8 @@ class Player;
 
 class Room : public job::JobQueue
 {
+	friend class StaticActor;
+	friend class DynamicActor;
 	friend class CharacterActor;
 	friend class Player;
 

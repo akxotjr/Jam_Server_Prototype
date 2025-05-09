@@ -14,8 +14,8 @@ private:
 	void							NetworkThreadLoop();
 	void							DoNetworkJob();
 
-	void							PhysXThreadLoop();
-	void							DoPhysXJob();
+	void							PhysicsThreadLoop();
+	void							DoPhysicsJob();
 
 private:
 	network::ServiceRef				_service = nullptr;

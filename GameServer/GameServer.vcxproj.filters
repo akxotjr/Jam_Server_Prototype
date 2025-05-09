@@ -90,9 +90,6 @@
     <ClCompile Include="StaticActor.cpp">
       <Filter>03. Actor\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="IdManager.cpp">
-      <Filter>97.Utils</Filter>
-    </ClCompile>
     <ClCompile Include="RoomManager.cpp">
       <Filter>04. Room</Filter>
     </ClCompile>
@@ -105,7 +102,12 @@
     <ClCompile Include="GameContextManager.cpp">
       <Filter>97.Utils</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsManager.cpp" />
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>03.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="IdManager.cpp">
+      <Filter>03.Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -168,9 +170,6 @@
     <ClInclude Include="DynamicActor.h">
       <Filter>03. Actor\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="IdManager.h">
-      <Filter>97.Utils</Filter>
-    </ClInclude>
     <ClInclude Include="RoomManager.h">
       <Filter>04. Room</Filter>
     </ClInclude>
@@ -183,7 +182,12 @@
     <ClInclude Include="GameContextManager.h">
       <Filter>97.Utils</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsManager.h" />
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>03.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="IdManager.h">
+      <Filter>03.Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Protobuf\bin\Enum.proto">

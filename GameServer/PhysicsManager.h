@@ -5,21 +5,24 @@ class PhysicsWorker
 {
 public:
 	void							AssignRoom(uint32 roomId);
+	void UnassignRoom(uint32 roomId);
 	int32							Execute();
 
 	void SetSharedQueueMap(std::unordered_map<uint32, std::shared_ptr<core::thread::LockQueue<job::Job>>>* sharedQueue) { _sharedQueues = sharedQueue; }
 	void SetWorkerIndex(int32 workerIndex) { _workerIndex = workerIndex; }
 
 private:
-	int32 TryExecuute(uint32 roomId);
+	int32 TryExecute(uint32 roomId);
 
 
 private:
-	Vector<uint32>				_assignedRoomIds;
+	std::unordered_set<uint32>				_assignedRoomIds;
 
 	std::unordered_map<uint32, std::shared_ptr<core::thread::LockQueue<job::Job>>>* _sharedQueues = nullptr;
 	int32 _workerIndex = 0;
 };
+
+extern thread_local PhysicsWorker* LPhysicsWorker;
 
 
 class PhysicsManager
@@ -36,8 +39,11 @@ public:
 	void							RemovePhysicsQueue(uint32 roomId);
 
 	physx::PxScene*					CreatePxScene();
+	physx::PxMaterial*				CreateMaterial(physx::PxReal staticFriction, physx::PxReal dynamicFriction, physx::PxReal restitution);
+	physx::PxRigidActor*			CreateRigidStatic(physx::PxVec3& position, physx::PxQuat& rotation);
+	physx::PxRigidDynamic*			CreateRigidDynamic(physx::PxVec3& position, physx::PxQuat& rotation);
 
-	Vector<uint32>&					GetAllRoomIds() { return _allRoomIds; }
+	std::unordered_set<uint32>&					GetAllRoomIds() { return _allRoomIds; }
 
 private:
 	physx::PxFoundation*			_pxFoundation = nullptr;
@@ -50,7 +56,7 @@ private:
 
 
 	Vector<std::unique_ptr<PhysicsWorker>> _workers;
-	Vector<uint32> _allRoomIds;
+	std::unordered_set<uint32> _allRoomIds;
 	std::unordered_map<uint32, shared_ptr<core::thread::LockQueue<job::Job>>> _physicsQueues;	// key - roomId
 };
 

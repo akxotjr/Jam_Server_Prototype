@@ -18,7 +18,6 @@ namespace core::job
 
 	void JobTimer::Distribute(double now)
 	{
-
 		if (_distributing.exchange(true) == true)
 			return;
 

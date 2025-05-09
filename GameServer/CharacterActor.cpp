@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CharacterActor.h"
+
+#include "PhysicsManager.h"
 #include "Room.h"
 #include "RoomManager.h"
 #include "TransformCompressor.h"
@@ -24,7 +26,7 @@ void CharacterActor::Init(RoomRef room)
 	desc.height = 0.8f;
 	desc.upDirection = physx::PxVec3(0, 1, 0);
 	desc.slopeLimit = cosf(physx::PxPi * 0.25f); // 45µµ
-	desc.material = RoomManager::Instance().GetPxPhysics()->createMaterial(0.5f, 0.5f, 0.1f);
+	desc.material = PhysicsManager::Instance().GetPxPhysics()->createMaterial(0.5f, 0.5f, 0.1f);
 	_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_pxControllerManager->createController(desc));
 	ASSERT_CRASH(_controller != nullptr)
 }

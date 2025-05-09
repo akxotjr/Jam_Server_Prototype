@@ -1,5 +1,7 @@
 #pragma once
 
+#include <optional>
+
 namespace core::thread
 {
 	template<typename T>
@@ -10,6 +12,17 @@ namespace core::thread
 		{
 			WRITE_LOCK
 			_items.push(job);
+		}
+
+		std::optional<T> TryPop()
+		{
+			WRITE_LOCK
+				if (_items.empty())
+					return std::nullopt;
+
+			T job = std::move(_items.front());
+			_items.pop();
+			return job;
 		}
 
 		T Pop()

@@ -14,8 +14,7 @@
 
 Game::Game()
 {
-	_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, _allocatorCallback, _errorCallback);
-
+	
 	network::TransportConfig config = {
 		.tcpAddress = network::NetAddress(L"127.0.0.1", 7777),
 		.udpAddress = network::NetAddress(L"127.0.0.1", 8888)
@@ -34,7 +33,7 @@ Game::~Game()
 void Game::Init()
 {
 	IdManager::Instance().Init();
-	PhysicsManager::Instance().Init();
+	PhysicsManager::Instance().Init(2);
 	ClientPacketHandler::Init();
 	RoomManager::Instance().Init();
 
@@ -125,7 +124,7 @@ void Game::DoPhysXJob()
 {
 	while (true)
 	{
-		int32 workCount = 0;
+		int32 workCount = PhysicsManager::Instance().Execute();
 
 		double nextTime = 0.0;
 

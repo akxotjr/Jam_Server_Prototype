@@ -1,9 +1,7 @@
 #include "pch.h"
 #include "CharacterActor.h"
-
 #include "PhysicsManager.h"
 #include "Room.h"
-#include "RoomManager.h"
 #include "TransformCompressor.h"
 
 CharacterActor::CharacterActor()

@@ -24,6 +24,7 @@ public:
 
 	bool					Enter(PlayerRef player);
 	void					Leave(PlayerRef player);
+
 	void					Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool reliable = false, double timestamp = 0.0);
 	void					MulticastSpawnActor();
 	void					MulticastSyncActor();

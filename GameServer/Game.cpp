@@ -36,13 +36,6 @@ void Game::Init()
 	PhysicsManager::Instance().Init(2);
 	ClientPacketHandler::Init();
 	RoomManager::Instance().Init();
-
-
-	// temp
-	{
-		RoomRef room = RoomManager::Instance().CreateRoom();	// <- room id = 1
-		RoomManager::Instance().AddRoom(room);
-	}
 }
 
 void Game::Loop()

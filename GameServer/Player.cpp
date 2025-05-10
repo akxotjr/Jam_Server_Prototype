@@ -15,7 +15,6 @@ void Player::Init(RoomRef room)
 
 void Player::Update()
 {
-	//float deltaTime = static_cast<float>(TimeManager::Instance().GetDeltaTime());
 	float deltaTime = static_cast<float>(TICK_INTERVAL_S);
 
 	//if (!_isOnGround)

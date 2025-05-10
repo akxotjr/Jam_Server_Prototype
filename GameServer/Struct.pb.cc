@@ -53,6 +53,58 @@ struct TransformDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TransformDefaultTypeInternal _Transform_default_instance_;
 
+inline constexpr RoomInfo::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : playerlist_{},
+        _playerlist_cached_byte_size_{0},
+        roomid_{0u},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR RoomInfo::RoomInfo(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct RoomInfoDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RoomInfoDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RoomInfoDefaultTypeInternal() {}
+  union {
+    RoomInfo _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RoomInfoDefaultTypeInternal _RoomInfo_default_instance_;
+
+inline constexpr RoomList::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : roominfo_{},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR RoomList::RoomList(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct RoomListDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RoomListDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RoomListDefaultTypeInternal() {}
+  union {
+    RoomList _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RoomListDefaultTypeInternal _RoomList_default_instance_;
+
 inline constexpr ActorInfo::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -112,16 +164,39 @@ const ::uint32_t
         ~0u,
         0,
         1,
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::Protocol::RoomInfo, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::Protocol::RoomInfo, _impl_.roomid_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::RoomInfo, _impl_.playerlist_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::Protocol::RoomList, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::Protocol::RoomList, _impl_.roominfo_),
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::Protocol::Transform)},
         {11, 22, -1, sizeof(::Protocol::ActorInfo)},
+        {25, -1, -1, sizeof(::Protocol::RoomInfo)},
+        {35, -1, -1, sizeof(::Protocol::RoomList)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::Protocol::_Transform_default_instance_._instance,
     &::Protocol::_ActorInfo_default_instance_._instance,
+    &::Protocol::_RoomInfo_default_instance_._instance,
+    &::Protocol::_RoomList_default_instance_._instance,
 };
 const char descriptor_table_protodef_Struct_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -130,7 +205,9 @@ const char descriptor_table_protodef_Struct_2eproto[] ABSL_ATTRIBUTE_SECTION_VAR
     "speed\030\002 \001(\004\022\020\n\010rotation\030\003 \001(\004\"c\n\tActorIn"
     "fo\022\n\n\002id\030\001 \001(\r\022&\n\ttransform\030\002 \001(\0132\023.Prot"
     "ocol.Transform\022\025\n\010sequence\030\003 \001(\rH\000\210\001\001B\013\n"
-    "\t_sequenceb\006proto3"
+    "\t_sequence\".\n\010RoomInfo\022\016\n\006roomId\030\001 \001(\r\022\022"
+    "\n\nplayerList\030\002 \003(\r\"0\n\010RoomList\022$\n\010roomIn"
+    "fo\030\001 \003(\0132\022.Protocol.RoomInfob\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[1] =
     {
@@ -140,13 +217,13 @@ static ::absl::once_flag descriptor_table_Struct_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
     false,
     false,
-    218,
+    316,
     descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
     &descriptor_table_Struct_2eproto_once,
     descriptor_table_Struct_2eproto_deps,
     1,
-    2,
+    4,
     schemas,
     file_default_instances,
     TableStruct_Struct_2eproto::offsets,
@@ -732,6 +809,516 @@ void ActorInfo::InternalSwap(ActorInfo* PROTOBUF_RESTRICT other) {
 }
 
 ::google::protobuf::Metadata ActorInfo::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class RoomInfo::_Internal {
+ public:
+};
+
+RoomInfo::RoomInfo(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:Protocol.RoomInfo)
+}
+inline PROTOBUF_NDEBUG_INLINE RoomInfo::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::Protocol::RoomInfo& from_msg)
+      : playerlist_{visibility, arena, from.playerlist_},
+        _playerlist_cached_byte_size_{0},
+        _cached_size_{0} {}
+
+RoomInfo::RoomInfo(
+    ::google::protobuf::Arena* arena,
+    const RoomInfo& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  RoomInfo* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.roomid_ = from._impl_.roomid_;
+
+  // @@protoc_insertion_point(copy_constructor:Protocol.RoomInfo)
+}
+inline PROTOBUF_NDEBUG_INLINE RoomInfo::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : playerlist_{visibility, arena},
+        _playerlist_cached_byte_size_{0},
+        _cached_size_{0} {}
+
+inline void RoomInfo::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.roomid_ = {};
+}
+RoomInfo::~RoomInfo() {
+  // @@protoc_insertion_point(destructor:Protocol.RoomInfo)
+  SharedDtor(*this);
+}
+inline void RoomInfo::SharedDtor(MessageLite& self) {
+  RoomInfo& this_ = static_cast<RoomInfo&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* RoomInfo::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) RoomInfo(arena);
+}
+constexpr auto RoomInfo::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(RoomInfo, _impl_.playerlist_) +
+          decltype(RoomInfo::_impl_.playerlist_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::ZeroInit(
+        sizeof(RoomInfo), alignof(RoomInfo), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&RoomInfo::PlacementNew_,
+                                 sizeof(RoomInfo),
+                                 alignof(RoomInfo));
+  }
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull RoomInfo::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_RoomInfo_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &RoomInfo::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<RoomInfo>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &RoomInfo::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<RoomInfo>(), &RoomInfo::ByteSizeLong,
+            &RoomInfo::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(RoomInfo, _impl_._cached_size_),
+        false,
+    },
+    &RoomInfo::kDescriptorMethods,
+    &descriptor_table_Struct_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* RoomInfo::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 0, 0, 2> RoomInfo::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::Protocol::RoomInfo>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // repeated uint32 playerList = 2;
+    {::_pbi::TcParser::FastV32P1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(RoomInfo, _impl_.playerlist_)}},
+    // uint32 roomId = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RoomInfo, _impl_.roomid_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(RoomInfo, _impl_.roomid_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint32 roomId = 1;
+    {PROTOBUF_FIELD_OFFSET(RoomInfo, _impl_.roomid_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // repeated uint32 playerList = 2;
+    {PROTOBUF_FIELD_OFFSET(RoomInfo, _impl_.playerlist_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kPackedUInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void RoomInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.RoomInfo)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.playerlist_.Clear();
+  _impl_.roomid_ = 0u;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* RoomInfo::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const RoomInfo& this_ = static_cast<const RoomInfo&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* RoomInfo::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const RoomInfo& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:Protocol.RoomInfo)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // uint32 roomId = 1;
+          if (this_._internal_roomid() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                1, this_._internal_roomid(), target);
+          }
+
+          // repeated uint32 playerList = 2;
+          {
+            int byte_size = this_._impl_._playerlist_cached_byte_size_.Get();
+            if (byte_size > 0) {
+              target = stream->WriteUInt32Packed(
+                  2, this_._internal_playerlist(), byte_size, target);
+            }
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:Protocol.RoomInfo)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t RoomInfo::ByteSizeLong(const MessageLite& base) {
+          const RoomInfo& this_ = static_cast<const RoomInfo&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t RoomInfo::ByteSizeLong() const {
+          const RoomInfo& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:Protocol.RoomInfo)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // repeated uint32 playerList = 2;
+            {
+              total_size +=
+                  ::_pbi::WireFormatLite::UInt32SizeWithPackedTagSize(
+                      this_._internal_playerlist(), 1,
+                      this_._impl_._playerlist_cached_byte_size_);
+            }
+          }
+           {
+            // uint32 roomId = 1;
+            if (this_._internal_roomid() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_roomid());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void RoomInfo::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<RoomInfo*>(&to_msg);
+  auto& from = static_cast<const RoomInfo&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.RoomInfo)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_playerlist()->MergeFrom(from._internal_playerlist());
+  if (from._internal_roomid() != 0) {
+    _this->_impl_.roomid_ = from._impl_.roomid_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void RoomInfo::CopyFrom(const RoomInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.RoomInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void RoomInfo::InternalSwap(RoomInfo* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.playerlist_.InternalSwap(&other->_impl_.playerlist_);
+        swap(_impl_.roomid_, other->_impl_.roomid_);
+}
+
+::google::protobuf::Metadata RoomInfo::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class RoomList::_Internal {
+ public:
+};
+
+RoomList::RoomList(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:Protocol.RoomList)
+}
+inline PROTOBUF_NDEBUG_INLINE RoomList::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::Protocol::RoomList& from_msg)
+      : roominfo_{visibility, arena, from.roominfo_},
+        _cached_size_{0} {}
+
+RoomList::RoomList(
+    ::google::protobuf::Arena* arena,
+    const RoomList& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  RoomList* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+
+  // @@protoc_insertion_point(copy_constructor:Protocol.RoomList)
+}
+inline PROTOBUF_NDEBUG_INLINE RoomList::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : roominfo_{visibility, arena},
+        _cached_size_{0} {}
+
+inline void RoomList::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+RoomList::~RoomList() {
+  // @@protoc_insertion_point(destructor:Protocol.RoomList)
+  SharedDtor(*this);
+}
+inline void RoomList::SharedDtor(MessageLite& self) {
+  RoomList& this_ = static_cast<RoomList&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* RoomList::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) RoomList(arena);
+}
+constexpr auto RoomList::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(RoomList, _impl_.roominfo_) +
+          decltype(RoomList::_impl_.roominfo_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::ZeroInit(
+        sizeof(RoomList), alignof(RoomList), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&RoomList::PlacementNew_,
+                                 sizeof(RoomList),
+                                 alignof(RoomList));
+  }
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull RoomList::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_RoomList_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &RoomList::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<RoomList>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &RoomList::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<RoomList>(), &RoomList::ByteSizeLong,
+            &RoomList::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(RoomList, _impl_._cached_size_),
+        false,
+    },
+    &RoomList::kDescriptorMethods,
+    &descriptor_table_Struct_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* RoomList::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 1, 0, 2> RoomList::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::Protocol::RoomList>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // repeated .Protocol.RoomInfo roomInfo = 1;
+    {::_pbi::TcParser::FastMtR1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(RoomList, _impl_.roominfo_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // repeated .Protocol.RoomInfo roomInfo = 1;
+    {PROTOBUF_FIELD_OFFSET(RoomList, _impl_.roominfo_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::Protocol::RoomInfo>()},
+  }}, {{
+  }},
+};
+
+PROTOBUF_NOINLINE void RoomList::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.RoomList)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.roominfo_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* RoomList::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const RoomList& this_ = static_cast<const RoomList&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* RoomList::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const RoomList& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:Protocol.RoomList)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // repeated .Protocol.RoomInfo roomInfo = 1;
+          for (unsigned i = 0, n = static_cast<unsigned>(
+                                   this_._internal_roominfo_size());
+               i < n; i++) {
+            const auto& repfield = this_._internal_roominfo().Get(i);
+            target =
+                ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                    1, repfield, repfield.GetCachedSize(),
+                    target, stream);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:Protocol.RoomList)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t RoomList::ByteSizeLong(const MessageLite& base) {
+          const RoomList& this_ = static_cast<const RoomList&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t RoomList::ByteSizeLong() const {
+          const RoomList& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:Protocol.RoomList)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // repeated .Protocol.RoomInfo roomInfo = 1;
+            {
+              total_size += 1UL * this_._internal_roominfo_size();
+              for (const auto& msg : this_._internal_roominfo()) {
+                total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+              }
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void RoomList::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<RoomList*>(&to_msg);
+  auto& from = static_cast<const RoomList&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Protocol.RoomList)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_roominfo()->MergeFrom(
+      from._internal_roominfo());
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void RoomList::CopyFrom(const RoomList& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.RoomList)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void RoomList::InternalSwap(RoomList* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.roominfo_.InternalSwap(&other->_impl_.roominfo_);
+}
+
+::google::protobuf::Metadata RoomList::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

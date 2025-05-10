@@ -36,13 +36,19 @@ public:
 
 	physx::PxScene*			GetPxScene() const { return _pxScene; }
 
+	Vector<uint32>			GetPlayerList();	// TODO : change to user's name
+
+	void					SetIsReady(bool ready) { _isReady = ready; }
+
 private:
 	USE_LOCK
 
 	uint32									_roomId = 0;
 
-	unordered_map<uint32, PlayerRef>		_players;	// key = userId, value = PlayerRef 
-	unordered_map<uint32, ActorRef>			_actors;	// key = actorId, value = ActorRef
+	bool									_isReady = false;
+
+	unordered_map<uint32, PlayerRef>		_players;	/// key = userId, value = PlayerRef 
+	unordered_map<uint32, ActorRef>			_actors;	/// key = actorId, value = ActorRef
 
 	physx::PxScene*							_pxScene = nullptr;
 	physx::PxControllerManager*				_pxControllerManager = nullptr;

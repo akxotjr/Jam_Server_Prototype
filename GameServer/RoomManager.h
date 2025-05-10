@@ -18,6 +18,8 @@ public:
 	RoomRef								GetRoomByRoomId(uint32 roomId) { return _rooms[roomId]; }
 	RoomRef								GetRoomByUserId(uint32 userId);
 
+	Protocol::RoomList*					GetRoomList();
+
 private:
 	unordered_map<uint32, RoomRef>		_rooms;	// key : roomId, value : room
 };

@@ -44,18 +44,90 @@ bool Handle_C_LOGIN(SessionRef& session, Protocol::C_LOGIN& pkt)
 	return true;
 }
 
-bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
+bool Handle_C_CREATE_ROOM(SessionRef& session, Protocol::C_CREATE_ROOM& pkt)
 {
-	std::cout << "[TCP] Recv : C_ENTER_GAME\n";
+	std::cout << "[TCP] Recv : C_CREATE_ROOM\n";
+
+	auto room = RoomManager::Instance().CreateRoom();
+	if (!room) return false;
 
 	PlayerRef player = MakeShared<Player>();
 	player->SetUserId(session->GetId());
 
-	auto room = RoomManager::Instance().GetRoomByRoomId(player->GetUserId());
+	room->Enter(player);
+
+	RoomManager::Instance().AddRoom(room);
+
+	{
+		Protocol::S_CREATE_ROOM createRoomPkt;
+		createRoomPkt.set_success(true);
+		createRoomPkt.set_roomid(room->GetRoomId());
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(createRoomPkt);
+		session->Send(sendBuffer);
+
+		std::cout << "[TCP] Send : S_CREATE_ROOM\n";
+	}
+
+	{
+		Protocol::S_SYNC_ROOMLIST roomListPkt;
+		roomListPkt.set_allocated_roomlist(RoomManager::Instance().GetRoomList());
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(roomListPkt);
+		SessionManager::Instance().Multicast(ProtocolType::PROTOCOL_TCP, sendBuffer);
+
+		std::cout << "[TCP] Multicast : S_SYNC_ROOMLIST\n";
+	}
+
+	return true;
+}
+
+bool Handle_C_ENTER_ROOM(SessionRef& session, Protocol::C_ENTER_ROOM& pkt)
+{
+	std::cout << "[TCP] Recv : C_ENTER_ROOM\n";
+
+	uint32 roomId = pkt.roomid();
+	auto room = RoomManager::Instance().GetRoomByRoomId(roomId);
 	if (!room)
+	{
+		std::cout << "[ERROR] can't find room\n";
 		return false;
+	}
+
+	PlayerRef player = MakeShared<Player>();
+	player->SetUserId(session->GetId());
 
 	room->Enter(player);
+
+	{
+		Protocol::S_ENTER_ROOM enterRoomPkt;
+		enterRoomPkt.set_success(true);
+		enterRoomPkt.set_roomid(roomId);
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(enterRoomPkt);
+		session->Send(sendBuffer);
+
+		std::cout << "[TCP] Send : S_ENTER_ROOM\n";
+	}
+
+	{
+		Protocol::S_SYNC_ROOMLIST roomListPkt;
+		roomListPkt.set_allocated_roomlist(RoomManager::Instance().GetRoomList());
+		auto sendBuffer = ClientPacketHandler::MakeSendBufferTcp(roomListPkt);
+		SessionManager::Instance().Multicast(ProtocolType::PROTOCOL_TCP, sendBuffer);
+
+		std::cout << "[TCP] Multicast : S_SYNC_ROOMLIST\n";
+	}
+
+	return true;
+}
+
+bool Handle_C_SYNC_ROOMLIST(SessionRef& session, Protocol::C_SYNC_ROOMLIST& pkt)
+{
+	return true;
+}
+
+
+bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
+{
+	std::cout << "[TCP] Recv : C_ENTER_GAME\n";
 
 	NetAddress udpAddress = session->GetService()->GetUdpNetAddress();
 	wstring wip = udpAddress.GetIpAddress();
@@ -70,9 +142,16 @@ bool Handle_C_ENTER_GAME(SessionRef& session, Protocol::C_ENTER_GAME& pkt)
 		enterGamePkt.set_port(port);
 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBufferTcp(enterGamePkt);
-		session->Send(sendBuffer);
+		auto room = RoomManager::Instance().GetRoomByUserId(session->GetId());
+		if (!room)
+		{
+			std::cout << "[ERROR] can't find room\n";
+			return false;
+		}
 
-		std::cout << "[TCP] Send : S_ENTER_GAME\n";
+		room->Multicast(ProtocolType::PROTOCOL_TCP, sendBuffer);
+
+		std::cout << "[TCP] Multicast : S_ENTER_GAME\n";
 	}
 	return true;
 }
@@ -131,7 +210,7 @@ bool Handle_C_CHAT(SessionRef& session, Protocol::C_CHAT& pkt)
 
 bool Handle_C_SYNC_TIME(SessionRef& session, Protocol::C_SYNC_TIME& pkt)
 {
-	std::cout << "[TCP] Recv : C_TIMESYNC\n";
+	//std::cout << "[TCP] Recv : C_TIMESYNC\n";
 
 	double timestamp = TimeManager::Instance().GetServerTime();
 
@@ -141,7 +220,7 @@ bool Handle_C_SYNC_TIME(SessionRef& session, Protocol::C_SYNC_TIME& pkt)
 
 	session->Send(sendBuffer);
 
-	std::cout << "[TCP] Send : C_TIMESYNC\n";
+	//std::cout << "[TCP] Send : C_TIMESYNC\n";
 
 	return true;
 }
@@ -155,12 +234,13 @@ bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt)
 	auto room = RoomManager::Instance().GetRoomByUserId(userId);	//temp
 	room->DoAsync(&Room::MulticastSpawnActor);
 
+	room->SetIsReady(true);
+
 	return true;
 }
 
 bool Handle_C_SYNC_ACTOR(SessionRef& session, Protocol::C_SYNC_ACTOR& pkt)
 {
-	//std::cout << "[UDP] Recv : C_SYNC_ACTOR\n";
 	return true;
 }
 

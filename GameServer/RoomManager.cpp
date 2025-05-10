@@ -45,3 +45,23 @@ RoomRef RoomManager::GetRoomByUserId(uint32 userId)
 	}
 	return nullptr;
 }
+
+Protocol::RoomList* RoomManager::GetRoomList()
+{
+	Protocol::RoomList* roomList = new Protocol::RoomList();
+
+	for (auto& [roomId, room] : _rooms)
+	{
+		Protocol::RoomInfo* roomInfo = roomList->add_roominfo();
+		roomInfo->set_roomid(roomId);
+
+		const Vector<uint32>& playerList = room->GetPlayerList();
+
+		for (auto& userId : playerList)
+		{
+			roomInfo->add_playerlist(userId);
+		}
+	}
+
+	return roomList;
+}

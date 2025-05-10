@@ -28,6 +28,8 @@ void CharacterActor::Init(RoomRef room)
 			desc.material = PhysicsManager::Instance().CreateMaterial(0.5f, 0.5f, 0.1f);
 			_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_pxControllerManager->createController(desc));
 			ASSERT_CRASH(_controller != nullptr)
+
+			printf("Created Controller at: %p for Player: %p\n", _controller, this);
 		}));
 }
 

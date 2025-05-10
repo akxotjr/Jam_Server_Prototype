@@ -19,17 +19,17 @@
     <Filter Include="97.Utils">
       <UniqueIdentifier>{6be5d511-d104-4ca5-a997-e652366723f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Actor">
+    <Filter Include="04.Room">
+      <UniqueIdentifier>{7dec0a31-3e33-4bfd-9c62-f66fb01bf02c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Actor">
       <UniqueIdentifier>{6e97173c-c031-49e9-8c72-5c8c5e0d67b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Actor\Contents">
+    <Filter Include="03.Actor\Contents">
       <UniqueIdentifier>{5cf3a99d-450e-48e7-a886-135845b9f388}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Actor\Engine">
+    <Filter Include="03.Actor\Engine">
       <UniqueIdentifier>{590e070f-b9a5-4f7f-b541-420873722802}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Room">
-      <UniqueIdentifier>{7dec0a31-3e33-4bfd-9c62-f66fb01bf02c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,13 +55,13 @@
       <Filter>98.Proto</Filter>
     </ClCompile>
     <ClCompile Include="Room.cpp">
-      <Filter>04. Room</Filter>
+      <Filter>04.Room</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>04. Room</Filter>
+      <Filter>04.Room</Filter>
     </ClCompile>
     <ClCompile Include="Bot.cpp">
-      <Filter>04. Room</Filter>
+      <Filter>04.Room</Filter>
     </ClCompile>
     <ClCompile Include="GameTcpSession.cpp">
       <Filter>02.Network</Filter>
@@ -76,22 +76,22 @@
       <Filter>01.Main</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>03. Actor\Contents</Filter>
+      <Filter>03.Actor\Contents</Filter>
     </ClCompile>
     <ClCompile Include="Actor.cpp">
-      <Filter>03. Actor\Engine</Filter>
+      <Filter>03.Actor\Engine</Filter>
     </ClCompile>
     <ClCompile Include="CharacterActor.cpp">
-      <Filter>03. Actor\Engine</Filter>
+      <Filter>03.Actor\Engine</Filter>
     </ClCompile>
     <ClCompile Include="DynamicActor.cpp">
-      <Filter>03. Actor\Engine</Filter>
+      <Filter>03.Actor\Engine</Filter>
     </ClCompile>
     <ClCompile Include="StaticActor.cpp">
-      <Filter>03. Actor\Engine</Filter>
+      <Filter>03.Actor\Engine</Filter>
     </ClCompile>
     <ClCompile Include="RoomManager.cpp">
-      <Filter>04. Room</Filter>
+      <Filter>04.Room</Filter>
     </ClCompile>
     <ClCompile Include="UserManager.cpp">
       <Filter>03.Manager</Filter>
@@ -132,13 +132,13 @@
       <Filter>98.Proto</Filter>
     </ClInclude>
     <ClInclude Include="Room.h">
-      <Filter>04. Room</Filter>
+      <Filter>04.Room</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
-      <Filter>04. Room</Filter>
+      <Filter>04.Room</Filter>
     </ClInclude>
     <ClInclude Include="Bot.h">
-      <Filter>04. Room</Filter>
+      <Filter>04.Room</Filter>
     </ClInclude>
     <ClInclude Include="GameUdpSession.h">
       <Filter>02.Network</Filter>
@@ -156,22 +156,22 @@
       <Filter>01.Main</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>03. Actor\Contents</Filter>
+      <Filter>03.Actor\Contents</Filter>
     </ClInclude>
     <ClInclude Include="StaticActor.h">
-      <Filter>03. Actor\Engine</Filter>
+      <Filter>03.Actor\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
-      <Filter>03. Actor\Engine</Filter>
+      <Filter>03.Actor\Engine</Filter>
     </ClInclude>
     <ClInclude Include="CharacterActor.h">
-      <Filter>03. Actor\Engine</Filter>
+      <Filter>03.Actor\Engine</Filter>
     </ClInclude>
     <ClInclude Include="DynamicActor.h">
-      <Filter>03. Actor\Engine</Filter>
+      <Filter>03.Actor\Engine</Filter>
     </ClInclude>
     <ClInclude Include="RoomManager.h">
-      <Filter>04. Room</Filter>
+      <Filter>04.Room</Filter>
     </ClInclude>
     <ClInclude Include="UserManager.h">
       <Filter>03.Manager</Filter>

@@ -39,6 +39,8 @@ void Room::Init()
 
 void Room::Update()
 {
+	if (!_isReady) return;
+
 	_physicsQueue->Push(job::Job([this]()
 		{
 			_pxScene->simulate(static_cast<float>(TICK_INTERVAL_S));
@@ -67,7 +69,6 @@ void Room::AddActor(ActorRef actor)
 
 void Room::RemoveActor(ActorRef actor)
 {
-
 	_physicsQueue->Push(job::Job([this, actor]()
 		{
 			_pxScene->removeActor(*actor->GetPxActor());
@@ -179,6 +180,18 @@ PlayerRef Room::GetPlayerByUserId(uint32 userId)
 		return it->second;
 
 	return nullptr;
+}
+
+Vector<uint32> Room::GetPlayerList()
+{
+	Vector<uint32> playerList;
+
+	for (const auto& id : _players | views::keys)
+	{
+		playerList.push_back(id);
+	}
+
+	return playerList;
 }
 
 

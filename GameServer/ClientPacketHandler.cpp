@@ -267,7 +267,7 @@ bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 		if (auto player = room->GetPlayerByUserId(userId))
 		{
 			player->ProcessInput(keyField, mouseX, mouseY, seq);
-
+			std::cout << "[DEBUG] UserID = " << player->GetUserId() << "PlayerActorID = " << player->GetActorId() << "\n";
 			return true;
 		}
 	}

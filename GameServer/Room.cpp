@@ -44,8 +44,16 @@ void Room::Update()
 	_physicsQueue->Push(job::Job([this]()
 		{
 			_pxScene->simulate(static_cast<float>(TICK_INTERVAL_S));
-			_pxScene->fetchResults(true);	// temp
+		}));
 
+	_physicsQueue->Push(job::Job([this]()
+		{
+			_pxScene->fetchResults(true);
+		}));
+
+
+	_physicsQueue->Push(job::Job([this]()
+		{
 			for (auto& player : _players | views::values)
 			{
 				player->Update();

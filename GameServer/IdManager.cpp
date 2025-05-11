@@ -14,8 +14,8 @@ uint32 IdManager::Generate(IdType type, std::optional<ActorTypePrefix> actorType
 
 	if (actorType.has_value())
 	{
-		uint32 counter = _actorIdPools[static_cast<uint8>(actorType.value())];
-		return (static_cast<uint32>(actorType.value()) << 28) | (counter++ & 0x0FFFFFFF);
+		uint32 counter = _actorIdPools[static_cast<uint8>(actorType.value())].fetch_add(1);
+		return (static_cast<uint32>(actorType.value()) << 28) | (counter & 0x0FFFFFFF);
 	}
 
 	return 0;

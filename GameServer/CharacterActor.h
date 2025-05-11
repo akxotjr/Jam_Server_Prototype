@@ -12,7 +12,7 @@ public:
 	virtual void					Init(RoomRef room) override;
 	virtual void					Update() override;
 
-	virtual	Protocol::Transform		ToTransform() const override;
+	virtual	Protocol::Transform		GetTransform() const override;
 
 protected:
 	physx::PxCapsuleController*		_controller;
@@ -21,6 +21,6 @@ protected:
 	float							_verticalVelocity = 0.0f;
 
 	float							_moveSpeed = 10.f;
-	float							_jumpSpeed = 3.f;
+	float							_yawSpeed = 0.0f;
 };
 

@@ -3,13 +3,6 @@
 #include "PhysicsManager.h"
 #include "Room.h"
 
-StaticActor::StaticActor()
-{
-}
-
-StaticActor::~StaticActor()
-{
-}
 
 void StaticActor::Init(RoomRef room)
 {
@@ -23,4 +16,9 @@ void StaticActor::Init(RoomRef room)
 
 void StaticActor::Update()
 {
+}
+
+Protocol::Transform StaticActor::GetTransform() const
+{
+	return Super::GetTransform();
 }

@@ -23,7 +23,7 @@ void Player::Update()
 	physx::PxVec3 finalVelocity(_horizontalVelocity.x, _verticalVelocity, _horizontalVelocity.z);
 
 	physx::PxControllerFilters filters;
-	physx::PxControllerCollisionFlags collisionFlags = _controller->move(finalVelocity * deltaTime, 0.0f, deltaTime, filters);
+	physx::PxControllerCollisionFlags collisionFlags = _controller->move(finalVelocity * deltaTime, 0.01f, deltaTime, filters);
 
 
 	//// TODO : collision 
@@ -51,9 +51,9 @@ void Player::ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, u
 
 }
 
-Protocol::Transform Player::ToTransform() const
+Protocol::Transform Player::GetTransform() const
 {
-	return Super::ToTransform();
+	return Super::GetTransform();
 }
 
 void Player::ProcessKeyField(uint32& keyField)
@@ -75,7 +75,6 @@ void Player::ProcessKeyField(uint32& keyField)
 
 	_horizontalVelocity = moveDir * _moveSpeed;
 
-	/*cout << "_horizontalVelocity (" << _horizontalVelocity.x << ", " << _horizontalVelocity.y << ", " << _horizontalVelocity.z << ")\n";*/
 
 	// TODO : JUMP, Fire, Skill etc.
 	// isJump

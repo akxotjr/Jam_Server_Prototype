@@ -28,18 +28,17 @@ public:
 	Player();
 	virtual ~Player() override = default;
 
+    /* Actor impl */
 	virtual void                    Init(RoomRef room) override;
 	virtual void                    Update() override;
+    virtual	Protocol::Transform		GetTransform() const override;
 
 	void                            ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence);
-
 
 	uint32                          GetLastSequence() const { return _lastProcessSequence; }
 
     void                            SetUserId(uint32 id) { _userId = id; }
     uint32                          GetUserId() const { return _userId; }
-
-    virtual	Protocol::Transform		ToTransform() const override;
 
 private:
 	void                            ProcessKeyField(uint32& keyField);
@@ -50,5 +49,7 @@ private:
 	uint32	                        _lastProcessSequence;
 
 	bool                            _isOnGround = false;
+
 	bool                            _isJumping = false;
+    float							_jumpSpeed = 3.f;
 };

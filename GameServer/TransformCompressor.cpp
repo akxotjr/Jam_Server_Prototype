@@ -5,7 +5,7 @@
 uint64 TransformCompressor::PackPosition(float px, float py, float pz)
 {
     uint16 px16 = CompressPosition(px);
-    uint16 py16 = CompressPosition(py);
+    uint16 py16 = static_cast<uint16>(py * 128.0f); // 128 -> y precision = 1/128 = 0.0078125, max y range = 65535 / 128.f = 511.99
     uint16 pz16 = CompressPosition(pz);
 
     uint64 packed = 0;
@@ -23,33 +23,33 @@ void TransformCompressor::UnPackPosition(uint64 packed, OUT float& px, OUT float
     int16 pz16 = static_cast<int16>((packed >> 16) & 0xFFFF);
 
     px = ExpandPosition(px16);
-    py = ExpandPosition(py16);
+    py = static_cast<float>(py16) / 128.0f;
     pz = ExpandPosition(pz16);
 }
 
-uint64 TransformCompressor::PackRotation(float rx, float ry, float rz)
+uint32 TransformCompressor::PackRotation(float yaw, float yawSpeed)
 {
-    uint16 rx16 = CompressRotation(rx);
-    uint16 ry16 = CompressRotation(ry);
-    uint16 rz16 = CompressRotation(rz);
+    uint16 yaw16 = static_cast<uint16>((yaw + PI) / (2 * PI) * 65535.0f);
 
-    uint64 packed = 0;
-    packed |= (static_cast<uint64>(rx16) & 0xFFFF) << 48;
-    packed |= (static_cast<uint64>(ry16) & 0xFFFF) << 32;
-    packed |= (static_cast<uint64>(rz16) & 0xFFFF) << 16;
+    float normVel = (yawSpeed - YAW_SPEED_MIN) / YAW_SPEED_RANGE;
+    uint16 yawS16 = static_cast<uint16>(normVel * 65535.0f);
+
+    uint32 packed = 0;
+    packed |= (static_cast<uint32>(yaw16) & 0xFFFF) << 16;
+    packed |= (static_cast<uint32>(yawS16) & 0xFFFF);
 
     return packed;
 }
 
-void TransformCompressor::UnPackRotation(uint64 packed, OUT float& rx, OUT float& ry, OUT float& rz)
+void TransformCompressor::UnPackRotation(uint32 packed, OUT float& yaw, OUT float& yawSpeed)
 {
-    uint16 rx16 = static_cast<int16>((packed >> 48) & 0xFFFF);
-    uint16 ry16 = static_cast<int16>((packed >> 32) & 0xFFFF);
-    uint16 rz16 = static_cast<int16>((packed >> 16) & 0xFFFF);
+    uint16 yaw16 = static_cast<uint16>((packed >> 16) & 0xFFFF);
+    uint16 yawS16 = static_cast<uint16>(packed & 0xFFFF);
 
-    rx = ExpandRotation(rx16);
-    ry = ExpandRotation(ry16);
-    rz = ExpandRotation(rz16);
+    yaw = (static_cast<float>(yaw16) / 65535.0f) * (2 * PI) - PI;
+
+    float normS = static_cast<float>(yawS16) / 65535.0f;
+    yawSpeed = normS * YAW_SPEED_RANGE + YAW_SPEED_MIN;
 }
 
 uint64 TransformCompressor::PackVelocityAndSpeed(float vx, float vy, float vz, float moveSpeed)
@@ -94,15 +94,15 @@ float TransformCompressor::ExpandPosition(uint16 packed)
     return normalized * (WORLD_RANGE_MAX - WORLD_RANGE_MIN) + WORLD_RANGE_MIN;
 }
 
-uint16 TransformCompressor::CompressRotation(float value)
-{
-    float normalized = (value + 180.0f) / 360.0f;
-    normalized = std::fmaxf(0.0f, std::fminf(1.0f, normalized));
-    return static_cast<uint16>(normalized * 65535.0f);
-}
-
-float TransformCompressor::ExpandRotation(uint16 packed)
-{
-    float normalized = static_cast<float>(packed) / 65535.0f;
-    return normalized * 360.0f - 180.0f;
-}
+//uint16 TransformCompressor::CompressRotation(float value)
+//{
+//    float normalized = (value + 180.0f) / 360.0f;
+//    normalized = std::fmaxf(0.0f, std::fminf(1.0f, normalized));
+//    return static_cast<uint16>(normalized * 65535.0f);
+//}
+//
+//float TransformCompressor::ExpandRotation(uint16 packed)
+//{
+//    float normalized = static_cast<float>(packed) / 65535.0f;
+//    return normalized * 360.0f - 180.0f;
+//}

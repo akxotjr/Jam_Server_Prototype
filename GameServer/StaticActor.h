@@ -6,10 +6,11 @@ class StaticActor : public Actor
 	using Super = Actor;
 
 public:
-	StaticActor();
-	virtual ~StaticActor() override;
+	StaticActor() = default;
+	virtual ~StaticActor() override = default;
 
-	virtual void Init(RoomRef room) override;
-	virtual void Update() override;
+	virtual void					Init(RoomRef room) override;
+	virtual void					Update() override;
+	virtual Protocol::Transform		GetTransform() const override;
 };
 

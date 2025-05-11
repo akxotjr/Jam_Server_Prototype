@@ -30,7 +30,7 @@ inline constexpr Transform::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : position_{::uint64_t{0u}},
         velocity_speed_{::uint64_t{0u}},
-        rotation_{::uint64_t{0u}},
+        rotation_{0u},
         _cached_size_{0} {}
 
 template <typename>
@@ -202,7 +202,7 @@ const char descriptor_table_protodef_Struct_2eproto[] ABSL_ATTRIBUTE_SECTION_VAR
     protodesc_cold) = {
     "\n\014Struct.proto\022\010Protocol\032\nEnum.proto\"G\n\t"
     "Transform\022\020\n\010position\030\001 \001(\004\022\026\n\016velocity_"
-    "speed\030\002 \001(\004\022\020\n\010rotation\030\003 \001(\004\"c\n\tActorIn"
+    "speed\030\002 \001(\004\022\020\n\010rotation\030\003 \001(\r\"c\n\tActorIn"
     "fo\022\n\n\002id\030\001 \001(\r\022&\n\ttransform\030\002 \001(\0132\023.Prot"
     "ocol.Transform\022\025\n\010sequence\030\003 \001(\rH\000\210\001\001B\013\n"
     "\t_sequence\".\n\010RoomInfo\022\016\n\006roomId\030\001 \001(\r\022\022"
@@ -337,8 +337,8 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> Transform::_table_ = {
     // uint64 velocity_speed = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Transform, _impl_.velocity_speed_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(Transform, _impl_.velocity_speed_)}},
-    // uint64 rotation = 3;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Transform, _impl_.rotation_), 63>(),
+    // uint32 rotation = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(Transform, _impl_.rotation_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(Transform, _impl_.rotation_)}},
   }}, {{
     65535, 65535
@@ -349,9 +349,9 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> Transform::_table_ = {
     // uint64 velocity_speed = 2;
     {PROTOBUF_FIELD_OFFSET(Transform, _impl_.velocity_speed_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
-    // uint64 rotation = 3;
+    // uint32 rotation = 3;
     {PROTOBUF_FIELD_OFFSET(Transform, _impl_.rotation_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
   }},
   // no aux_entries
   {{
@@ -400,10 +400,10 @@ PROTOBUF_NOINLINE void Transform::Clear() {
                 2, this_._internal_velocity_speed(), target);
           }
 
-          // uint64 rotation = 3;
+          // uint32 rotation = 3;
           if (this_._internal_rotation() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
                 3, this_._internal_rotation(), target);
           }
 
@@ -442,9 +442,9 @@ PROTOBUF_NOINLINE void Transform::Clear() {
               total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
                   this_._internal_velocity_speed());
             }
-            // uint64 rotation = 3;
+            // uint32 rotation = 3;
             if (this_._internal_rotation() != 0) {
-              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_rotation());
             }
           }

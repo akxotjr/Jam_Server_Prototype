@@ -28,8 +28,6 @@ void CharacterActor::Init(RoomRef room)
 			desc.material = PhysicsManager::Instance().CreateMaterial(0.5f, 0.5f, 0.1f);
 			_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_pxControllerManager->createController(desc));
 			ASSERT_CRASH(_controller != nullptr)
-
-			printf("Created Controller at: %p for Player: %p\n", _controller, this);
 		}));
 }
 
@@ -37,12 +35,12 @@ void CharacterActor::Update()
 {
 }
 
-Protocol::Transform CharacterActor::ToTransform() const
+Protocol::Transform CharacterActor::GetTransform() const
 {
 	Protocol::Transform transform;
 	transform.set_position(TransformCompressor::PackPosition(_position.x, _position.y, _position.z));
 	transform.set_velocity_speed(TransformCompressor::PackVelocityAndSpeed(_horizontalVelocity.x, _verticalVelocity, _horizontalVelocity.z, _moveSpeed));
-	transform.set_rotation(TransformCompressor::PackRotation(_rotation.x, _rotation.y, _rotation.z));
+	transform.set_rotation(TransformCompressor::PackRotation(GetYawFromPxQuat(), _yawSpeed));
 	return transform;
 }
 

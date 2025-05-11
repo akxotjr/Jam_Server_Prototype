@@ -13,6 +13,7 @@
 
 #include "CorePch.h"
 #include "Types.h"
+#include "Values.h"
 #include "Enum.pb.h"
 #include "Protocol.pb.h"
 #include <physx/PxPhysicsAPI.h>

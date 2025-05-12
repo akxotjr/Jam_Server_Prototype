@@ -126,8 +126,8 @@ message C_PLAYER_INPUT
 {
 	uint32 sequence = 1;
 	uint32 keyField = 2;
-	optional float mousePosX = 3;
-	optional float mousePosY = 4;
+	float yaw = 3;
+	float pitch = 4;
 }
 
 message S_PLAYER_INPUT

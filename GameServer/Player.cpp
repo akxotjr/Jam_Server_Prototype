@@ -17,43 +17,37 @@ void Player::Update()
 {
 	float deltaTime = static_cast<float>(TICK_INTERVAL_S);
 
-	//if (!_isOnGround)
-	//	_verticalVelocity += -9.8f * deltaTime;	// TODO
-
 	physx::PxVec3 finalVelocity(_horizontalVelocity.x, _verticalVelocity, _horizontalVelocity.z);
 
 	physx::PxControllerFilters filters;
 	physx::PxControllerCollisionFlags collisionFlags = _controller->move(finalVelocity * deltaTime, 0.01f, deltaTime, filters);
 
-
-	//// TODO : collision 
-	//if (collisionFlags & physx::PxControllerCollisionFlag::eCOLLISION_DOWN)
-	//{
-	//	_isOnGround = true;
-	//}
-	//else
-	//{
-	//	_isOnGround = false;
-	//}
-
 	physx::PxExtendedVec3 pos = _controller->getPosition();
 	_position = physx::PxVec3(static_cast<float>(pos.x), static_cast<float>(pos.y), static_cast<float>(pos.z));
 }
 
-void Player::ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence)
+void Player::ProcessInput(uint32 keyField, float yaw, float pitch, uint32 sequence)
 {
 	_lastProcessSequence = sequence;
 
-	ProcessKeyField(keyField);
-	Update();
-	_horizontalVelocity = physx::PxVec3(0, 0, 0);
-	// if isFire then Fire(cameraYaw, cameraPitch)
+	SetYawPitch(yaw, pitch);
 
+	ProcessKeyField(keyField);
+	//Update();
+	//_horizontalVelocity = physx::PxVec3(0, 0, 0);
 }
 
 Protocol::Transform Player::GetTransform() const
 {
 	return Super::GetTransform();
+}
+
+void Player::SetYawPitch(float yaw, float pitch)
+{
+	physx::PxQuat qYaw(yaw, physx::PxVec3(0, 1, 0));
+	physx::PxQuat qPitch(pitch, physx::PxVec3(1, 0, 0));
+
+	_rotation = qYaw * qPitch;
 }
 
 void Player::ProcessKeyField(uint32& keyField)
@@ -68,15 +62,17 @@ void Player::ProcessKeyField(uint32& keyField)
 	if (keyField & (1 << 3))	// D
 		dx = -1.f;
 
-	physx::PxVec3 moveDir(dx, 0.f, dz);
+	physx::PxVec3 dir(dx, 0.f, dz);
 
-	if (moveDir.magnitudeSquared() > 0.f)
-		moveDir = moveDir.getNormalized();
+	if (dir.magnitudeSquared() > 0.f)
+		dir = dir.getNormalized();
 
-	_horizontalVelocity = moveDir * _moveSpeed;
+	float actualYaw = GetYawFromPxQuat();
 
 
-	// TODO : JUMP, Fire, Skill etc.
-	// isJump
-	// isFire
+	physx::PxVec3 rotatedDir(0,0,0);
+	rotatedDir.x = dir.x * cosf(actualYaw) - dir.z * sinf(actualYaw);
+	rotatedDir.z = dir.x * sinf(actualYaw) + dir.z * cosf(actualYaw);
+
+	_horizontalVelocity = rotatedDir * _moveSpeed;
 }

@@ -310,11 +310,11 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 
 inline constexpr C_PLAYER_INPUT::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : _cached_size_{0},
-        sequence_{0u},
+      : sequence_{0u},
         keyfield_{0u},
-        mouseposx_{0},
-        mouseposy_{0} {}
+        yaw_{0},
+        pitch_{0},
+        _cached_size_{0} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR C_PLAYER_INPUT::C_PLAYER_INPUT(::_pbi::ConstantInitialized)
@@ -822,7 +822,7 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::Protocol::S_SYNC_ACTOR, _impl_.timestamp_),
         PROTOBUF_FIELD_OFFSET(::Protocol::S_SYNC_ACTOR, _impl_.actorinfo_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_._has_bits_),
+        ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
@@ -832,12 +832,8 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.sequence_),
         PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.keyfield_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.mouseposx_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.mouseposy_),
-        ~0u,
-        ~0u,
-        0,
-        1,
+        PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.yaw_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.pitch_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::Protocol::S_PLAYER_INPUT, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -872,8 +868,8 @@ static const ::_pbi::MigrationSchema
         {175, -1, -1, sizeof(::Protocol::S_SPAWN_ACTOR)},
         {185, 195, -1, sizeof(::Protocol::C_SYNC_ACTOR)},
         {197, -1, -1, sizeof(::Protocol::S_SYNC_ACTOR)},
-        {207, 219, -1, sizeof(::Protocol::C_PLAYER_INPUT)},
-        {223, -1, -1, sizeof(::Protocol::S_PLAYER_INPUT)},
+        {207, -1, -1, sizeof(::Protocol::C_PLAYER_INPUT)},
+        {219, -1, -1, sizeof(::Protocol::S_PLAYER_INPUT)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::Protocol::_C_LOGIN_default_instance_._instance,
@@ -926,11 +922,10 @@ const char descriptor_table_protodef_Protocol_2eproto[] ABSL_ATTRIBUTE_SECTION_V
     "CTOR\022\021\n\ttimestamp\030\001 \001(\001\022&\n\tactorInfo\030\002 \001"
     "(\0132\023.Protocol.ActorInfo\"I\n\014S_SYNC_ACTOR\022"
     "\021\n\ttimestamp\030\001 \001(\001\022&\n\tactorInfo\030\002 \003(\0132\023."
-    "Protocol.ActorInfo\"\200\001\n\016C_PLAYER_INPUT\022\020\n"
-    "\010sequence\030\001 \001(\r\022\020\n\010keyField\030\002 \001(\r\022\026\n\tmou"
-    "sePosX\030\003 \001(\002H\000\210\001\001\022\026\n\tmousePosY\030\004 \001(\002H\001\210\001"
-    "\001B\014\n\n_mousePosXB\014\n\n_mousePosY\"\020\n\016S_PLAYE"
-    "R_INPUTb\006proto3"
+    "Protocol.ActorInfo\"P\n\016C_PLAYER_INPUT\022\020\n\010"
+    "sequence\030\001 \001(\r\022\020\n\010keyField\030\002 \001(\r\022\013\n\003yaw\030"
+    "\003 \001(\002\022\r\n\005pitch\030\004 \001(\002\"\020\n\016S_PLAYER_INPUTb\006"
+    "proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] =
     {
@@ -941,7 +936,7 @@ static ::absl::once_flag descriptor_table_Protocol_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
     false,
     false,
-    1095,
+    1046,
     descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
     &descriptor_table_Protocol_2eproto_once,
@@ -5603,10 +5598,6 @@ void S_SYNC_ACTOR::InternalSwap(S_SYNC_ACTOR* PROTOBUF_RESTRICT other) {
 
 class C_PLAYER_INPUT::_Internal {
  public:
-  using HasBits =
-      decltype(std::declval<C_PLAYER_INPUT>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_._has_bits_);
 };
 
 C_PLAYER_INPUT::C_PLAYER_INPUT(::google::protobuf::Arena* arena)
@@ -5633,9 +5624,9 @@ inline void C_PLAYER_INPUT::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, sequence_),
            0,
-           offsetof(Impl_, mouseposy_) -
+           offsetof(Impl_, pitch_) -
                offsetof(Impl_, sequence_) +
-               sizeof(Impl_::mouseposy_));
+               sizeof(Impl_::pitch_));
 }
 C_PLAYER_INPUT::~C_PLAYER_INPUT() {
   // @@protoc_insertion_point(destructor:Protocol.C_PLAYER_INPUT)
@@ -5686,7 +5677,7 @@ const ::google::protobuf::internal::ClassData* C_PLAYER_INPUT::GetClassData() co
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::_pbi::TcParseTable<2, 4, 0, 0, 2> C_PLAYER_INPUT::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_._has_bits_),
+    0,  // no _has_bits_
     0, // no _extensions_
     4, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -5702,33 +5693,33 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> C_PLAYER_INPUT::_table_ = {
     ::_pbi::TcParser::GetTable<::Protocol::C_PLAYER_INPUT>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // optional float mousePosY = 4;
+    // float pitch = 4;
     {::_pbi::TcParser::FastF32S1,
-     {37, 1, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.mouseposy_)}},
+     {37, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.pitch_)}},
     // uint32 sequence = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(C_PLAYER_INPUT, _impl_.sequence_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.sequence_)}},
     // uint32 keyField = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(C_PLAYER_INPUT, _impl_.keyfield_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.keyfield_)}},
-    // optional float mousePosX = 3;
+    // float yaw = 3;
     {::_pbi::TcParser::FastF32S1,
-     {29, 0, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.mouseposx_)}},
+     {29, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.yaw_)}},
   }}, {{
     65535, 65535
   }}, {{
     // uint32 sequence = 1;
-    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.sequence_), -1, 0,
+    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.sequence_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
     // uint32 keyField = 2;
-    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.keyfield_), -1, 0,
+    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.keyfield_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // optional float mousePosX = 3;
-    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.mouseposx_), _Internal::kHasBitsOffset + 0, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kFloat)},
-    // optional float mousePosY = 4;
-    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.mouseposy_), _Internal::kHasBitsOffset + 1, 0,
-    (0 | ::_fl::kFcOptional | ::_fl::kFloat)},
+    // float yaw = 3;
+    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.yaw_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // float pitch = 4;
+    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.pitch_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
   }},
   // no aux_entries
   {{
@@ -5743,15 +5734,8 @@ PROTOBUF_NOINLINE void C_PLAYER_INPUT::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.sequence_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.keyfield_) -
-      reinterpret_cast<char*>(&_impl_.sequence_)) + sizeof(_impl_.keyfield_));
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    ::memset(&_impl_.mouseposx_, 0, static_cast<::size_t>(
-        reinterpret_cast<char*>(&_impl_.mouseposy_) -
-        reinterpret_cast<char*>(&_impl_.mouseposx_)) + sizeof(_impl_.mouseposy_));
-  }
-  _impl_._has_bits_.Clear();
+      reinterpret_cast<char*>(&_impl_.pitch_) -
+      reinterpret_cast<char*>(&_impl_.sequence_)) + sizeof(_impl_.pitch_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -5784,19 +5768,18 @@ PROTOBUF_NOINLINE void C_PLAYER_INPUT::Clear() {
                 2, this_._internal_keyfield(), target);
           }
 
-          cached_has_bits = this_._impl_._has_bits_[0];
-          // optional float mousePosX = 3;
-          if (cached_has_bits & 0x00000001u) {
+          // float yaw = 3;
+          if (::absl::bit_cast<::uint32_t>(this_._internal_yaw()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                3, this_._internal_mouseposx(), target);
+                3, this_._internal_yaw(), target);
           }
 
-          // optional float mousePosY = 4;
-          if (cached_has_bits & 0x00000002u) {
+          // float pitch = 4;
+          if (::absl::bit_cast<::uint32_t>(this_._internal_pitch()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                4, this_._internal_mouseposy(), target);
+                4, this_._internal_pitch(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -5834,15 +5817,12 @@ PROTOBUF_NOINLINE void C_PLAYER_INPUT::Clear() {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_keyfield());
             }
-          }
-          cached_has_bits = this_._impl_._has_bits_[0];
-          if (cached_has_bits & 0x00000003u) {
-            // optional float mousePosX = 3;
-            if (cached_has_bits & 0x00000001u) {
+            // float yaw = 3;
+            if (::absl::bit_cast<::uint32_t>(this_._internal_yaw()) != 0) {
               total_size += 5;
             }
-            // optional float mousePosY = 4;
-            if (cached_has_bits & 0x00000002u) {
+            // float pitch = 4;
+            if (::absl::bit_cast<::uint32_t>(this_._internal_pitch()) != 0) {
               total_size += 5;
             }
           }
@@ -5864,16 +5844,12 @@ void C_PLAYER_INPUT::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::
   if (from._internal_keyfield() != 0) {
     _this->_impl_.keyfield_ = from._impl_.keyfield_;
   }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_impl_.mouseposx_ = from._impl_.mouseposx_;
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_impl_.mouseposy_ = from._impl_.mouseposy_;
-    }
+  if (::absl::bit_cast<::uint32_t>(from._internal_yaw()) != 0) {
+    _this->_impl_.yaw_ = from._impl_.yaw_;
   }
-  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  if (::absl::bit_cast<::uint32_t>(from._internal_pitch()) != 0) {
+    _this->_impl_.pitch_ = from._impl_.pitch_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -5888,10 +5864,9 @@ void C_PLAYER_INPUT::CopyFrom(const C_PLAYER_INPUT& from) {
 void C_PLAYER_INPUT::InternalSwap(C_PLAYER_INPUT* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.mouseposy_)
-      + sizeof(C_PLAYER_INPUT::_impl_.mouseposy_)
+      PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.pitch_)
+      + sizeof(C_PLAYER_INPUT::_impl_.pitch_)
       - PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.sequence_)>(
           reinterpret_cast<char*>(&_impl_.sequence_),
           reinterpret_cast<char*>(&other->_impl_.sequence_));

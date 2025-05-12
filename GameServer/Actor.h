@@ -18,6 +18,7 @@ public:
 	bool							IsDirty() const { return _isDirty; }
 
 	float							GetYawFromPxQuat() const;
+	float							GetPitchFromPxQuat() const;
 
 protected:
 	std::weak_ptr<Room>				_ownerRoom;

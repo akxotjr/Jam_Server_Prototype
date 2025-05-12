@@ -45,9 +45,5 @@ void DynamicActor::Update()
 
 Protocol::Transform DynamicActor::GetTransform() const
 {
-	Protocol::Transform transform;
-	transform.set_position(TransformCompressor::PackPosition(_position.x, _position.y, _position.z));
-	transform.set_velocity_speed(TransformCompressor::PackVelocityAndSpeed(_horizontalVelocity.x, _verticalVelocity, _horizontalVelocity.z, _moveSpeed));
-	transform.set_rotation(TransformCompressor::PackRotation(GetYawFromPxQuat(), _yawSpeed));
-	return transform;
+	return Super::GetTransform();
 }

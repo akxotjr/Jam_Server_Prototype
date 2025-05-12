@@ -2472,8 +2472,8 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
   enum : int {
     kSequenceFieldNumber = 1,
     kKeyFieldFieldNumber = 2,
-    kMousePosXFieldNumber = 3,
-    kMousePosYFieldNumber = 4,
+    kYawFieldNumber = 3,
+    kPitchFieldNumber = 4,
   };
   // uint32 sequence = 1;
   void clear_sequence() ;
@@ -2495,26 +2495,24 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
   void _internal_set_keyfield(::uint32_t value);
 
   public:
-  // optional float mousePosX = 3;
-  bool has_mouseposx() const;
-  void clear_mouseposx() ;
-  float mouseposx() const;
-  void set_mouseposx(float value);
+  // float yaw = 3;
+  void clear_yaw() ;
+  float yaw() const;
+  void set_yaw(float value);
 
   private:
-  float _internal_mouseposx() const;
-  void _internal_set_mouseposx(float value);
+  float _internal_yaw() const;
+  void _internal_set_yaw(float value);
 
   public:
-  // optional float mousePosY = 4;
-  bool has_mouseposy() const;
-  void clear_mouseposy() ;
-  float mouseposy() const;
-  void set_mouseposy(float value);
+  // float pitch = 4;
+  void clear_pitch() ;
+  float pitch() const;
+  void set_pitch(float value);
 
   private:
-  float _internal_mouseposy() const;
-  void _internal_set_mouseposy(float value);
+  float _internal_pitch() const;
+  void _internal_set_pitch(float value);
 
   public:
   // @@protoc_insertion_point(class_scope:Protocol.C_PLAYER_INPUT)
@@ -2540,12 +2538,11 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const C_PLAYER_INPUT& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t sequence_;
     ::uint32_t keyfield_;
-    float mouseposx_;
-    float mouseposy_;
+    float yaw_;
+    float pitch_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -5734,60 +5731,48 @@ inline void C_PLAYER_INPUT::_internal_set_keyfield(::uint32_t value) {
   _impl_.keyfield_ = value;
 }
 
-// optional float mousePosX = 3;
-inline bool C_PLAYER_INPUT::has_mouseposx() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline void C_PLAYER_INPUT::clear_mouseposx() {
+// float yaw = 3;
+inline void C_PLAYER_INPUT::clear_yaw() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.mouseposx_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000001u;
+  _impl_.yaw_ = 0;
 }
-inline float C_PLAYER_INPUT::mouseposx() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_PLAYER_INPUT.mousePosX)
-  return _internal_mouseposx();
+inline float C_PLAYER_INPUT::yaw() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PLAYER_INPUT.yaw)
+  return _internal_yaw();
 }
-inline void C_PLAYER_INPUT::set_mouseposx(float value) {
-  _internal_set_mouseposx(value);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  // @@protoc_insertion_point(field_set:Protocol.C_PLAYER_INPUT.mousePosX)
+inline void C_PLAYER_INPUT::set_yaw(float value) {
+  _internal_set_yaw(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_PLAYER_INPUT.yaw)
 }
-inline float C_PLAYER_INPUT::_internal_mouseposx() const {
+inline float C_PLAYER_INPUT::_internal_yaw() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.mouseposx_;
+  return _impl_.yaw_;
 }
-inline void C_PLAYER_INPUT::_internal_set_mouseposx(float value) {
+inline void C_PLAYER_INPUT::_internal_set_yaw(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.mouseposx_ = value;
+  _impl_.yaw_ = value;
 }
 
-// optional float mousePosY = 4;
-inline bool C_PLAYER_INPUT::has_mouseposy() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline void C_PLAYER_INPUT::clear_mouseposy() {
+// float pitch = 4;
+inline void C_PLAYER_INPUT::clear_pitch() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.mouseposy_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000002u;
+  _impl_.pitch_ = 0;
 }
-inline float C_PLAYER_INPUT::mouseposy() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_PLAYER_INPUT.mousePosY)
-  return _internal_mouseposy();
+inline float C_PLAYER_INPUT::pitch() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PLAYER_INPUT.pitch)
+  return _internal_pitch();
 }
-inline void C_PLAYER_INPUT::set_mouseposy(float value) {
-  _internal_set_mouseposy(value);
-  _impl_._has_bits_[0] |= 0x00000002u;
-  // @@protoc_insertion_point(field_set:Protocol.C_PLAYER_INPUT.mousePosY)
+inline void C_PLAYER_INPUT::set_pitch(float value) {
+  _internal_set_pitch(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_PLAYER_INPUT.pitch)
 }
-inline float C_PLAYER_INPUT::_internal_mouseposy() const {
+inline float C_PLAYER_INPUT::_internal_pitch() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.mouseposy_;
+  return _impl_.pitch_;
 }
-inline void C_PLAYER_INPUT::_internal_set_mouseposy(float value) {
+inline void C_PLAYER_INPUT::_internal_set_pitch(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.mouseposy_ = value;
+  _impl_.pitch_ = value;
 }
 
 // -------------------------------------------------------------------

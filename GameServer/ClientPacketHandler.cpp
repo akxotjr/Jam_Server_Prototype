@@ -250,15 +250,8 @@ bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 
 	uint32 seq = pkt.sequence();
 	uint32 keyField = pkt.keyfield();
-
-	float mouseX = 0.f;
-	float mouseY = 0.f;
-
-	if (pkt.has_mouseposx() && pkt.has_mouseposy())
-	{
-		mouseX = pkt.mouseposx();
-		mouseY = pkt.mouseposy();
-	}
+	float yaw = pkt.yaw();
+	float pitch = pkt.pitch();
 
 	uint32 userId = session->GetId();
 
@@ -266,8 +259,7 @@ bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 	{
 		if (auto player = room->GetPlayerByUserId(userId))
 		{
-			player->ProcessInput(keyField, mouseX, mouseY, seq);
-			std::cout << "[DEBUG] UserID = " << player->GetUserId() << "PlayerActorID = " << player->GetActorId() << "\n";
+			player->ProcessInput(keyField, yaw, pitch, seq);
 			return true;
 		}
 	}

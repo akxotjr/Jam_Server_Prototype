@@ -11,6 +11,6 @@ public:
 
 	virtual void					Init(RoomRef room) override;
 	virtual void					Update() override;
-	virtual Protocol::Transform		GetTransform() const override;
+	virtual Protocol::Transform*	GetTransform() override;
 };
 

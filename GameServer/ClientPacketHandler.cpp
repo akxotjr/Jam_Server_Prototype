@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Service.h"
 #include "UserManager.h"
+#include "TransformCompressor.h"
 
 PacketHandlerFunc GPacketHandler_Tcp[UINT16_MAX];
 PacketHandlerFunc GPacketHandler_Udp[UINT16_MAX];
@@ -250,8 +251,10 @@ bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 
 	uint32 seq = pkt.sequence();
 	uint32 keyField = pkt.keyfield();
-	float yaw = pkt.yaw();
-	float pitch = pkt.pitch();
+	uint32 yaw_pitch = pkt.yaw_pitch();
+
+	float yaw, pitch;
+	TransformCompressor::UnPackRotation(yaw_pitch, yaw, pitch);
 
 	uint32 userId = session->GetId();
 

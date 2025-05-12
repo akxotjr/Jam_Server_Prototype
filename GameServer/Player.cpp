@@ -30,14 +30,14 @@ void Player::ProcessInput(uint32 keyField, float yaw, float pitch, uint32 sequen
 {
 	_lastProcessSequence = sequence;
 
-	SetYawPitch(yaw, pitch);
+	//SetYawPitch(yaw, pitch);
+	_yaw = yaw;
+	_pitch = pitch;
 
 	ProcessKeyField(keyField);
-	//Update();
-	//_horizontalVelocity = physx::PxVec3(0, 0, 0);
 }
 
-Protocol::Transform Player::GetTransform() const
+Protocol::Transform* Player::GetTransform()
 {
 	return Super::GetTransform();
 }
@@ -53,26 +53,39 @@ void Player::SetYawPitch(float yaw, float pitch)
 void Player::ProcessKeyField(uint32& keyField)
 {
 	float dx = 0.f, dz = 0.f;
-	if (keyField & (1 << 0))	// W
+	if (keyField & (1 << static_cast<int32>(EInputKey::MoveForward)))	// W
 		dz = 1.f;
-	if (keyField & (1 << 1))	// S
+	if (keyField & (1 << static_cast<int32>(EInputKey::MoveBackward)))	// S
 		dz = -1.f;
-	if (keyField & (1 << 2))	// A
+	if (keyField & (1 << static_cast<int32>(EInputKey::MoveLeft)))	// A
 		dx = 1.f;
-	if (keyField & (1 << 3))	// D
+	if (keyField & (1 << static_cast<int32>(EInputKey::MoveRight)))	// D
 		dx = -1.f;
 
 	physx::PxVec3 dir(dx, 0.f, dz);
 
 	if (dir.magnitudeSquared() > 0.f)
+	{
 		dir = dir.getNormalized();
+	}
+	else
+	{
+		WRITE_LOCK
+		_horizontalVelocity = dir;
+		return;
+	}
 
-	float actualYaw = GetYawFromPxQuat();
+	//float actualYaw = GetYawFromPxQuat();
 
 
-	physx::PxVec3 rotatedDir(0,0,0);
-	rotatedDir.x = dir.x * cosf(actualYaw) - dir.z * sinf(actualYaw);
-	rotatedDir.z = dir.x * sinf(actualYaw) + dir.z * cosf(actualYaw);
+	//physx::PxVec3 rotatedDir(0,0,0);
+	//rotatedDir.x = dir.x * cosf(actualYaw) - dir.z * sinf(actualYaw);
+	//rotatedDir.z = dir.x * sinf(actualYaw) + dir.z * cosf(actualYaw);
 
+	physx::PxVec3 rotatedDir(0, 0, 0);
+	rotatedDir.x = dir.x * cosf(-_yaw) - dir.z * sinf(-_yaw);
+	rotatedDir.z = dir.x * sinf(-_yaw) + dir.z * cosf(-_yaw);
+
+	WRITE_LOCK
 	_horizontalVelocity = rotatedDir * _moveSpeed;
 }

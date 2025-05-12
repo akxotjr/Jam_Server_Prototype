@@ -88,5 +88,5 @@ uint16 TransformCompressor::CompressPosition(float value)
 float TransformCompressor::ExpandPosition(uint16 packed)
 {
     float normalized = static_cast<float>(packed) / 65535.0f;
-    return normalized * (WORLD_RANGE_MAX - WORLD_RANGE_MIN) + WORLD_RANGE_MIN;
+    return normalized * (WORLD_RANGE_MAX - WORLD_RANGE_MIN) + WORLD_RANGE_MIN + HALF_RES;
 }

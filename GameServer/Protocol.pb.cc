@@ -312,8 +312,7 @@ inline constexpr C_PLAYER_INPUT::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : sequence_{0u},
         keyfield_{0u},
-        yaw_{0},
-        pitch_{0},
+        yaw_pitch_{0u},
         _cached_size_{0} {}
 
 template <typename>
@@ -832,8 +831,7 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.sequence_),
         PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.keyfield_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.yaw_),
-        PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.pitch_),
+        PROTOBUF_FIELD_OFFSET(::Protocol::C_PLAYER_INPUT, _impl_.yaw_pitch_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::Protocol::S_PLAYER_INPUT, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -869,7 +867,7 @@ static const ::_pbi::MigrationSchema
         {185, 195, -1, sizeof(::Protocol::C_SYNC_ACTOR)},
         {197, -1, -1, sizeof(::Protocol::S_SYNC_ACTOR)},
         {207, -1, -1, sizeof(::Protocol::C_PLAYER_INPUT)},
-        {219, -1, -1, sizeof(::Protocol::S_PLAYER_INPUT)},
+        {218, -1, -1, sizeof(::Protocol::S_PLAYER_INPUT)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::Protocol::_C_LOGIN_default_instance_._instance,
@@ -922,10 +920,9 @@ const char descriptor_table_protodef_Protocol_2eproto[] ABSL_ATTRIBUTE_SECTION_V
     "CTOR\022\021\n\ttimestamp\030\001 \001(\001\022&\n\tactorInfo\030\002 \001"
     "(\0132\023.Protocol.ActorInfo\"I\n\014S_SYNC_ACTOR\022"
     "\021\n\ttimestamp\030\001 \001(\001\022&\n\tactorInfo\030\002 \003(\0132\023."
-    "Protocol.ActorInfo\"P\n\016C_PLAYER_INPUT\022\020\n\010"
-    "sequence\030\001 \001(\r\022\020\n\010keyField\030\002 \001(\r\022\013\n\003yaw\030"
-    "\003 \001(\002\022\r\n\005pitch\030\004 \001(\002\"\020\n\016S_PLAYER_INPUTb\006"
-    "proto3"
+    "Protocol.ActorInfo\"G\n\016C_PLAYER_INPUT\022\020\n\010"
+    "sequence\030\001 \001(\r\022\020\n\010keyField\030\002 \001(\r\022\021\n\tyaw_"
+    "pitch\030\003 \001(\r\"\020\n\016S_PLAYER_INPUTb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_Protocol_2eproto_deps[2] =
     {
@@ -936,7 +933,7 @@ static ::absl::once_flag descriptor_table_Protocol_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_Protocol_2eproto = {
     false,
     false,
-    1046,
+    1037,
     descriptor_table_protodef_Protocol_2eproto,
     "Protocol.proto",
     &descriptor_table_Protocol_2eproto_once,
@@ -5624,9 +5621,9 @@ inline void C_PLAYER_INPUT::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, sequence_),
            0,
-           offsetof(Impl_, pitch_) -
+           offsetof(Impl_, yaw_pitch_) -
                offsetof(Impl_, sequence_) +
-               sizeof(Impl_::pitch_));
+               sizeof(Impl_::yaw_pitch_));
 }
 C_PLAYER_INPUT::~C_PLAYER_INPUT() {
   // @@protoc_insertion_point(destructor:Protocol.C_PLAYER_INPUT)
@@ -5675,15 +5672,15 @@ const ::google::protobuf::internal::ClassData* C_PLAYER_INPUT::GetClassData() co
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 0, 0, 2> C_PLAYER_INPUT::_table_ = {
+const ::_pbi::TcParseTable<2, 3, 0, 0, 2> C_PLAYER_INPUT::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    3, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967288,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
+    3,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -5693,18 +5690,16 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> C_PLAYER_INPUT::_table_ = {
     ::_pbi::TcParser::GetTable<::Protocol::C_PLAYER_INPUT>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float pitch = 4;
-    {::_pbi::TcParser::FastF32S1,
-     {37, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.pitch_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // uint32 sequence = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(C_PLAYER_INPUT, _impl_.sequence_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.sequence_)}},
     // uint32 keyField = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(C_PLAYER_INPUT, _impl_.keyfield_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.keyfield_)}},
-    // float yaw = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.yaw_)}},
+    // uint32 yaw_pitch = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(C_PLAYER_INPUT, _impl_.yaw_pitch_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.yaw_pitch_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -5714,12 +5709,9 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> C_PLAYER_INPUT::_table_ = {
     // uint32 keyField = 2;
     {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.keyfield_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // float yaw = 3;
-    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.yaw_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float pitch = 4;
-    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.pitch_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // uint32 yaw_pitch = 3;
+    {PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.yaw_pitch_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
   }},
   // no aux_entries
   {{
@@ -5734,8 +5726,8 @@ PROTOBUF_NOINLINE void C_PLAYER_INPUT::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.sequence_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.pitch_) -
-      reinterpret_cast<char*>(&_impl_.sequence_)) + sizeof(_impl_.pitch_));
+      reinterpret_cast<char*>(&_impl_.yaw_pitch_) -
+      reinterpret_cast<char*>(&_impl_.sequence_)) + sizeof(_impl_.yaw_pitch_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -5768,18 +5760,11 @@ PROTOBUF_NOINLINE void C_PLAYER_INPUT::Clear() {
                 2, this_._internal_keyfield(), target);
           }
 
-          // float yaw = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_yaw()) != 0) {
+          // uint32 yaw_pitch = 3;
+          if (this_._internal_yaw_pitch() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                3, this_._internal_yaw(), target);
-          }
-
-          // float pitch = 4;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_pitch()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
-                4, this_._internal_pitch(), target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                3, this_._internal_yaw_pitch(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -5817,13 +5802,10 @@ PROTOBUF_NOINLINE void C_PLAYER_INPUT::Clear() {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_keyfield());
             }
-            // float yaw = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_yaw()) != 0) {
-              total_size += 5;
-            }
-            // float pitch = 4;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_pitch()) != 0) {
-              total_size += 5;
+            // uint32 yaw_pitch = 3;
+            if (this_._internal_yaw_pitch() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_yaw_pitch());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -5844,11 +5826,8 @@ void C_PLAYER_INPUT::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::
   if (from._internal_keyfield() != 0) {
     _this->_impl_.keyfield_ = from._impl_.keyfield_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_yaw()) != 0) {
-    _this->_impl_.yaw_ = from._impl_.yaw_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_pitch()) != 0) {
-    _this->_impl_.pitch_ = from._impl_.pitch_;
+  if (from._internal_yaw_pitch() != 0) {
+    _this->_impl_.yaw_pitch_ = from._impl_.yaw_pitch_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -5865,8 +5844,8 @@ void C_PLAYER_INPUT::InternalSwap(C_PLAYER_INPUT* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.pitch_)
-      + sizeof(C_PLAYER_INPUT::_impl_.pitch_)
+      PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.yaw_pitch_)
+      + sizeof(C_PLAYER_INPUT::_impl_.yaw_pitch_)
       - PROTOBUF_FIELD_OFFSET(C_PLAYER_INPUT, _impl_.sequence_)>(
           reinterpret_cast<char*>(&_impl_.sequence_),
           reinterpret_cast<char*>(&other->_impl_.sequence_));

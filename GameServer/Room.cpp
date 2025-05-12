@@ -133,14 +133,16 @@ void Room::MulticastSpawnActor()
 	{
 		Protocol::ActorInfo* info = spawnPkt.add_actorinfo();
 		info->set_id(actor->GetActorId());
-		*info->mutable_transform() = actor->GetTransform();
+		//*info->mutable_transform() = actor->GetTransform();
+		info->set_allocated_transform(actor->GetTransform());
 	}
 
 	for (auto& player : _players | views::values)
 	{
 		Protocol::ActorInfo* info = spawnPkt.add_actorinfo();
 		info->set_id(player->GetActorId());
-		*info->mutable_transform() = player->GetTransform();
+		//*info->mutable_transform() = player->GetTransform();
+		info->set_allocated_transform(player->GetTransform());
 	}
 
 	for (auto& player : _players | views::values)	// todo
@@ -166,14 +168,16 @@ void Room::MulticastSyncActor()
 	{
 		auto info = syncPkt.add_actorinfo();
 		info->set_id(actor->GetActorId());
-		*info->mutable_transform() = actor->GetTransform();
+		//*info->mutable_transform() = actor->GetTransform();
+		info->set_allocated_transform(actor->GetTransform());
 	}
 
 	for (auto& player : _players | views::values)
 	{
 		Protocol::ActorInfo* info = syncPkt.add_actorinfo();
 		info->set_id(player->GetActorId());
-		*info->mutable_transform() = player->GetTransform();
+		info->set_allocated_transform(player->GetTransform());
+		//*info->mutable_transform() = player->GetTransform();
 		info->set_sequence(player->GetLastSequence());
 	}
 

@@ -11,7 +11,7 @@ public:
 
 	virtual void					Init(RoomRef room) override;
 	virtual void					Update() override;
-	virtual	Protocol::Transform		GetTransform() const override;
+	virtual	Protocol::Transform*	GetTransform() override;
 
 protected:
 	physx::PxVec3					_horizontalVelocity = { 0.0f, 0.0f, 0.0f };

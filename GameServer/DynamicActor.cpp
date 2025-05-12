@@ -43,7 +43,7 @@ void DynamicActor::Update()
 {
 }
 
-Protocol::Transform DynamicActor::GetTransform() const
+Protocol::Transform* DynamicActor::GetTransform()
 {
 	return Super::GetTransform();
 }

@@ -2472,8 +2472,7 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
   enum : int {
     kSequenceFieldNumber = 1,
     kKeyFieldFieldNumber = 2,
-    kYawFieldNumber = 3,
-    kPitchFieldNumber = 4,
+    kYawPitchFieldNumber = 3,
   };
   // uint32 sequence = 1;
   void clear_sequence() ;
@@ -2495,24 +2494,14 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
   void _internal_set_keyfield(::uint32_t value);
 
   public:
-  // float yaw = 3;
-  void clear_yaw() ;
-  float yaw() const;
-  void set_yaw(float value);
+  // uint32 yaw_pitch = 3;
+  void clear_yaw_pitch() ;
+  ::uint32_t yaw_pitch() const;
+  void set_yaw_pitch(::uint32_t value);
 
   private:
-  float _internal_yaw() const;
-  void _internal_set_yaw(float value);
-
-  public:
-  // float pitch = 4;
-  void clear_pitch() ;
-  float pitch() const;
-  void set_pitch(float value);
-
-  private:
-  float _internal_pitch() const;
-  void _internal_set_pitch(float value);
+  ::uint32_t _internal_yaw_pitch() const;
+  void _internal_set_yaw_pitch(::uint32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:Protocol.C_PLAYER_INPUT)
@@ -2520,7 +2509,7 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 0,
+      2, 3, 0,
       0, 2>
       _table_;
 
@@ -2540,8 +2529,7 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
                           const C_PLAYER_INPUT& from_msg);
     ::uint32_t sequence_;
     ::uint32_t keyfield_;
-    float yaw_;
-    float pitch_;
+    ::uint32_t yaw_pitch_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -5731,48 +5719,26 @@ inline void C_PLAYER_INPUT::_internal_set_keyfield(::uint32_t value) {
   _impl_.keyfield_ = value;
 }
 
-// float yaw = 3;
-inline void C_PLAYER_INPUT::clear_yaw() {
+// uint32 yaw_pitch = 3;
+inline void C_PLAYER_INPUT::clear_yaw_pitch() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.yaw_ = 0;
+  _impl_.yaw_pitch_ = 0u;
 }
-inline float C_PLAYER_INPUT::yaw() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_PLAYER_INPUT.yaw)
-  return _internal_yaw();
+inline ::uint32_t C_PLAYER_INPUT::yaw_pitch() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PLAYER_INPUT.yaw_pitch)
+  return _internal_yaw_pitch();
 }
-inline void C_PLAYER_INPUT::set_yaw(float value) {
-  _internal_set_yaw(value);
-  // @@protoc_insertion_point(field_set:Protocol.C_PLAYER_INPUT.yaw)
+inline void C_PLAYER_INPUT::set_yaw_pitch(::uint32_t value) {
+  _internal_set_yaw_pitch(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_PLAYER_INPUT.yaw_pitch)
 }
-inline float C_PLAYER_INPUT::_internal_yaw() const {
+inline ::uint32_t C_PLAYER_INPUT::_internal_yaw_pitch() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.yaw_;
+  return _impl_.yaw_pitch_;
 }
-inline void C_PLAYER_INPUT::_internal_set_yaw(float value) {
+inline void C_PLAYER_INPUT::_internal_set_yaw_pitch(::uint32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.yaw_ = value;
-}
-
-// float pitch = 4;
-inline void C_PLAYER_INPUT::clear_pitch() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.pitch_ = 0;
-}
-inline float C_PLAYER_INPUT::pitch() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_PLAYER_INPUT.pitch)
-  return _internal_pitch();
-}
-inline void C_PLAYER_INPUT::set_pitch(float value) {
-  _internal_set_pitch(value);
-  // @@protoc_insertion_point(field_set:Protocol.C_PLAYER_INPUT.pitch)
-}
-inline float C_PLAYER_INPUT::_internal_pitch() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.pitch_;
-}
-inline void C_PLAYER_INPUT::_internal_set_pitch(float value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.pitch_ = value;
+  _impl_.yaw_pitch_ = value;
 }
 
 // -------------------------------------------------------------------

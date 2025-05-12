@@ -8,7 +8,7 @@ public:
 
 	virtual void					Init(RoomRef room);
 	virtual void					Update() = 0;
-	virtual	Protocol::Transform		GetTransform() const;
+	virtual	Protocol::Transform*	GetTransform();
 
 	RoomRef							GetOwnerRoom() const { return _ownerRoom.lock(); }
 

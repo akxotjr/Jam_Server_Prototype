@@ -18,7 +18,7 @@ void StaticActor::Update()
 {
 }
 
-Protocol::Transform StaticActor::GetTransform() const
+Protocol::Transform* StaticActor::GetTransform()
 {
 	return Super::GetTransform();
 }

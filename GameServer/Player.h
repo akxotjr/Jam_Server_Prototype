@@ -31,7 +31,7 @@ public:
     /* Actor impl */
 	virtual void                    Init(RoomRef room) override;
 	virtual void                    Update() override;
-    virtual	Protocol::Transform		GetTransform() const override;
+    virtual	Protocol::Transform*	GetTransform() override;
 
 	void                            ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence);
 
@@ -46,6 +46,8 @@ private:
 	void                            ProcessKeyField(uint32& keyFiel);
 
 private:
+    USE_LOCK
+
     uint32                          _userId;
 
 	uint32	                        _lastProcessSequence;

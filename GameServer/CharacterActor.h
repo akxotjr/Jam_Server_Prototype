@@ -14,9 +14,6 @@ public:
 
 	virtual	Protocol::Transform*	GetTransform() override;
 
-	float GetYaw() { return _yaw; }
-	float GetPitch() { return _pitch; }
-
 protected:
 	physx::PxCapsuleController*		_controller;
 
@@ -25,8 +22,5 @@ protected:
 
 	float							_moveSpeed = 10.f;
 	float							_yawSpeed = 0.0f;
-
-	float							_yaw = 0.0f;
-	float							_pitch = 0.0f;
 };
 

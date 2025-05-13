@@ -108,6 +108,9 @@
     <ClCompile Include="IdManager.cpp">
       <Filter>03.Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Floor.cpp">
+      <Filter>03.Actor\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="IdManager.h">
       <Filter>03.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor.h">
+      <Filter>03.Actor\Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

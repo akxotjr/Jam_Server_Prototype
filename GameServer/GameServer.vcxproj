@@ -148,6 +148,7 @@
     <ClCompile Include="Enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameContextManager.cpp" />
     <ClCompile Include="GameServer.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="DynamicActor.h" />
     <ClInclude Include="Enum.pb.h" />
+    <ClInclude Include="Floor.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameContextManager.h" />
     <ClInclude Include="GameTcpSession.h" />

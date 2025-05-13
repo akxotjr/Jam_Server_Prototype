@@ -21,7 +21,7 @@ Protocol::Transform* Actor::GetTransform()
 	Protocol::Transform* transform = new Protocol::Transform;
 	transform->set_position(TransformCompressor::PackPosition(_position.x, _position.y, _position.z));
 	transform->set_velocity_speed(0);
-	transform->set_rotation(TransformCompressor::PackRotation(GetYawFromPxQuat(), GetPitchFromPxQuat()));
+	transform->set_rotation(TransformCompressor::PackRotation(_yaw, _pitch));
 	return transform;
 }
 

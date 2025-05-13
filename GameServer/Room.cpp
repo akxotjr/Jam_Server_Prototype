@@ -8,6 +8,7 @@
 #include "GameUdpSession.h"
 #include "Values.h"
 #include "PhysicsManager.h"
+#include "Floor.h"
 
 Room::Room()
 {
@@ -30,11 +31,17 @@ void Room::Init()
 
 	PhysicsManager::Instance().AddPhysicsQueue(_roomId, _physicsQueue);
 
+	// temp
+	shared_ptr<Floor> floor = MakeShared<Floor>();
+	AddActor(floor);
+
 	_physicsQueue->Push(job::Job([this]()
 		{
 			_pxControllerManager = PxCreateControllerManager(*_pxScene);
 			ASSERT_CRASH(_pxControllerManager != nullptr)
 		}));
+
+
 }
 
 void Room::Update()
@@ -69,6 +76,7 @@ void Room::AddActor(ActorRef actor)
 
 	_physicsQueue->Push(job::Job([this, actor]()
 		{
+			printf("Adding actor to scene: %u\n", actor->GetActorId());
 			_pxScene->addActor(*actor->GetPxActor());
 		}));
 

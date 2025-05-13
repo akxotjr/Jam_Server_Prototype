@@ -163,9 +163,14 @@ physx::PxMaterial* PhysicsManager::CreateMaterial(physx::PxReal staticFriction, 
 	return _pxPhysics->createMaterial(staticFriction, dynamicFriction, restitution);
 }
 
-physx::PxRigidActor* PhysicsManager::CreateRigidStatic(physx::PxVec3& position, physx::PxQuat& rotation)
+physx::PxRigidStatic* PhysicsManager::CreateRigidStatic(physx::PxVec3& position, physx::PxQuat& rotation)
 {
 	return _pxPhysics->createRigidStatic(physx::PxTransform(position, rotation));
+}
+
+physx::PxRigidStatic* PhysicsManager::CreatePlane(float nx, float ny, float nz, float distance)
+{
+	return	physx::PxCreatePlane(*_pxPhysics, physx::PxPlane(nx, ny, nz, distance), *CreateMaterial(0.5f, 0.5, 1.0f));
 }
 
 physx::PxRigidDynamic* PhysicsManager::CreateRigidDynamic(physx::PxVec3& position, physx::PxQuat& rotation)

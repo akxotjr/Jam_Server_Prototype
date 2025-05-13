@@ -40,7 +40,8 @@ public:
 
 	physx::PxScene*					CreatePxScene();
 	physx::PxMaterial*				CreateMaterial(physx::PxReal staticFriction, physx::PxReal dynamicFriction, physx::PxReal restitution);
-	physx::PxRigidActor*			CreateRigidStatic(physx::PxVec3& position, physx::PxQuat& rotation);
+	physx::PxRigidStatic*			CreateRigidStatic(physx::PxVec3& position, physx::PxQuat& rotation);
+	physx::PxRigidStatic*			CreatePlane(float nx, float ny, float nz, float distance);
 	physx::PxRigidDynamic*			CreateRigidDynamic(physx::PxVec3& position, physx::PxQuat& rotation);
 
 	std::unordered_set<uint32>&					GetAllRoomIds() { return _allRoomIds; }

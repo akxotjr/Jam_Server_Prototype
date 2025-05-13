@@ -20,6 +20,9 @@ public:
 	float							GetYawFromPxQuat() const;
 	float							GetPitchFromPxQuat() const;
 
+	float							GetYaw() { return _yaw; }
+	float							GetPitch() { return _pitch; }
+
 protected:
 	std::weak_ptr<Room>				_ownerRoom;
 
@@ -27,8 +30,10 @@ protected:
 
 	bool							_isDirty = false;
 
-	physx::PxVec3					_position = { 0.0f, 0.0f, 0.0f };
+	physx::PxVec3					_position = { 0.0f, 5.0f, 0.0f };
 	physx::PxQuat					_rotation = { 0.0f, 0.0f, 0.0f, 1.0f };
+	float							_yaw = 0.0f;
+	float							_pitch = 0.0f;
 
 	physx::PxActor*					_pxActor = nullptr;
 };

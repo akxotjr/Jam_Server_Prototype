@@ -40,10 +40,11 @@ public:
     void                            SetUserId(uint32 id) { _userId = id; }
     uint32                          GetUserId() const { return _userId; }
 
-    void SetYawPitch(float yaw, float pitch);
+    void                            SetYawPitch(float yaw, float pitch);
 
 private:
-	void                            ProcessKeyField(uint32& keyFiel);
+	void                            ProcessKeyField(uint32 keyFiel);
+    void                            ProcessJump(uint32 keyField);
 
 private:
     USE_LOCK
@@ -51,4 +52,7 @@ private:
     uint32                          _userId;
 
 	uint32	                        _lastProcessSequence;
+
+    bool                            _isGrounded = true;
+    float                           _jumpSpeed = 10.0f;
 };

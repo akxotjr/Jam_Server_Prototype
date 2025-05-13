@@ -17,3 +17,4 @@ constexpr float POSITION_RESOLUTION = (WORLD_RANGE_MAX - WORLD_RANGE_MIN) / 6553
 constexpr float HALF_RES = POSITION_RESOLUTION * 0.5f; // = 0.01526
 
 constexpr float PI = std::numbers::pi_v<float>;
+constexpr float GRAVITY = 9.8f;

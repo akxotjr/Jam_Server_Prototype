@@ -51,13 +51,13 @@ bool Handle_C_CREATE_ROOM(SessionRef& session, Protocol::C_CREATE_ROOM& pkt)
 
 	auto room = RoomManager::Instance().CreateRoom();
 	if (!room) return false;
+	RoomManager::Instance().AddRoom(room);
 
 	PlayerRef player = MakeShared<Player>();
 	player->SetUserId(session->GetId());
 
 	room->Enter(player);
 
-	RoomManager::Instance().AddRoom(room);
 
 	{
 		Protocol::S_CREATE_ROOM createRoomPkt;

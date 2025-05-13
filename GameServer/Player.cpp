@@ -17,10 +17,23 @@ void Player::Update()
 {
 	float deltaTime = static_cast<float>(TICK_INTERVAL_S);
 
+	if (!_isGrounded)
+		_verticalVelocity -= GRAVITY * deltaTime;
+
 	physx::PxVec3 finalVelocity(_horizontalVelocity.x, _verticalVelocity, _horizontalVelocity.z);
 
 	physx::PxControllerFilters filters;
 	physx::PxControllerCollisionFlags collisionFlags = _controller->move(finalVelocity * deltaTime, 0.01f, deltaTime, filters);
+
+	if (collisionFlags & physx::PxControllerCollisionFlag::eCOLLISION_DOWN)
+	{
+		_verticalVelocity = 0.0f;
+		_isGrounded = true;
+	}
+	else
+	{
+		_isGrounded = false;
+	}
 
 	physx::PxExtendedVec3 pos = _controller->getPosition();
 	_position = physx::PxVec3(static_cast<float>(pos.x), static_cast<float>(pos.y), static_cast<float>(pos.z));
@@ -30,11 +43,11 @@ void Player::ProcessInput(uint32 keyField, float yaw, float pitch, uint32 sequen
 {
 	_lastProcessSequence = sequence;
 
-	//SetYawPitch(yaw, pitch);
 	_yaw = yaw;
 	_pitch = pitch;
 
 	ProcessKeyField(keyField);
+	ProcessJump(keyField);
 }
 
 Protocol::Transform* Player::GetTransform()
@@ -50,7 +63,7 @@ void Player::SetYawPitch(float yaw, float pitch)
 	_rotation = qYaw * qPitch;
 }
 
-void Player::ProcessKeyField(uint32& keyField)
+void Player::ProcessKeyField(uint32 keyField)
 {
 	float dx = 0.f, dz = 0.f;
 	if (keyField & (1 << static_cast<int32>(EInputKey::MoveForward)))	// W
@@ -75,17 +88,23 @@ void Player::ProcessKeyField(uint32& keyField)
 		return;
 	}
 
-	//float actualYaw = GetYawFromPxQuat();
-
-
-	//physx::PxVec3 rotatedDir(0,0,0);
-	//rotatedDir.x = dir.x * cosf(actualYaw) - dir.z * sinf(actualYaw);
-	//rotatedDir.z = dir.x * sinf(actualYaw) + dir.z * cosf(actualYaw);
-
-	physx::PxVec3 rotatedDir(0, 0, 0);
-	rotatedDir.x = dir.x * cosf(-_yaw) - dir.z * sinf(-_yaw);
-	rotatedDir.z = dir.x * sinf(-_yaw) + dir.z * cosf(-_yaw);
+	physx::PxVec3 rotatedDir = {
+		rotatedDir.x = dir.x * cosf(-_yaw) - dir.z * sinf(-_yaw),
+		0.0f,
+		rotatedDir.z = dir.x * sinf(-_yaw) + dir.z * cosf(-_yaw)
+	};
 
 	WRITE_LOCK
 	_horizontalVelocity = rotatedDir * _moveSpeed;
+}
+
+void Player::ProcessJump(uint32 keyField)
+{
+	if (keyField & (1 << static_cast<int32>(EInputKey::Jump)))
+	{
+		if (_isGrounded)
+		{
+			_verticalVelocity = _jumpSpeed;
+		}
+	}
 }

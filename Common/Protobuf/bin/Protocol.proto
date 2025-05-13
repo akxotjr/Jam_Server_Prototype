@@ -127,6 +127,7 @@ message C_PLAYER_INPUT
 	uint32 sequence = 1;
 	uint32 keyField = 2;
 	uint32 yaw_pitch = 3;
+	double timestamp = 4;
 }
 
 message S_PLAYER_INPUT

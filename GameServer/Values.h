@@ -18,3 +18,5 @@ constexpr float HALF_RES = POSITION_RESOLUTION * 0.5f; // = 0.01526
 
 constexpr float PI = std::numbers::pi_v<float>;
 constexpr float GRAVITY = 9.8f;
+
+constexpr int32 MAX_ADMISSION = 4;

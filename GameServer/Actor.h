@@ -1,5 +1,12 @@
 #pragma once
 
+struct ColliderInfo
+{
+	EColliderType type;
+	physx::PxVec3 offset;
+	physx::PxVec3 size; // Box: half extents, Capsule: height/radius
+};
+
 class Actor : public enable_shared_from_this<Actor>
 {
 public:
@@ -23,6 +30,11 @@ public:
 	float							GetYaw() { return _yaw; }
 	float							GetPitch() { return _pitch; }
 
+	physx::PxVec3&					GetPosition() { return _position; }
+	physx::PxQuat&					GetRotation() { return _rotation; }
+
+	const ColliderInfo&				GetColliderInfo() { return _colliderInfo; }
+
 protected:
 	std::weak_ptr<Room>				_ownerRoom;
 
@@ -30,11 +42,13 @@ protected:
 
 	bool							_isDirty = false;
 
-	physx::PxVec3					_position = { 0.0f, 5.0f, 0.0f };
+	physx::PxVec3					_position = { 0.0f, 0.0f, 0.0f };
 	physx::PxQuat					_rotation = { 0.0f, 0.0f, 0.0f, 1.0f };
 	float							_yaw = 0.0f;
 	float							_pitch = 0.0f;
 
 	physx::PxActor*					_pxActor = nullptr;
+
+	ColliderInfo					_colliderInfo;
 };
 

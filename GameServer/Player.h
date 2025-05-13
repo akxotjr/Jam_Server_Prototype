@@ -33,7 +33,7 @@ public:
 	virtual void                    Update() override;
     virtual	Protocol::Transform*	GetTransform() override;
 
-	void                            ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence);
+	void                            ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence, double timestamp);
 
 	uint32                          GetLastSequence() const { return _lastProcessSequence; }
 
@@ -43,8 +43,9 @@ public:
     void                            SetYawPitch(float yaw, float pitch);
 
 private:
-	void                            ProcessKeyField(uint32 keyFiel);
+	void                            ProcessMovement(uint32 keyFiel);
     void                            ProcessJump(uint32 keyField);
+    void                            ProcessFire(uint32 keyField, double timestamp);
 
 private:
     USE_LOCK
@@ -54,5 +55,5 @@ private:
 	uint32	                        _lastProcessSequence;
 
     bool                            _isGrounded = true;
-    float                           _jumpSpeed = 10.0f;
+    float                           _jumpSpeed = 6.0f;
 };

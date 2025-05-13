@@ -6,6 +6,7 @@
 Player::Player()
 {
 	_actorId = IdManager::Instance().Generate(IdType::Actor, ActorTypePrefix::Player);
+	_position = { 0.0f, 5.0f, 0.0f };
 }
 
 void Player::Init(RoomRef room)
@@ -39,15 +40,16 @@ void Player::Update()
 	_position = physx::PxVec3(static_cast<float>(pos.x), static_cast<float>(pos.y), static_cast<float>(pos.z));
 }
 
-void Player::ProcessInput(uint32 keyField, float yaw, float pitch, uint32 sequence)
+void Player::ProcessInput(uint32 keyField, float yaw, float pitch, uint32 sequence, double timestamp)
 {
 	_lastProcessSequence = sequence;
 
 	_yaw = yaw;
 	_pitch = pitch;
 
-	ProcessKeyField(keyField);
+	ProcessMovement(keyField);
 	ProcessJump(keyField);
+	ProcessFire(keyField, timestamp);
 }
 
 Protocol::Transform* Player::GetTransform()
@@ -63,7 +65,7 @@ void Player::SetYawPitch(float yaw, float pitch)
 	_rotation = qYaw * qPitch;
 }
 
-void Player::ProcessKeyField(uint32 keyField)
+void Player::ProcessMovement(uint32 keyField)
 {
 	float dx = 0.f, dz = 0.f;
 	if (keyField & (1 << static_cast<int32>(EInputKey::MoveForward)))	// W
@@ -106,5 +108,13 @@ void Player::ProcessJump(uint32 keyField)
 		{
 			_verticalVelocity = _jumpSpeed;
 		}
+	}
+}
+
+void Player::ProcessFire(uint32 keyField, double timestamp)
+{
+	if (keyField & (1 << static_cast<int32>(EInputKey::Fire)))
+	{
+		// get position at timestamp from history
 	}
 }

@@ -7,7 +7,7 @@ class Floor : public StaticActor
 	using Super = StaticActor;
 
 public:
-	Floor() = default;
+	Floor();
 	virtual ~Floor() override = default;
 
 	virtual void					Init(RoomRef room) override;

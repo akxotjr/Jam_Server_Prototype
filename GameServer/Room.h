@@ -1,9 +1,16 @@
 #pragma once
 #include "JobQueue.h"
+#include "Actor.h"
 
-constexpr uint32 MAX_ADMISSION = 4;	// todo
+struct SnapshotEntity
+{
+	uint32 actorId;
+	physx::PxVec3 position;
+	physx::PxQuat rotation;
+	ColliderInfo collider;
+};
 
-class Player;
+using Snapshot = std::vector<SnapshotEntity>;
 
 class Room : public job::JobQueue
 {
@@ -40,6 +47,13 @@ public:
 
 	void					SetIsReady(bool ready) { _isReady = ready; }
 
+	void					CaptureSnapshot();
+	void					AddSnapshot(double timestamp, Snapshot& snapshot);
+	Snapshot*				FindSnapshot(double timestamp);
+
+	void					BuildRewindScene(Snapshot& snapshot);
+	void					ClearRewindScene();
+
 private:
 	USE_LOCK
 
@@ -51,8 +65,11 @@ private:
 	unordered_map<uint32, ActorRef>			_actors;	/// key = actorId, value = ActorRef
 
 	physx::PxScene*							_pxScene = nullptr;
+	physx::PxScene*							_pxRewindScene = nullptr;
 	physx::PxControllerManager*				_pxControllerManager = nullptr;
 
 	shared_ptr<core::thread::LockQueue<job::Job>>		_physicsQueue;
+
+	Vector<std::pair<double, Snapshot>>		_snapshotBuffer;	/// first - timestamp, second - Snapshot
 };
 

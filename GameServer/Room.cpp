@@ -29,6 +29,9 @@ void Room::Init()
 	_pxScene = PhysicsManager::Instance().CreatePxScene();
 	ASSERT_CRASH(_pxScene != nullptr)
 
+	_pxRewindScene = PhysicsManager::Instance().CreatePxScene();
+	ASSERT_CRASH(_pxRewindScene != nullptr)
+
 	PhysicsManager::Instance().AddPhysicsQueue(_roomId, _physicsQueue);
 
 	// temp
@@ -40,8 +43,6 @@ void Room::Init()
 			_pxControllerManager = PxCreateControllerManager(*_pxScene);
 			ASSERT_CRASH(_pxControllerManager != nullptr)
 		}));
-
-
 }
 
 void Room::Update()
@@ -66,6 +67,8 @@ void Room::Update()
 				player->Update();
 			}
 		}));
+
+	CaptureSnapshot();
 
 	MulticastSyncActor();
 }
@@ -174,9 +177,12 @@ void Room::MulticastSyncActor()
 
 	for (auto& actor : _actors | views::values)
 	{
+		uint32 actorId = actor->GetActorId();
+		if (IdManager::Instance().GetActorType(actorId) == ActorTypePrefix::Floor)
+			continue;
+
 		auto info = syncPkt.add_actorinfo();
-		info->set_id(actor->GetActorId());
-		//*info->mutable_transform() = actor->GetTransform();
+		info->set_id(actorId);
 		info->set_allocated_transform(actor->GetTransform());
 	}
 
@@ -185,7 +191,6 @@ void Room::MulticastSyncActor()
 		Protocol::ActorInfo* info = syncPkt.add_actorinfo();
 		info->set_id(player->GetActorId());
 		info->set_allocated_transform(player->GetTransform());
-		//*info->mutable_transform() = player->GetTransform();
 		info->set_sequence(player->GetLastSequence());
 	}
 
@@ -212,6 +217,93 @@ Vector<uint32> Room::GetPlayerList()
 	}
 
 	return playerList;
+}
+
+void Room::CaptureSnapshot()
+{
+	double timestamp = TimeManager::Instance().GetServerTime();
+	Snapshot snapshot;
+
+	{
+		WRITE_LOCK
+
+		for (auto& [id, actor] : _actors)
+		{
+			SnapshotEntity entity;
+			entity.actorId = id;
+			entity.position = actor->GetPosition();
+			entity.rotation = actor->GetRotation();
+			entity.collider = actor->GetColliderInfo();
+
+			snapshot.push_back(entity);
+		}
+	}
+
+	AddSnapshot(timestamp, snapshot);
+}
+
+void Room::AddSnapshot(double timestamp, Snapshot& snapshot)
+{
+	WRITE_LOCK
+
+	auto it = std::upper_bound(
+		_snapshotBuffer.begin(), _snapshotBuffer.end(), timestamp,
+		[](const std::pair<double, Snapshot>& pair, const double& t) {
+			return pair.first < t;
+		}
+	);
+
+	_snapshotBuffer.insert(it, std::make_pair(timestamp, snapshot));
+
+	double cutoff = timestamp - 0.5f;
+
+	_snapshotBuffer.erase(
+		std::remove_if(_snapshotBuffer.begin(), _snapshotBuffer.end(),
+			[cutoff](const std::pair<double, Snapshot>& pair) {
+				return pair.first < cutoff;
+			}),
+		_snapshotBuffer.end());
+}
+
+
+
+Snapshot* Room::FindSnapshot(double timestamp)
+{
+	READ_LOCK
+
+	auto it = std::lower_bound(
+		_snapshotBuffer.begin(), _snapshotBuffer.end(), timestamp,
+		[](const auto& pair, int t) { return pair.first < t; });
+
+	if (it == _snapshotBuffer.begin() || it == _snapshotBuffer.end())
+		return nullptr;
+
+	return &it->second;
+}
+
+void Room::BuildRewindScene(Snapshot& snapshot)
+{
+	for (auto& entity : snapshot)
+	{
+		physx::PxRigidStatic* actor = PhysicsManager::Instance().CreateRigidStatic(entity.position, entity.rotation);
+		physx::PxShape* shape = PhysicsManager::Instance().CreateShape(entity.collider.type, entity.collider.size);
+		actor->attachShape(*shape);
+
+		_pxRewindScene->addActor(*actor);
+	}
+}
+
+void Room::ClearRewindScene()
+{
+	physx::PxU32 actorCount = _pxRewindScene->getNbActors(physx::PxActorTypeFlag::eRIGID_STATIC);
+	if (actorCount == 0)
+		return;
+
+	std::vector<physx::PxActor*> actors(actorCount);
+	_pxRewindScene->getActors(physx::PxActorTypeFlag::eRIGID_STATIC, actors.data(), actorCount);
+
+	for (auto actor : actors)
+		actor->release();
 }
 
 

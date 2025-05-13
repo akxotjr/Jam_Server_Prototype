@@ -2472,6 +2472,7 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
   enum : int {
     kSequenceFieldNumber = 1,
     kKeyFieldFieldNumber = 2,
+    kTimestampFieldNumber = 4,
     kYawPitchFieldNumber = 3,
   };
   // uint32 sequence = 1;
@@ -2494,6 +2495,16 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
   void _internal_set_keyfield(::uint32_t value);
 
   public:
+  // double timestamp = 4;
+  void clear_timestamp() ;
+  double timestamp() const;
+  void set_timestamp(double value);
+
+  private:
+  double _internal_timestamp() const;
+  void _internal_set_timestamp(double value);
+
+  public:
   // uint32 yaw_pitch = 3;
   void clear_yaw_pitch() ;
   ::uint32_t yaw_pitch() const;
@@ -2509,7 +2520,7 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 0,
+      2, 4, 0,
       0, 2>
       _table_;
 
@@ -2529,6 +2540,7 @@ class C_PLAYER_INPUT final : public ::google::protobuf::Message
                           const C_PLAYER_INPUT& from_msg);
     ::uint32_t sequence_;
     ::uint32_t keyfield_;
+    double timestamp_;
     ::uint32_t yaw_pitch_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -5739,6 +5751,28 @@ inline ::uint32_t C_PLAYER_INPUT::_internal_yaw_pitch() const {
 inline void C_PLAYER_INPUT::_internal_set_yaw_pitch(::uint32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.yaw_pitch_ = value;
+}
+
+// double timestamp = 4;
+inline void C_PLAYER_INPUT::clear_timestamp() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timestamp_ = 0;
+}
+inline double C_PLAYER_INPUT::timestamp() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_PLAYER_INPUT.timestamp)
+  return _internal_timestamp();
+}
+inline void C_PLAYER_INPUT::set_timestamp(double value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_PLAYER_INPUT.timestamp)
+}
+inline double C_PLAYER_INPUT::_internal_timestamp() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.timestamp_;
+}
+inline void C_PLAYER_INPUT::_internal_set_timestamp(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timestamp_ = value;
 }
 
 // -------------------------------------------------------------------

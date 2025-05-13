@@ -252,6 +252,7 @@ bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 	uint32 seq = pkt.sequence();
 	uint32 keyField = pkt.keyfield();
 	uint32 yaw_pitch = pkt.yaw_pitch();
+	double timestamp = pkt.timestamp();
 
 	float yaw, pitch;
 	TransformCompressor::UnPackRotation(yaw_pitch, yaw, pitch);
@@ -262,7 +263,7 @@ bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 	{
 		if (auto player = room->GetPlayerByUserId(userId))
 		{
-			player->ProcessInput(keyField, yaw, pitch, seq);
+			player->ProcessInput(keyField, yaw, pitch, seq, timestamp);
 			return true;
 		}
 	}

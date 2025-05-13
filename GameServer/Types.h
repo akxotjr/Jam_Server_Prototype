@@ -9,6 +9,8 @@ enum class SessionType
 	COUNT
 };
 
+enum class EColliderType { Capsule, Box, Sphere };
+
 #define GWinSizeX 800
 #define GWinSizeY 600
 

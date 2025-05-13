@@ -5,7 +5,7 @@ class PhysicsWorker
 {
 public:
 	void							AssignRoom(uint32 roomId);
-	void UnassignRoom(uint32 roomId);
+	void							UnassignRoom(uint32 roomId);
 	int32							Execute();
 
 	void SetSharedQueueMap(std::unordered_map<uint32, std::shared_ptr<core::thread::LockQueue<job::Job>>>* sharedQueue) { _sharedQueues = sharedQueue; }
@@ -43,6 +43,8 @@ public:
 	physx::PxRigidStatic*			CreateRigidStatic(physx::PxVec3& position, physx::PxQuat& rotation);
 	physx::PxRigidStatic*			CreatePlane(float nx, float ny, float nz, float distance);
 	physx::PxRigidDynamic*			CreateRigidDynamic(physx::PxVec3& position, physx::PxQuat& rotation);
+
+	physx::PxShape*					CreateShape(EColliderType type, const physx::PxVec3& size);
 
 	std::unordered_set<uint32>&					GetAllRoomIds() { return _allRoomIds; }
 

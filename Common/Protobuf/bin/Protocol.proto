@@ -133,3 +133,13 @@ message C_PLAYER_INPUT
 message S_PLAYER_INPUT
 {
 }
+
+message C_HIT_RESULT
+{
+}
+
+message S_HIT_RESULT
+{
+	uint32 actorId = 1;
+	uint64 position = 2;
+}

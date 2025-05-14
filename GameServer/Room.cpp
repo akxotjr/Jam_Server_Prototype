@@ -9,11 +9,19 @@
 #include "Values.h"
 #include "PhysicsManager.h"
 #include "Floor.h"
+#include "Bot.h"
 
 Room::Room()
 {
 	_roomId = IdManager::Instance().Generate(IdType::Room);
 	_physicsQueue = std::make_shared<core::thread::LockQueue<job::Job>>();
+
+	_playerColors = {
+		physx::PxVec3(1.0f, 0.0f, 0.0f),
+		physx::PxVec3(1.0f, 1.0f, 0.0f),
+		physx::PxVec3(0.0f, 1.0f, 0.0f),
+		physx::PxVec3(0.0f, 0.0f, 1.0f)
+	};
 }
 
 Room::~Room()
@@ -29,20 +37,26 @@ void Room::Init()
 	_pxScene = PhysicsManager::Instance().CreatePxScene();
 	ASSERT_CRASH(_pxScene != nullptr)
 
-	_pxRewindScene = PhysicsManager::Instance().CreatePxScene();
-	ASSERT_CRASH(_pxRewindScene != nullptr)
+	for (int32 i = 0; i < MAX_PLAYERS_PER_ROOM; i++)
+	{
+		_pxRewindScenes[i] = PhysicsManager::Instance().CreatePxScene();
+		ASSERT_CRASH(_pxRewindScenes[i] != nullptr)
+	}
 
 	PhysicsManager::Instance().AddPhysicsQueue(_roomId, _physicsQueue);
-
-	// temp
-	shared_ptr<Floor> floor = MakeShared<Floor>();
-	AddActor(floor);
 
 	_physicsQueue->Push(job::Job([this]()
 		{
 			_pxControllerManager = PxCreateControllerManager(*_pxScene);
 			ASSERT_CRASH(_pxControllerManager != nullptr)
 		}));
+
+	// temp
+	FloorRef floor = MakeShared<Floor>();
+	AddActor(floor);
+
+	BotRef bot = MakeShared<Bot>();
+	AddBotOrMonster(bot);
 }
 
 void Room::Update()
@@ -59,6 +73,13 @@ void Room::Update()
 			_pxScene->fetchResults(true);
 		}));
 
+	_physicsQueue->Push(job::Job([this]()
+		{
+			for (auto& character : _botAndMonsters | views::values)
+			{
+				character->Update();
+			}
+		}));
 
 	_physicsQueue->Push(job::Job([this]()
 		{
@@ -96,14 +117,30 @@ void Room::RemoveActor(ActorRef actor)
 	_actors.erase(actor->GetActorId());
 }
 
+void Room::AddBotOrMonster(CharacterActorRef character)
+{
+	WRITE_LOCK
+
+	character->Init(GetRoomRef());
+	_botAndMonsters[character->GetActorId()] = character;
+}
+
+void Room::RemoveBotOrMonster(CharacterActorRef character)
+{
+	WRITE_LOCK
+	_botAndMonsters.erase(character->GetActorId());
+}
+
 bool Room::Enter(PlayerRef player)
 {
 	WRITE_LOCK
 
-	if (_players.size() > MAX_ADMISSION)
+	if (_players.size() > MAX_PLAYERS_PER_ROOM)
 		return false;
 
 	player->Init(GetRoomRef());
+	player->SetPlayerIndex(static_cast<int32>(_players.size()));
+	player->SetColor(_playerColors[player->GetPlayerIndex()]);
 	_players[player->GetUserId()] = player;
 
 	return true;
@@ -144,16 +181,37 @@ void Room::MulticastSpawnActor()
 	{
 		Protocol::ActorInfo* info = spawnPkt.add_actorinfo();
 		info->set_id(actor->GetActorId());
-		//*info->mutable_transform() = actor->GetTransform();
 		info->set_allocated_transform(actor->GetTransform());
+
+		physx::PxVec3 color = actor->GetColor();
+		info->set_r(color.x);
+		info->set_g(color.y);
+		info->set_b(color.z);
+	}
+
+	//temp
+	for (auto& character : _botAndMonsters | views::values)
+	{
+		Protocol::ActorInfo* info = spawnPkt.add_actorinfo();
+		info->set_id(character->GetActorId());
+		info->set_allocated_transform(character->GetTransform());
+
+		physx::PxVec3 color = character->GetColor();
+		info->set_r(color.x);
+		info->set_g(color.y);
+		info->set_b(color.z);
 	}
 
 	for (auto& player : _players | views::values)
 	{
 		Protocol::ActorInfo* info = spawnPkt.add_actorinfo();
 		info->set_id(player->GetActorId());
-		//*info->mutable_transform() = player->GetTransform();
 		info->set_allocated_transform(player->GetTransform());
+
+		physx::PxVec3 color = player->GetColor();
+		info->set_r(color.x);
+		info->set_g(color.y);
+		info->set_b(color.z);
 	}
 
 	for (auto& player : _players | views::values)	// todo
@@ -184,6 +242,19 @@ void Room::MulticastSyncActor()
 		auto info = syncPkt.add_actorinfo();
 		info->set_id(actorId);
 		info->set_allocated_transform(actor->GetTransform());
+	}
+
+	//temp
+	for (auto& character : _botAndMonsters | views::values)
+	{
+		Protocol::ActorInfo* info = syncPkt.add_actorinfo();
+		info->set_id(character->GetActorId());
+		info->set_allocated_transform(character->GetTransform());
+
+		physx::PxVec3 color = character->GetColor();
+		info->set_r(color.x);
+		info->set_g(color.y);
+		info->set_b(color.z);
 	}
 
 	for (auto& player : _players | views::values)
@@ -227,13 +298,24 @@ void Room::CaptureSnapshot()
 	{
 		WRITE_LOCK
 
-		for (auto& [id, actor] : _actors)
+		for (auto& [actorid, actor] : _actors)
 		{
 			SnapshotEntity entity;
-			entity.actorId = id;
+			entity.actorId = actorid;
 			entity.position = actor->GetPosition();
 			entity.rotation = actor->GetRotation();
 			entity.collider = actor->GetColliderInfo();
+
+			snapshot.push_back(entity);
+		}
+
+		for (auto& player : _players | views::values)
+		{
+			SnapshotEntity entity;
+			entity.actorId = player->GetActorId();
+			entity.position = player->GetPosition();
+			entity.rotation = player->GetRotation();
+			entity.collider = player->GetColliderInfo();
 
 			snapshot.push_back(entity);
 		}
@@ -268,35 +350,45 @@ Snapshot* Room::FindSnapshot(double timestamp)
 		_snapshotBuffer.begin(), _snapshotBuffer.end(), timestamp,
 		[](const auto& pair, int t) { return pair.first < t; });
 
-	if (it == _snapshotBuffer.begin() || it == _snapshotBuffer.end())
+	if (it == _snapshotBuffer.end())
 		return nullptr;
 
 	return &it->second;
 }
 
-physx::PxScene* Room::BuildRewindScene(Snapshot& snapshot)
+physx::PxScene* Room::BuildRewindScene(int32 playerIndex, Snapshot& snapshot)
 {
+	if (!_pxRewindScenes[playerIndex]) 
+		return nullptr;
+
 	for (auto& entity : snapshot)
 	{
+		if (entity.collider.type == ColliderInfo::Type::Plane)
+		{
+			physx::PxRigidStatic* ground = PhysicsManager::Instance().CreatePlane(0.0f, 1.0f, 0.0f, 0.0f);
+			_pxRewindScenes[playerIndex]->addActor(*ground);
+			continue;
+		}
+
 		physx::PxRigidStatic* actor = PhysicsManager::Instance().CreateRigidStatic(entity.position, entity.rotation);
 		physx::PxShape* shape = PhysicsManager::Instance().CreateShape(entity.collider);
 		shape->setLocalPose(physx::PxTransform(entity.collider.localOffset, entity.collider.localRotation));
 
 		actor->attachShape(*shape);
-		_pxRewindScene->addActor(*actor);
+		_pxRewindScenes[playerIndex]->addActor(*actor);
 	}
 
-	return _pxRewindScene;
+	return _pxRewindScenes[playerIndex];
 }
 
-void Room::ClearRewindScene()
+void Room::ClearRewindScene(int32 playerIndex)
 {
-	physx::PxU32 actorCount = _pxRewindScene->getNbActors(physx::PxActorTypeFlag::eRIGID_STATIC);
+	physx::PxU32 actorCount = _pxRewindScenes[playerIndex]->getNbActors(physx::PxActorTypeFlag::eRIGID_STATIC);
 	if (actorCount == 0)
 		return;
 
 	std::vector<physx::PxActor*> actors(actorCount);
-	_pxRewindScene->getActors(physx::PxActorTypeFlag::eRIGID_STATIC, actors.data(), actorCount);
+	_pxRewindScenes[playerIndex]->getActors(physx::PxActorTypeFlag::eRIGID_STATIC, actors.data(), actorCount);
 
 	for (auto actor : actors)
 		actor->release();

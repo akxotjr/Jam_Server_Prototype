@@ -849,6 +849,9 @@ class ActorInfo final : public ::google::protobuf::Message
     kTransformFieldNumber = 2,
     kIdFieldNumber = 1,
     kSequenceFieldNumber = 3,
+    kRFieldNumber = 4,
+    kGFieldNumber = 5,
+    kBFieldNumber = 6,
   };
   // .Protocol.Transform transform = 2;
   bool has_transform() const;
@@ -886,12 +889,45 @@ class ActorInfo final : public ::google::protobuf::Message
   void _internal_set_sequence(::uint32_t value);
 
   public:
+  // optional float r = 4;
+  bool has_r() const;
+  void clear_r() ;
+  float r() const;
+  void set_r(float value);
+
+  private:
+  float _internal_r() const;
+  void _internal_set_r(float value);
+
+  public:
+  // optional float g = 5;
+  bool has_g() const;
+  void clear_g() ;
+  float g() const;
+  void set_g(float value);
+
+  private:
+  float _internal_g() const;
+  void _internal_set_g(float value);
+
+  public:
+  // optional float b = 6;
+  bool has_b() const;
+  void clear_b() ;
+  float b() const;
+  void set_b(float value);
+
+  private:
+  float _internal_b() const;
+  void _internal_set_b(float value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Protocol.ActorInfo)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 1,
+      3, 6, 1,
       0, 2>
       _table_;
 
@@ -914,6 +950,9 @@ class ActorInfo final : public ::google::protobuf::Message
     ::Protocol::Transform* transform_;
     ::uint32_t id_;
     ::uint32_t sequence_;
+    float r_;
+    float g_;
+    float b_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1150,6 +1189,90 @@ inline ::uint32_t ActorInfo::_internal_sequence() const {
 inline void ActorInfo::_internal_set_sequence(::uint32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sequence_ = value;
+}
+
+// optional float r = 4;
+inline bool ActorInfo::has_r() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline void ActorInfo::clear_r() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.r_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline float ActorInfo::r() const {
+  // @@protoc_insertion_point(field_get:Protocol.ActorInfo.r)
+  return _internal_r();
+}
+inline void ActorInfo::set_r(float value) {
+  _internal_set_r(value);
+  _impl_._has_bits_[0] |= 0x00000004u;
+  // @@protoc_insertion_point(field_set:Protocol.ActorInfo.r)
+}
+inline float ActorInfo::_internal_r() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.r_;
+}
+inline void ActorInfo::_internal_set_r(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.r_ = value;
+}
+
+// optional float g = 5;
+inline bool ActorInfo::has_g() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline void ActorInfo::clear_g() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.g_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline float ActorInfo::g() const {
+  // @@protoc_insertion_point(field_get:Protocol.ActorInfo.g)
+  return _internal_g();
+}
+inline void ActorInfo::set_g(float value) {
+  _internal_set_g(value);
+  _impl_._has_bits_[0] |= 0x00000008u;
+  // @@protoc_insertion_point(field_set:Protocol.ActorInfo.g)
+}
+inline float ActorInfo::_internal_g() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.g_;
+}
+inline void ActorInfo::_internal_set_g(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.g_ = value;
+}
+
+// optional float b = 6;
+inline bool ActorInfo::has_b() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
+  return value;
+}
+inline void ActorInfo::clear_b() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.b_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000010u;
+}
+inline float ActorInfo::b() const {
+  // @@protoc_insertion_point(field_get:Protocol.ActorInfo.b)
+  return _internal_b();
+}
+inline void ActorInfo::set_b(float value) {
+  _internal_set_b(value);
+  _impl_._has_bits_[0] |= 0x00000010u;
+  // @@protoc_insertion_point(field_set:Protocol.ActorInfo.b)
+}
+inline float ActorInfo::_internal_b() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.b_;
+}
+inline void ActorInfo::_internal_set_b(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.b_ = value;
 }
 
 // -------------------------------------------------------------------

@@ -14,7 +14,7 @@ enum class ActorTypePrefix : uint8
 {
 	None = 0x0,
 	Player = 0x1,
-	Monster = 0x2,
+	Bot = 0x2,
 	Floor = 0x3,	// temp
 	Projectile = 0x4,
 

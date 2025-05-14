@@ -7,6 +7,7 @@ Floor::Floor()
 {
 	_actorId = IdManager::Instance().Generate(IdType::Actor, ActorTypePrefix::Floor);
 	_colliderInfo = ColliderInfo::MakePlane();
+	_color = { 0.7f, 0.7f, 0.7f };
 }
 
 void Floor::Init(RoomRef room)

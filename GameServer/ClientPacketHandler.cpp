@@ -270,3 +270,8 @@ bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt)
 
 	return false;
 }
+
+bool Handle_C_HIT_RESULT(SessionRef& session, Protocol::C_HIT_RESULT& pkt)
+{
+	return true;
+}

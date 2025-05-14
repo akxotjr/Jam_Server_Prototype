@@ -15,6 +15,9 @@ message ActorInfo	// 28 bytes
 	uint32 id = 1;
 	Transform transform = 2;
 	optional uint32 sequence = 3;
+	optional float r = 4;
+	optional float g = 5;
+	optional float b = 6;
 }
 
 message RoomInfo

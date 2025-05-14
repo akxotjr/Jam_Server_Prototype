@@ -17,6 +17,7 @@
 #include "Enum.pb.h"
 #include "Protocol.pb.h"
 #include <physx/PxPhysicsAPI.h>
+#include "PhysicsUtils.h"
 
 using namespace core;
 using namespace core::memory;

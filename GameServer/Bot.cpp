@@ -1,68 +1,74 @@
 #include "pch.h"
 #include "Bot.h"
-#include <algorithm>
-#include <random>
-#include <TimeManager.h>
+#include "IdManager.h"
+#include "Room.h"
 
-//Bot::Bot()
-//{
-//}
-//
-//Bot::~Bot()
-//{
-//}
-//
-//void Bot::Init()
-//{
-//	Super::Init();
-//	
-//    _info->set_name("Bot" + to_string(_info->id()));
-//    _info->set_type(Protocol::ActorType::ACTOR_TYPE_BOT);
-//
-//    // ·£´ý ¿£Áø ¼³Á¤
-//    static std::random_device rd;
-//    static std::mt19937 gen(rd());
-//
-//    // 1. À§Ä¡ ·£´ý: x: 0~800, y: 0~600
-//    std::uniform_real_distribution<float> posXDist(0.0f, 800.0f);
-//    std::uniform_real_distribution<float> posYDist(0.0f, 600.0f);
-//
-//    _position.x = posXDist(gen);
-//    _position.y = posYDist(gen);
-//
-//    std::uniform_real_distribution<float> angleDist(0.0f, 2 * 3.1415926f); // 0 ~ 2¥ð
-//    float angle = angleDist(gen);
-//
-//    _direction.x = std::cos(angle);
-//    _direction.y = std::sin(angle);
-//
-//    _velocity = _direction * _speed;
-//
-//}
-//
-//void Bot::Update()
-//{
-//    float deltaTime = TimeManager::Instance().GetDeltaTime();
-//    Vec2 nextPos = _position + _velocity * deltaTime;
-//
-//    bool isChangedVelocity = false;
-//
-//    if (nextPos.x < 0.f || nextPos.x > GWinSizeX)
-//    {
-//        _direction.x = -_direction.x;
-//        _velocity.x = -_velocity.x;
-//        isChangedVelocity = true;
-//    }
-//
-//    if (nextPos.y < 0.f || nextPos.y > GWinSizeY)
-//    {
-//        _direction.y = -_direction.y;
-//        _velocity.y = -_velocity.y;
-//        isChangedVelocity = true;
-//    }
-//
-//    nextPos.x = std::clamp(nextPos.x, 0.0f, static_cast<float>(GWinSizeX));
-//    nextPos.y = std::clamp(nextPos.y, 0.0f, static_cast<float>(GWinSizeY));
-//
-//    _position = nextPos;
-//}
+Bot::Bot()
+{
+	_actorId = IdManager::Instance().Generate(IdType::Actor, ActorTypePrefix::Bot);
+	_position = { 0.0f, 5.0f, 30.0f };
+	_colliderInfo = ColliderInfo::MakeBox(5.f, 5.f, 5.f);
+
+	_color = _magenta;
+
+	_horizontalVelocity = { 5.0f, 0.0f, 0.0f };
+	_moveSpeed = 5.0f;
+}
+
+Bot::~Bot()
+{
+	if (_controller)
+		_controller->release();
+}
+
+void Bot::Init(RoomRef room)
+{
+	_ownerRoom = room;
+
+	GetOwnerRoom()->_physicsQueue->Push(job::Job([this]()
+		{
+			physx::PxBoxControllerDesc desc = {};
+			desc.position = physx::PxExtendedVec3(_position.x, _position.y, _position.z);
+			desc.halfSideExtent = _colliderInfo.box.hx;
+			desc.halfHeight = _colliderInfo.box.hy;
+			desc.halfForwardExtent = _colliderInfo.box.hz;
+			desc.upDirection = physx::PxVec3(0, 1, 0);
+			desc.slopeLimit = cosf(physx::PxPi * 0.25f); // 45 degree
+			desc.material = PhysicsManager::Instance().GetDefaultMaterial();
+			_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_pxControllerManager->createController(desc));
+			ASSERT_CRASH(_controller != nullptr)
+		}));
+}
+
+void Bot::Update()
+{
+	float deltaTime = static_cast<float>(TICK_INTERVAL_S);
+
+	physx::PxControllerFilters filters;
+	physx::PxControllerCollisionFlags collisionFlags = _controller->move(_horizontalVelocity * deltaTime, 0.01f, deltaTime, filters);
+
+	//if (collisionFlags & physx::PxControllerCollisionFlag::eCOLLISION_DOWN)
+	//{
+	//}
+	//else
+	//{
+	//}
+
+	physx::PxExtendedVec3 pos = _controller->getPosition();
+	_position = physx::PxVec3(static_cast<float>(pos.x), static_cast<float>(pos.y), static_cast<float>(pos.z));
+
+	if (_position.x <= -20.f || _position.x >= 20.f)
+		_horizontalVelocity.x = -_horizontalVelocity.x;
+}
+
+Protocol::Transform* Bot::GetTransform()
+{
+	return Super::GetTransform();
+}
+
+void Bot::ToggleColor()
+{
+	_color = (_color == _magenta) ? _cyan : _magenta;
+}
+
+

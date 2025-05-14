@@ -1,9 +1,14 @@
 #include "pch.h"
 #include "Player.h"
+
+#include "ClientPacketHandler.h"
 #include "IdManager.h"
 #include "PhysicsManager.h"
 #include "Values.h"
 #include "Room.h"
+#include "SessionManager.h"
+#include "TimeManager.h"
+#include "TransformCompressor.h"
 
 Player::Player()
 {
@@ -65,7 +70,7 @@ void Player::ProcessInput(uint32 keyField, float yaw, float pitch, uint32 sequen
 
 	ProcessMovement(keyField);
 	ProcessJump(keyField);
-	ProcessFire(keyField, timestamp);
+	ProcessFire(keyField, timestamp, yaw, pitch);
 }
 
 Protocol::Transform* Player::GetTransform()
@@ -122,20 +127,29 @@ void Player::ProcessJump(uint32 keyField)
 	{
 		if (_isGrounded)
 		{
+			WRITE_LOCK
 			_verticalVelocity = _jumpSpeed;
 		}
 	}
 }
 
-void Player::ProcessFire(uint32 keyField, double timestamp)
+void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pitch)
 {
 	if (keyField & (1 << static_cast<int32>(EInputKey::Fire)))
 	{
 		auto room = GetOwnerRoom();
 		Snapshot* snapshot = room->FindSnapshot(timestamp);
+		if (snapshot == nullptr)
+		{
+			cout << "snapshot is nullptr\n";
+			return;
+		}
+
+		cout << "Snapshot size : " << snapshot->size() << "\n";
 
 		SnapshotEntity* shooter = nullptr;
-		for (SnapshotEntity& entity : snapshot)
+
+		for (SnapshotEntity& entity : *snapshot)
 		{
 			if (entity.actorId == _actorId)
 			{
@@ -144,55 +158,54 @@ void Player::ProcessFire(uint32 keyField, double timestamp)
 			}
 		}
 
-		if (!shooter) return;
+		if (!shooter)
+		{
+			cout << "shooter is nullptr\n";
+			return;
+		}
 
-		physx::PxVec3 cameraPos = shooter->position + _cameraOffset;
-		physx::PxVec3 rayDir = ComputeForwardFromYawPitch(_yaw, _pitch);
+		physx::PxVec3 cameraPos = shooter->position + PhysicsUtils::GetRotatedVecFromYawPitch(yaw, pitch, _cameraOffset * _cameraDist);
+		physx::PxVec3 rayDir = PhysicsUtils::GetFowardVecFromYawPitch(yaw, pitch);
 
+		physx::PxScene* rewindScene = room->BuildRewindScene(_playerIndex, *snapshot);
 
-		physx::PxScene* rewindScene = room->BuildRewindScene(*snapshot);
+		if (!rewindScene)
+		{
+			cout << "rewindScene is nullptr\n";
+			return;
+		}
 
 		physx::PxRaycastHit hit;
-		bool hasHit = RaycastInScene(rewindScene, cameraPos, rayDir, _rayMaxDist, hit);
+		bool hasHit = PhysicsManager::Instance().RaycastInScene(rewindScene, cameraPos, rayDir, _rayMaxDist, hit);
+		if (!hasHit)
+		{
+			cout << "No Target\n";
+			return;
+		}
 
 		physx::PxVec3 targetPos = hasHit ? hit.position : (cameraPos + rayDir * _rayMaxDist);
 
 
-		physx::PxVec3 muzzlePos = shooter->position + _muzzleOffset; // 총구 offset
+		physx::PxVec3 muzzlePos = shooter->position + PhysicsUtils::GetRotatedVecFromYawPitch(yaw, pitch, _muzzleOffset);
 		physx::PxVec3 fireDir = (targetPos - muzzlePos).getNormalized();
 
 		physx::PxRaycastHit finalHit;
-		bool finalHasHit = RaycastInScene(rewindScene, muzzlePos, fireDir, _rayMaxDist, finalHit);
+		bool finalHasHit = PhysicsManager::Instance().RaycastInScene(rewindScene, muzzlePos, fireDir, _rayMaxDist, finalHit);
 
-		room->ClearRewindScene();
+		room->ClearRewindScene(_playerIndex);
 
 		if (finalHasHit)
 		{
-			// TODO
+			double t = TimeManager::Instance().GetServerTime();
+			Protocol::S_HIT_RESULT hitPkt;
+			hitPkt.set_actorid(_actorId);
+			hitPkt.set_position(TransformCompressor::PackPosition(finalHit.position.x, finalHit.position.y, finalHit.position.z));
+
+			auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(hitPkt);
+			auto session = static_pointer_cast<ReliableUdpSession>(SessionManager::Instance().GetSessionByUserId(ProtocolType::PROTOCOL_UDP, _userId));
+			session->SendReliable(sendBuffer, t);
+
+			// finalHit.actor->
 		}
 	}
-}
-
-physx::PxVec3 Player::ComputeForwardFromYawPitch(float yaw, float pitch)	// util 함수로 옮기는것
-{
-	float cy = cosf(yaw);
-	float sy = sinf(yaw);
-	float cp = cosf(pitch);
-	float sp = sinf(pitch);
-
-	return physx::PxVec3(sy * cp, sp, cy * cp).getNormalized();
-}
-
-bool Player::RaycastInScene(physx::PxScene* scene, const physx::PxVec3& origin, const physx::PxVec3& dir, float maxDist, physx::PxRaycastHit& outHit)
-{
-	physx::PxRaycastBuffer buffer;
-	bool status = scene->raycast(origin, dir.getNormalized(), maxDist, buffer);
-
-	if (status && buffer.hasBlock)
-	{
-		outHit = buffer.block;
-		return true;
-	}
-
-	return false;
 }

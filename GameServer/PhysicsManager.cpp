@@ -175,6 +175,20 @@ physx::PxRigidStatic* PhysicsManager::CreatePlane(float nx, float ny, float nz, 
 	return	physx::PxCreatePlane(*_pxPhysics, physx::PxPlane(nx, ny, nz, distance), *_defaultMaterial);
 }
 
+bool PhysicsManager::RaycastInScene(physx::PxScene* scene, const physx::PxVec3& origin, const physx::PxVec3& dir, float maxDist, physx::PxRaycastHit& outHit)
+{
+	physx::PxRaycastBuffer buffer;
+	bool status = scene->raycast(origin, dir.getNormalized(), maxDist, buffer);
+
+	if (status && buffer.hasBlock)
+	{
+		outHit = buffer.block;
+		return true;
+	}
+
+	return false;
+}
+
 physx::PxRigidDynamic* PhysicsManager::CreateRigidDynamic(physx::PxVec3& position, physx::PxQuat& rotation)
 {
 	return _pxPhysics->createRigidDynamic(physx::PxTransform(position, rotation));

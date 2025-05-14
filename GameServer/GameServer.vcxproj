@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Bot.cpp" />
-    <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterActor.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="DynamicActor.cpp" />
@@ -174,11 +173,11 @@
     </ClCompile>
     <ClCompile Include="TransformCompressor.cpp" />
     <ClCompile Include="UserManager.cpp" />
+    <ClCompile Include="PhysicsUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Bot.h" />
-    <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterActor.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="DynamicActor.h" />
@@ -202,6 +201,7 @@
     <ClInclude Include="TransformCompressor.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="UserManager.h" />
+    <ClInclude Include="PhysicsUtils.h" />
     <ClInclude Include="Values.h" />
   </ItemGroup>
   <ItemGroup>

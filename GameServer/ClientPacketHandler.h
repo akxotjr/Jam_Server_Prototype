@@ -32,6 +32,8 @@ enum : uint16
 	PKT_S_SYNC_ACTOR = 1021,
 	PKT_C_PLAYER_INPUT = 1022,
 	PKT_S_PLAYER_INPUT = 1023,
+	PKT_C_HIT_RESULT = 1024,
+	PKT_S_HIT_RESULT = 1025,
 };
 
 // Custom Handlers
@@ -48,6 +50,7 @@ bool Handle_C_SYNC_TIME(SessionRef& session, Protocol::C_SYNC_TIME& pkt);
 bool Handle_C_SPAWN_ACTOR(SessionRef& session, Protocol::C_SPAWN_ACTOR& pkt);
 bool Handle_C_SYNC_ACTOR(SessionRef& session, Protocol::C_SYNC_ACTOR& pkt);
 bool Handle_C_PLAYER_INPUT(SessionRef& session, Protocol::C_PLAYER_INPUT& pkt);
+bool Handle_C_HIT_RESULT(SessionRef& session, Protocol::C_HIT_RESULT& pkt);
 
 class ClientPacketHandler
 {
@@ -83,6 +86,8 @@ public:
 		GPacketHandler_Udp[PKT_C_SYNC_ACTOR] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<UdpPacketHeader, Protocol::C_SYNC_ACTOR> (Handle_C_SYNC_ACTOR, session, buffer, len); };
 		GPacketHandler_Tcp[PKT_C_PLAYER_INPUT] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<TcpPacketHeader, Protocol::C_PLAYER_INPUT> (Handle_C_PLAYER_INPUT, session, buffer, len); };
 		GPacketHandler_Udp[PKT_C_PLAYER_INPUT] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<UdpPacketHeader, Protocol::C_PLAYER_INPUT> (Handle_C_PLAYER_INPUT, session, buffer, len); };
+		GPacketHandler_Tcp[PKT_C_HIT_RESULT] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<TcpPacketHeader, Protocol::C_HIT_RESULT> (Handle_C_HIT_RESULT, session, buffer, len); };
+		GPacketHandler_Udp[PKT_C_HIT_RESULT] = [](SessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<UdpPacketHeader, Protocol::C_HIT_RESULT> (Handle_C_HIT_RESULT, session, buffer, len); };
 	}
 
 	template<typename T>
@@ -146,6 +151,8 @@ public:
 	static SendBufferRef MakeSendBufferUdp(Protocol::S_SYNC_ACTOR& pkt) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_S_SYNC_ACTOR); }
 	static SendBufferRef MakeSendBufferTcp(Protocol::S_PLAYER_INPUT& pkt) { return MakeSendBufferImpl<TcpPacketHeader>(pkt, PKT_S_PLAYER_INPUT); }
 	static SendBufferRef MakeSendBufferUdp(Protocol::S_PLAYER_INPUT& pkt) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_S_PLAYER_INPUT); }
+	static SendBufferRef MakeSendBufferTcp(Protocol::S_HIT_RESULT& pkt) { return MakeSendBufferImpl<TcpPacketHeader>(pkt, PKT_S_HIT_RESULT); }
+	static SendBufferRef MakeSendBufferUdp(Protocol::S_HIT_RESULT& pkt) { return MakeSendBufferImpl<UdpPacketHeader>(pkt, PKT_S_HIT_RESULT); }
 
 private:
 	template<typename HeaderType, typename PacketType, typename ProcessFunc>

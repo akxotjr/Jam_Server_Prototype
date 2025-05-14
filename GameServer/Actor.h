@@ -29,6 +29,9 @@ public:
 
 	const ColliderInfo&				GetColliderInfo() { return _colliderInfo; }
 
+	void							SetColor(const physx::PxVec3& color) { _color = color; }
+	physx::PxVec3&					GetColor() { return _color; }
+
 protected:
 	std::weak_ptr<Room>				_ownerRoom;
 
@@ -44,5 +47,7 @@ protected:
 	physx::PxActor*					_pxActor = nullptr;
 
 	ColliderInfo					_colliderInfo;
+
+	physx::PxVec3					_color = {};
 };
 

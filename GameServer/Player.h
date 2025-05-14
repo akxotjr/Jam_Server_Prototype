@@ -28,13 +28,21 @@ public:
 	Player();
 	virtual ~Player() override = default;
 
-    /* Actor impl */
+    /** Actor impl **/
 	virtual void                    Init(RoomRef room) override;
 	virtual void                    Update() override;
     virtual	Protocol::Transform*	GetTransform() override;
 
+    /** Processing Input **/
+public:
 	void                            ProcessInput(uint32 keyField, float cameraYaw, float cameraPitch, uint32 sequence, double timestamp);
+private:
+    void                            ProcessMovement(uint32 keyFiel);
+    void                            ProcessJump(uint32 keyField);
+    void                            ProcessFire(uint32 keyField, double timestamp, float yaw, float pitch);
 
+    /** Getter & Setter **/
+public:
 	uint32                          GetLastSequence() const { return _lastProcessSequence; }
 
     void                            SetUserId(uint32 id) { _userId = id; }
@@ -42,25 +50,23 @@ public:
 
     void                            SetYawPitch(float yaw, float pitch);
 
-private:
-	void                            ProcessMovement(uint32 keyFiel);
-    void                            ProcessJump(uint32 keyField);
-    void                            ProcessFire(uint32 keyField, double timestamp);
-
-    physx::PxVec3                   ComputeForwardFromYawPitch(float yaw, float pitch);
-    bool RaycastInScene(physx::PxScene* scene, const physx::PxVec3& origin, const physx::PxVec3& dir, float maxDist, physx::PxRaycastHit& outHit);
+    void                            SetPlayerIndex(int32 index) { _playerIndex = index; }
+    int32                           GetPlayerIndex() { return _playerIndex; }
 
 private:
     USE_LOCK
 
     uint32                          _userId;
+    int32                           _playerIndex = 0;
+
 
 	uint32	                        _lastProcessSequence;
 
     bool                            _isGrounded = true;
     float                           _jumpSpeed = 6.0f;
 
+    float                           _cameraDist = 5.f;
     physx::PxVec3                   _cameraOffset = { -0.2f, 0.4f, -1.5f };
-    physx::PxVec3                   _muzzleOffset = { 0.2f, 1.4f, 0.5f };   // TODO : °ª Á¶Á¤
-    const float                     _rayMaxDist = 500.f;
+    physx::PxVec3                   _muzzleOffset = { 0.0f, 0.0f, 2.0f };
+    const float                     _rayMaxDist = 10000.f;
 };

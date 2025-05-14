@@ -57,12 +57,6 @@
     <ClCompile Include="Room.cpp">
       <Filter>04.Room</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>04.Room</Filter>
-    </ClCompile>
-    <ClCompile Include="Bot.cpp">
-      <Filter>04.Room</Filter>
-    </ClCompile>
     <ClCompile Include="GameTcpSession.cpp">
       <Filter>02.Network</Filter>
     </ClCompile>
@@ -111,6 +105,10 @@
     <ClCompile Include="Floor.cpp">
       <Filter>03.Actor\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsUtils.cpp">
+      <Filter>97.Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Bot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -135,12 +133,6 @@
       <Filter>98.Proto</Filter>
     </ClInclude>
     <ClInclude Include="Room.h">
-      <Filter>04.Room</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>04.Room</Filter>
-    </ClInclude>
-    <ClInclude Include="Bot.h">
       <Filter>04.Room</Filter>
     </ClInclude>
     <ClInclude Include="GameUdpSession.h">
@@ -194,6 +186,10 @@
     <ClInclude Include="Floor.h">
       <Filter>03.Actor\Contents</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsUtils.h">
+      <Filter>97.Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Bot.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Common\Protobuf\bin\Enum.proto">

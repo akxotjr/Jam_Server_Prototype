@@ -246,14 +246,7 @@ void Room::AddSnapshot(double timestamp, Snapshot& snapshot)
 {
 	WRITE_LOCK
 
-	auto it = std::upper_bound(
-		_snapshotBuffer.begin(), _snapshotBuffer.end(), timestamp,
-		[](const std::pair<double, Snapshot>& pair, const double& t) {
-			return pair.first < t;
-		}
-	);
-
-	_snapshotBuffer.insert(it, std::make_pair(timestamp, snapshot));
+	_snapshotBuffer.push_back(make_pair(timestamp, snapshot));
 
 	double cutoff = timestamp - 0.5f;
 
@@ -281,16 +274,19 @@ Snapshot* Room::FindSnapshot(double timestamp)
 	return &it->second;
 }
 
-void Room::BuildRewindScene(Snapshot& snapshot)
+physx::PxScene* Room::BuildRewindScene(Snapshot& snapshot)
 {
 	for (auto& entity : snapshot)
 	{
 		physx::PxRigidStatic* actor = PhysicsManager::Instance().CreateRigidStatic(entity.position, entity.rotation);
-		physx::PxShape* shape = PhysicsManager::Instance().CreateShape(entity.collider.type, entity.collider.size);
-		actor->attachShape(*shape);
+		physx::PxShape* shape = PhysicsManager::Instance().CreateShape(entity.collider);
+		shape->setLocalPose(physx::PxTransform(entity.collider.localOffset, entity.collider.localRotation));
 
+		actor->attachShape(*shape);
 		_pxRewindScene->addActor(*actor);
 	}
+
+	return _pxRewindScene;
 }
 
 void Room::ClearRewindScene()

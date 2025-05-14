@@ -51,7 +51,7 @@ public:
 	void					AddSnapshot(double timestamp, Snapshot& snapshot);
 	Snapshot*				FindSnapshot(double timestamp);
 
-	void					BuildRewindScene(Snapshot& snapshot);
+	physx::PxScene*			BuildRewindScene(Snapshot& snapshot);
 	void					ClearRewindScene();
 
 private:

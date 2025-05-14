@@ -97,6 +97,8 @@ void PhysicsManager::Init(int32 numWorkers)
 		worker->SetSharedQueueMap(&_physicsQueues);
 		_workers.push_back(std::move(worker));
 	}
+
+	_defaultMaterial = CreateMaterial(0.5f, 0.5f, 1.0f);
 }
 
 void PhysicsManager::Shutdown()
@@ -170,7 +172,7 @@ physx::PxRigidStatic* PhysicsManager::CreateRigidStatic(physx::PxVec3& position,
 
 physx::PxRigidStatic* PhysicsManager::CreatePlane(float nx, float ny, float nz, float distance)
 {
-	return	physx::PxCreatePlane(*_pxPhysics, physx::PxPlane(nx, ny, nz, distance), *CreateMaterial(0.5f, 0.5, 1.0f));
+	return	physx::PxCreatePlane(*_pxPhysics, physx::PxPlane(nx, ny, nz, distance), *_defaultMaterial);
 }
 
 physx::PxRigidDynamic* PhysicsManager::CreateRigidDynamic(physx::PxVec3& position, physx::PxQuat& rotation)
@@ -178,25 +180,21 @@ physx::PxRigidDynamic* PhysicsManager::CreateRigidDynamic(physx::PxVec3& positio
 	return _pxPhysics->createRigidDynamic(physx::PxTransform(position, rotation));
 }
 
-physx::PxShape* PhysicsManager::CreateShape(EColliderType type, const physx::PxVec3& size)
+physx::PxShape* PhysicsManager::CreateShape(const ColliderInfo& info)
 {
-	switch (type)
+	switch (info.type)
 	{
-	case EColliderType::Box:
-		{
-			physx::PxBoxGeometry box(size.x, size.y, size.z); // half-size
-			return _pxPhysics->createShape(box, *CreateMaterial(0.5f, 0.5, 1.0f));
-		}
-	case EColliderType::Capsule:
-		{
-			physx::PxCapsuleGeometry capsule(size.x, size.y); // radius, half-height
-			return _pxPhysics->createShape(capsule, *CreateMaterial(0.5f, 0.5f, 1.0f));
-		}
-	case EColliderType::Sphere:
-		{
-			physx::PxSphereGeometry sphere(size.x); // radius
-			return _pxPhysics->createShape(sphere, *CreateMaterial(0.5f, 0.5f, 1.0f));
-		}
+	case ColliderInfo::Type::Box:
+		return _pxPhysics->createShape(physx::PxBoxGeometry(info.box.hx, info.box.hy, info.box.hz), *_defaultMaterial);
+
+	case ColliderInfo::Type::Capsule:
+		return _pxPhysics->createShape(physx::PxCapsuleGeometry(info.capsule.radius, info.capsule.halfHeight), *_defaultMaterial);
+
+	case ColliderInfo::Type::Sphere:
+		return _pxPhysics->createShape(physx::PxSphereGeometry(info.sphere.radius), *_defaultMaterial);
+	case ColliderInfo::Type::Plane:
+		return _pxPhysics->createShape(physx::PxPlaneGeometry(), *_defaultMaterial);
 	}
+
 	return nullptr;
 }

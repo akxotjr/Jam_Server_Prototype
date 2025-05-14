@@ -1,11 +1,5 @@
 #pragma once
-
-struct ColliderInfo
-{
-	EColliderType type;
-	physx::PxVec3 offset;
-	physx::PxVec3 size; // Box: half extents, Capsule: height/radius
-};
+#include "PhysicsManager.h"
 
 class Actor : public enable_shared_from_this<Actor>
 {

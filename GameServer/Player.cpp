@@ -1,17 +1,33 @@
 #include "pch.h"
 #include "Player.h"
 #include "IdManager.h"
+#include "PhysicsManager.h"
 #include "Values.h"
+#include "Room.h"
 
 Player::Player()
 {
 	_actorId = IdManager::Instance().Generate(IdType::Actor, ActorTypePrefix::Player);
 	_position = { 0.0f, 5.0f, 0.0f };
+	_colliderInfo = ColliderInfo::MakeCapsule(0.1f, 0.4f);
 }
 
 void Player::Init(RoomRef room)
 {
-	Super::Init(room);
+	_ownerRoom = room;
+
+	GetOwnerRoom()->_physicsQueue->Push(job::Job([this]()
+		{
+			physx::PxCapsuleControllerDesc desc = {};
+			desc.position = physx::PxExtendedVec3(_position.x, _position.y, _position.z);
+			desc.radius = _colliderInfo.capsule.radius;
+			desc.height = _colliderInfo.capsule.halfHeight * 2;
+			desc.upDirection = physx::PxVec3(0, 1, 0);
+			desc.slopeLimit = cosf(physx::PxPi * 0.25f); // 45 degree
+			desc.material = PhysicsManager::Instance().GetDefaultMaterial();
+			_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_pxControllerManager->createController(desc));
+			ASSERT_CRASH(_controller != nullptr)
+		}));
 }
 
 void Player::Update()
@@ -115,6 +131,68 @@ void Player::ProcessFire(uint32 keyField, double timestamp)
 {
 	if (keyField & (1 << static_cast<int32>(EInputKey::Fire)))
 	{
-		// get position at timestamp from history
+		auto room = GetOwnerRoom();
+		Snapshot* snapshot = room->FindSnapshot(timestamp);
+
+		SnapshotEntity* shooter = nullptr;
+		for (SnapshotEntity& entity : snapshot)
+		{
+			if (entity.actorId == _actorId)
+			{
+				shooter = &entity;
+				break;
+			}
+		}
+
+		if (!shooter) return;
+
+		physx::PxVec3 cameraPos = shooter->position + _cameraOffset;
+		physx::PxVec3 rayDir = ComputeForwardFromYawPitch(_yaw, _pitch);
+
+
+		physx::PxScene* rewindScene = room->BuildRewindScene(*snapshot);
+
+		physx::PxRaycastHit hit;
+		bool hasHit = RaycastInScene(rewindScene, cameraPos, rayDir, _rayMaxDist, hit);
+
+		physx::PxVec3 targetPos = hasHit ? hit.position : (cameraPos + rayDir * _rayMaxDist);
+
+
+		physx::PxVec3 muzzlePos = shooter->position + _muzzleOffset; // 총구 offset
+		physx::PxVec3 fireDir = (targetPos - muzzlePos).getNormalized();
+
+		physx::PxRaycastHit finalHit;
+		bool finalHasHit = RaycastInScene(rewindScene, muzzlePos, fireDir, _rayMaxDist, finalHit);
+
+		room->ClearRewindScene();
+
+		if (finalHasHit)
+		{
+			// TODO
+		}
 	}
+}
+
+physx::PxVec3 Player::ComputeForwardFromYawPitch(float yaw, float pitch)	// util 함수로 옮기는것
+{
+	float cy = cosf(yaw);
+	float sy = sinf(yaw);
+	float cp = cosf(pitch);
+	float sp = sinf(pitch);
+
+	return physx::PxVec3(sy * cp, sp, cy * cp).getNormalized();
+}
+
+bool Player::RaycastInScene(physx::PxScene* scene, const physx::PxVec3& origin, const physx::PxVec3& dir, float maxDist, physx::PxRaycastHit& outHit)
+{
+	physx::PxRaycastBuffer buffer;
+	bool status = scene->raycast(origin, dir.getNormalized(), maxDist, buffer);
+
+	if (status && buffer.hasBlock)
+	{
+		outHit = buffer.block;
+		return true;
+	}
+
+	return false;
 }

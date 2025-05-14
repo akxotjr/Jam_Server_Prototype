@@ -25,6 +25,60 @@ private:
 extern thread_local PhysicsWorker* LPhysicsWorker;
 
 
+
+
+struct ColliderInfo
+{
+	enum class Type { Box, Capsule, Sphere, Plane };
+
+	Type type;
+
+	union
+	{
+		struct { float radius, halfHeight; } capsule;
+		struct { float radius; } sphere;
+		struct { float hx, hy, hz; } box;
+	};
+
+	// 로컬 변환 (필요 시)
+	physx::PxVec3 localOffset = physx::PxVec3(0, 0, 0);
+	physx::PxQuat localRotation = physx::PxQuat(0, 0, 0, 1);
+
+	static ColliderInfo MakeCapsule(float radius, float halfHeight)
+	{
+		ColliderInfo info;
+		info.type = Type::Capsule;
+		info.capsule = { radius, halfHeight };
+		return info;
+	}
+
+	static ColliderInfo MakeSphere(float radius)
+	{
+		ColliderInfo info;
+		info.type = Type::Sphere;
+		info.sphere = { radius };
+		return info;
+	}
+
+	static ColliderInfo MakeBox(float hx, float hy, float hz)
+	{
+		ColliderInfo info;
+		info.type = Type::Box;
+		info.box = { hx, hy, hz };
+		return info;
+	}
+
+	static ColliderInfo MakePlane()
+	{
+		ColliderInfo info;
+		info.type = Type::Plane;
+		return info;
+	}
+};
+
+
+
+
 class PhysicsManager
 {
 	DECLARE_SINGLETON(PhysicsManager)
@@ -44,9 +98,11 @@ public:
 	physx::PxRigidStatic*			CreatePlane(float nx, float ny, float nz, float distance);
 	physx::PxRigidDynamic*			CreateRigidDynamic(physx::PxVec3& position, physx::PxQuat& rotation);
 
-	physx::PxShape*					CreateShape(EColliderType type, const physx::PxVec3& size);
+	physx::PxShape*					CreateShape(const ColliderInfo& info);
 
 	std::unordered_set<uint32>&					GetAllRoomIds() { return _allRoomIds; }
+
+	physx::PxMaterial*				GetDefaultMaterial() { return _defaultMaterial; }
 
 private:
 	physx::PxFoundation*			_pxFoundation = nullptr;
@@ -57,6 +113,7 @@ private:
 
 	physx::PxSceneDesc				_pxSceneDesc = physx::PxSceneDesc(physx::PxTolerancesScale());
 
+	physx::PxMaterial*				_defaultMaterial = nullptr;
 
 	Vector<std::unique_ptr<PhysicsWorker>> _workers;
 	std::unordered_set<uint32> _allRoomIds;

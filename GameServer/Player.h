@@ -47,6 +47,9 @@ private:
     void                            ProcessJump(uint32 keyField);
     void                            ProcessFire(uint32 keyField, double timestamp);
 
+    physx::PxVec3                   ComputeForwardFromYawPitch(float yaw, float pitch);
+    bool RaycastInScene(physx::PxScene* scene, const physx::PxVec3& origin, const physx::PxVec3& dir, float maxDist, physx::PxRaycastHit& outHit);
+
 private:
     USE_LOCK
 
@@ -56,4 +59,8 @@ private:
 
     bool                            _isGrounded = true;
     float                           _jumpSpeed = 6.0f;
+
+    physx::PxVec3                   _cameraOffset = { -0.2f, 0.4f, -1.5f };
+    physx::PxVec3                   _muzzleOffset = { 0.2f, 1.4f, 0.5f };   // TODO : °ª Á¶Á¤
+    const float                     _rayMaxDist = 500.f;
 };

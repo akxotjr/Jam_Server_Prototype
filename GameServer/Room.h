@@ -8,6 +8,7 @@ struct SnapshotEntity
 	physx::PxVec3	position;
 	physx::PxQuat	rotation;
 	ColliderInfo	collider;
+	Actor*			runtimeActor = nullptr;
 };
 
 using Snapshot = std::vector<SnapshotEntity>;

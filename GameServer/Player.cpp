@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Player.h"
-
 #include "ClientPacketHandler.h"
 #include "IdManager.h"
 #include "PhysicsManager.h"
@@ -9,6 +8,7 @@
 #include "SessionManager.h"
 #include "TimeManager.h"
 #include "TransformCompressor.h"
+#include "Bot.h"
 
 Player::Player()
 {
@@ -32,6 +32,8 @@ void Player::Init(RoomRef room)
 			desc.material = PhysicsManager::Instance().GetDefaultMaterial();
 			_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_pxControllerManager->createController(desc));
 			ASSERT_CRASH(_controller != nullptr)
+
+			_controller->getActor()->userData = this;
 		}));
 }
 
@@ -137,15 +139,19 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 {
 	if (keyField & (1 << static_cast<int32>(EInputKey::Fire)))
 	{
+		if (_isFireInProgress)
+			return;
+
+		_isFireInProgress.store(true);
+
 		auto room = GetOwnerRoom();
 		Snapshot* snapshot = room->FindSnapshot(timestamp);
 		if (snapshot == nullptr)
 		{
 			cout << "snapshot is nullptr\n";
+			_isFireInProgress.store(false);
 			return;
 		}
-
-		cout << "Snapshot size : " << snapshot->size() << "\n";
 
 		SnapshotEntity* shooter = nullptr;
 
@@ -161,6 +167,7 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 		if (!shooter)
 		{
 			cout << "shooter is nullptr\n";
+			_isFireInProgress.store(false);
 			return;
 		}
 
@@ -172,6 +179,7 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 		if (!rewindScene)
 		{
 			cout << "rewindScene is nullptr\n";
+			_isFireInProgress.store(false);
 			return;
 		}
 
@@ -180,6 +188,7 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 		if (!hasHit)
 		{
 			cout << "No Target\n";
+			_isFireInProgress.store(false);
 			return;
 		}
 
@@ -205,7 +214,14 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 			auto session = static_pointer_cast<ReliableUdpSession>(SessionManager::Instance().GetSessionByUserId(ProtocolType::PROTOCOL_UDP, _userId));
 			session->SendReliable(sendBuffer, t);
 
-			// finalHit.actor->
+			Actor* actor = static_cast<Actor*>(finalHit.actor->userData);
+			uint32 actorId = actor->GetActorId();
+			if (IdManager::Instance().GetActorType(actorId) == ActorTypePrefix::Bot)
+			{
+				Bot* bot = static_cast<Bot*>(actor);
+				bot->ToggleColor();
+			}
 		}
+		_isFireInProgress.store(false);
 	}
 }

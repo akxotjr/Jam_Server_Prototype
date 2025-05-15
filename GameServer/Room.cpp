@@ -63,6 +63,8 @@ void Room::Update()
 {
 	if (!_isReady) return;
 
+	CaptureSnapshot();
+
 	_physicsQueue->Push(job::Job([this]()
 		{
 			_pxScene->simulate(static_cast<float>(TICK_INTERVAL_S));
@@ -88,8 +90,6 @@ void Room::Update()
 				player->Update();
 			}
 		}));
-
-	CaptureSnapshot();
 
 	MulticastSyncActor();
 }
@@ -296,7 +296,6 @@ void Room::CaptureSnapshot()
 	Snapshot snapshot;
 
 	{
-		WRITE_LOCK
 
 		for (auto& [actorid, actor] : _actors)
 		{
@@ -305,7 +304,18 @@ void Room::CaptureSnapshot()
 			entity.position = actor->GetPosition();
 			entity.rotation = actor->GetRotation();
 			entity.collider = actor->GetColliderInfo();
+			entity.runtimeActor = actor.get();
+			snapshot.push_back(entity);
+		}
 
+		for (auto& [actorid, character] : _botAndMonsters)
+		{
+			SnapshotEntity entity;
+			entity.actorId = actorid;
+			entity.position = character->GetPosition();
+			entity.rotation = character->GetRotation();
+			entity.collider = character->GetColliderInfo();
+			entity.runtimeActor = character.get();
 			snapshot.push_back(entity);
 		}
 
@@ -316,7 +326,7 @@ void Room::CaptureSnapshot()
 			entity.position = player->GetPosition();
 			entity.rotation = player->GetRotation();
 			entity.collider = player->GetColliderInfo();
-
+			entity.runtimeActor = player.get();
 			snapshot.push_back(entity);
 		}
 	}
@@ -328,17 +338,29 @@ void Room::AddSnapshot(double timestamp, Snapshot& snapshot)
 {
 	WRITE_LOCK
 
-	_snapshotBuffer.push_back(make_pair(timestamp, snapshot));
+	auto it = std::upper_bound(
+		_snapshotBuffer.begin(), _snapshotBuffer.end(), timestamp,
+		[](double t, const std::pair<double, Snapshot>& pair) {
+			return t < pair.first;
+		});
+
+	_snapshotBuffer.insert(it, make_pair(timestamp, snapshot));
 
 	double cutoff = timestamp - 0.5f;
-
 	_snapshotBuffer.erase(
 		std::remove_if(_snapshotBuffer.begin(), _snapshotBuffer.end(),
-			[cutoff](const std::pair<double, Snapshot>& pair) {
+			[cutoff](const auto& pair) {
 				return pair.first < cutoff;
 			}),
 		_snapshotBuffer.end());
+
+	//if (!_snapshotBuffer.empty())
+	//{
+	//	cout << "SnapshotBuffer Size = " << _snapshotBuffer.size() << endl;
+	//	cout << "SnapshotBuffer Begin timestamp = " << _snapshotBuffer.begin()->first << endl;
+	//}
 }
+
 
 
 
@@ -348,7 +370,9 @@ Snapshot* Room::FindSnapshot(double timestamp)
 
 	auto it = std::lower_bound(
 		_snapshotBuffer.begin(), _snapshotBuffer.end(), timestamp,
-		[](const auto& pair, int t) { return pair.first < t; });
+		[](const auto& pair, double t) { return pair.first < t; });
+
+	cout << "param timestamp = " << timestamp << " , SnapshotBuffer begin timestamp = " << _snapshotBuffer.front().first << " , SnapshotBuffer begin timestamp = " << _snapshotBuffer.back().first << endl;
 
 	if (it == _snapshotBuffer.end())
 		return nullptr;
@@ -358,6 +382,7 @@ Snapshot* Room::FindSnapshot(double timestamp)
 
 physx::PxScene* Room::BuildRewindScene(int32 playerIndex, Snapshot& snapshot)
 {
+	WRITE_LOCK
 	if (!_pxRewindScenes[playerIndex]) 
 		return nullptr;
 
@@ -366,14 +391,16 @@ physx::PxScene* Room::BuildRewindScene(int32 playerIndex, Snapshot& snapshot)
 		if (entity.collider.type == ColliderInfo::Type::Plane)
 		{
 			physx::PxRigidStatic* ground = PhysicsManager::Instance().CreatePlane(0.0f, 1.0f, 0.0f, 0.0f);
+			ground->userData = entity.runtimeActor;
 			_pxRewindScenes[playerIndex]->addActor(*ground);
 			continue;
 		}
 
 		physx::PxRigidStatic* actor = PhysicsManager::Instance().CreateRigidStatic(entity.position, entity.rotation);
+		actor->userData = entity.runtimeActor;
+
 		physx::PxShape* shape = PhysicsManager::Instance().CreateShape(entity.collider);
 		shape->setLocalPose(physx::PxTransform(entity.collider.localOffset, entity.collider.localRotation));
-
 		actor->attachShape(*shape);
 		_pxRewindScenes[playerIndex]->addActor(*actor);
 	}

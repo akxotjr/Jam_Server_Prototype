@@ -11,6 +11,7 @@ void StaticActor::Init(RoomRef room)
 	GetOwnerRoom()->_physicsQueue->Push(job::Job([this]()
 		{
 			_pxActor = PhysicsManager::Instance().CreateRigidStatic(_position, _rotation);
+			_pxActor->userData = this;
 		}));
 }
 

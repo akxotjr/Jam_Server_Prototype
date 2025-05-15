@@ -16,6 +16,8 @@ void Floor::Init(RoomRef room)
 
 	_pxActor = PhysicsManager::Instance().CreatePlane(0.0f, 1.f, 0.0f, 0.0f);
 	ASSERT_CRASH(_pxActor != nullptr)
+
+	_pxActor->userData = this;
 }
 
 void Floor::Update()

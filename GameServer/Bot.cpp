@@ -7,7 +7,7 @@ Bot::Bot()
 {
 	_actorId = IdManager::Instance().Generate(IdType::Actor, ActorTypePrefix::Bot);
 	_position = { 0.0f, 5.0f, 30.0f };
-	_colliderInfo = ColliderInfo::MakeBox(5.f, 5.f, 5.f);
+	_colliderInfo = ColliderInfo::MakeBox(1.f, 1.f, 1.f);
 
 	_color = _magenta;
 
@@ -37,6 +37,8 @@ void Bot::Init(RoomRef room)
 			desc.material = PhysicsManager::Instance().GetDefaultMaterial();
 			_controller = static_cast<physx::PxCapsuleController*>(GetOwnerRoom()->_pxControllerManager->createController(desc));
 			ASSERT_CRASH(_controller != nullptr)
+
+			_controller->getActor()->userData = this;
 		}));
 }
 

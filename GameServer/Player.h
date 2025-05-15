@@ -69,4 +69,6 @@ private:
     physx::PxVec3                   _cameraOffset = { -0.2f, 0.4f, -1.5f };
     physx::PxVec3                   _muzzleOffset = { 0.0f, 0.0f, 2.0f };
     const float                     _rayMaxDist = 10000.f;
+
+    Atomic<bool>                    _isFireInProgress = false;
 };

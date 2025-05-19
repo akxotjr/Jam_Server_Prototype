@@ -142,14 +142,14 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 		if (_isFireInProgress)
 			return;
 
-		_isFireInProgress.store(true);
+		_isFireInProgress = true;
 
 		auto room = GetOwnerRoom();
 		Snapshot* snapshot = room->FindSnapshot(timestamp);
 		if (snapshot == nullptr)
 		{
 			cout << "snapshot is nullptr\n";
-			_isFireInProgress.store(false);
+			_isFireInProgress = false;
 			return;
 		}
 
@@ -167,7 +167,7 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 		if (!shooter)
 		{
 			cout << "shooter is nullptr\n";
-			_isFireInProgress.store(false);
+			_isFireInProgress = false;
 			return;
 		}
 
@@ -179,7 +179,7 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 		if (!rewindScene)
 		{
 			cout << "rewindScene is nullptr\n";
-			_isFireInProgress.store(false);
+			_isFireInProgress = false;
 			return;
 		}
 
@@ -188,7 +188,7 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 		if (!hasHit)
 		{
 			cout << "No Target\n";
-			_isFireInProgress.store(false);
+			_isFireInProgress = false;
 			return;
 		}
 
@@ -222,6 +222,6 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 				bot->ToggleColor();
 			}
 		}
-		_isFireInProgress.store(false);
+		_isFireInProgress = false;
 	}
 }

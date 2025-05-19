@@ -70,5 +70,5 @@ private:
     physx::PxVec3                   _muzzleOffset = { 0.0f, 0.0f, 2.0f };
     const float                     _rayMaxDist = 10000.f;
 
-    Atomic<bool>                    _isFireInProgress = false;
+    bool                            _isFireInProgress = false;
 };

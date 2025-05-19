@@ -22,17 +22,12 @@ using UniqueLock = std::unique_lock<std::mutex>;
 using LockGuard = std::lock_guard<std::mutex>;
 
 
-
-
 #define USING_SHARED_PTR(name) using name##Ref = std::shared_ptr<class name>;
-
-
 namespace core::job
 {
 	USING_SHARED_PTR(Job);
 	USING_SHARED_PTR(JobQueue);
 }
-
 namespace core::network
 {
 	USING_SHARED_PTR(IocpCore);

@@ -74,7 +74,7 @@ namespace core::network
 	};
 
 	/*----------------
-		SendEvent
+		 SendEvent
 	-----------------*/
 
 	class SendEvent : public IocpEvent

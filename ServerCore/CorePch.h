@@ -20,6 +20,10 @@ using namespace std;
 #include <ws2tcpip.h>
 #pragma comment(lib, "ws2_32.lib")
 
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/spdlog.h>
+
 #include "Memory.h"
 #include "Lock.h"
 #include "ObjectPool.h"

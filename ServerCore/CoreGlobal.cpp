@@ -3,6 +3,7 @@
 #include "SocketUtils.h"
 #include "ThreadManager.h"
 #include "TimeManager.h"
+#include "Logger.h"
 
 
 namespace core
@@ -18,6 +19,7 @@ namespace core
 			TimeManager::Instance().Init();
 			thread::ThreadManager::Instance().Init();	// for Main Thread
 			network::SocketUtils::Init();
+			Logger::Instance().Init();
 		}
 
 		~CoreGlobal()

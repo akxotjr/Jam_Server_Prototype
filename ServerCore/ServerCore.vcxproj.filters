@@ -129,6 +129,9 @@
     <ClInclude Include="TimeManager.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePch.cpp">
@@ -216,6 +219,9 @@
       <Filter>Thread</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>

@@ -4,9 +4,6 @@
 
 namespace core::network
 {
-	// TEMP
-	IocpCore GIocpCore;
-
 	/*--------------
 		IocpCore
 	---------------*/

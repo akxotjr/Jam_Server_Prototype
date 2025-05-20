@@ -24,18 +24,20 @@ namespace core::memory
 
 #pragma region Length
 	template<typename T>
-	struct Length;
+	struct TypeLength;
 
 	template<>
-	struct Length<TypeList<>>
+	struct TypeLength<TypeList<>>
 	{
-		enum { value = 0 };
+		//enum { value = 0 };
+		static constexpr int value = 0;
 	};
 
 	template<typename T, typename... U>
-	struct Length<TypeList<T, U...>>
+	struct TypeLength<TypeList<T, U...>>
 	{
-		enum { value = 1 + Length<TypeList<U...>>::value };
+		//enum { value = 1 + TypeLength<TypeList<U...>>::value };
+		static constexpr int value = 1 + TypeLength <TypeList<U...>>::value;
 	};
 #pragma endregion
 
@@ -63,23 +65,27 @@ namespace core::memory
 	template<typename... Tail, typename T>
 	struct IndexOf<TypeList<T, Tail...>, T>
 	{
-		enum { value = 0 };
+		//enum { value = 0 };
+		static constexpr int value = 0;
 	};
 
 	template<typename T>
 	struct IndexOf<TypeList<>, T>
 	{
-		enum { value = -1 };
+		//enum { value = -1 };
+		static constexpr int value = -1;
 	};
 
 	template<typename Head, typename... Tail, typename T>
 	struct IndexOf<TypeList<Head, Tail...>, T>
 	{
 	private:
-		enum { temp = IndexOf<TypeList<Tail...>, T>::value };
+		//enum { temp = IndexOf<TypeList<Tail...>, T>::value };
+		static constexpr int temp = IndexOf<TypeList<Tail...>, T>::value;
 
 	public:
-		enum { value = (temp == -1) ? -1 : temp + 1 };
+		//enum { value = (temp == -1) ? -1 : temp + 1 };
+		static constexpr int value = (temp == -1) ? -1 : temp + 1;
 	};
 #pragma endregion
 
@@ -91,15 +97,16 @@ namespace core::memory
 		using Small = __int8;
 		using Big = __int32;
 
-		static Small Test(const To&) { return 0; }
-		static Big Test(...) { return 0; }
-		static From MakeFrom() { return 0; }
+		static Small	Test(const To&) { return 0; }
+		static Big		Test(...) { return 0; }
+		static From		MakeFrom() { return 0; }
 
 	public:
-		enum
-		{
-			exists = sizeof(Test(MakeFrom())) == sizeof(Small)
-		};
+		//enum
+		//{
+		//	exists = sizeof(Test(MakeFrom())) == sizeof(Small)
+		//};
+		static constexpr bool exists = sizeof(Test(MakeFrom())) == sizeof(Small);
 	};
 #pragma endregion
 
@@ -108,17 +115,19 @@ namespace core::memory
 	template<int32 v>
 	struct Int2Type
 	{
-		enum { value = v };
+		//enum { value = v };
+		static constexpr int value = v;
 	};
 
 	template<typename TL>
 	class TypeConversion
 	{
 	public:
-		enum
-		{
-			length = Length<TL>::value
-		};
+		//enum
+		//{
+		//	length = TypeLength<TL>::value
+		//};
+		static constexpr int32 length = TypeLength<TL>::value;
 
 		TypeConversion()
 		{

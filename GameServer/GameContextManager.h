@@ -53,7 +53,7 @@ private:
 			ctx.room = value;
 		else if constexpr (std::is_same_v<T, core::network::TcpSession>)
 			ctx.tcpSession = value;
-		else if constexpr (std::is_same_v<T, core::network::ReliableUdpSession>)
+		else if constexpr (std::is_same_v<T, core::network::UdpSession>)
 			ctx.udpSession = value;
 		else
 			static_assert(always_false<T>, "Unsupported type for GameContext");

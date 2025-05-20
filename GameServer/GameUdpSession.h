@@ -1,6 +1,6 @@
 #pragma once
 
-class GameUdpSession : public core::network::ReliableUdpSession
+class GameUdpSession : public core::network::UdpSession
 {
 public:
 	GameUdpSession() = default;

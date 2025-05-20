@@ -26,7 +26,7 @@ namespace core::thread
 		unordered_map<int32, const char*>	_idToName;
 		Map<int32, set<int32>>				_lockHistory;
 
-		Mutex _lock;
+		Mutex			_lock;
 
 	private:
 		Vector<int32>	_discoveredOrder;

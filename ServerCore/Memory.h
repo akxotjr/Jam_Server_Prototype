@@ -22,15 +22,12 @@ namespace core::memory
 		Memory();
 		~Memory();
 
-		void*	Allocate(int32 size);
-		void	Release(void* ptr);
+		void*						Allocate(int32 size);
+		void						Release(void* ptr);
 
 	private:
-		std::vector<MemoryPool*> _pools;
-
-		// 메모리 크기 <-> 메모리 풀
-		// O(1) 빠르게 찾기 위한 테이블
-		MemoryPool* _poolTable[MAX_ALLOC_SIZE + 1];
+		std::vector<MemoryPool*>	_pools;
+		MemoryPool*					_poolTable[MAX_ALLOC_SIZE + 1];
 	};
 
 

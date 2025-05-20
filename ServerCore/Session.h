@@ -12,12 +12,6 @@ namespace core::network
 	class Service;
 	class UdpReceiver;
 
-	struct TcpPacketHeader
-	{
-		uint16 size;
-		uint16 id;
-	};
-
 	class Session : public IocpObject
 	{
 	public:
@@ -33,7 +27,7 @@ namespace core::network
 		ServiceRef								GetService() { return _service.lock(); }
 		void									SetService(ServiceRef service) { _service = service; }
 
-		NetAddress& GetRemoteNetAddress() { return _remoteAddress; }
+		NetAddress&								GetRemoteNetAddress() { return _remoteAddress; }
 		void									SetRemoteNetAddress(NetAddress address) { _remoteAddress = address; }
 		SOCKET									GetSocket() { return _socket; }	//todo
 		bool									IsConnected() { return _connected; }
@@ -58,6 +52,13 @@ namespace core::network
 		uint32									_id = 0;
 	};
 
+
+	struct TcpPacketHeader
+	{
+		uint16 size;
+		uint16 id;
+	};
+
 	class TcpSession : public Session
 	{
 		enum { BUFFER_SIZE = 0x10000 }; // 64KB
@@ -68,7 +69,7 @@ namespace core::network
 
 	public:
 		TcpSession();
-		virtual ~TcpSession();
+		virtual ~TcpSession() override;
 
 	public:
 		virtual bool							Connect() override;
@@ -83,7 +84,6 @@ namespace core::network
 		virtual void							Dispatch(class IocpEvent* iocpEvent, int32 numOfBytes = 0) override;
 
 	private:
-		// 전송 관련
 		bool									RegisterConnect();
 		bool									RegisterDisconnect();
 		void									RegisterRecv();
@@ -126,13 +126,13 @@ namespace core::network
 
 	struct PendingPacket
 	{
-		SendBufferRef buffer;
-		uint16 sequence;
-		double timestamp;
-		uint32 retryCount = 0;
+		SendBufferRef	buffer;
+		uint16			sequence;
+		double			timestamp;
+		uint32			retryCount = 0;
 	};
 
-	class ReliableUdpSession : public Session
+	class UdpSession : public Session
 	{
 		enum { BUFFER_SIZE = 0x10000 }; // 64KB
 
@@ -141,8 +141,8 @@ namespace core::network
 		friend class Service;
 
 	public:
-		ReliableUdpSession();
-		virtual ~ReliableUdpSession();
+		UdpSession();
+		virtual ~UdpSession() override;
 
 	public:
 		virtual bool							Connect() override;

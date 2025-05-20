@@ -20,6 +20,20 @@ message ActorInfo	// 28 bytes
 	optional float b = 6;
 }
 
+message ActorInfoDelta		// 12 bytes
+{
+	uint16 id = 1;
+	uint64 transform = 2;
+	uint16 sequence = 3;
+}
+
+message ActorInfoFull
+{
+	uint16 id = 1;
+	Transform transform = 2;
+	uint16 sequence = 3;
+}
+
 message RoomInfo
 {
 	uint32 roomId = 1;

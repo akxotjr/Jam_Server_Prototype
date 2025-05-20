@@ -15,6 +15,8 @@ Player::Player()
 	_actorId = IdManager::Instance().Generate(IdType::Actor, ActorTypePrefix::Player);
 	_position = { 0.0f, 5.0f, 0.0f };
 	_colliderInfo = ColliderInfo::MakeCapsule(0.1f, 0.4f);
+
+	
 }
 
 void Player::Init(RoomRef room)
@@ -211,7 +213,7 @@ void Player::ProcessFire(uint32 keyField, double timestamp, float yaw, float pit
 			hitPkt.set_position(TransformCompressor::PackPosition(finalHit.position.x, finalHit.position.y, finalHit.position.z));
 
 			auto sendBuffer = ClientPacketHandler::MakeSendBufferUdp(hitPkt);
-			auto session = static_pointer_cast<ReliableUdpSession>(SessionManager::Instance().GetSessionByUserId(ProtocolType::PROTOCOL_UDP, _userId));
+			auto session = static_pointer_cast<UdpSession>(SessionManager::Instance().GetSessionByUserId(ProtocolType::PROTOCOL_UDP, _userId));
 			session->SendReliable(sendBuffer, t);
 
 			Actor* actor = static_cast<Actor*>(finalHit.actor->userData);

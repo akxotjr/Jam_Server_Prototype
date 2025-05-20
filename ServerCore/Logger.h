@@ -13,7 +13,7 @@ namespace core
 		spdlogRef&		GetLogger() { return _logger; }
 
 	private:
-		spdlogRef _logger;
+		spdlogRef		_logger;
 	};
 }
 

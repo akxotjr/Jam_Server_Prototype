@@ -16,7 +16,7 @@ namespace core::network
 
 	void SendBuffer::Close(uint32 writeSize)
 	{
-		ASSERT_CRASH(_allocSize >= writeSize);
+		ASSERT_CRASH(_allocSize >= writeSize)
 		_writeSize = writeSize;
 
 		_owner->Close(writeSize);
@@ -45,8 +45,8 @@ namespace core::network
 
 	SendBufferRef SendBufferChunk::Open(uint32 allocSize)
 	{
-		ASSERT_CRASH(allocSize <= SEND_BUFFER_CHUNK_SIZE);
-		ASSERT_CRASH(_open == false);
+		ASSERT_CRASH(allocSize <= SEND_BUFFER_CHUNK_SIZE)
+		ASSERT_CRASH(_open == false)
 
 		if (allocSize > FreeSize())
 			return nullptr;
@@ -58,14 +58,11 @@ namespace core::network
 
 	void SendBufferChunk::Close(uint32 writeSize)
 	{
-		ASSERT_CRASH(_open == true);
+		ASSERT_CRASH(_open == true)
 
 		_open = false;
 		_usedSize += writeSize;
 	}
-
-
-
 
 	/*---------------------
 	   SendBufferManager
@@ -79,7 +76,7 @@ namespace core::network
 			thread::LSendBufferChunk->Reset();
 		}
 
-		ASSERT_CRASH(thread::LSendBufferChunk->IsOpen() == false);
+		ASSERT_CRASH(thread::LSendBufferChunk->IsOpen() == false)
 
 		if (thread::LSendBufferChunk->FreeSize() < size)
 		{

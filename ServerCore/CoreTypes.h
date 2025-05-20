@@ -34,7 +34,7 @@ namespace core::network
 	USING_SHARED_PTR(IocpObject);
 	USING_SHARED_PTR(Session);
 	USING_SHARED_PTR(TcpSession);
-	USING_SHARED_PTR(ReliableUdpSession);
+	USING_SHARED_PTR(UdpSession);
 	USING_SHARED_PTR(Service);
 	USING_SHARED_PTR(Listener);
 	USING_SHARED_PTR(UdpReceiver);

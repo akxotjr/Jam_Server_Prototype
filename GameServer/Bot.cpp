@@ -11,8 +11,9 @@ Bot::Bot()
 
 	_color = _magenta;
 
-	_horizontalVelocity = { 5.0f, 0.0f, 0.0f };
-	_moveSpeed = 5.0f;
+	_moveSpeed = 500.0f;
+	_horizontalVelocity = { _moveSpeed, 0.0f, 0.0f };
+
 }
 
 Bot::~Bot()
@@ -49,12 +50,6 @@ void Bot::Update()
 	physx::PxControllerFilters filters;
 	physx::PxControllerCollisionFlags collisionFlags = _controller->move(_horizontalVelocity * deltaTime, 0.01f, deltaTime, filters);
 
-	//if (collisionFlags & physx::PxControllerCollisionFlag::eCOLLISION_DOWN)
-	//{
-	//}
-	//else
-	//{
-	//}
 
 	physx::PxExtendedVec3 pos = _controller->getPosition();
 	_position = physx::PxVec3(static_cast<float>(pos.x), static_cast<float>(pos.y), static_cast<float>(pos.z));

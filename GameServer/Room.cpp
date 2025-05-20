@@ -163,7 +163,7 @@ void Room::Multicast(ProtocolType type, network::SendBufferRef sendBuffer, bool 
 
 		if (type == ProtocolType::PROTOCOL_UDP && session->IsUdp() && reliable)
 		{
-			auto udpSession = static_pointer_cast<ReliableUdpSession>(session);
+			auto udpSession = static_pointer_cast<UdpSession>(session);
 			udpSession->SendReliable(sendBuffer, timestamp);
 		}
 		else  // tcp or unreliable udp 

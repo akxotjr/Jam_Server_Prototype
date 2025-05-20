@@ -24,8 +24,8 @@ namespace core::network
 
     private:
         void                        RegisterRecv();
-        bool                        ProcessRecv(int32 numOfBytes, ReliableUdpSessionRef session);
-        int32                       IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSessionRef session);
+        bool                        ProcessRecv(int32 numOfBytes, UdpSessionRef session);
+        int32                       IsParsingPacket(BYTE* buffer, const int32 len, UdpSessionRef session);
 
     private:
         SOCKET                      _socket = INVALID_SOCKET;

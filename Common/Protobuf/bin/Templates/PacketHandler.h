@@ -54,7 +54,7 @@ public:
 			uint16 seq = header->sequence;
 			if (seq > 0)
 			{
-				ReliableUdpSessionRef udpSession = static_pointer_cast<ReliableUdpSession>(session);
+				UdpSessionRef udpSession = static_pointer_cast<UdpSession>(session);
 				if (udpSession && udpSession->CheckAndRecordReceiveHistory(seq))
 				{
 					Protocol::S_ACK ackPkt;

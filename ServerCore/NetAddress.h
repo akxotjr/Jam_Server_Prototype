@@ -29,7 +29,6 @@ namespace core::network
 				_sockAddr.sin_port == other._sockAddr.sin_port;
 		}
 
-
 	public:
 		SOCKADDR_IN			_sockAddr = {};
 	};

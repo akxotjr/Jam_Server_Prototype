@@ -10,9 +10,10 @@ namespace core::network
 	 Service
 ---------------*/
 
-	Service::Service(TransportConfig config, IocpCoreRef core, int32 maxTcpSessionCount, int32 maxUdpSessionCount)
-		: _config(config), _iocpCore(core), _maxTcpSessionCount(maxTcpSessionCount), _maxUdpSessionCount(maxUdpSessionCount)
+	Service::Service(TransportConfig config, int32 maxTcpSessionCount, int32 maxUdpSessionCount)
+		: _config(config), _maxTcpSessionCount(maxTcpSessionCount), _maxUdpSessionCount(maxUdpSessionCount)
 	{
+		_iocpCore = memory::MakeShared<IocpCore>();
 	}
 
 	Service::~Service()
@@ -29,14 +30,14 @@ namespace core::network
 		if (_listener == nullptr)
 			return false;
 
-		ServiceRef service = static_pointer_cast<Service>(shared_from_this());
-		if (_listener->StartAccept(service) == false)
+		auto self = static_pointer_cast<Service>(shared_from_this());
+		if (_listener->StartAccept(self) == false)
 			return false;
 
 		if (_udpReceiver == nullptr)
 			return false;
 
-		if (_udpReceiver->Start(service) == false)
+		if (_udpReceiver->Start(self) == false)
 			return false;
 
 		return true;
@@ -47,14 +48,6 @@ namespace core::network
 		// TODO
 	}
 
-	void Service::Broadcast(SendBufferRef sendBuffer)
-	{
-		//WRITE_LOCK;
-		//for (const auto& session : _sessions)
-		//{
-		//	session->Send(sendBuffer);
-		//}
-	}
 
 	SessionRef Service::CreateSession(ProtocolType protocol)
 	{
@@ -86,11 +79,11 @@ namespace core::network
 	{
 		WRITE_LOCK
 
-		ASSERT_CRASH(_tcpSessions.erase(session) != 0);
+		ASSERT_CRASH(_tcpSessions.erase(session) != 0)
 		_tcpSessionCount--;
 	}
 
-	void Service::AddUdpSession(ReliableUdpSessionRef session)
+	void Service::AddUdpSession(UdpSessionRef session)
 	{
 		WRITE_LOCK
 
@@ -98,23 +91,23 @@ namespace core::network
 		_udpSessions.insert(session);
 	}
 
-	void Service::ReleaseUdpSession(ReliableUdpSessionRef session)
+	void Service::ReleaseUdpSession(UdpSessionRef session)
 	{
 		WRITE_LOCK
 
-		ASSERT_CRASH(_udpSessions.erase(session) != 0);
+		ASSERT_CRASH(_udpSessions.erase(session) != 0)
 		_udpSessionCount--;
 	}
 
-	ReliableUdpSessionRef Service::FindOrCreateUdpSession(const NetAddress& from)
+	UdpSessionRef Service::FindOrCreateUdpSession(const NetAddress& from)
 	{
 		WRITE_LOCK
 
-			for (auto& session : _udpSessions)
-			{
-				if (session->GetRemoteNetAddress() == from)
-					return session;
-			}
+		for (auto& session : _udpSessions)
+		{
+			if (session->GetRemoteNetAddress() == from)
+				return session;
+		}
 
 		auto it = _pendingUdpSessions.find(from);
 		if (it != _pendingUdpSessions.end())
@@ -122,7 +115,7 @@ namespace core::network
 			return it->second;
 		}
 
-		auto newSession = static_pointer_cast<ReliableUdpSession>(CreateSession(ProtocolType::PROTOCOL_UDP));
+		auto newSession = static_pointer_cast<UdpSession>(CreateSession(ProtocolType::PROTOCOL_UDP));
 		if (newSession == nullptr)
 			return nullptr;
 

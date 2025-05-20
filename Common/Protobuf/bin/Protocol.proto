@@ -110,6 +110,18 @@ message S_SPAWN_ACTOR
 	repeated ActorInfo actorInfo = 2;
 }
 
+message S_SYNC_ACTOR_DELTA
+{
+	double timestamp = 1;
+	repeated ActorInfoDelta actorInfo = 2;
+}
+
+message S_SYNC_ACTOR_FULL
+{
+	double timestamp = 1;
+	repeated ActorInfoFull actorInfo = 2; 
+}
+
 message C_SYNC_ACTOR
 {
 	double timestamp = 1;

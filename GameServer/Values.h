@@ -14,9 +14,15 @@ constexpr float YAW_SPEED_MAX = +10.0f;
 constexpr float YAW_SPEED_RANGE = YAW_SPEED_MAX - YAW_SPEED_MIN;
 
 constexpr float POSITION_RESOLUTION = (WORLD_RANGE_MAX - WORLD_RANGE_MIN) / 65535.0f;
-constexpr float HALF_RES = POSITION_RESOLUTION * 0.5f; // = 0.01526
+constexpr float HALF_RES = POSITION_RESOLUTION * 0.5f;
 
 constexpr float PI = std::numbers::pi_v<float>;
 constexpr float GRAVITY = 9.8f;
 
 constexpr int32 MAX_PLAYERS_PER_ROOM = 4;
+
+constexpr float MAX_CHARACTER_MOVE_SPEED = 15.f;
+constexpr float MAX_CHARACTER_DIST = TICK_INTERVAL_S * MAX_CHARACTER_MOVE_SPEED;
+
+constexpr float MAX_PROJECTILE_SPEED = 300.f;
+constexpr float MAX_PROJECTILE_DIST = TICK_INTERVAL_S * MAX_PROJECTILE_SPEED;

@@ -15,14 +15,15 @@ namespace core::network
 
 	struct TransportConfig
 	{
-		std::optional<NetAddress> tcpAddress;
+		std::optional<NetAddress> tcpAddress;	// local
 		std::optional<NetAddress> udpAddress;
 	};
+
 
 	class Service : public enable_shared_from_this<Service>
 	{
 	public:
-		Service(TransportConfig config, IocpCoreRef core, int32 maxSTcpSessionCount = 1, int32 maxUdpSessionCount = 1);
+		Service(TransportConfig config, int32 maxTcpSessionCount = 1, int32 maxUdpSessionCount = 1);
 		virtual ~Service();
 
 		virtual bool						Start();
@@ -33,15 +34,13 @@ namespace core::network
 		template<typename TCP, typename UDP>
 		void								SetSessionFactory();
 
-
-		void								Broadcast(SendBufferRef sendBuffer);
 		SessionRef							CreateSession(ProtocolType protocol);
 
 		void								AddTcpSession(TcpSessionRef session);
 		void								ReleaseTcpSession(TcpSessionRef session);
 
-		void								AddUdpSession(ReliableUdpSessionRef session);
-		void								ReleaseUdpSession(ReliableUdpSessionRef session);
+		void								AddUdpSession(UdpSessionRef session);
+		void								ReleaseUdpSession(UdpSessionRef session);
 
 
 		int32								GetCurrentTcpSessionCount() const { return _tcpSessionCount; }
@@ -50,10 +49,10 @@ namespace core::network
 		int32								GetMaxUdpSessionCount() const { return _maxUdpSessionCount; }
 
 
-		void								SetUdpReceiver(UdpReceiverRef udpReceiver) { _udpReceiver = udpReceiver; };
+		void								SetUdpReceiver(UdpReceiverRef udpReceiver) { _udpReceiver = udpReceiver; }
 		SOCKET								GetUdpSocket() const { return _udpReceiver->GetSocket(); }
 
-		ReliableUdpSessionRef				FindOrCreateUdpSession(const NetAddress& from);
+		UdpSessionRef						FindOrCreateUdpSession(const NetAddress& from);
 		void								CompleteUdpHandshake(const NetAddress& from);
 
 	public:
@@ -69,8 +68,8 @@ namespace core::network
 		IocpCoreRef											_iocpCore;
 
 		Set<TcpSessionRef>									_tcpSessions;
-		Set<ReliableUdpSessionRef>							_udpSessions;
-		unordered_map<NetAddress, ReliableUdpSessionRef>	_pendingUdpSessions;
+		Set<UdpSessionRef>									_udpSessions;
+		unordered_map<NetAddress, UdpSessionRef>			_pendingUdpSessions;
 
 
 		int32												_sessionCount = 0;

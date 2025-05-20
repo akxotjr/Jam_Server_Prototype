@@ -153,7 +153,7 @@ namespace core::network
 		{
 			WRITE_LOCK;
 
-			int32 writeSize = 0;
+			uint32 writeSize = 0;
 			while (_sendQueue.empty() == false)
 			{
 				SendBufferRef sendBuffer = _sendQueue.front();
@@ -306,15 +306,15 @@ namespace core::network
 	---------------------------*/
 
 
-	ReliableUdpSession::ReliableUdpSession()
+	UdpSession::UdpSession()
 	{
 	}
 
-	ReliableUdpSession::~ReliableUdpSession()
+	UdpSession::~UdpSession()
 	{
 	}
 
-	bool ReliableUdpSession::Connect()
+	bool UdpSession::Connect()
 	{
 		//RegisterConnect();
 		//ProcessConnect();
@@ -322,7 +322,7 @@ namespace core::network
 		return true;
 	}
 
-	void ReliableUdpSession::Disconnect(const WCHAR* cause)
+	void UdpSession::Disconnect(const WCHAR* cause)
 	{
 		if (_connected.exchange(false) == false)
 			return;
@@ -330,7 +330,7 @@ namespace core::network
 		ProcessDisconnect();
 	}
 
-	void ReliableUdpSession::Send(SendBufferRef sendBuffer)
+	void UdpSession::Send(SendBufferRef sendBuffer)
 	{
 		if (IsConnected() == false)
 			return;
@@ -338,7 +338,7 @@ namespace core::network
 		RegisterSend(sendBuffer);
 	}
 
-	void ReliableUdpSession::SendReliable(SendBufferRef sendBuffer, double timestamp)
+	void UdpSession::SendReliable(SendBufferRef sendBuffer, double timestamp)
 	{
 		uint16 seq = _sendSeq++;
 
@@ -357,12 +357,12 @@ namespace core::network
 
 
 
-	HANDLE ReliableUdpSession::GetHandle()
+	HANDLE UdpSession::GetHandle()
 	{
 		return reinterpret_cast<HANDLE>(GetService()->GetUdpSocket());
 	}
 
-	void ReliableUdpSession::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
+	void UdpSession::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 	{
 		if (iocpEvent->eventType != EventType::Send)
 			return;
@@ -370,7 +370,7 @@ namespace core::network
 		ProcessSend(numOfBytes);
 	}
 
-	void ReliableUdpSession::RegisterSend(SendBufferRef sendBuffer)
+	void UdpSession::RegisterSend(SendBufferRef sendBuffer)
 	{
 		if (IsConnected() == false)
 			return;
@@ -398,20 +398,20 @@ namespace core::network
 		}
 	}
 
-	void ReliableUdpSession::ProcessConnect()
+	void UdpSession::ProcessConnect()
 	{
 		_connected.store(true);
 		GetService()->CompleteUdpHandshake(GetRemoteNetAddress());
 		OnConnected();
 	}
 
-	void ReliableUdpSession::ProcessDisconnect()
+	void UdpSession::ProcessDisconnect()
 	{
 		OnDisconnected();
-		GetService()->ReleaseUdpSession(static_pointer_cast<ReliableUdpSession>(shared_from_this()));
+		GetService()->ReleaseUdpSession(static_pointer_cast<UdpSession>(shared_from_this()));
 	}
 
-	void ReliableUdpSession::ProcessSend(int32 numOfBytes)
+	void UdpSession::ProcessSend(int32 numOfBytes)
 	{
 		//_sendEvent.owner = nullptr;
 		_sendEvent.sendBuffers.clear();
@@ -425,7 +425,7 @@ namespace core::network
 		OnSend(numOfBytes);
 	}
 
-	void ReliableUdpSession::Update(double serverTime)
+	void UdpSession::Update(double serverTime)
 	{
 		Vector<uint16> resendList;
 
@@ -464,7 +464,7 @@ namespace core::network
 		}
 	}
 
-	void ReliableUdpSession::HandleAck(uint16 latestSeq, uint32 bitfield)
+	void UdpSession::HandleAck(uint16 latestSeq, uint32 bitfield)
 	{
 		WRITE_LOCK
 
@@ -483,7 +483,7 @@ namespace core::network
 		}
 	}
 
-	bool ReliableUdpSession::CheckAndRecordReceiveHistory(uint16 seq)
+	bool UdpSession::CheckAndRecordReceiveHistory(uint16 seq)
 	{
 		if (!IsSeqGreater(seq, _latestSeq - WINDOW_SIZE))
 			return false;
@@ -496,7 +496,7 @@ namespace core::network
 		return true;
 	}
 
-	uint32 ReliableUdpSession::GenerateAckBitfield(uint16 latestSeq)
+	uint32 UdpSession::GenerateAckBitfield(uint16 latestSeq)
 	{
 		uint32 bitfield = 0;
 		for (int32 i = 1; i <= BITFIELD_SIZE; ++i)
@@ -514,7 +514,7 @@ namespace core::network
 		return bitfield;
 	}
 
-	void ReliableUdpSession::HandleError(int32 errorCode)
+	void UdpSession::HandleError(int32 errorCode)
 	{
 		switch (errorCode)
 		{

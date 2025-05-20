@@ -82,7 +82,7 @@ namespace core::network
         }
     }
 
-    bool UdpReceiver::ProcessRecv(int32 numOfBytes, ReliableUdpSessionRef session)
+    bool UdpReceiver::ProcessRecv(int32 numOfBytes, UdpSessionRef session)
     {
 
         if (!session)
@@ -118,7 +118,7 @@ namespace core::network
         return true;
     }
 
-    int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len, ReliableUdpSessionRef session)
+    int32 UdpReceiver::IsParsingPacket(BYTE* buffer, const int32 len, UdpSessionRef session)
     {
         int32 processLen = 0;
 

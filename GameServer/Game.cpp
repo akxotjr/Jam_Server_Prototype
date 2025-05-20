@@ -14,15 +14,16 @@
 
 Game::Game()
 {
-	
 	network::TransportConfig config = {
 		.tcpAddress = network::NetAddress(L"127.0.0.1", 7777),
 		.udpAddress = network::NetAddress(L"127.0.0.1", 8888)
-	};	// TODO : temp 
+	};
 
-	_service = MakeShared<network::Service>(config, MakeShared<network::IocpCore>(), 50, 50);
+	_service = MakeShared<network::Service>(config, 50, 50);
 	_service->SetSessionFactory<GameTcpSession, GameUdpSession>();
 	_service->SetUdpReceiver(MakeShared<GameUdpReceiver>());
+
+	LOG_INFO("Service set up");
 }
 
 Game::~Game()

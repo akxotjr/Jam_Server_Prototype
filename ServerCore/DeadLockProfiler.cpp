@@ -62,15 +62,14 @@ namespace core::thread
 	void DeadLockProfiler::CheckCycle()
 	{
 		const int32 lockCount = static_cast<int32>(_nameToId.size());
-		_discoveredOrder = vector<int32>(lockCount, -1);
+		_discoveredOrder = Vector<int32>(lockCount, -1);
 		_discoveredCount = 0;
-		_finished = vector<bool>(lockCount, false);
+		_finished = Vector<bool>(lockCount, false);
 		_parent = vector<int32>(lockCount, -1);
 
 		for (int32 lockId = 0; lockId < lockCount; lockId++)
 			Dfs(lockId);
 
-		// 연산이 끝났으면 정리한다.
 		_discoveredOrder.clear();
 		_finished.clear();
 		_parent.clear();
@@ -83,7 +82,6 @@ namespace core::thread
 
 		_discoveredOrder[here] = _discoveredCount++;
 
-		// 모든 인접한 정점을 순회한다.
 		auto findIt = _lockHistory.find(here);
 		if (findIt == _lockHistory.end())
 		{
@@ -94,7 +92,6 @@ namespace core::thread
 		set<int32>& nextSet = findIt->second;
 		for (int32 there : nextSet)
 		{
-			// 아직 방문한 적이 없다면 방문한다.
 			if (_discoveredOrder[there] == -1)
 			{
 				_parent[there] = here;
@@ -102,7 +99,6 @@ namespace core::thread
 				continue;
 			}
 
-			// here가 there보다 먼저 발견되었다면, there는 here의 후손이다. (순방향 간선)
 			if (_discoveredOrder[here] < _discoveredOrder[there])
 				continue;
 
@@ -120,7 +116,7 @@ namespace core::thread
 						break;
 				}
 
-				CRASH("DEADLOCK_DETECTED");
+				CRASH("DEADLOCK_DETECTED")
 			}
 		}
 

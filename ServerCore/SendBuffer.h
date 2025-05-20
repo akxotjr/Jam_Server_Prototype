@@ -42,13 +42,13 @@ namespace core::network
 		SendBufferChunk();
 		~SendBufferChunk();
 
-		void				Reset();
-		SendBufferRef		Open(uint32 allocSize);
-		void				Close(uint32 writeSize);
+		void									Reset();
+		SendBufferRef							Open(uint32 allocSize);
+		void									Close(uint32 writeSize);
 
-		bool				IsOpen() { return _open; }
-		BYTE*				Buffer() { return &_buffer[_usedSize]; }
-		uint32				FreeSize() { return static_cast<uint32>(_buffer.size()) - _usedSize; }
+		bool									IsOpen() { return _open; }
+		BYTE*									Buffer() { return &_buffer[_usedSize]; }
+		uint32									FreeSize() { return static_cast<uint32>(_buffer.size()) - _usedSize; }
 
 	private:
 		Array<BYTE, SEND_BUFFER_CHUNK_SIZE>		_buffer = {};
@@ -75,7 +75,7 @@ namespace core::network
 		static void					PushGlobal(SendBufferChunk* buffer);
 
 	private:
-		USE_LOCK;
+		USE_LOCK
 		Vector<SendBufferChunkRef>	_sendBufferChunks;
 	};
 }

@@ -12,7 +12,7 @@ namespace core
 
 		Vector<spdlog::sink_ptr> sinks{ consoleSink, fileSink };
 
-		_logger = std::make_shared<spdlog::logger>("JNES", sinks.begin(), sinks.end());
+		_logger = std::make_shared<spdlog::logger>("JamNet", sinks.begin(), sinks.end());
 		_logger->set_level(spdlog::level::trace);
 	}
 }
